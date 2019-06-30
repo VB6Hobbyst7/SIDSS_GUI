@@ -1,0 +1,5 @@
+﻿Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
+
+Public Class Config_Parameter_File
+
+End Class
