@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Daily ET calculator" Height="700.5" Width="1006" FontWeight="Bold" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
+        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="700.5" Width="1006" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
 
     <Window.Resources>
         <Style TargetType="Grid">
@@ -51,6 +51,7 @@
     </Window.Resources>
 
     <Grid>
+        
         <DockPanel>
             <Menu DockPanel.Dock="Top" Background="LightSkyBlue" BorderThickness="2" BorderBrush="Black">
                 <MenuItem Header="_File" Background="LightSkyBlue">
@@ -61,14 +62,13 @@
                     <MenuItem Header="_Exit" Background="LightSkyBlue" />
                 </MenuItem>
                 <MenuItem Header="Options" Background="LightSkyBlue">
-                    <MenuItem Header="Output Folder" Background="LightSkyBlue" />
-                    <MenuItem Header="Generate Summary report." Background="LightSkyBlue"/>
+                    <MenuItem Header="Output Folder" Background="AliceBlue" />
+                    <MenuItem Header="Generate Summary report." Background="AliceBlue"/>
                 </MenuItem>
             </Menu>
-            <TextBox AcceptsReturn="True" />
         </DockPanel>
 
-        <TabControl x:Name="tab_control" TabStripPlacement="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="Normal" Margin="0,33,0,0">
+        <TabControl x:Name="tab_control" TabStripPlacement="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="Normal" Margin="0,30,0,0">
             <TabItem x:Name="tabSiteInfo" Header="Site Info." Height="75" Width="200" >
                 <Grid  >
                     <Grid.Background>
@@ -94,9 +94,9 @@
                         <StackPanel Margin="0">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="1.75*"/>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0"  >
@@ -120,9 +120,9 @@
                         <StackPanel Margin="0">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="1.75*"/>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" Margin="5" >
@@ -137,7 +137,7 @@
                                     <TextBox x:Name="tbx_zt" Text="1.5" Margin="5" Padding="5"/>
                                 </Grid>
                                 <Grid Grid.Column="3" Margin="0,0,5,0" >
-                                    <Label Content="Z__t, Air temperature measurement height (m)" Margin="5,7" Padding="5"/>
+                                    <Label Content="Air temperature measurement height (m)" Margin="5,7" Padding="5"/>
                                 </Grid>
                             </Grid>
 
@@ -145,13 +145,13 @@
                         <StackPanel Margin="0">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="1.75*"/>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" >
-                                    <ComboBox x:Name="cbx_lon_center" Height="26" Margin="5,0">
+                                    <ComboBox x:Name="cbx_lon_center" Margin="5,0">
                                         <ComboBoxItem Content="75"/>
                                         <ComboBoxItem Content="90"/>
                                         <ComboBoxItem Content="105" IsSelected="True"/>
@@ -167,7 +167,7 @@
                                     <TextBox x:Name="tbx_zu" Text="2.5" Margin="5" Padding="5"/>
                                 </Grid>
                                 <Grid Grid.Column="3" Margin="0,0,5,0" >
-                                    <Label Content="Z__u, Wind spd. measurement height (m)"  Margin="5,7" Padding="5"/>
+                                    <Label Content="Wind spd. measurement height (m)"  Margin="5,7" Padding="5"/>
                                 </Grid>
                             </Grid>
 
@@ -178,7 +178,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="3.5*"/>
+                                    <ColumnDefinition Width="4*"/>
                                 </Grid.ColumnDefinitions>
                                     <Border BorderBrush="Black" BorderThickness="0,0,3,0">
                                 <StackPanel Grid.Column="0" Margin="0">
@@ -189,12 +189,12 @@
                                         </LinearGradientBrush>
                                     </StackPanel.Background>
                                     <Label Content="Site Name" HorizontalContentAlignment="Center"  FontWeight="Bold"/>
-                                    <TextBox x:Name="tbxSiteName" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinHeight="50" Text="Greeley, 04" Padding="5"/>
+                                    <TextBox x:Name="tbxSiteName" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="70" Text="Greeley, 04" Padding="5"/>
                                 </StackPanel>
                                     </Border>
                                     <StackPanel Grid.Column="1" Background="SkyBlue" >
                                     <Label HorizontalAlignment="Center" Content="Site Summary" FontWeight="Bold"/>
-                                    <TextBox x:Name="tbxSiteSummary" VerticalContentAlignment="Center" Margin="10,0,10,5" Padding="5" VerticalAlignment="Center" Height="70" Text="Site summary (you can write plain text here, 500 characters max.)" TextWrapping="Wrap" />
+                                    <TextBox x:Name="tbxSiteSummary" VerticalContentAlignment="Center" Margin="5" Padding="5" VerticalAlignment="Center" Height="70" Text="Site summary  ( plain text upto 500 characters max.)" TextWrapping="Wrap" />
 
                                 </StackPanel>
 
@@ -224,8 +224,9 @@
                     </StackPanel>
 
                     <DockPanel>
-                        <TextBlock DockPanel.Dock ="Bottom" Margin="0" Padding="10" FontFamily="Consolas" FontSize="16" Background="#FFB3DEE1" Foreground="#FF0063FF" VerticalAlignment ="Bottom" HorizontalAlignment="Stretch">
-                               <Bold>Save and load site data</Bold> using the table  <Italic>provided above.</Italic>
+                        <TextBlock DockPanel.Dock ="Bottom" Margin="0" Padding="10" FontFamily="Consolas" FontSize="16" Background="#FFB3DEE1" Foreground="#FF0063FF" TextWrapping="Wrap" VerticalAlignment ="Bottom" HorizontalAlignment="Stretch">
+                               <Bold> Note: </Bold> New site parameters can be saved by filling appropriate fields and clicking <Bold>"Save new record"</Bold>.
+                            Additioanlly, by selecting any row from the table above, all text fields will be populated and edits can be saved back to the table.
                         </TextBlock>
                     </DockPanel>
 
@@ -244,7 +245,7 @@
                     </Grid.Background>
                     <Border>
                         <StackPanel>
-                            <Grid x:Name="paths001" Margin="5">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="1*"/>
@@ -323,7 +324,7 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
-                            <Grid x:Name="paths00" Margin="5">
+                            <Grid Margin="5">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="5*"/>
@@ -348,18 +349,13 @@
                                     <ColumnDefinition Width="1.5*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="5,0"/>
                                 <Grid Grid.Column="0" Margin="5,0">
                                     <Button x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
                                 </Grid>
-                                <Grid Grid.Column="1" Margin="5,0,0,0"/>
+
 
                             </Grid>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                            </Grid>
+
 
                         </StackPanel>
 
@@ -459,9 +455,9 @@
                             <GradientStop Color="#FFEEE7E7" Offset="1"/>
                         </LinearGradientBrush>
                     </Grid.Background>
-                    <GroupBox Header="Launch Input window" Height="242" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150">
-                        <Grid>
-                            <Button x:Name="btnPrecip"  Style="{StaticResource BTNCORNER}" Content="2. Precip..." Margin="0,11,10,0" VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
+                    <GroupBox Header="Launch Input window" Height="242" Margin="0,10,10,5" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150">
+                        <StackPanel HorizontalAlignment="Center">
+                            <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="2. Precip..."  VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -471,7 +467,7 @@
                                 </Button.ToolTip>
                             </Button>
 
-                            <Button x:Name="btnIrrig"  Style="{StaticResource BTNCORNER}" Content="3. Irrig..." Margin="0,51,10,0" VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
+                            <Button x:Name="btnIrrig" Margin="0,3"   Style="{StaticResource BTNCORNER}" Content="3. Irrig..."  VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -480,7 +476,7 @@
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
-                            <Button x:Name="btnTmax"  Style="{StaticResource BTNCORNER}" Content="4. Tmax..." Margin="0,91,10,0" VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
+                            <Button x:Name="btnTmax"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="4. Tmax..." VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -489,7 +485,7 @@
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
-                            <Button x:Name="btnTmin"  Style="{StaticResource BTNCORNER}" Content="5. Tmin..." Margin="0,131,10,0" VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
+                            <Button x:Name="btnTmin"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="5. Tmin..." VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -498,7 +494,7 @@
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
-                            <Button x:Name="btnETr"  Style="{StaticResource BTNCORNER}" Content="6. ETr..." Margin="0,171,10,0" VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
+                            <Button x:Name="btnETr" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="6. ETr..." VerticalAlignment="Top" Height="35" HorizontalAlignment="Right" Width="118">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -508,40 +504,77 @@
                                 </Button.ToolTip>
                             </Button>
 
-                        </Grid>
+                        </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Crop info." Height="168" VerticalAlignment="Top" Margin="10,84,0,0" HorizontalAlignment="Left" Width="160">
-                        <Grid Margin="11,11,683,43">
-                            <RadioButton x:Name="rbCorn" Content="Corn(Tbase=50)" HorizontalAlignment="Left" Width="140" VerticalAlignment="Top" Margin="-7,38,-133,0" IsChecked="True"/>
-                            <RadioButton x:Name="rbCotton" Content="Cotton" HorizontalAlignment="Left" Margin="-7,-4,-133,0" VerticalAlignment="Top" Width="140" Height="21" />
-                            <RadioButton x:Name="rbWheat" Content="Wheat" HorizontalAlignment="Left" Margin="-7,17,-133,0" VerticalAlignment="Top" Height="17" RenderTransformOrigin="0.5,0.5" Width="140" />
-                            <Label Content="MAD %" Margin="30,58,-99,0" VerticalAlignment="Top" Height="25"/>
-                            <TextBox x:Name="tbxMAD_perecnt" FontSize="12" VerticalContentAlignment="Center" TextAlignment="Center" Height="25"  TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Margin="-7,61,-25,0"/>
-                        </Grid>
+                        <StackPanel Margin="5">
+                                <RadioButton x:Name="rbCorn" Content="Corn (Tbase=50)"  Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Center"  IsChecked="True"/>
+                                <RadioButton x:Name="rbCotton" Content="Cotton"  Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <RadioButton x:Name="rbWheat" Content="Wheat"  Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="MAD %" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" x:Name="tbxMAD_perecnt" FontSize="14" VerticalContentAlignment="Center" Padding="4" TextAlignment="Center" Text="60" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
                     </GroupBox>
                     <GroupBox Header="Soil Profile." Height="163" VerticalAlignment="Top" Margin="175,89,0,0" HorizontalAlignment="Left" Width="450">
-                        <Grid Margin="0,0,-2,0">
-                            <Label Content="Planting depth, in.==>" Margin="10,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="159"/>
-                            <TextBox x:Name="tbxMinRootDepth" FontSize="12" VerticalContentAlignment="Center" TextAlignment="Center" Height="25"  TextWrapping="Wrap" Text="12" VerticalAlignment="Top" Margin="184,80,215,0"/>
-                            <Label Content="Max root depth, in.==>"  Width="159" Margin="0,108,266,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <TextBox x:Name="tbxMaxRootDepth" FontSize="12" VerticalContentAlignment="Center" TextAlignment="Center" Height="25"  TextWrapping="Wrap" Text="48" VerticalAlignment="Top" Margin="184,110,215,0"/>
-                            <TextBox x:Name="tbxSoilDepth_0" FontSize="12" VerticalContentAlignment="Center" Height="25" Text="0" TextAlignment="Center" VerticalAlignment="Top" Margin="155,14,241,0" IsEnabled="False"/>
-                            <TextBox x:Name="tbxSoilDepth_1" FontSize="12" VerticalContentAlignment="Center" Height="25" Text="10" TextAlignment="Center" VerticalAlignment="Top" Margin="202,14,195,0"/>
-                            <TextBox x:Name="tbxSoilDepth_2" FontSize="12" VerticalContentAlignment="Center" Height="25" Text="20" TextAlignment="Center" VerticalAlignment="Top" Margin="248,14,153,0"/>
-                            <TextBox x:Name="tbxSoilDepth_3" FontSize="12" VerticalContentAlignment="Center" Height="25" Text="25" TextAlignment="Center" VerticalAlignment="Top" Margin="291,14,108,0"/>
-                            <TextBox x:Name="tbxSoilDepth_4" FontSize="12" VerticalContentAlignment="Center" Height="25" Text="60" TextAlignment="Center" VerticalAlignment="Top" Margin="336,14,65,0"/>
-                            <TextBox x:Name="tbxSoilDepth_5" FontSize="12" VerticalContentAlignment="Center" Height="25" Text="80" TextAlignment="Center" VerticalAlignment="Top" Margin="378,14,19,0"/>
-                            <Label Content="Soil depth, in.==>" Margin="7,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="140"/>
-                            <TextBox x:Name="tbxRAW_1" Height="25"  FontSize="12" VerticalContentAlignment="Center" Text="0.125" TextAlignment="Center" VerticalAlignment="Top" Margin="169,44,223,0"/>
-                            <TextBox x:Name="tbxRAW_2" Height="25"  FontSize="12" VerticalContentAlignment="Center" Text="0.1835" TextAlignment="Center" VerticalAlignment="Top" Margin="220,44,177,0"/>
-                            <TextBox x:Name="tbxRAW_3" Height="25"  FontSize="12" VerticalContentAlignment="Center" Text="0.1834" TextAlignment="Center" VerticalAlignment="Top" Margin="266,44,130,0"/>
-                            <TextBox x:Name="tbxRAW_4" Height="25"  FontSize="12" VerticalContentAlignment="Center" Text="0.125" TextAlignment="Center" VerticalAlignment="Top" Margin="313,44,85,0"/>
-                            <TextBox x:Name="tbxRAW_5" Height="25"  FontSize="12" VerticalContentAlignment="Center" Text="0.124" TextAlignment="Center" VerticalAlignment="Top" Margin="358,44,35,0"/>
-                            <Label Content="RAW in/in==>" Margin="10,44,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119"/>
 
-                        </Grid>
+                        <StackPanel >
+                            <Grid Margin="5,10,5,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                    </GroupBox>
+                                <Label Grid.Column="0" Margin="2" Padding="2"  Content="Soil depth, in.==>"/>
+                                <TextBox Grid.Column="1" Margin="2" Padding="2"  x:Name="tbxSoilDepth_0" Text="0" TextAlignment="Center" IsEnabled="False"/>
+                                <TextBox x:Name="tbxSoilDepth_1" Margin="2" Padding="2" Grid.Column="2" Text="10" TextAlignment="Center"/>
+                                <TextBox x:Name="tbxSoilDepth_2"  Margin="2" Padding="2"  Grid.Column="3" Text="20" TextAlignment="Center" />
+                                <TextBox x:Name="tbxSoilDepth_3"  Margin="2" Padding="2"  Grid.Column="4" Text="25" TextAlignment="Center" />
+                                <TextBox x:Name="tbxSoilDepth_4" Margin="2" Padding="2"   Grid.Column="5" Text="60" TextAlignment="Center" />
+                                <TextBox x:Name="tbxSoilDepth_5"  Margin="2,2,10,2" Padding="2"  Grid.Column="6" Text="80" TextAlignment="Center"/>
+                            </Grid>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="RAW in/in==>"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
+                                <TextBox x:Name="tbxRAW_1"   Margin="2" Padding="2" Grid.Column="1" Text="0.125" TextAlignment="Center" />
+                                <TextBox x:Name="tbxRAW_2"   Margin="2" Padding="2" Grid.Column="2" Text="0.1835" TextAlignment="Center" />
+                                <TextBox x:Name="tbxRAW_3"   Margin="2" Padding="2" Grid.Column="3" Text="0.1834" TextAlignment="Center" />
+                                <TextBox x:Name="tbxRAW_4"   Margin="2" Padding="2" Grid.Column="4" Text="0.125" TextAlignment="Center"/>
+                                <TextBox x:Name="tbxRAW_5"   Margin="2" Padding="2" Grid.Column="5" Text="0.124" TextAlignment="Center" />
+                            </Grid>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Planting depth, in.==>"  Grid.Column="0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Padding="2"  FontSize="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="12" VerticalAlignment="Top"/>
+                                <Label Content="Max root depth, in.==>" Grid.Column="2"  Margin="2" Padding="2" />
+                                <TextBox x:Name="tbxMaxRootDepth" Grid.Column="3"  Margin="2" Padding="2" FontSize="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="48" VerticalAlignment="Top"/>
+
+                            </Grid>
+                            </StackPanel>
+                   </GroupBox>
                     <DatePicker x:Name="PlantDate"  HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Height="30" SelectedDate="2018-06-01" IsTodayHighlighted="False" DisplayDate="2018-06-01" Text="6/1/2018" Width="120"/>
                     <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="135,51,0,0" VerticalAlignment="Top" Height="30" SelectedDate="2018-11-17" IsTodayHighlighted="False" DisplayDate="2018-11-17" Text="11/17/2018" Width="120"/>
                     <Label Content="Planting Date" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Width="120"/>
@@ -583,16 +616,13 @@
                     </Button>
                 </Grid>
             </TabItem>
+            <TabItem x:Name="tabKcbSetup" Header="Setup Kcb" Height="75">
+                
+            </TabItem>
             <TabItem x:Name="tabImageView" Header="Review Images" Margin="0,0,0,0" Height="75" Width="200" >
 
                 <Grid x:Name="grid_host">
 
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                            <GradientStop Color="#FFF3ECE7" Offset="0"/>
-                            <GradientStop Color="#FFB2A49B" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
 
                 </Grid>
 
