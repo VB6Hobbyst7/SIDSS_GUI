@@ -272,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="drone-png-47013-Windows.ico" />
-    <Content Include="ET_ASCE_Trout.py" />
     <Content Include="SIDSS_database.db" />
     <Content Include="ProcessingMS_Raster.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
