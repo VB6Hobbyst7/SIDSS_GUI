@@ -15,11 +15,13 @@ Imports ET_Calculator_streamlined_v11_GIT.Calculate
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
 Imports System.Collections.Generic
+Imports ET_Calculator_streamlined_v11_GIT.OutputPath
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
     Public app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_database.db"
     Public dgv As FormDGV
+    Public user_control As OutputPath
     Public Property Value As DateTime
     Public final_table As New DataTable
     Dim Tbase As Integer = 50
@@ -116,8 +118,10 @@ Class MainWindow
         Return open_file.FileName()
     End Function
 
-    Private Sub Tb_size(sender As Object, e As SizeChangedEventArgs) Handles tab_control.SizeChanged
-        Dim tab_control_h As Integer = Me.tab_control.ActualHeight
+    Private Sub Main_window_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles main_window.SizeChanged
+        'Dim tab_control_h As Integer = Me.tab_control.ActualHeight
+        Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
+        'e.new
         Dim total_tabs As Integer = tab_control.Items.Count
         For Each tab_item As TabItem In tab_control.Items
             tab_item.Height = tab_control_h / total_tabs - 1
@@ -148,7 +152,7 @@ Class MainWindow
         EB_Rs_txt = tbx_Rs.Text
         EB_RH_txt = tbx_RH.Text
         EB_Wind_Spd_txt = tbx_Wind_Spd.Text
-        EB_YYYYMMDDHH_txt = tbx_YYYMMDDHH.Text
+        EB_YYYYMMDDHH_txt = "" 'tbx_YYYMMDDHH.Text
         EB_wind_dir_txt = tbx_Wind_Dir.Text
 
         csv_file_path = tbx_csv1.Text
@@ -373,7 +377,7 @@ Class MainWindow
             Dim set_date As New SQL_table_operation
 
             set_date.Write_Water_Balance_Dates("Date", datatable_date)
-            set_date.Write_SQL_Col("WaterBalance_Table", "DOY", 1, datatable_doy)
+            set_date.Write_SQL_Col("WaterBalance_Table", "DOY", 0, datatable_doy)
             Load_Datagrid("WaterBalance_Table")
             dgvWaterBalance.Items.Refresh()
         End If
@@ -489,7 +493,7 @@ Class MainWindow
 
     Private Sub RbCotton_Click(sender As Object, e As RoutedEventArgs) Handles rbCotton.Click
         If rbCotton.IsChecked = True Then
-            rbCotton.Content = "Corn"
+            rbCorn.Content = "Corn"
             rbCotton.Content = "Cotton (Tbase=40)"
             rbWheat.Content = "Wheat"
             Tbase = 40
@@ -531,6 +535,27 @@ Class MainWindow
         tbx_EB_MS.Text = My.Settings.tbx_EB_MS_settings
         tbx_EB_Thermal.Text = My.Settings.tbx_EB_Thermal_settings
 
+        tbxSoilDepth_1.Text = My.Settings.tbxSoilDepth_1_settings
+        tbxSoilDepth_2.Text = My.Settings.tbxSoilDepth_2_settings
+        tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
+        tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
+        tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
+        tbxRAW_1.Text = My.Settings.tbxRAW_1_settings
+        tbxRAW_2.Text = My.Settings.tbxRAW_2_settings
+        tbxRAW_3.Text = My.Settings.tbxRAW_3_settings
+        tbxRAW_4.Text = My.Settings.tbxRAW_4_settings
+        tbxRAW_5.Text = My.Settings.tbxRAW_5_settings
+        HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
+        HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
+        PlantDate.DisplayDate = My.Settings.PlantDate_settings
+        PlantDate.SelectedDate = My.Settings.PlantDate_settings
+
+
+        tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
+        tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
+
+
+
 
         'Checks to see if the database exisits in the executable direcory, if not, then an empty database is created.
         If Not File.Exists("SIDSS_database.db") Then
@@ -548,15 +573,6 @@ Class MainWindow
     Private Sub Btn_calc_ref_ET_Click(sender As Object, e As RoutedEventArgs) Handles btn_calc_ref_ET.Click
 
         Dim full_results_Table As New DataTable
-
-        ''Column header names are in the same order as the results recieved from HourlyRefET class.
-        'Dim header_names() As String = {"DOY", "StdTime", "AirTemp", "RH", "solar__rad", "wind__spd", "Sc",
-        '    "omega", "dr", "omega__1", "omega__2", "omega__s", "Ra", "Rso", "fcd", "TKhr", "es", "ea", "Rnl", "Rns", "Rn", "G", "P", "gamma", "u2", "Cn",
-        '    "Cd", "delta__vapor", "delta__angle", "phi", "beta", "ETsz"}
-        ''Create column names to match the HourlyRefET results by name to the SQLite datatable names.
-        'For Each header In header_names
-        '    full_results_Table.Columns.Add(header)
-        'Next
 
         Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET
 
@@ -814,7 +830,38 @@ Class MainWindow
         My.Settings.tbx_csv1_settings = tbx_csv1.Text
         My.Settings.tbx_EB_MS_settings = tbx_EB_MS.Text
         My.Settings.tbx_EB_Thermal_settings = tbx_EB_Thermal.Text
+
+        My.Settings.tbxSoilDepth_1_settings = tbxSoilDepth_1.Text
+        My.Settings.tbxSoilDepth_2_settings = tbxSoilDepth_2.Text
+        My.Settings.tbxSoilDepth_3_settings = tbxSoilDepth_3.Text
+        My.Settings.tbxSoilDepth_4_settings = tbxSoilDepth_4.Text
+        My.Settings.tbxSoilDepth_5_settings = tbxSoilDepth_5.Text
+        My.Settings.tbxRAW_1_settings = tbxRAW_1.Text
+        My.Settings.tbxRAW_2_settings = tbxRAW_2.Text
+        My.Settings.tbxRAW_3_settings = tbxRAW_3.Text
+        My.Settings.tbxRAW_4_settings = tbxRAW_4.Text
+        My.Settings.tbxRAW_5_settings = tbxRAW_5.Text
+        My.Settings.tbxMinRootDepth_settings = tbxMinRootDepth.Text
+        My.Settings.tbxMaxRootDepth_settings = tbxMaxRootDepth.Text
+
+        My.Settings.HarvestDate_settings = HarvestDate.DisplayDate
+        My.Settings.HarvestDate_settings = HarvestDate.SelectedDate
+        My.Settings.PlantDate_settings = PlantDate.DisplayDate
+        My.Settings.PlantDate_settings = PlantDate.SelectedDate
+
+
+
         My.Settings.Save()
 
     End Sub
+
+    Private Sub MnuOutputPath_Click(sender As Object, e As RoutedEventArgs) Handles mnuOutputPath.Click
+        Dim control_window = New OutputPath
+        main_window.Hide()
+        control_window.Show()
+        control_window.BringToFront()
+        'Dim output_path As String = user_control.tbxOutputPath.ToString()
+        'tbx_csv1.Text = result.ToString()
+    End Sub
+
 End Class

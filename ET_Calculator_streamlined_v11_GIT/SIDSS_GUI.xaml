@@ -50,40 +50,37 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
-        
-        <DockPanel>
-            <Menu DockPanel.Dock="Top" Background="LightSkyBlue" BorderThickness="2" BorderBrush="Black">
-                <MenuItem Header="_File" Background="LightSkyBlue">
-                    <MenuItem Header="_New" Background="LightSkyBlue"/>
-                    <MenuItem Header="_Open" Background="LightSkyBlue" />
-                    <MenuItem Header="_Save" Background="LightSkyBlue"/>
-                    <Separator />
-                    <MenuItem Header="_Exit" Background="LightSkyBlue" />
-                </MenuItem>
-                <MenuItem Header="Options" Background="LightSkyBlue">
-                    <MenuItem Header="Output Folder" Background="AliceBlue" />
-                    <MenuItem Header="Generate Summary report." Background="AliceBlue"/>
-                </MenuItem>
-            </Menu>
-        </DockPanel>
+    <StackPanel>    
 
-        <TabControl x:Name="tab_control" TabStripPlacement="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="Normal" Margin="0,30,0,0">
+            <Grid HorizontalAlignment="Stretch">
+                <Menu DockPanel.Dock="Top" Background="LightSkyBlue" BorderThickness="2" BorderBrush="Black">
+                <MenuItem Grid.Column="0" Header="_File" Background="LightSkyBlue" FontWeight="Bold" FontSize="16">
+                    <MenuItem Header="_New" Background="#FFB3DEE1"/>
+                    <MenuItem Header="_Open" Background="#FFB3DEE1" />
+                    <MenuItem Header="_Save" Background="#FFB3DEE1"/>
+                    <MenuItem Header="_Exit" Background="#FFB3DEE1" />
+                    </MenuItem>
+                    <MenuItem  Grid.Column="1" Header="Options" Background="LightSkyBlue" FontWeight="Bold" FontSize="16">
+                    <MenuItem x:Name="mnuOutputPath" Header="Output Folder" Background="#FFB3DEE1" />
+                    <MenuItem Header="Generate Summary report." Background="#FFB3DEE1"/>
+
+                    </MenuItem>
+                    <MenuItem Grid.Column="2" Header="Tab Info" x:Name="mnuTabInfo" FontWeight="Bold" FontSize="16" HorizontalAlignment="Right" Margin="700,0,0,0"/>
+
+            </Menu>
+    </Grid>
+
+
+        <TabControl x:Name="tab_control" TabStripPlacement="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="Normal" >
             <TabItem x:Name="tabSiteInfo" Header="Site Info." Height="75" Width="200" >
                 <Grid  >
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFDCD7D7" Offset="0"/>
-                            <GradientStop Color="#FFEEE7E7" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
                     <StackPanel Margin="0" >
                         <Grid x:Name="paths" Margin="0">
                             <StackPanel Background="LightSkyBlue">
-                                <TextBlock Padding="17" FontSize="30" HorizontalAlignment="Center" FontWeight="Bold">
+                                <TextBlock Padding="7" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold">
                                     Spatial Irrigation Decision Support System.
                                 </TextBlock>
-                                <TextBlock Padding="10" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold">
+                                <TextBlock Padding="7" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold">
                                     Input site specific data below.
                                 </TextBlock>
 
@@ -100,18 +97,18 @@
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0"  >
-                                    <TextBox x:Name="tbx_lat"  Text="40.4487" Margin="5" Padding="5"/>
+                                    <TextBox x:Name="tbx_lat"  Text="40.4487" Margin="5,5,5,0" Padding="5"/>
 
                                 </Grid>
                                 <Grid Grid.Column="1" Margin="0,0,5,0" >
-                                    <Label Content="Latitude (Decimal Degrees)" Margin="5" Padding="5"/>
+                                    <Label Content="Latitude (Decimal Degrees)" Margin="5,5,5,0" Padding="5"/>
 
                                 </Grid>
                                 <Grid Grid.Column="2" Margin="0,0,5,0" >
-                                    <TextBox x:Name="tbx_elev"  Text="1427.38" Margin="5" Padding="5"/>
+                                    <TextBox x:Name="tbx_elev"  Text="1427.38" Margin="5,5,5,0" Padding="5"/>
                                 </Grid>
                                 <Grid Grid.Column="3" Margin="0,0,5,0" >
-                                    <Label Content=" Weather station elevation (m)" HorizontalAlignment="Left" Margin="5" Padding="5"/>
+                                    <Label Content=" Weather station elevation (m)" HorizontalAlignment="Left" Margin="5,5,5,0" Padding="5"/>
                                 </Grid>
                             </Grid>
 
@@ -125,7 +122,7 @@
                                     <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="5" >
+                                <Grid Grid.Column="0" Margin="5,5,5,0" >
                                     <TextBox x:Name="tbx_lon"  Text="104.638" Padding="5"/>
 
                                 </Grid>
@@ -150,8 +147,8 @@
                                     <ColumnDefinition Width="0.75*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" >
-                                    <ComboBox x:Name="cbx_lon_center" Margin="5,0">
+                                <Grid Grid.Column="0" VerticalAlignment="Center" >
+                                    <ComboBox x:Name="cbx_lon_center" Margin="5,0,5,0" Padding="5">
                                         <ComboBoxItem Content="75"/>
                                         <ComboBoxItem Content="90"/>
                                         <ComboBoxItem Content="105" IsSelected="True"/>
@@ -159,46 +156,46 @@
                                     </ComboBox>
 
                                 </Grid>
-                                <Grid Grid.Column="1" Margin="0,0,5,0" >
-                                    <Label Content="Longitude @ center of local time zone&#xA;(Decimal degrees)" Margin="5" Padding="5"/>
+                                <Grid Grid.Column="1" >
+                                    <Label Content="Longitude @ center of local time." Margin="5,0,5,0" Padding="5"/>
 
                                 </Grid>
-                                <Grid Grid.Column="2" Margin="0,0,5,0" >
-                                    <TextBox x:Name="tbx_zu" Text="2.5" Margin="5" Padding="5"/>
+                                <Grid Grid.Column="2" Margin="5,0,5,0" >
+                                    <TextBox x:Name="tbx_zu" Text="2.5"  Padding="5"/>
                                 </Grid>
-                                <Grid Grid.Column="3" Margin="0,0,5,0" >
-                                    <Label Content="Wind spd. measurement height (m)"  Margin="5,7" Padding="5"/>
+                                <Grid Grid.Column="3" Margin="5,0,5,0" >
+                                    <Label Content="Wind spd. measurement height (m)"  Padding="5"/>
                                 </Grid>
                             </Grid>
 
                         </StackPanel>
 
-                        <StackPanel>
+                        <StackPanel Margin="0,10,0,0">
                             <Border BorderThickness="2" BorderBrush="Black">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="4*"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                    </Grid.ColumnDefinitions>
                                     <Border BorderBrush="Black" BorderThickness="0,0,3,0">
-                                <StackPanel Grid.Column="0" Margin="0">
-                                    <StackPanel.Background>
-                                        <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
-                                            <GradientStop Color="Black"/>
-                                            <GradientStop Color="SkyBlue"/>
-                                        </LinearGradientBrush>
-                                    </StackPanel.Background>
-                                    <Label Content="Site Name" HorizontalContentAlignment="Center"  FontWeight="Bold"/>
-                                    <TextBox x:Name="tbxSiteName" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="70" Text="Greeley, 04" Padding="5"/>
-                                </StackPanel>
+                                        <StackPanel Grid.Column="0" Margin="0">
+                                            <StackPanel.Background>
+                                                <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
+                                                    <GradientStop Color="Black"/>
+                                                    <GradientStop Color="SkyBlue"/>
+                                                </LinearGradientBrush>
+                                            </StackPanel.Background>
+                                            <Label Content="Site Name" HorizontalContentAlignment="Center"  FontWeight="Bold"/>
+                                            <TextBox x:Name="tbxSiteName" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="70" Text="Greeley, 04" Padding="5"/>
+                                        </StackPanel>
                                     </Border>
                                     <StackPanel Grid.Column="1" Background="SkyBlue" >
-                                    <Label HorizontalAlignment="Center" Content="Site Summary" FontWeight="Bold"/>
-                                    <TextBox x:Name="tbxSiteSummary" VerticalContentAlignment="Center" Margin="5" Padding="5" VerticalAlignment="Center" Height="70" Text="Site summary  ( plain text upto 500 characters max.)" TextWrapping="Wrap" />
+                                        <Label HorizontalAlignment="Center" Content="Site Summary" FontWeight="Bold"/>
+                                        <TextBox x:Name="tbxSiteSummary" VerticalContentAlignment="Center" Margin="5" Padding="5" VerticalAlignment="Center" Height="70" Text="Site summary  ( plain text upto 500 characters max.)" TextWrapping="Wrap" />
 
-                                </StackPanel>
+                                    </StackPanel>
 
-                            </Grid>
+                                </Grid>
                             </Border>
                         </StackPanel>
 
@@ -214,27 +211,18 @@
                                 <Button Grid.Column="1" x:Name="btnEditSiteInfo"  Style="{StaticResource BTNCORNER}" Content="Edit selected record."  Width="200" Height="40" HorizontalAlignment="Center" FontWeight="Bold"/>
                                 <Button Grid.Column="2" x:Name="btnDeleteSiteInfo"  Style="{StaticResource BTNCORNER}" Content="Delete selected record"  Width="200" Height="40" HorizontalAlignment="Center" FontWeight="Bold" Margin="10"/>
                             </Grid>
-                        </StackPanel>
-
-                        <StackPanel>
-                            <DataGrid x:Name="dgSiteInfo" MinHeight="180" CanUserSortColumns="False" IsReadOnly="True">
-
-                            </DataGrid>
-                        </StackPanel>
-                    </StackPanel>
-
-                    <DockPanel>
-                        <TextBlock DockPanel.Dock ="Bottom" Margin="0" Padding="10" FontFamily="Consolas" FontSize="16" Background="#FFB3DEE1" Foreground="#FF0063FF" TextWrapping="Wrap" VerticalAlignment ="Bottom" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="0" Padding="10" DockPanel.Dock="Bottom" Grid.Row="1" FontFamily="Consolas" FontSize="16" HorizontalAlignment="Stretch" Background="#FFB3DEE1" Foreground="#FF0063FF" TextWrapping="Wrap">
                                <Bold> Note: </Bold> New site parameters can be saved by filling appropriate fields and clicking <Bold>"Save new record"</Bold>.
-                            Additioanlly, by selecting any row from the table above, all text fields will be populated and edits can be saved back to the table.
-                        </TextBlock>
-                    </DockPanel>
+                            Additioanlly, by selecting any row from the table below, all text fields will be populated and edits can be saved back to the table.
+                            </TextBlock>
+                            <DataGrid x:Name="dgSiteInfo" Height="150" CanUserSortColumns="False" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" />
 
+                        </StackPanel>
+
+                    </StackPanel>
                 </Grid>
 
-
             </TabItem>
-
             <TabItem x:Name="tabRefET" Header="Ref. ETo (hourly)" Margin="0,0,0,0" Height="75" Width="200">
                 <Grid>
                     <Grid.Background>
@@ -301,7 +289,7 @@
                     </DockPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabKcbET" Header="Kcb_refl. based ET" Margin="0,0,0,0" Height="75" Width="200">
+            <TabItem x:Name="tabKcbET" Header="Kcb_refl. based ET" Height="75" Width="200">
                 <Grid>
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -363,8 +351,7 @@
 
                 </Grid>
             </TabItem>
-
-            <TabItem x:Name="tabEnergyBalET" Header="Hourly ET &#xD;&#xA;Energy balance method&#xD;&#xA;(Using NRG &amp; TIR)" Margin="0,0,0,0" Height="75" Width="200">
+            <TabItem x:Name="tabEnergyBalET" Header="Daily ET &#xD;&#xA;Energy balance&#xD;&#xA;(Using NRG &amp; TIR)" Height="75" Width="200">
                 <Grid>
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -382,8 +369,8 @@
                             <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                 <TextBox  x:Name="tbx_EB_MS" Padding="12,0" Text="Load Surface reflectance % Image" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TextAlignment="Right" IsEnabled="False" Height="40" FontSize="16" FontWeight="Bold" Foreground="Red" VerticalAlignment="Top" Margin="0,10"/>
                                 <TextBox  x:Name="tbx_EB_Thermal" Padding="12,0" Text="Load Surface Temperature Image" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TextAlignment="Right" IsEnabled="False" Height="40" FontSize="16" FontWeight="Bold" Foreground="Red" VerticalAlignment="Top" Margin="0,10"/>
-                                <TextBlock Padding="0,10,0,0" Margin="0,40,0,0">
-                                Enter data collected from on-site datalogger at the time of image acquisition.
+                                <TextBlock Padding="0,10,0,0" Margin="0,40,0,0" TextWrapping="Wrap">
+                                Enter (hourly average) data from on-site datalogger at the time of image acquisition.
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Column="1">
@@ -396,7 +383,7 @@
 
                             <Grid x:Name="ground_data" Margin="0,10">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
@@ -421,19 +408,45 @@
                                 <StackPanel Grid.Column="1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1.25*"/>
+                                            <ColumnDefinition Width="1.1*"/>
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0">
                                             <TextBox x:Name="tbx_Wind_Spd" MaxLines="1" Text="3.11" Margin="5" Padding="5"/>
                                             <TextBox x:Name="tbx_Wind_Dir"  Text="304" Margin="5" Padding="5"/>
-                                            <TextBox x:Name="tbx_YYYMMDDHH"  Text="2018/07/31 13:00" Margin="5" Padding="5"/>
-
+                                            <DatePicker Margin="5" Padding="5" Text="7/22/18" SelectedDateFormat="Short" ></DatePicker>
+                                            <ComboBox Margin="5" Padding="5">
+                                                <ComboBoxItem Content="00:00"/>
+                                                <ComboBoxItem Content="01:00"/>
+                                                <ComboBoxItem Content="02:00"/>
+                                                <ComboBoxItem Content="03:00"/>
+                                                <ComboBoxItem Content="04:00"/>
+                                                <ComboBoxItem Content="05:00"/>
+                                                <ComboBoxItem Content="06:00"/>
+                                                <ComboBoxItem Content="07:00"/>
+                                                <ComboBoxItem Content="08:00"/>
+                                                <ComboBoxItem Content="09:00"/>
+                                                <ComboBoxItem Content="10:00"/>
+                                                <ComboBoxItem Content="11:00"/>
+                                                <ComboBoxItem Content="12:00" IsSelected="True"/>
+                                                <ComboBoxItem Content="13:00"/>
+                                                <ComboBoxItem Content="14:00"/>
+                                                <ComboBoxItem Content="15:00"/>
+                                                <ComboBoxItem Content="16:00"/>
+                                                <ComboBoxItem Content="17:00"/>
+                                                <ComboBoxItem Content="18:00"/>
+                                                <ComboBoxItem Content="19:00"/>
+                                                <ComboBoxItem Content="20:00"/>
+                                                <ComboBoxItem Content="21:00"/>
+                                                <ComboBoxItem Content="22:00"/>
+                                                <ComboBoxItem Content="23:00"/>
+                                            </ComboBox>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" TextBlock.FontWeight="Normal">
                                             <Label Content="Wind Speed (m/s)" Margin="5,7" Padding="5"/>
                                             <Label Content="Wind Direction (degrees)" Margin="5,7" Padding="5"/>
-                                            <Label Content=" Image acquisition Date/Time 24hr format" Margin="5,7" Padding="5"/>
+                                            <Label Content=" Select Image acquisition date." Margin="5,7" Padding="5"/>
+                                            <Label Content=" Image acquisition time." Margin="5,7" Padding="5"/>
 
                                         </StackPanel>
                                     </Grid>
@@ -446,7 +459,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabWaterBalance" Header="Water Balance Scheduling" Margin="0,0,0,0" Height="75" Width="200">
+            <TabItem x:Name="tabWaterBalance" Header="Water Balance Scheduling" Height="75" Width="200">
                 <Grid Margin="0" >
 
                     <Grid.Background>
@@ -580,7 +593,7 @@
                     <Label Content="Planting Date" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" Width="120"/>
                     <Label Content="Tentative Harvest date" HorizontalAlignment="Left" Margin="135,17,0,0" VerticalAlignment="Top" Width="158"/>
 
-                    <DataGrid x:Name="dgvWaterBalance" Margin="10,257,10,10" ColumnWidth="*" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+                    <DataGrid x:Name="dgvWaterBalance" Margin="10,257,10,10" ColumnWidth="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     <Button x:Name="btnSetDates"  Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Margin="260,49,0,0" Padding="5,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="110">
                         <Button.ToolTip>
                             <ToolTip>
@@ -616,10 +629,9 @@
                     </Button>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabKcbSetup" Header="Setup Kcb" Height="75">
-                
+            <TabItem x:Name="tabKcbSetup" Header="Setup Kcb" Height="75" Width="200">                
             </TabItem>
-            <TabItem x:Name="tabImageView" Header="Review Images" Margin="0,0,0,0" Height="75" Width="200" >
+            <TabItem x:Name="tabImageView" Header="Review Images" Height="75" Width="200" >
 
                 <Grid x:Name="grid_host">
 
@@ -630,5 +642,5 @@
             </TabItem>
 
         </TabControl>
-    </Grid>
+    </StackPanel>
 </Window>

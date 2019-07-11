@@ -100,6 +100,172 @@ Partial Friend NotInheritable Class MySettings
             Me("tbx_EB_Thermal_settings") = value
         End Set
     End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxSoilDepth_1_settings() As String
+        Get
+            Return CType(Me("tbxSoilDepth_1_settings"),String)
+        End Get
+        Set
+            Me("tbxSoilDepth_1_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxSoilDepth_2_settings() As String
+        Get
+            Return CType(Me("tbxSoilDepth_2_settings"),String)
+        End Get
+        Set
+            Me("tbxSoilDepth_2_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxSoilDepth_3_settings() As String
+        Get
+            Return CType(Me("tbxSoilDepth_3_settings"),String)
+        End Get
+        Set
+            Me("tbxSoilDepth_3_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxSoilDepth_4_settings() As String
+        Get
+            Return CType(Me("tbxSoilDepth_4_settings"),String)
+        End Get
+        Set
+            Me("tbxSoilDepth_4_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxSoilDepth_5_settings() As String
+        Get
+            Return CType(Me("tbxSoilDepth_5_settings"),String)
+        End Get
+        Set
+            Me("tbxSoilDepth_5_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxRAW_1_settings() As String
+        Get
+            Return CType(Me("tbxRAW_1_settings"),String)
+        End Get
+        Set
+            Me("tbxRAW_1_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxRAW_2_settings() As String
+        Get
+            Return CType(Me("tbxRAW_2_settings"),String)
+        End Get
+        Set
+            Me("tbxRAW_2_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxRAW_3_settings() As String
+        Get
+            Return CType(Me("tbxRAW_3_settings"),String)
+        End Get
+        Set
+            Me("tbxRAW_3_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxRAW_4_settings() As String
+        Get
+            Return CType(Me("tbxRAW_4_settings"),String)
+        End Get
+        Set
+            Me("tbxRAW_4_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxRAW_5_settings() As String
+        Get
+            Return CType(Me("tbxRAW_5_settings"),String)
+        End Get
+        Set
+            Me("tbxRAW_5_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxMinRootDepth_settings() As String
+        Get
+            Return CType(Me("tbxMinRootDepth_settings"),String)
+        End Get
+        Set
+            Me("tbxMinRootDepth_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property tbxMaxRootDepth_settings() As String
+        Get
+            Return CType(Me("tbxMaxRootDepth_settings"),String)
+        End Get
+        Set
+            Me("tbxMaxRootDepth_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+    Public Property PlantDate_settings() As Date
+        Get
+            Return CType(Me("PlantDate_settings"),Date)
+        End Get
+        Set
+            Me("PlantDate_settings") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+    Public Property HarvestDate_settings() As Date
+        Get
+            Return CType(Me("HarvestDate_settings"),Date)
+        End Get
+        Set
+            Me("HarvestDate_settings") = value
+        End Set
+    End Property
 End Class
 
 Namespace My

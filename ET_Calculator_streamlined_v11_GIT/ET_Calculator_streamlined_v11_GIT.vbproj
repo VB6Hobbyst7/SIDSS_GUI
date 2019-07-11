@@ -184,6 +184,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="OutputPath.Designer.vb">
+      <DependentUpon>OutputPath.vb</DependentUpon>
+    </Compile>
+    <Compile Include="OutputPath.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SQL_table_operation.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="UserControl1.Designer.vb">
@@ -255,6 +261,9 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputPath.resx">
+      <DependentUpon>OutputPath.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl1.resx">
       <DependentUpon>UserControl1.vb</DependentUpon>

@@ -13,10 +13,13 @@ namespace EnergyBalanceET
         double data_freq = 3600;
         double Cpa = 1005;
         public double SiteElevation { get; set; }
+        public double SiteLatitude { get; set; }
+        public double SiteLongitude { get; set; }
+        public double SiteTimezoneLongitude { get; set; }
         public double Z_u { get; set; }
-
         public double Z_t { get; set; }
         public double min_u { get; set; }
+        public string OutputPath { get; set; }
 
 
 
