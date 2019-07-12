@@ -13,7 +13,7 @@ Public Class FormDGV
         Dim col_name As String = TextBox1.Text
         x_y = data_input()
         Dim save_col As New SQL_table_operation
-        save_col.Write_SQL_Col("WaterBalance_Table", 1, col_name, x_y)
+        save_col.Write_SQL_Col("WaterBalance_Table", col_name, 0, x_y)
         'full_table = save_col.Load_Datagrid()
         'Dim main_window As New MainWindow
         'main_window.dgvWaterBalance.ItemsSource = full_table.DefaultView

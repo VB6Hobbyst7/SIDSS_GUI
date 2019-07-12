@@ -550,12 +550,8 @@ Class MainWindow
         PlantDate.DisplayDate = My.Settings.PlantDate_settings
         PlantDate.SelectedDate = My.Settings.PlantDate_settings
 
-
         tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
         tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
-
-
-
 
         'Checks to see if the database exisits in the executable direcory, if not, then an empty database is created.
         If Not File.Exists("SIDSS_database.db") Then

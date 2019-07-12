@@ -35,7 +35,7 @@ Public Class SQL_table_operation
         cmd.CommandText = Nothing
         Dim i As Integer
         Dim count As Integer = col_data.Rows.Count
-        Dim cell_value As Object
+        Dim cell_value As Double
         For i = 0 To count - 1
 
             If (col_index > 1) Then
