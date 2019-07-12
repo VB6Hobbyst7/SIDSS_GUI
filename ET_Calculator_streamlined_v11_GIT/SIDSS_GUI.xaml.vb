@@ -119,6 +119,7 @@ Class MainWindow
     End Function
 
     Private Sub Main_window_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles main_window.SizeChanged
+
         'Dim tab_control_h As Integer = Me.tab_control.ActualHeight
         Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
         'e.new
@@ -126,6 +127,7 @@ Class MainWindow
         For Each tab_item As TabItem In tab_control.Items
             tab_item.Height = tab_control_h / total_tabs - 1
         Next
+
     End Sub
 
     Private Sub set_parameter_file()
@@ -564,6 +566,7 @@ Class MainWindow
         Dim full_sql_table As New DataTable
         full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
         DgvRefET.ItemsSource = full_sql_table.DefaultView
+
     End Sub
 
     Private Sub Btn_calc_ref_ET_Click(sender As Object, e As RoutedEventArgs) Handles btn_calc_ref_ET.Click
@@ -860,4 +863,17 @@ Class MainWindow
         'tbx_csv1.Text = result.ToString()
     End Sub
 
+    Private Sub DgvWaterBalance_LayoutUpdated(sender As Object, e As EventArgs) Handles dgvWaterBalance.LayoutUpdated
+        If gridWaterBalanceTop.ActualHeight > 0 Then
+            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 70
+            dgvWaterBalance.Height = WaterBalance_Grid
+        End If
+    End Sub
+
+    Private Sub DgSiteInfo_LayoutUpdated(sender As Object, e As EventArgs) Handles dgSiteInfo.LayoutUpdated
+        If infoTop.ActualHeight > 0 Then
+            Dim infoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 70
+            dgSiteInfo.Height = infoGrid
+        End If
+    End Sub
 End Class
