@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="700.5" Width="1006" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
+        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="760" Width="1200" MinWidth="1200" MinHeight="760" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
 
     <Window.Resources>
         <Style TargetType="Grid">
@@ -198,68 +198,39 @@
             </TabItem>
             <TabItem x:Name="tabRefET" Header="Ref. ETo (hourly)" Margin="0,0,0,0" Height="75" Width="200">
                 <Grid>
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFDCD7D7" Offset="0"/>
-                            <GradientStop Color="#FFEEE7E7" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-                    <Border>
-                        <StackPanel>
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" >
-                                    <StackPanel Margin="5">
-                                        <TextBox  x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
-                                    </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="170" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--<Grid x:Name="refET_Top" >-->
+                    <StackPanel x:Name="refET_Top" Grid.Row="0">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox  Grid.Column="0" x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
+                            <Button Grid.Column="1" x:Name="btn_load_weather_data_csv"  Style="{StaticResource BTNCORNER}" Content="Load Weather data"  Width="170" Height="40" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btn_calc_ref_ET"  Style="{StaticResource BTNCORNER}" Content="Calculate Ref. ETrz" Padding="0,10"/>
+                            <ComboBox Grid.Column="1" x:Name="cbxRefCrop" VerticalContentAlignment="Center" Margin="15,0" >
+                                <ComboBoxItem Content="Grass" IsSelected="True"/>
+                                <ComboBoxItem Content="Alfalfa"/>
+                            </ComboBox>
+                            <Button Grid.Column="2" x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Padding="10,0"/>
 
-                                </Grid>
-                                <Grid Grid.Column="1">
-                                    <StackPanel Margin="5">
-                                        <Button x:Name="btn_load_weather_data_csv"  Style="{StaticResource BTNCORNER}" Content="Load Weather data"  Width="170" Height="40" FontWeight="Bold"/>
-                                    </StackPanel>
-
-                                </Grid>
-                            </Grid>
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.5*"/>
-                                    <ColumnDefinition Width="1.5*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="5,0">
-                                    <Button x:Name="btn_calc_ref_ET"  Style="{StaticResource BTNCORNER}" Content="Calculate Ref. ETrz" Padding="0,10"/>
-                                </Grid>
-                                <Grid Grid.Column="1" Margin="5,0">
-                                    <ComboBox x:Name="cbxRefCrop" VerticalContentAlignment="Center" >
-                                        <ComboBoxItem Content="Grass" IsSelected="True"/>
-                                        <ComboBoxItem Content="Alfalfa"/>
-                                    </ComboBox>
-                                </Grid>
-                                <Grid Grid.Column="2" Margin="5,0,0,0">
-                                    <Button x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Margin="10,0" Padding="10,0"/>
-
-                                </Grid>
-
-                            </Grid>
-                            <Grid>
-                                <StackPanel>
-                                    <DataGrid x:Name="DgvRefET" Grid.Row ="0" FontWeight="Normal" MinHeight="450" IsReadOnly="True" ClipboardCopyMode="IncludeHeader"/>
-
-                                </StackPanel>
-
-                            </Grid>
-
-                        </StackPanel>
-
-                    </Border>
-                    <DockPanel>
-                        <TextBlock VerticalAlignment="Bottom" FontSize="16" LineHeight="30" TextWrapping="Wrap" Padding="10" Background="LightSkyBlue">
-                            THE ASCE STANDARDIZED REFERENCE EVAPOTRANSPIRATION EQUATION,2005 paper is used for calculating Reference ET of Grass and Alfalfa.</TextBlock>
-                    </DockPanel>
+                        </Grid>
+                        <TextBlock FontSize="16" LineHeight="30" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Padding="10,5" Background="LightSkyBlue">
+                        Reference ET calcualtion for Grass/Alfalfa are based on <Italic>"THE ASCE STANDARDIZED REFERENCE EVAPOTRANSPIRATION EQUATION,2005"</Italic> guidelines .</TextBlock>
+                    </StackPanel>
+                    <!--</Grid>-->
+                    <DataGrid  Grid.Row="1" x:Name="DgvRefET" FontWeight="Normal" IsReadOnly="True" ClipboardCopyMode="IncludeHeader" MinHeight="50"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabKcbET" Header="Kcb_refl. based ET" Height="75" Width="200">

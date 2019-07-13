@@ -16,6 +16,7 @@ Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
 Imports System.Collections.Generic
 Imports ET_Calculator_streamlined_v11_GIT.OutputPath
+Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
@@ -248,16 +249,21 @@ Class MainWindow
 
     Private Sub Grid_host_GotFocus(sender As Object, e As RoutedEventArgs)
         Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
-        Dim map_win As New UserControl1
+        Dim map_win As New MapWInGIS_Control
         host.Child = map_win
         Me.grid_host.Children.Add(host)
     End Sub
 
     Private Sub Tb_3_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles tabImageView.MouseUp
-        Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
-        Dim map_win As New UserControl1
-        host.Child = map_win
-        Me.grid_host.Children.Add(host)
+        Try
+            Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
+            Dim map_win As New ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
+            host.Child = map_win
+            Me.grid_host.Children.Add(host)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
     End Sub
 
 
@@ -871,9 +877,34 @@ Class MainWindow
     End Sub
 
     Private Sub DgSiteInfo_LayoutUpdated(sender As Object, e As EventArgs) Handles dgSiteInfo.LayoutUpdated
-        If infoTop.ActualHeight > 0 Then
+        Try
             Dim infoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 70
-            dgSiteInfo.Height = infoGrid
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub DgvRefET_LayoutUpdated(sender As Object, e As EventArgs) Handles DgvRefET.LayoutUpdated
+        If refET_Top.ActualHeight > 0 Then
+            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
+            DgvRefET.Height = infoGrid
         End If
+    End Sub
+
+    Private Sub TbxTAW_1_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbxTAW_1.TextChanged, tbxTAW_2.TextChanged, tbxTAW_3.TextChanged, tbxTAW_4.TextChanged, tbxTAW_5.TextChanged
+        Try
+            Dim temp As String = (CType(tbxTAW_1.Text, Double) * 0.6).ToString
+            tbxRAW_1.Text = temp
+            tbxRAW_1.Text = (CType(tbxTAW_1.Text, Double) * 0.6).ToString
+            tbxRAW_2.Text = (CType(tbxTAW_2.Text, Double) * 0.6).ToString
+            tbxRAW_3.Text = (CType(tbxTAW_3.Text, Double) * 0.6).ToString
+            tbxRAW_4.Text = (CType(tbxTAW_4.Text, Double) * 0.6).ToString
+            tbxRAW_5.Text = (CType(tbxTAW_5.Text, Double) * 0.6).ToString
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message)
+        End Try
+
+
     End Sub
 End Class
