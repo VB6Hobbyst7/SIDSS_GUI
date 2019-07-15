@@ -7,9 +7,11 @@ Imports System.Text
 Imports Microsoft.VisualBasic.FileIO
 Imports System.ComponentModel
 Imports System.Windows.Forms
-Imports MapWinGIS
-Imports AxMapWinGIS
 Imports System.Data.SQLite
+Imports DotSpatial.Symbology
+Imports DotSpatial.Controls
+Imports DotSpatial.Data
+Imports DotSpatial.Topology
 Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
 Imports ET_Calculator_streamlined_v11_GIT.Calculate
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer

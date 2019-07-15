@@ -28,6 +28,11 @@ Partial Class MapWInGIS_Control
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.SpatialToolStrip1 = New DotSpatial.Controls.SpatialToolStrip()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.Map1 = New DotSpatial.Controls.Map()
         Me.Legend1 = New DotSpatial.Controls.Legend()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -35,10 +40,7 @@ Partial Class MapWInGIS_Control
         Me.tabLegend = New System.Windows.Forms.TabPage()
         Me.TabToolbox = New System.Windows.Forms.TabPage()
         Me.AppManager1 = New DotSpatial.Controls.AppManager()
-        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
+        Me.SpatialHeaderControl1 = New DotSpatial.Controls.SpatialHeaderControl()
         Me.SpatialStatusStrip1.SuspendLayout()
         Me.SpatialToolStrip1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -47,6 +49,7 @@ Partial Class MapWInGIS_Control
         Me.SplitContainer1.SuspendLayout()
         Me.TabMain.SuspendLayout()
         Me.tabLegend.SuspendLayout()
+        CType(Me.SpatialHeaderControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'OpenFileDialog1
@@ -79,7 +82,7 @@ Partial Class MapWInGIS_Control
         'SpatialToolStrip1
         '
         Me.SpatialToolStrip1.ApplicationManager = Nothing
-        Me.SpatialToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripTextBox1, Me.ToolStripSeparator1, Me.ToolStripLabel2})
+        Me.SpatialToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripTextBox1, Me.ToolStripLabel2, Me.ToolStripSeparator1, Me.ToolStripButton1})
         Me.SpatialToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.SpatialToolStrip1.Map = Me.Map1
         Me.SpatialToolStrip1.Name = "SpatialToolStrip1"
@@ -87,22 +90,55 @@ Partial Class MapWInGIS_Control
         Me.SpatialToolStrip1.TabIndex = 6
         Me.SpatialToolStrip1.Text = "SpatialToolStrip1"
         '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(85, 22)
+        Me.ToolStripLabel1.Text = "Pixel size N x N"
+        '
+        'ToolStripTextBox1
+        '
+        Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
+        Me.ToolStripTextBox1.Size = New System.Drawing.Size(35, 25)
+        Me.ToolStripTextBox1.Text = "3"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'ToolStripLabel2
+        '
+        Me.ToolStripLabel2.Name = "ToolStripLabel2"
+        Me.ToolStripLabel2.Size = New System.Drawing.Size(81, 22)
+        Me.ToolStripLabel2.Text = "Average value"
+        '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(23, 22)
+        Me.ToolStripButton1.Text = "ToolStripButton1"
+        '
         'Map1
         '
         Me.Map1.AllowDrop = True
         Me.Map1.BackColor = System.Drawing.Color.Black
+        Me.Map1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Map1.CollectAfterDraw = False
         Me.Map1.CollisionDetection = False
         Me.Map1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Map1.ExtendBuffer = False
         Me.Map1.FunctionMode = DotSpatial.Controls.FunctionMode.None
         Me.Map1.IsBusy = False
-        Me.Map1.IsZoomedToMaxExtent = False
+        Me.Map1.IsZoomedToMaxExtent = True
         Me.Map1.Legend = Me.Legend1
         Me.Map1.Location = New System.Drawing.Point(0, 0)
         Me.Map1.Name = "Map1"
         Me.Map1.ProgressHandler = Me.SpatialStatusStrip1
-        Me.Map1.ProjectionModeDefine = DotSpatial.Controls.ActionMode.Prompt
+        Me.Map1.ProjectionModeDefine = DotSpatial.Controls.ActionMode.PromptOnce
         Me.Map1.ProjectionModeReproject = DotSpatial.Controls.ActionMode.Prompt
         Me.Map1.RedrawLayersWhileResizing = False
         Me.Map1.SelectionEnabled = True
@@ -175,7 +211,7 @@ Partial Class MapWInGIS_Control
         Me.TabToolbox.Location = New System.Drawing.Point(4, 22)
         Me.TabToolbox.Name = "TabToolbox"
         Me.TabToolbox.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabToolbox.Size = New System.Drawing.Size(237, 314)
+        Me.TabToolbox.Size = New System.Drawing.Size(123, 406)
         Me.TabToolbox.TabIndex = 1
         Me.TabToolbox.Text = "Toolbox"
         Me.TabToolbox.UseVisualStyleBackColor = True
@@ -185,32 +221,16 @@ Partial Class MapWInGIS_Control
         Me.AppManager1.Directories = CType(resources.GetObject("AppManager1.Directories"), System.Collections.Generic.List(Of String))
         Me.AppManager1.DockManager = Nothing
         Me.AppManager1.HeaderControl = Nothing
-        Me.AppManager1.Legend = Nothing
-        Me.AppManager1.Map = Nothing
-        Me.AppManager1.ProgressHandler = Nothing
+        Me.AppManager1.Legend = Me.Legend1
+        Me.AppManager1.Map = Me.Map1
+        Me.AppManager1.ProgressHandler = Me.SpatialStatusStrip1
+        Me.AppManager1.ShowExtensionsDialogMode = DotSpatial.Controls.ShowExtensionsDialogMode.[Default]
         '
-        'ToolStripLabel1
+        'SpatialHeaderControl1
         '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(85, 22)
-        Me.ToolStripLabel1.Text = "Pixel size N x N"
-        '
-        'ToolStripTextBox1
-        '
-        Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
-        Me.ToolStripTextBox1.Size = New System.Drawing.Size(35, 25)
-        Me.ToolStripTextBox1.Text = "3"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripLabel2
-        '
-        Me.ToolStripLabel2.Name = "ToolStripLabel2"
-        Me.ToolStripLabel2.Size = New System.Drawing.Size(81, 22)
-        Me.ToolStripLabel2.Text = "Average value"
+        Me.SpatialHeaderControl1.ApplicationManager = Me.AppManager1
+        Me.SpatialHeaderControl1.MenuStrip = Nothing
+        Me.SpatialHeaderControl1.ToolbarsContainer = Nothing
         '
         'MapWInGIS_Control
         '
@@ -231,6 +251,7 @@ Partial Class MapWInGIS_Control
         Me.SplitContainer1.ResumeLayout(False)
         Me.TabMain.ResumeLayout(False)
         Me.tabLegend.ResumeLayout(False)
+        CType(Me.SpatialHeaderControl1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -251,4 +272,6 @@ Partial Class MapWInGIS_Control
     Friend WithEvents ToolStripTextBox1 As Forms.ToolStripTextBox
     Friend WithEvents ToolStripSeparator1 As Forms.ToolStripSeparator
     Friend WithEvents ToolStripLabel2 As Forms.ToolStripLabel
+    Friend WithEvents ToolStripButton1 As Forms.ToolStripButton
+    Private WithEvents SpatialHeaderControl1 As DotSpatial.Controls.SpatialHeaderControl
 End Class

@@ -1,7 +1,10 @@
-﻿Imports MapWinGIS
-Imports AxMapWinGIS
-Imports DotSpatial
-Imports System.Windows.Forms
+﻿Imports System.Windows.Forms
+Imports DotSpatial.Symbology
+Imports DotSpatial.Controls
+Imports DotSpatial.Data
+Imports DotSpatial.Topology
+
+
 
 Public Class MapWInGIS_Control
     Public Class Global_varaiables
@@ -30,13 +33,31 @@ Public Class MapWInGIS_Control
         'AxMap1.SendMouseDown = True
         'AxMap1.AddLayerFromFilename(raster_name, tkFileOpenStrategy.fosAutoDetect, 1)
         Map1.ClearLayers()
-        Map1.AddLayer(DotSpatial.Controls.MapRasterLayer.OpenFile(raster_name))
+        'Map1.AddLayer(DotSpatial.Controls.MapRasterLayer.OpenFile(raster_name))
         ''raster_data.Filename = raster_name
         'raster_data.FileType = Data.RasterFileType.GeoTiff
 
         ''raster_data.BandType = Data.ImageBandType.RGB
         'Map1.Layers.Add(raster_data)
 
+    End Sub
+
+    Private Sub Map1_Load(sender As Object, e As EventArgs) Handles Map1.Click
+        Dim coordinates As New System.Drawing.Point
+        Dim proj_coordinates As New System.Drawing.Point
+        Map1.PointToClient(coordinates)
+        ' Dim info As Object = tkCursorMode.cmIdentify
+        Dim projx, projy, minx, miny, maxx, maxy As Double
+        Dim resx, resy As Double
+        Map1.PixelToProj(proj_coordinates)
+        'Map1.PixelToProj(e.x, e.y, projx, projy)
+        'Dim raster As Object = Legend1.
+        'Dim e_vals As Object = e
+
+    End Sub
+
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        Map1.AddLayer()
     End Sub
 
     'Private Sub AxMap1_MouseDownEvent(sender As Object, e As _DMapEvents_MouseDownEvent) Handles AxMap1.MouseDownEvent
