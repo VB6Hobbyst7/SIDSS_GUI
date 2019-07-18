@@ -7,15 +7,18 @@ Imports System.Text
 Imports Microsoft.VisualBasic.FileIO
 Imports System.ComponentModel
 Imports System.Windows.Forms
-Imports MapWinGIS
-Imports AxMapWinGIS
 Imports System.Data.SQLite
+Imports DotSpatial.Symbology
+Imports DotSpatial.Controls
+Imports DotSpatial.Data
+Imports DotSpatial.Topology
 Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
-Imports ET_Calculator_streamlined_v11_GIT.Calculate
+Imports ET_Calculator_streamlined_v11_GIT.CalculateWaterBalance
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
 Imports System.Collections.Generic
 Imports ET_Calculator_streamlined_v11_GIT.OutputPath
+Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
@@ -31,7 +34,6 @@ Class MainWindow
 
     Private Sub Load_DataGrid_RefET()
         'Connect to local SQLite database file. The text part is called connectionstring.
-        'Dim myConnection As New SQLiteConnection(String.Format("Data Source={0}SIDSS_database.db; Version=3", app_path))
         'Open connection to the database file, within the program.
         If myConnection.State = ConnectionState.Closed Then
             myConnection.Open()
@@ -60,6 +62,7 @@ Class MainWindow
         DgvRefET.ItemsSource = dt.DefaultView
 
     End Sub
+
     Private Sub Btn_tiff_Click(sender As Object, e As RoutedEventArgs) Handles btn_load_weather_data_csv.Click
         Dim reset_ref_et As New SQL_table_operation
         ' Reset old data in the ref et database.
@@ -100,13 +103,12 @@ Class MainWindow
 
     End Sub
 
-
-
     Private Sub Open_tif(sender As Object, e As RoutedEventArgs) Handles btn_KC_MS_tiff.Click
         KC_MS_file_path.Text = get_file_path("Tiff Files", "TIF", "Select NRG calibrated image %ge values (0-100)")
         set_parameter_file()
 
     End Sub
+
     Private Function get_file_path(ByVal file_info As String, ByVal extension As String, ByVal title As String)
         Dim open_file As New Microsoft.Win32.OpenFileDialog With {
             .Filter = String.Format("{0}|*.{1}", file_info, extension),
@@ -119,16 +121,32 @@ Class MainWindow
     End Function
 
     Private Sub Main_window_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles main_window.SizeChanged
+        Try
 
-        'Dim tab_control_h As Integer = Me.tab_control.ActualHeight
-        Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
-        'e.new
-        Dim total_tabs As Integer = tab_control.Items.Count
-        For Each tab_item As TabItem In tab_control.Items
-            tab_item.Height = tab_control_h / total_tabs - 1
-        Next
+            Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
 
+            Dim total_tabs As Integer = tab_control.Items.Count
+            For Each tab_item As TabItem In tab_control.Items
+                tab_item.Height = tab_control_h / total_tabs - 1
+            Next
+
+
+            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 75
+            dgvWaterBalance.Height = WaterBalance_Grid
+
+            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
+            DgvRefET.Height = infoGrid
+
+            Dim seteinfoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 75
+            dgSiteInfo.Height = seteinfoGrid
+
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
     End Sub
+
 
     Private Sub set_parameter_file()
         Dim Lat, Lm, Elev, Lz, df, const_g, const_k, const_Cpa, const_Z_u, const_Z_T, const_min_u As Decimal
@@ -185,6 +203,7 @@ Class MainWindow
 
         file.Close()
     End Sub
+
     Private Function Validate_decimal(ByVal tbx_sting)
         Dim decimal_vlaue As Decimal
         If Decimal.TryParse(tbx_sting, decimal_vlaue) Then
@@ -248,18 +267,22 @@ Class MainWindow
 
     Private Sub Grid_host_GotFocus(sender As Object, e As RoutedEventArgs)
         Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
-        Dim map_win As New UserControl1
+        Dim map_win As New MapWInGIS_Control
         host.Child = map_win
         Me.grid_host.Children.Add(host)
     End Sub
 
     Private Sub Tb_3_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles tabImageView.MouseUp
-        Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
-        Dim map_win As New UserControl1
-        host.Child = map_win
-        Me.grid_host.Children.Add(host)
-    End Sub
+        Try
+            Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
+            Dim map_win As New ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
+            host.Child = map_win
+            Me.grid_host.Children.Add(host)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
 
+    End Sub
 
     Private Function Update_Main_Grid(ByVal index As Integer)
         Dim i As Integer = 0
@@ -300,7 +323,7 @@ Class MainWindow
     Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnPrecip.Click
         'Dim index As Integer = 1
         'Dim precip_table As New DataTable
-        Dim col_name As String = "Precip"
+        Dim col_name As String = "Precip, in inches"
         Launch_Col_Input_From(col_name)
         'Populate_main_datagrid()
         Load_Datagrid("WaterBalance_Table")
@@ -311,7 +334,7 @@ Class MainWindow
     Private Sub BtnIrrig_Click(sender As Object, e As RoutedEventArgs) Handles btnIrrig.Click
         Dim index As Integer = 1
         Dim Irrig_table As New DataTable
-        Dim col_name As String = "Irrig"
+        Dim col_name As String = "Irrig, in inches"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
         dgvWaterBalance.Items.Refresh()
@@ -320,18 +343,17 @@ Class MainWindow
     Private Sub BtnET_Click(sender As Object, e As RoutedEventArgs) Handles btnETr.Click
         Dim index As Integer = 1
         Dim ETr_table As New DataTable
-        Dim col_name As String = "ETr"
+        Dim col_name As String = "ETr, in inches"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
         dgvWaterBalance.Items.Refresh()
 
     End Sub
 
-
     Private Sub BtnTmax_Click(sender As Object, e As RoutedEventArgs) Handles btnTmax.Click
         Dim index As Integer = 1
         Dim Tmax_table As New DataTable
-        Dim col_name As String = "[Tmax, F]"
+        Dim col_name As String = "Tmax, in Farenheit"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
         dgvWaterBalance.Items.Refresh()
@@ -341,7 +363,7 @@ Class MainWindow
     Private Sub BtnTmin_Click(sender As Object, e As RoutedEventArgs) Handles btnTmin.Click
         Dim index As Integer = 1
         Dim Tmin_table As New DataTable
-        Dim col_name As String = "[Tmin, F]"
+        Dim col_name As String = "Tmix. in Farenheit"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
         dgvWaterBalance.Items.Refresh()
@@ -453,9 +475,9 @@ Class MainWindow
 
     End Sub
 
-    Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculate.Click
+    Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
 
-        Dim calc_cols As New Calculate
+        Dim calc_cols As New CalculateWaterBalance
 
         calc_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
         Dim soil_prop As New List(Of String)
@@ -472,7 +494,7 @@ Class MainWindow
         soil_prop.Add(tbxMAD_perecnt.Text)
         calc_cols.Set_Soil_Profile = soil_prop
         calc_cols.Calculate_Grid_Cols(Tbase)
-        Load_Datagrid(True)
+        Load_Datagrid("WaterBalance_Table")
 
     End Sub
 
@@ -542,11 +564,11 @@ Class MainWindow
         tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
         tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
         tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
-        tbxRAW_1.Text = My.Settings.tbxRAW_1_settings
-        tbxRAW_2.Text = My.Settings.tbxRAW_2_settings
-        tbxRAW_3.Text = My.Settings.tbxRAW_3_settings
-        tbxRAW_4.Text = My.Settings.tbxRAW_4_settings
-        tbxRAW_5.Text = My.Settings.tbxRAW_5_settings
+        tbxTAW_1.Text = My.Settings.tbxTAW_1_settings
+        tbxTAW_2.Text = My.Settings.tbxTAW_2_settings
+        tbxTAW_3.Text = My.Settings.tbxTAW_3_settings
+        tbxTAW_4.Text = My.Settings.tbxTAW_4_settings
+        tbxTAW_5.Text = My.Settings.tbxTAW_5_settings
         HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
         HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
         PlantDate.DisplayDate = My.Settings.PlantDate_settings
@@ -567,11 +589,59 @@ Class MainWindow
         full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
         DgvRefET.ItemsSource = full_sql_table.DefaultView
 
+
+        Try
+
+            'Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 75
+            'dgvWaterBalance.Height = WaterBalance_Grid
+
+            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
+            DgvRefET.Height = infoGrid
+
+            Dim seteinfoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 75
+            dgSiteInfo.Height = seteinfoGrid
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+
+
+
     End Sub
 
     Private Sub Btn_calc_ref_ET_Click(sender As Object, e As RoutedEventArgs) Handles btn_calc_ref_ET.Click
 
-        Dim full_results_Table As New DataTable
+        Dim load_full_sql_table As New SQL_table_operation
+        Dim full_sql_table As New DataTable
+        full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
+        Dim curr_doy As Integer = 0
+        Dim prev_doy As Integer = 0
+        Dim results() As DataRow = Nothing
+        For Each row In full_sql_table.Rows
+            curr_doy = Convert.ToInt16(row(4))
+            If curr_doy <> prev_doy Then
+                results = full_sql_table.Select(String.Format("DOY = {0}", curr_doy))
+                prev_doy = curr_doy
+
+                Dim curr_day_data As New DataTable
+                For Each col As DataColumn In full_sql_table.Columns
+                    curr_day_data.Columns.Add(col.ColumnName)
+                Next
+
+                For Each curr_day_row In results
+                    curr_day_data.Rows.Add(curr_day_row.ItemArray)
+                Next
+                prep_ref_ET_Sub(curr_day_data)
+
+            End If
+        Next
+
+    End Sub
+
+    Private Sub prep_ref_ET_Sub(ByVal curr_day_data As DataTable)
+
+        Dim daily_results_table As New DataTable
 
         Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET
 
@@ -587,27 +657,46 @@ Class MainWindow
             MessageBox.Show("Please Note: Recommended temperautre measurement height is 1.5 to 2.5 m.")
         End If
 
-        Dim std_time, doy, tair, humidity, rad, windspd As New DataTable
-        Dim read_single_col As New SQL_table_operation
+        Dim std_time, doy, tair, humidity, rad, windspd, curr_table_selected_col As New DataTable
+        Dim read_curr_day_data As New SQL_table_operation
+        'Configuration inside Read SQL Col module to just return current day using DOY select statement.
+        ' Therefore only current day is returned.
+        curr_table_selected_col = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "StdTime", curr_day_data)
+        Dim std_time_selected_col_curr_day As New DataView(curr_table_selected_col)
+        std_time = std_time_selected_col_curr_day.ToTable("Ref_ET_Table", False, "StdTime")
 
+        curr_table_selected_col = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "DOY", curr_day_data)
+        Dim doy_selected_col_curr_day As New DataView(curr_table_selected_col)
+        doy = doy_selected_col_curr_day.ToTable("Ref_ET_Table", False, "DOY")
 
-        Dim load_full_sql_table As New SQL_table_operation
-        Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
-        Dim csv_row_count = full_sql_table.Rows.Count
+        curr_table_selected_col = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "AirTemp", curr_day_data)
+        Dim tair_selected_col_curr_day As New DataView(curr_table_selected_col)
+        tair = tair_selected_col_curr_day.ToTable("Ref_ET_Table", False, "AirTemp")
 
-        std_time = read_single_col.Read_SQL_Col("Ref_ET_Table", "StdTime", full_sql_table)
-        doy = read_single_col.Read_SQL_Col("Ref_ET_Table", "DOY", full_sql_table)
-        tair = read_single_col.Read_SQL_Col("Ref_ET_Table", "AirTemp", full_sql_table)
-        humidity = read_single_col.Read_SQL_Col("Ref_ET_Table", "RH", full_sql_table)
-        rad = read_single_col.Read_SQL_Col("Ref_ET_Table", "Rs", full_sql_table)
-        windspd = read_single_col.Read_SQL_Col("Ref_ET_Table", "wind__spd", full_sql_table)
+        curr_table_selected_col = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "RH", curr_day_data)
+        Dim humidity_selected_col_curr_day As New DataView(curr_table_selected_col)
+        humidity = humidity_selected_col_curr_day.ToTable("Ref_ET_Table", False, "RH")
+
+        curr_table_selected_col = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "Rs", curr_day_data)
+        Dim rad_selected_col_curr_day As New DataView(curr_table_selected_col)
+        rad = rad_selected_col_curr_day.ToTable("Ref_ET_Table", False, "Rs")
+
+        curr_table_selected_col = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "wind__spd", curr_day_data)
+        Dim windspd_col_curr_day As New DataView(curr_table_selected_col)
+        windspd = windspd_col_curr_day.ToTable("Ref_ET_Table", False, "wind__spd")
+
+        std_time = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "StdTime", curr_day_data)
+        doy = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "DOY", curr_day_data)
+        tair = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "AirTemp", curr_day_data)
+        humidity = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "RH", curr_day_data)
+        rad = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "Rs", curr_day_data)
+        windspd = read_curr_day_data.Read_SQL_Col("Ref_ET_Table", "wind__spd", curr_day_data)
 
         Dim first_row As Boolean = True
-
+        Dim daily_data_row_count As Integer = curr_day_data.Rows.Count
         For j = 0 To 1
             ' Running same loop twice, first looop is to determine the minimum fcd values  17 degrees or 0.3 radians.
-            For i = 0 To csv_row_count - 1
+            For i = 0 To daily_data_row_count - 1
                 ' Std. time, hour.
                 ref_et_calc._t_std_time = Convert.ToDouble(std_time.Rows(i).ItemArray(0))
                 ' Day of Year.
@@ -626,22 +715,18 @@ Class MainWindow
                     'results_table.Rows.Add(ref_et_calc.Main_Calculation_Module())
                     Dim results_row As Dictionary(Of String, Double) = ref_et_calc.Main_Calculation_Module()
 
-
-
                     If first_row = True Then
                         For Each kvp As KeyValuePair(Of String, Double) In results_row
-                            full_results_Table.Columns.Add(kvp.Key)
+                            daily_results_table.Columns.Add(kvp.Key)
                         Next
                     End If
                     first_row = False
 
-                    full_results_Table.Rows.Add()
+                    daily_results_table.Rows.Add()
                     Dim k As Integer = 0
                     For Each kvp As KeyValuePair(Of String, Double) In results_row
-                        full_results_Table.Rows(i)(k) = Math.Round(kvp.Value, 4)
+                        daily_results_table.Rows(i)(k) = Math.Round(kvp.Value, 4)
                         k += 1
-
-
                     Next
 
                 Else
@@ -652,17 +737,17 @@ Class MainWindow
         Next
 
         Dim index As Integer = 0
-        For Each column As DataColumn In full_results_Table.Columns
+        For Each column As DataColumn In daily_results_table.Columns
             Dim col_name As String = column.ColumnName
             Dim populate_col_in_db As New SQL_table_operation
-            populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, full_results_Table)
+            populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, daily_results_table, curr_day_data)
             index += 1
 
         Next
-
+        Dim load_full_sql_table As New SQL_table_operation
+        Dim full_sql_table As New DataTable
         full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
         DgvRefET.ItemsSource = full_sql_table.DefaultView
-
     End Sub
 
     Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
@@ -689,7 +774,6 @@ Class MainWindow
     Private Sub DgSiteInfo_Loaded_1(sender As Object, e As RoutedEventArgs) Handles dgSiteInfo.Loaded
         Load_siteinfo()
     End Sub
-
 
     Private Sub Load_siteinfo()
         Dim dgSiteInfo_table As New DataTable
@@ -835,11 +919,11 @@ Class MainWindow
         My.Settings.tbxSoilDepth_3_settings = tbxSoilDepth_3.Text
         My.Settings.tbxSoilDepth_4_settings = tbxSoilDepth_4.Text
         My.Settings.tbxSoilDepth_5_settings = tbxSoilDepth_5.Text
-        My.Settings.tbxRAW_1_settings = tbxRAW_1.Text
-        My.Settings.tbxRAW_2_settings = tbxRAW_2.Text
-        My.Settings.tbxRAW_3_settings = tbxRAW_3.Text
-        My.Settings.tbxRAW_4_settings = tbxRAW_4.Text
-        My.Settings.tbxRAW_5_settings = tbxRAW_5.Text
+        My.Settings.tbxTAW_1_settings = tbxTAW_1.Text
+        My.Settings.tbxTAW_2_settings = tbxTAW_2.Text
+        My.Settings.tbxTAW_3_settings = tbxTAW_3.Text
+        My.Settings.tbxTAW_4_settings = tbxTAW_4.Text
+        My.Settings.tbxTAW_5_settings = tbxTAW_5.Text
         My.Settings.tbxMinRootDepth_settings = tbxMinRootDepth.Text
         My.Settings.tbxMaxRootDepth_settings = tbxMaxRootDepth.Text
 
@@ -863,17 +947,53 @@ Class MainWindow
         'tbx_csv1.Text = result.ToString()
     End Sub
 
-    Private Sub DgvWaterBalance_LayoutUpdated(sender As Object, e As EventArgs) Handles dgvWaterBalance.LayoutUpdated
-        If gridWaterBalanceTop.ActualHeight > 0 Then
-            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 70
-            dgvWaterBalance.Height = WaterBalance_Grid
-        End If
+    Private Sub TbxTAW_1_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbxTAW_1.TextChanged, tbxTAW_2.TextChanged, tbxTAW_3.TextChanged, tbxTAW_4.TextChanged, tbxTAW_5.TextChanged
+        Try
+            Dim MAD As Double = Convert.ToDouble(tbxMAD_perecnt.Text) / 100
+            'Dim temp As String = (CType(tbxTAW_1.Text, Double) * MAD).ToString
+            'tbxRAW_1.Text = temp
+            Dim textbox_text As Windows.Controls.TextBox = sender
+
+            If textbox_text.Text = "" Then
+                textbox_text.Text = "0"
+                sender = textbox_text
+            End If
+            tbxRAW_1.Text = (CType(tbxTAW_1.Text, Double) * MAD).ToString
+            tbxRAW_2.Text = (CType(tbxTAW_2.Text, Double) * MAD).ToString
+            tbxRAW_3.Text = (CType(tbxTAW_3.Text, Double) * MAD).ToString
+            tbxRAW_4.Text = (CType(tbxTAW_4.Text, Double) * MAD).ToString
+            tbxRAW_5.Text = (CType(tbxTAW_5.Text, Double) * MAD).ToString
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message)
+        End Try
+
+
     End Sub
 
-    Private Sub DgSiteInfo_LayoutUpdated(sender As Object, e As EventArgs) Handles dgSiteInfo.LayoutUpdated
-        If infoTop.ActualHeight > 0 Then
-            Dim infoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 70
-            dgSiteInfo.Height = infoGrid
-        End If
+    Private Sub DgvRefET_Loaded(sender As Object, e As RoutedEventArgs) Handles DgvRefET.Loaded
+        Try
+            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
+            DgvRefET.Height = infoGrid
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub TabSiteInfo_Loaded(sender As Object, e As RoutedEventArgs) Handles tabSiteInfo.Loaded
+        Try
+            Dim SiteInfoTop As Integer = main_window.ActualHeight - infoTop.ActualHeight - 75
+            dgSiteInfo.Height = SiteInfoTop
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DgvWaterBalance_Loaded(sender As Object, e As RoutedEventArgs) Handles dgvWaterBalance.Loaded
+        Try
+            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 75
+            dgvWaterBalance.Height = WaterBalance_Grid
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
     End Sub
 End Class

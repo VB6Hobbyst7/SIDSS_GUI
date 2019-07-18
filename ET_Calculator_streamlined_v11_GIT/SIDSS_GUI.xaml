@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="700.5" Width="1006" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
+        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="760" Width="1200" MinWidth="1200" MinHeight="760" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
 
     <Window.Resources>
         <Style TargetType="Grid">
@@ -50,26 +50,37 @@
         </Style>
     </Window.Resources>
 
-    <StackPanel>    
+    <StackPanel>
 
-        <Grid HorizontalAlignment="Stretch">
-            <Menu DockPanel.Dock="Top" Background="LightSkyBlue" BorderThickness="2" BorderBrush="Black">
-                <MenuItem Grid.Column="0" Header="_File" Background="LightSkyBlue" FontWeight="Bold" FontSize="16">
+    <Grid HorizontalAlignment="Stretch"  Background="LightSkyBlue" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="*"/>
+
+
+            </Grid.ColumnDefinitions>
+            <Menu DockPanel.Dock="Top" Grid.Column="0" Background="LightSkyBlue">
+
+
+                <MenuItem  Header="_File" Background="LightSkyBlue" FontWeight="Bold" FontSize="16">
                     <MenuItem Header="_New" Background="#FFB3DEE1"/>
                     <MenuItem Header="_Open" Background="#FFB3DEE1" />
                     <MenuItem Header="_Save" Background="#FFB3DEE1"/>
                     <MenuItem Header="_Exit" Background="#FFB3DEE1" />
                 </MenuItem>
-                <MenuItem  Grid.Column="1" Header="Options" Background="LightSkyBlue" FontWeight="Bold" FontSize="16">
+                <MenuItem  Header="Options" Background="LightSkyBlue" FontWeight="Bold" FontSize="16">
                     <MenuItem x:Name="mnuOutputPath" Header="Output Folder" Background="#FFB3DEE1" />
                     <MenuItem Header="Generate Summary report." Background="#FFB3DEE1"/>
                 </MenuItem>
-                <MenuItem Grid.Column="2" Header="Tab Info" x:Name="mnuTabInfo" FontWeight="Bold" FontSize="16" HorizontalAlignment="Right" Margin="700,0,0,0"/>
+            </Menu>
+            <Menu Grid.Column="1"  HorizontalAlignment="Right">
+                <MenuItem Background="LightSkyBlue" Header="Help for daily ET Energy balance method tab" x:Name="mnuTabInfo" FontWeight="Bold" FontSize="16" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right"/>
+
             </Menu>
         </Grid>
 
     <TabControl x:Name="tab_control" TabStripPlacement="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" FontWeight="Normal" >
-            <TabItem x:Name="tabSiteInfo" Header="Site Info." Height="75" Width="200" >
+        <TabItem x:Name="tabSiteInfo" Header="Site Info." Height="100" Width="200" >
                 <Grid  >
                     <StackPanel>
                         <StackPanel x:Name="infoTop">
@@ -196,73 +207,42 @@
                 </Grid>
 
             </TabItem>
-            <TabItem x:Name="tabRefET" Header="Ref. ETo (hourly)" Margin="0,0,0,0" Height="75" Width="200">
+        <TabItem x:Name="tabRefET" Header="Ref. ETo (hourly)" Margin="0,0,0,0" Height="100" Width="200">
                 <Grid>
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFDCD7D7" Offset="0"/>
-                            <GradientStop Color="#FFEEE7E7" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-                    <Border>
-                        <StackPanel>
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" >
-                                    <StackPanel Margin="5">
-                                        <TextBox  x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
-                                    </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="170" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="refET_Top" Grid.Row="0">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox  Grid.Column="0" x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
+                            <Button Grid.Column="1" x:Name="btn_load_weather_data_csv"  Style="{StaticResource BTNCORNER}" Content="Load Weather data"  Width="170" Height="40" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btn_calc_ref_ET"  Style="{StaticResource BTNCORNER}" Content="Calculate Ref. ETrz" Padding="0,10"/>
+                            <ComboBox Grid.Column="1" x:Name="cbxRefCrop" VerticalContentAlignment="Center" Margin="15,0" >
+                                <ComboBoxItem Content="Grass" IsSelected="True"/>
+                                <ComboBoxItem Content="Alfalfa"/>
+                            </ComboBox>
+                            <Button Grid.Column="2" x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Padding="10,0"/>
 
-                                </Grid>
-                                <Grid Grid.Column="1">
-                                    <StackPanel Margin="5">
-                                        <Button x:Name="btn_load_weather_data_csv"  Style="{StaticResource BTNCORNER}" Content="Load Weather data"  Width="170" Height="40" FontWeight="Bold"/>
-                                    </StackPanel>
-
-                                </Grid>
-                            </Grid>
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.5*"/>
-                                    <ColumnDefinition Width="1.5*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="5,0">
-                                    <Button x:Name="btn_calc_ref_ET"  Style="{StaticResource BTNCORNER}" Content="Calculate Ref. ETrz" Padding="0,10"/>
-                                </Grid>
-                                <Grid Grid.Column="1" Margin="5,0">
-                                    <ComboBox x:Name="cbxRefCrop" VerticalContentAlignment="Center" >
-                                        <ComboBoxItem Content="Grass" IsSelected="True"/>
-                                        <ComboBoxItem Content="Alfalfa"/>
-                                    </ComboBox>
-                                </Grid>
-                                <Grid Grid.Column="2" Margin="5,0,0,0">
-                                    <Button x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Margin="10,0" Padding="10,0"/>
-
-                                </Grid>
-
-                            </Grid>
-                            <Grid>
-                                <StackPanel>
-                                    <DataGrid x:Name="DgvRefET" Grid.Row ="0" FontWeight="Normal" MinHeight="450" IsReadOnly="True" ClipboardCopyMode="IncludeHeader"/>
-
-                                </StackPanel>
-
-                            </Grid>
-
-                        </StackPanel>
-
-                    </Border>
-                    <DockPanel>
-                        <TextBlock VerticalAlignment="Bottom" FontSize="16" LineHeight="30" TextWrapping="Wrap" Padding="10" Background="LightSkyBlue">
-                            THE ASCE STANDARDIZED REFERENCE EVAPOTRANSPIRATION EQUATION,2005 paper is used for calculating Reference ET of Grass and Alfalfa.</TextBlock>
-                    </DockPanel>
+                        </Grid>
+                        <TextBlock Margin="0,10,0,0" FontSize="16" LineHeight="30" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Padding="10,5" Background="LightSkyBlue">
+                        Reference ET calcualtion for Grass/Alfalfa are based on <Italic>"THE ASCE STANDARDIZED REFERENCE EVAPOTRANSPIRATION EQUATION,2005"</Italic> guidelines .</TextBlock>
+                    </StackPanel>
+                    <DataGrid  Grid.Row="1" x:Name="DgvRefET" FontWeight="Normal" IsReadOnly="True" ClipboardCopyMode="IncludeHeader" MinHeight="50"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabKcbET" Header="Kcb_refl. based ET" Height="75" Width="200">
+        <TabItem x:Name="tabKcbET" Header="Kcb_refl. based ET" Height="100" Width="200">
                 <Grid>
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -324,7 +304,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabEnergyBalET" Header="Daily ET &#xD;&#xA;Energy balance&#xD;&#xA;(Using NRG &amp; TIR)" Height="75" Width="200">
+        <TabItem x:Name="tabEnergyBalET" Header="Daily ET &#xD;&#xA;Energy balance&#xD;&#xA;(Using NRG &amp; TIR)" Height="100" Width="200">
                 <Grid>
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -432,7 +412,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabWaterBalance" Header="Water Balance Scheduling" Height="75" Width="200">
+        <TabItem x:Name="tabWaterBalance" Header="Water Balance Scheduling" Height="100" Width="200">
 
                 <Grid>
                     <StackPanel>
@@ -441,71 +421,70 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
-                                <StackPanel>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="Planting Date" Grid.Column="0" HorizontalAlignment="Left"  />
-                                    <Label Content="Harvest date" Grid.Column="1"  HorizontalAlignment="Left" />
+                        <Grid Grid.Column="0">
+                            <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Planting Date" Grid.Column="0" HorizontalAlignment="Left"  />
+                                <Label Content="Harvest date" Grid.Column="1"  HorizontalAlignment="Left" />
 
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                    <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" SelectedDate="2018-06-01" IsTodayHighlighted="False" DisplayDate="2018-06-01" Text="6/1/2018" Margin="5"/>
+                                    <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" SelectedDate="2018-11-17" IsTodayHighlighted="False" DisplayDate="2018-11-17" Text="11/17/2018" Margin="5"/>
+                                    <Button x:Name="btnSetDates"  Grid.Column="2" Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Padding="5" Margin="5">
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
+                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
+
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                    </Button>
+                                    <Button x:Name="btnCalculateWaterBalance"  Grid.Column="3"  Style="{StaticResource BTNCORNER}" Content="7. Calculate" Margin="5" >
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
+                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
+
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                    </Button>
+                                    <Button x:Name="btnChart"  Grid.Column="4"  Style="{StaticResource BTNCORNER}" Content="Chart..." Margin="5">
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
+                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
+
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                    </Button>
                                 </Grid>
-                                <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" SelectedDate="2018-06-01" IsTodayHighlighted="False" DisplayDate="2018-06-01" Text="6/1/2018" Margin="5"/>
-                                        <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" SelectedDate="2018-11-17" IsTodayHighlighted="False" DisplayDate="2018-11-17" Text="11/17/2018" Margin="5"/>
-                                        <Button x:Name="btnSetDates"  Grid.Column="2" Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Padding="5" Margin="5">
-                                            <Button.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                        <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </Button.ToolTip>
-                                        </Button>
-                                        <Button x:Name="btnCalculate"  Grid.Column="3"  Style="{StaticResource BTNCORNER}" Content="7. Calculate" Margin="5" >
-                                            <Button.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                        <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </Button.ToolTip>
-                                        </Button>
-                                        <Button x:Name="btnChart"  Grid.Column="4"  Style="{StaticResource BTNCORNER}" Content="Chart..." Margin="5">
-                                            <Button.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                        <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </Button.ToolTip>
-                                        </Button>
-                                    </Grid>
 
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="3*"/>
-
                                         </Grid.ColumnDefinitions>
                                         <GroupBox Header="Crop info." Grid.Column="0" >
                                             <StackPanel Margin="5">
@@ -518,14 +497,12 @@
                                                         <ColumnDefinition Width="0.5*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Column="0" Content="MAD %" VerticalAlignment="Center"/>
-                                                    <TextBox Grid.Column="1" x:Name="tbxMAD_perecnt" FontSize="14" VerticalContentAlignment="Center" Padding="4" TextAlignment="Center" Text="60" VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Column="1" x:Name="tbxMAD_perecnt" FontSize="14" VerticalContentAlignment="Center" Padding="4" TextAlignment="Center" Text="50" VerticalAlignment="Center"/>
                                                 </Grid>
                                             </StackPanel>
-
                                         </GroupBox>
 
                                         <GroupBox Header="Soil Profile."  Grid.Column="1">
-
                                             <StackPanel >
                                                 <Grid Margin="0 0 0 5">
                                                     <Grid.ColumnDefinitions>
@@ -537,8 +514,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
-
-                                                    <Label Grid.Column="0" Margin="2" Padding="2"  Content="Soil depth, in.==>"/>
+                                                    <Label Grid.Column="0" Margin="2" Padding="2"  Content="Soil depth, in.&#8594;"/>
                                                     <TextBox Grid.Column="1" Margin="2" Padding="2"  x:Name="tbxSoilDepth_0" Text="0" TextAlignment="Center" IsEnabled="False"/>
                                                     <TextBox x:Name="tbxSoilDepth_1" Margin="2" Padding="2" Grid.Column="2" Text="10" TextAlignment="Center"/>
                                                     <TextBox x:Name="tbxSoilDepth_2"  Margin="2" Padding="2"  Grid.Column="3" Text="20" TextAlignment="Center" />
@@ -555,7 +531,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Label Content="TAW in/in==>"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
+                                                    <Label Content="Water @ FC in/in&#8594;"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
                                                     <TextBox x:Name="tbxTAW_1"   Margin="2" Padding="2" Grid.Column="1" Text="0.125" TextAlignment="Center" />
                                                     <TextBox x:Name="tbxTAW_2"   Margin="2" Padding="2" Grid.Column="2" Text="0.1835" TextAlignment="Center" />
                                                     <TextBox x:Name="tbxTAW_3"   Margin="2" Padding="2" Grid.Column="3" Text="0.1834" TextAlignment="Center" />
@@ -571,7 +547,7 @@
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Label Content="MAD @60% in/in==>"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
+                                                    <Label Content="Water @ MAD in/in&#8594;"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
                                                     <TextBox x:Name="tbxRAW_1"   Margin="2" Padding="2" Grid.Column="1" Text="0.125" TextAlignment="Center" IsEnabled="False"/>
                                                     <TextBox x:Name="tbxRAW_2"   Margin="2" Padding="2" Grid.Column="2" Text="0.1835" TextAlignment="Center"  IsEnabled="False"/>
                                                     <TextBox x:Name="tbxRAW_3"   Margin="2" Padding="2" Grid.Column="3" Text="0.1834" TextAlignment="Center"  IsEnabled="False"/>
@@ -581,16 +557,15 @@
 
                                                 <Grid Margin="0 0 0 5">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="1.5*"/>
                                                         <ColumnDefinition Width="0.5*"/>
-                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="1.5*"/>
                                                         <ColumnDefinition Width="0.5*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Label Content="Planting depth, in.==>"  Grid.Column="0"  />
-                                                    <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Padding="2"  FontSize="12" Text="12" />
+                                                    <Label Content="Planting depth, in.&#8594;"  Grid.Column="0"  />
+                                                    <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Padding="2" Text="12" HorizontalContentAlignment="Center"/>
                                                     <Label Content="Max root depth, in.==>" Grid.Column="2"  Margin="2" Padding="2" />
-                                                    <TextBox x:Name="tbxMaxRootDepth" Grid.Column="3"  Margin="2" Padding="2" FontSize="12" Text="48" />
-
+                                                    <TextBox x:Name="tbxMaxRootDepth" Grid.Column="3"  Margin="2" Padding="2" Text="48"  HorizontalContentAlignment="Center" />
                                                 </Grid>
                                             </StackPanel>
                                         </GroupBox>
@@ -661,18 +636,11 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabKcbSetup" Header="Setup Kcb" Height="75" Width="200">                
+        <TabItem x:Name="tabKcbSetup" Header="Setup Kcb" Height="100" Width="200">                
             </TabItem>
-            <TabItem x:Name="tabImageView" Header="Review Images" Height="75" Width="200" >
-
-                <Grid x:Name="grid_host">
-
-
-                </Grid>
-
-
-            </TabItem>
-
+        <TabItem x:Name="tabImageView" Header="Review Images" Height="100" Width="200" >
+              <Grid x:Name="grid_host"/>
+        </TabItem>
     </TabControl>
     </StackPanel>
 </Window>

@@ -164,60 +164,60 @@ Partial Friend NotInheritable Class MySettings
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-    Public Property tbxRAW_1_settings() As String
+    Public Property tbxTAW_1_settings() As String
         Get
-            Return CType(Me("tbxRAW_1_settings"),String)
+            Return CType(Me("tbxTAW_1_settings"),String)
         End Get
         Set
-            Me("tbxRAW_1_settings") = value
+            Me("tbxTAW_1_settings") = value
         End Set
     End Property
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-    Public Property tbxRAW_2_settings() As String
+    Public Property tbxTAW_2_settings() As String
         Get
-            Return CType(Me("tbxRAW_2_settings"),String)
+            Return CType(Me("tbxTAW_2_settings"),String)
         End Get
         Set
-            Me("tbxRAW_2_settings") = value
+            Me("tbxTAW_2_settings") = value
         End Set
     End Property
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-    Public Property tbxRAW_3_settings() As String
+    Public Property tbxTAW_3_settings() As String
         Get
-            Return CType(Me("tbxRAW_3_settings"),String)
+            Return CType(Me("tbxTAW_3_settings"),String)
         End Get
         Set
-            Me("tbxRAW_3_settings") = value
+            Me("tbxTAW_3_settings") = value
         End Set
     End Property
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-    Public Property tbxRAW_4_settings() As String
+    Public Property tbxTAW_4_settings() As String
         Get
-            Return CType(Me("tbxRAW_4_settings"),String)
+            Return CType(Me("tbxTAW_4_settings"),String)
         End Get
         Set
-            Me("tbxRAW_4_settings") = value
+            Me("tbxTAW_4_settings") = value
         End Set
     End Property
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-    Public Property tbxRAW_5_settings() As String
+    Public Property tbxTAW_5_settings() As String
         Get
-            Return CType(Me("tbxRAW_5_settings"),String)
+            Return CType(Me("tbxTAW_5_settings"),String)
         End Get
         Set
-            Me("tbxRAW_5_settings") = value
+            Me("tbxTAW_5_settings") = value
         End Set
     End Property
     

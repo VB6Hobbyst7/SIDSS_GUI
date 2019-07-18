@@ -97,4 +97,14 @@ Public Class Graphs_Viewer
         Return dt
     End Function
 
+    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.TextChanged
+        Try
+            chrtWaterBalance.Titles(0).Text = ToolStripTextBox1.Text
+        Catch ex As Exception
+
+        End Try
+
+
+    End Sub
+
 End Class

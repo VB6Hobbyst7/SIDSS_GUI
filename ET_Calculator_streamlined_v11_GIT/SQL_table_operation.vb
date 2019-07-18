@@ -12,7 +12,10 @@ Public Class SQL_table_operation
         cmd.Connection = myConnection
 
         'Select all columns from the database file to display in WPF datagrid.
-        cmd.CommandText = String.Format("Select {0} from {1}", col_name, table_name)
+
+        Dim DOY As Integer = col_data.Rows(0)(4)
+        cmd.CommandText = String.Format("Select {0} from {1} WHERE DOY={2};", col_name, table_name, DOY)
+
 
         Dim reader As SQLiteDataReader = cmd.ExecuteReader
         Dim dt As New DataTable
@@ -29,15 +32,17 @@ Public Class SQL_table_operation
         Return dt
     End Function
 
-    Public Function Write_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_index As Integer, ByVal col_data As DataTable)
+    Public Function Write_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_index As Integer, ByVal col_data As DataTable, Optional ByVal curr_day_data As DataTable = Nothing)
+        If myConnection.State = ConnectionState.Open Then
+            myConnection.Close()
+        End If
         myConnection.Open()
         cmd.Connection = myConnection
         cmd.CommandText = Nothing
         Dim i As Integer
         Dim count As Integer = col_data.Rows.Count
-        Dim cell_value As Double
+        Dim cell_value As Object
         For i = 0 To count - 1
-
             If (col_index > 1) Then
                 If Double.IsNaN(col_data.Rows(i)(col_index)) Then
                     cell_value = 0
@@ -46,9 +51,22 @@ Public Class SQL_table_operation
                 End If
 
             Else
-                cell_value = col_data.Rows(i)(col_index)
+                Try
+                    cell_value = Convert.ToDouble(col_data.Rows(i)(col_index))
+                Catch ex As Exception
+                    cell_value = col_data.Rows(i)(col_index)
+                End Try
+
             End If
-            cmd.CommandText &= String.Format("UPDATE {0} SET {1}='{2}' WHERE SNo={3};", table_name, col_name, cell_value, i + 1) & Environment.NewLine
+            If curr_day_data Is Nothing Then
+                'Command format for water balance table
+                cmd.CommandText &= String.Format("UPDATE {0} SET {1}='{2}' WHERE SNo={3};", table_name, col_name, cell_value, i + 1) & Environment.NewLine
+            Else
+                'Command formatting for Ref_ET table.
+                Dim SNo As Integer = Convert.ToInt16(curr_day_data(i)(0))
+                cmd.CommandText &= String.Format("UPDATE {0} SET {1}='{2}' WHERE SNo={3};", table_name, col_name, cell_value, SNo) & Environment.NewLine
+
+            End If
         Next
 
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction

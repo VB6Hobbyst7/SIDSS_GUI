@@ -10,7 +10,8 @@ Public Class FormDGV
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Dim full_table As New Data.DataTable
         Dim x_y As New Data.DataTable
-        Dim col_name As String = TextBox1.Text
+        Dim col_description As String = TextBox1.Text
+        Dim col_name As String = col_description.Split(",")(0)
         x_y = data_input()
         Dim save_col As New SQL_table_operation
         save_col.Write_SQL_Col("WaterBalance_Table", col_name, 0, x_y)

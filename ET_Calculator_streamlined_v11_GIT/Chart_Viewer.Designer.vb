@@ -36,6 +36,7 @@ Partial Class Graphs_Viewer
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChooseGraphToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
         Me.chkGraphOptions = New System.Windows.Forms.CheckedListBox()
         Me.chrtWaterBalance = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.SaveFileDialog_chrt = New System.Windows.Forms.SaveFileDialog()
@@ -45,10 +46,10 @@ Partial Class Graphs_Viewer
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ChooseGraphToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ChooseGraphToolStripMenuItem, Me.ToolStripTextBox1})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(800, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(800, 27)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -56,20 +57,26 @@ Partial Class Graphs_Viewer
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveAsImageToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 23)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'SaveAsImageToolStripMenuItem
         '
         Me.SaveAsImageToolStripMenuItem.Name = "SaveAsImageToolStripMenuItem"
-        Me.SaveAsImageToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveAsImageToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.SaveAsImageToolStripMenuItem.Text = "Save as Image..."
         '
         'ChooseGraphToolStripMenuItem
         '
         Me.ChooseGraphToolStripMenuItem.Name = "ChooseGraphToolStripMenuItem"
-        Me.ChooseGraphToolStripMenuItem.Size = New System.Drawing.Size(92, 20)
+        Me.ChooseGraphToolStripMenuItem.Size = New System.Drawing.Size(92, 23)
         Me.ChooseGraphToolStripMenuItem.Text = "Display Graph"
+        '
+        'ToolStripTextBox1
+        '
+        Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
+        Me.ToolStripTextBox1.Size = New System.Drawing.Size(200, 23)
+        Me.ToolStripTextBox1.Text = "Type new graph heading here"
         '
         'chkGraphOptions
         '
@@ -77,10 +84,10 @@ Partial Class Graphs_Viewer
         Me.chkGraphOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkGraphOptions.FormattingEnabled = True
         Me.chkGraphOptions.Items.AddRange(New Object() {"Kc", "ETr", "ETc", "Di", "Dmax", "Precip", "Irrig"})
-        Me.chkGraphOptions.Location = New System.Drawing.Point(0, 24)
+        Me.chkGraphOptions.Location = New System.Drawing.Point(0, 27)
         Me.chkGraphOptions.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.chkGraphOptions.Name = "chkGraphOptions"
-        Me.chkGraphOptions.Size = New System.Drawing.Size(99, 426)
+        Me.chkGraphOptions.Size = New System.Drawing.Size(99, 423)
         Me.chkGraphOptions.TabIndex = 2
         '
         'chrtWaterBalance
@@ -90,7 +97,7 @@ Partial Class Graphs_Viewer
         Me.chrtWaterBalance.Dock = System.Windows.Forms.DockStyle.Fill
         Legend1.Name = "Legend1"
         Me.chrtWaterBalance.Legends.Add(Legend1)
-        Me.chrtWaterBalance.Location = New System.Drawing.Point(99, 24)
+        Me.chrtWaterBalance.Location = New System.Drawing.Point(99, 27)
         Me.chrtWaterBalance.Name = "chrtWaterBalance"
         Me.chrtWaterBalance.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel
         Series1.ChartArea = "ChartArea1"
@@ -126,7 +133,7 @@ Partial Class Graphs_Viewer
         Me.chrtWaterBalance.Series.Add(Series5)
         Me.chrtWaterBalance.Series.Add(Series6)
         Me.chrtWaterBalance.Series.Add(Series7)
-        Me.chrtWaterBalance.Size = New System.Drawing.Size(701, 426)
+        Me.chrtWaterBalance.Size = New System.Drawing.Size(701, 423)
         Me.chrtWaterBalance.TabIndex = 3
         Me.chrtWaterBalance.Text = "Chart1"
         Title1.Font = New System.Drawing.Font("Palatino Linotype", 15.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -161,4 +168,5 @@ Partial Class Graphs_Viewer
     Friend WithEvents chkGraphOptions As Forms.CheckedListBox
     Friend WithEvents chrtWaterBalance As Forms.DataVisualization.Charting.Chart
     Friend WithEvents SaveFileDialog_chrt As Forms.SaveFileDialog
+    Friend WithEvents ToolStripTextBox1 As Forms.ToolStripTextBox
 End Class
