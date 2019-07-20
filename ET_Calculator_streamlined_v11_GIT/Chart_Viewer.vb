@@ -1,6 +1,9 @@
 ﻿Imports System.Data.SQLite
 Imports System.Data
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
+Imports ET_Calculator_streamlined_v11_GIT
+Imports System.Text
+Imports System
 
 Public Class Graphs_Viewer
     'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
@@ -78,19 +81,31 @@ Public Class Graphs_Viewer
         'Connect to local SQLite database file. The text part is called connectionstring.
         Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
         'Open connection to the database file, within the program.
+        If myConnection.State = ConnectionState.Open Then
+            myConnection.Close()
+        End If
         myConnection.Open()
 
         'Select all columns from the database file to display in WPF datagrid.
-        Dim cmd As New SQLiteCommand With {
-            .Connection = myConnection,
-            .CommandText = "Select * from WaterBalance_Table"
-        }
+        ' Ignoring all dates where Tmax & Tmin = 32F, i.e. where GDD is Zero. 
+        ' I manually set Tmax and Tmin = 32F for the dates in future where no data is available.
+        ' By doing so, I can remove no-data values from the datatable and just plot graph of only available data.
+
+        Dim cmd As New SQLiteCommand
+        cmd.Connection = myConnection
+        cmd.CommandText = "Select * from WaterBalance_Table WHERE Tmax>32 AND Tmin>32;"
+
         Dim reader As SQLiteDataReader = cmd.ExecuteReader
         Dim dt As New DataTable
 
         'Load SQL database values into the following datable.
         dt.Load(reader)
+        'Dim dt_filtered As New DataTable
+        'Dim data_view As DataView
+        'data_rows = data_view.("Tmin=32")
+        'For Each row In data_rows
 
+        'Next
         'Close connection to the database.
         reader.Close()
         myConnection.Close()
@@ -107,4 +122,35 @@ Public Class Graphs_Viewer
 
     End Sub
 
+    Private Sub Graphs_Viewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim form_access As New ET_Calculator_streamlined_v11_GIT.MainWindow
+        Dim string_builder As New StringBuilder
+        string_builder.AppendLine("Where:-")
+        string_builder.AppendLine("Precip. & Irrig. are measured in inches.")
+        string_builder.AppendLine("ETr = Reference alfalfa ET, inches")
+        string_builder.AppendLine("Kc = Crop coefficient ranges from 0 - 1")
+        string_builder.AppendLine("ETc = Crop potential ET, inches")
+        string_builder.AppendLine("Dmax = Maximum allowed deficit based on the growth stage, Di should not go below this value.")
+        string_builder.AppendLine("Di = Deficit at day (i), Di = 0 at field capacity and if deficit goes below max. allowed deficit, then the growth might be effected.")
+        string_builder.AppendLine("Management allowd deficit = " & form_access.tbxMAD_perecnt.Text & "%")
+
+        string_builder.AppendLine("Current root zone depth = xyz")
+        string_builder.AppendLine("Total precipitation = abc")
+        string_builder.AppendLine("Total irrigation = lmn")
+        string_builder.AppendLine("Total ETc till now = uvw")
+        string_builder.AppendLine("GDD at maturity = abc")
+        string_builder.AppendLine("GDD at harvesing = nnn")
+        string_builder.AppendLine("Total ETc till now = uvw")
+
+        rtbxInfo.Text = string_builder.ToString
+
+    End Sub
+
+    Private Sub SaveAsImageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsImageToolStripMenuItem.Click
+        SaveFileDialog_chrt.Filter = "Png Images (*.png*)|*.png"
+        If SaveFileDialog_chrt.ShowDialog = Windows.Forms.DialogResult.OK _
+       Then
+            chrtWaterBalance.SaveImage(SaveFileDialog_chrt.FileName, format:=Forms.DataVisualization.Charting.ChartImageFormat.Png)
+        End If
+    End Sub
 End Class

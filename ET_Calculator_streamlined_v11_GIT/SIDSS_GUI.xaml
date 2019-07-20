@@ -52,7 +52,7 @@
 
     <StackPanel>
 
-    <Grid HorizontalAlignment="Stretch"  Background="LightSkyBlue" >
+    <Grid HorizontalAlignment="Stretch"  Background="LightSkyBlue" Margin="3" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="*"/>
@@ -236,8 +236,11 @@
                             <Button Grid.Column="2" x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Padding="10,0"/>
 
                         </Grid>
-                        <TextBlock Margin="0,10,0,0" FontSize="16" LineHeight="30" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Padding="10,5" Background="LightSkyBlue">
+                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap" FontSize="16" LineHeight="30" TextAlignment="Center" VerticalAlignment="Center" Padding="5,0" Background="LightSkyBlue">
                         Reference ET calcualtion for Grass/Alfalfa are based on <Italic>"THE ASCE STANDARDIZED REFERENCE EVAPOTRANSPIRATION EQUATION,2005"</Italic> guidelines .</TextBlock>
+                        <TextBlock Background="LightSkyBlue" TextAlignment="Center" Padding="0,0,0,10"  TextWrapping="Wrap">
+                            AirTemp=>Hourly air temperatue (C);   RH==> Relative humidity (%ge);  Rs==> Incoming shortwave measured radiation (W/m2). wind_spd==> Wind speed m/s.
+                        </TextBlock>
                     </StackPanel>
                     <DataGrid  Grid.Row="1" x:Name="DgvRefET" FontWeight="Normal" IsReadOnly="True" ClipboardCopyMode="IncludeHeader" MinHeight="50"/>
                 </Grid>
@@ -272,16 +275,10 @@
                                     <ColumnDefinition Width="1.25*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" >
-                                    <StackPanel Margin="5">
-                                        <TextBox  x:Name="KC_MS_file_path"  Text="Load calibrated NRG reflectance (%ge) image " HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
-                                    </StackPanel>
-
+                                       <TextBox  x:Name="KC_MS_file_path"  Text="Load calibrated NRG reflectance (%ge) image " HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
-                                    <StackPanel Margin="5">
                                         <Button x:Name="btn_KC_MS_tiff" Style="{StaticResource BTNCORNER}" Content="MS Image"  Width="130" Height="40" FontWeight="Bold"/>
-                                    </StackPanel>
-
                                 </Grid>
                             </Grid>
 
@@ -293,6 +290,10 @@
                                 <Grid Grid.Column="0" Margin="5,0">
                                     <Button x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
                                 </Grid>
+                                <Grid  Grid.Column="1" Margin="5,0">
+                                    <TextBox x:Name="RefET24hr" Text="Enter 24 hour Ref. ETr (alfalfa) in mm." TextAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
+                                </Grid>
+                                
 
 
                             </Grid>
@@ -558,13 +559,13 @@
                                                 <Grid Margin="0 0 0 5">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="1.5*"/>
-                                                        <ColumnDefinition Width="0.5*"/>
-                                                        <ColumnDefinition Width="1.5*"/>
-                                                        <ColumnDefinition Width="0.5*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Label Content="Planting depth, in.&#8594;"  Grid.Column="0"  />
                                                     <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Padding="2" Text="12" HorizontalContentAlignment="Center"/>
-                                                    <Label Content="Max root depth, in.==>" Grid.Column="2"  Margin="2" Padding="2" />
+                                                    <Label Content="Max root depth, in.&#8594;" Grid.Column="2"  Margin="35,2,2,2" Padding="2" />
                                                     <TextBox x:Name="tbxMaxRootDepth" Grid.Column="3"  Margin="2" Padding="2" Text="48"  HorizontalContentAlignment="Center" />
                                                 </Grid>
                                             </StackPanel>
@@ -574,7 +575,7 @@
                             </Grid>
                             <GroupBox Header="Launch Input window" Margin="5" Grid.Column="1">
                                 <StackPanel >
-                                    <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="2. Precip..." Height="30"  >
+                                    <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="2. Precip. (in)" Height="30"  >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -584,7 +585,7 @@
                                         </Button.ToolTip>
                                     </Button>
 
-                                    <Button x:Name="btnIrrig" Margin="0,3"   Style="{StaticResource BTNCORNER}" Content="3. Irrig...   "  Height="30" >
+                                    <Button x:Name="btnIrrig" Margin="0,3"   Style="{StaticResource BTNCORNER}" Content="3. Irrig.(in)    "  Height="30" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -593,7 +594,7 @@
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
-                                    <Button x:Name="btnTmax"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="4. Tmax... " Height="30"  >
+                                    <Button x:Name="btnTmax"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="4. Tmax.(F)   " Height="30"  >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -602,7 +603,7 @@
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
-                                    <Button x:Name="btnTmin"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="5. Tmin...  "  Height="30"  >
+                                    <Button x:Name="btnTmin"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="5. Tmin.(F)   "  Height="30"  >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -611,7 +612,7 @@
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
-                                    <Button x:Name="btnETr" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="6. ETr...     " Height="30"  >
+                                    <Button x:Name="btnETr" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="6. ETr.(in)    " Height="30"  >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -626,7 +627,7 @@
 
                         </Grid>
 
-                        <DataGrid x:Name="dgvWaterBalance" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader"/>
+                        <DataGrid x:Name="dgvWaterBalance" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="460" />
 
 
                     </StackPanel>

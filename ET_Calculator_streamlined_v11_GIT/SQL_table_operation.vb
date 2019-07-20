@@ -33,6 +33,8 @@ Public Class SQL_table_operation
     End Function
 
     Public Function Write_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_index As Integer, ByVal col_data As DataTable, Optional ByVal curr_day_data As DataTable = Nothing)
+
+
         If myConnection.State = ConnectionState.Open Then
             myConnection.Close()
         End If
@@ -70,6 +72,7 @@ Public Class SQL_table_operation
         Next
 
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction
+        cmd.Transaction = tr
         Using tr
             cmd.ExecuteNonQuery()
             tr.Commit()
@@ -130,6 +133,7 @@ Public Class SQL_table_operation
         Next
 
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction
+        cmd.Transaction = tr
         Using tr
             cmd.ExecuteNonQuery()
             tr.Commit()
@@ -141,7 +145,7 @@ Public Class SQL_table_operation
         Return 0
     End Function
 
-    Public Function Load_Datagrid(ByVal table_name)
+    Public Function Load_SQL_DataTable(ByVal table_name)
         'Connect to local SQLite database file. The text part is called connectionstring.
         Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
         'Open connection to the database file, within the program.
@@ -171,8 +175,8 @@ Public Class SQL_table_operation
 
         'Close connection to the database.
         reader.Close()
-            myConnection.Close()
-            Return dt
+        myConnection.Close()
+        Return dt
 
 
     End Function
@@ -181,8 +185,8 @@ Public Class SQL_table_operation
         cmd.Connection = myConnection
         myConnection.Open()
         cmd.CommandText = Nothing
-
-        Dim val2, val3, val4, val5, val6, val7, val8, val9, val10, val11, val12, val13, val14 As String
+        Dim val2 As String
+        Dim val3, val4, val5, val6, val7, val8, val9, val10, val11, val12, val13, val14 As Double
         Dim n_cols As Integer = col_data.Columns.Count
         Dim n_rows As Integer = col_data.Rows.Count
         For i = 0 To n_rows - 1

@@ -35,7 +35,7 @@ Public Class CalculateWaterBalance
     Public Sub Calculate_Grid_Cols(ByVal Tbase As Integer)
         Dim input_data_table As DataTable
         Dim input_data_complete As New SQL_table_operation
-        input_data_table = input_data_complete.Load_Datagrid("WaterBalance_Table")
+        input_data_table = input_data_complete.Load_SQL_DataTable("WaterBalance_Table")
         GDD_Calculate(input_data_table, Tbase)
         Kc_Calculate(input_data_table)
         Root_Profile(input_data_table)

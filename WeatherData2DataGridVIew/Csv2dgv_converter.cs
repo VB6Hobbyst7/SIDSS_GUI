@@ -52,7 +52,7 @@ namespace WeatherData2DataGridVIew
 
                     cur_date = cur_date.AddDays(1);
 
-                    table_row["Date"] = string.Format("{0:yyyy/MM/dd}", cur_date);
+                    table_row["Date"] = string.Format("{0:MM/dd/yyy}", cur_date);
 
                     table_row["StdTime"] = string.Format("{0:HH}", Convert.ToDateTime("0:00"));
                 }
@@ -60,14 +60,12 @@ namespace WeatherData2DataGridVIew
                 {
                     cur_date = new DateTime(_year, _month, _date, _hour, 0, 0);
 
-                    //cur_date = new DateTime((int)Convert.ToDouble(curr_row[0]), (int)Convert.ToDouble(curr_row[1]), (int)Convert.ToDouble(curr_row[2]), (int)Convert.ToDouble(curr_row[3]), 0, 0);
 
-                    table_row["Date"] = string.Format("{0:yyyy/dd/MM}", cur_date);
+                    table_row["Date"] = string.Format("{0:MM/dd/yyyy}", cur_date);
 
                     table_row["StdTime"] = string.Format("{0:HH}", cur_date);
 
                 }
-
 
                 //table_row["StdTime"] = string.Format("{0:HH}", Convert.ToDateTime( curr_row[1]));
                 table_row["DOY"] = string.Format("{0}", cur_date.DayOfYear);
@@ -82,8 +80,5 @@ namespace WeatherData2DataGridVIew
             csv_data.Close();
             return csv_datatable;
         }
-
-
-
     }
 }

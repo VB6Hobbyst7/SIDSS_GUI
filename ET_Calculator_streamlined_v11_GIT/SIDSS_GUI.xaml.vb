@@ -31,7 +31,7 @@ Class MainWindow
     Dim myConnection As New SQLiteConnection(String.Format("Data Source={0}; Version=3;", app_path))
     Dim cmd As New SQLiteCommand
 #End Region
-
+    Public Shared main_window_shared As MainWindow
     Private Sub Load_DataGrid_RefET()
         'Connect to local SQLite database file. The text part is called connectionstring.
         'Open connection to the database file, within the program.
@@ -67,7 +67,7 @@ Class MainWindow
         Dim reset_ref_et As New SQL_table_operation
         ' Reset old data in the ref et database.
         'Delete all the contents of the table name matching the string.
-        reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
+        'reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
 
         Dim open_file As New Microsoft.Win32.OpenFileDialog With {
             .Filter = "CSV weather data|*.csv"
@@ -97,7 +97,7 @@ Class MainWindow
 
         Dim load_full_sql_table As New SQL_table_operation
         Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
+        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
         DgvRefET.ItemsSource = full_sql_table.DefaultView
 
 
@@ -259,7 +259,7 @@ Class MainWindow
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
         Dim OpenCMD
         OpenCMD = CreateObject("wscript.shell")
-        Dim command2 As String = "python.exe " & """Crop_Coefficient_ET.py"""
+        Dim command2 As String = String.Format("python.exe Crop_Coefficient_ET.py {0}", RefET24hr.Text)
         OpenCMD.run(command2, 1, True)
         'btn_launch_qgis.IsEnabled = True
 
@@ -363,7 +363,7 @@ Class MainWindow
     Private Sub BtnTmin_Click(sender As Object, e As RoutedEventArgs) Handles btnTmin.Click
         Dim index As Integer = 1
         Dim Tmin_table As New DataTable
-        Dim col_name As String = "Tmix. in Farenheit"
+        Dim col_name As String = "Tmin, in Farenheit"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
         dgvWaterBalance.Items.Refresh()
@@ -477,9 +477,9 @@ Class MainWindow
 
     Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
 
-        Dim calc_cols As New CalculateWaterBalance
+        Dim calc_water_balance_cols As New CalculateWaterBalance
 
-        calc_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
+        calc_water_balance_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
         Dim soil_prop As New List(Of String)
         soil_prop.Add(tbxSoilDepth_1.Text)
         soil_prop.Add(tbxSoilDepth_2.Text)
@@ -492,8 +492,8 @@ Class MainWindow
         soil_prop.Add(tbxRAW_4.Text)
         soil_prop.Add(tbxRAW_5.Text)
         soil_prop.Add(tbxMAD_perecnt.Text)
-        calc_cols.Set_Soil_Profile = soil_prop
-        calc_cols.Calculate_Grid_Cols(Tbase)
+        calc_water_balance_cols.Set_Soil_Profile = soil_prop
+        calc_water_balance_cols.Calculate_Grid_Cols(Tbase)
         Load_Datagrid("WaterBalance_Table")
 
     End Sub
@@ -586,7 +586,7 @@ Class MainWindow
         'Load Ref ET datagrid with old values from database.
         Dim load_full_sql_table As New SQL_table_operation
         Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
+        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
         DgvRefET.ItemsSource = full_sql_table.DefaultView
 
 
@@ -614,7 +614,8 @@ Class MainWindow
 
         Dim load_full_sql_table As New SQL_table_operation
         Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
+        Dim full_calculated_table As New DataTable
+        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
         Dim curr_doy As Integer = 0
         Dim prev_doy As Integer = 0
         Dim results() As DataRow = Nothing
@@ -632,14 +633,29 @@ Class MainWindow
                 For Each curr_day_row In results
                     curr_day_data.Rows.Add(curr_day_row.ItemArray)
                 Next
-                prep_ref_ET_Sub(curr_day_data)
+
+                ' Merge each day of calculated data to the "full_calculated_table" datatable.
+                full_calculated_table.Merge(ref_ET_Single_Day_calc(curr_day_data))
 
             End If
         Next
 
+        Dim index As Integer = 0
+        For Each column As DataColumn In full_calculated_table.Columns
+            Dim col_name As String = column.ColumnName
+            Dim populate_col_in_db As New SQL_table_operation
+            populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, full_calculated_table)
+            index += 1
+
+        Next
+        Dim full_calculated_table_sql_operation As New SQL_table_operation
+        Dim Calculated_ref_et_SQL_Table As DataTable
+        Calculated_ref_et_SQL_Table = full_calculated_table_sql_operation.Load_SQL_DataTable("Ref_ET_Table")
+        DgvRefET.ItemsSource = Calculated_ref_et_SQL_Table.DefaultView
+
     End Sub
 
-    Private Sub prep_ref_ET_Sub(ByVal curr_day_data As DataTable)
+    Private Function ref_ET_Single_Day_calc(ByVal curr_day_data As DataTable)
 
         Dim daily_results_table As New DataTable
 
@@ -736,19 +752,8 @@ Class MainWindow
             Next
         Next
 
-        Dim index As Integer = 0
-        For Each column As DataColumn In daily_results_table.Columns
-            Dim col_name As String = column.ColumnName
-            Dim populate_col_in_db As New SQL_table_operation
-            populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, daily_results_table, curr_day_data)
-            index += 1
-
-        Next
-        Dim load_full_sql_table As New SQL_table_operation
-        Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_Datagrid("Ref_ET_Table")
-        DgvRefET.ItemsSource = full_sql_table.DefaultView
-    End Sub
+        Return daily_results_table
+    End Function
 
     Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
         Load_DataGrid_RefET()
@@ -778,7 +783,7 @@ Class MainWindow
     Private Sub Load_siteinfo()
         Dim dgSiteInfo_table As New DataTable
         Dim read_database As New SQL_table_operation
-        dgSiteInfo_table = read_database.Load_Datagrid("Site_Info_Summary")
+        dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
         Dim row_count As Integer = dgSiteInfo_table.Rows.Count
 
         dgSiteInfo.ItemsSource = dgSiteInfo_table.DefaultView()
@@ -856,7 +861,7 @@ Class MainWindow
     Private Sub btnSaveSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveSiteInfo.Click
         Dim dgSiteInfo_table As New DataTable
         Dim read_database As New SQL_table_operation
-        dgSiteInfo_table = read_database.Load_Datagrid("Site_Info_Summary")
+        dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
 
         Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
         Dim cmd As New SQLiteCommand
