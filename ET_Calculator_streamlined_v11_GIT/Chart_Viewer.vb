@@ -4,6 +4,7 @@ Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT
 Imports System.Text
 Imports System
+Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Graphs_Viewer
     'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
@@ -19,7 +20,8 @@ Public Class Graphs_Viewer
         chrtWaterBalance.ChartAreas(0).AxisY.MinorGrid.Enabled = False
         chrtWaterBalance.ChartAreas(0).AxisY2.MajorGrid.LineDashStyle = Forms.DataVisualization.Charting.ChartDashStyle.Dot
         chrtWaterBalance.ChartAreas(0).AxisX.Name = "GDD"
-
+        chrtWaterBalance.ChartAreas(0).AxisY.LabelAutoFitStyle = LabelAutoFitStyles.None
+        chrtWaterBalance.ChartAreas(0).AxisY.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
@@ -32,6 +34,7 @@ Public Class Graphs_Viewer
             chrtWaterBalance.ChartAreas(0).AxisX.Title = "GDD"
             chrtWaterBalance.ChartAreas(0).AxisY.Title = "Irrig, Precip, Di, Dmax (in/day)"
             chrtWaterBalance.ChartAreas(0).AxisY2.Title = "Kc, ETr, ETc (in/day)"
+            'chrtWaterBalance.ChartAreas(0).AxisY.LabelStyle.Font.
 
             'Customize each chart line/graph according to its data range e.g. Kc, ETr, ETc are small numbers so they are plottd on
             'Secondary axis, whereas irrigation, precip, MAD's depth, current deplition level etc. on main Y axis.

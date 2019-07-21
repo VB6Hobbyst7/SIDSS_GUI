@@ -232,7 +232,6 @@
     <Compile Include="Chart_Viewer.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Config_Parameter_File.vb" />
     <Compile Include="Create_Empty_SQL_Data_Tables.vb" />
     <Compile Include="DataGridControl.Designer.vb">
       <DependentUpon>DataGridControl.vb</DependentUpon>
