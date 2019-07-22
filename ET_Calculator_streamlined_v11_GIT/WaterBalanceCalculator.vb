@@ -45,6 +45,30 @@ Public Class WaterBalanceCalculator
         input_data_complete.Write_Final_Table(input_data_table)
     End Sub
 
+
+    Private Sub DP_Calculate(ByRef input_data_table As DataTable)
+        Dim GDD_val As Double
+        Dim Kc_val As Double
+        For i = 0 To input_data_table.Rows.Count - 1
+            GDD_val = Convert.ToDouble(input_data_table.Rows(i)(GDD_col))
+            Kc_val = 0.29 + (-0.001 * GDD_val + 0.000003899 * GDD_val ^ 2 - 0.000000003388 * GDD_val ^ 3 + 0.00000000000119 * GDD_val ^ 4 - 0.000000000000000153 * GDD_val ^ 5)
+            input_data_table.Rows(i)(Kc_col) = Kc_val
+        Next
+
+        'Modifying initial dip in the Kc values and keeping them constant to the value of Kc_ini on the very first day.
+        Dim Kc_ini = Convert.ToDouble(input_data_table.Rows(0)(Kc_col))
+
+        ' Observing few Kc graphs the initial phase where the dip occurs is less than 30 days.
+        ' This value of 30 is just an arbitrary number to avoid dipping down of the Kc curve.
+        For i = 0 To 30
+            Kc_val = Convert.ToDouble(input_data_table.Rows(i)(Kc_col))
+            If Kc_val < Kc_ini Then
+                input_data_table.Rows(i)(Kc_col) = Kc_ini
+            End If
+        Next
+
+    End Sub
+
     Private Sub GDD_Calculate(ByRef input_data_table As DataTable, ByVal Tbase As Integer)
 
         Dim GDD As Double = 0
