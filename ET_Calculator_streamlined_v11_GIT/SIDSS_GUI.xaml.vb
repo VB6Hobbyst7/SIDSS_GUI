@@ -13,7 +13,7 @@ Imports DotSpatial.Controls
 Imports DotSpatial.Data
 Imports DotSpatial.Topology
 Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
-Imports ET_Calculator_streamlined_v11_GIT.CalculateWaterBalance
+Imports ET_Calculator_streamlined_v11_GIT.WaterBalanceCalculator
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
 Imports System.Collections.Generic
@@ -477,7 +477,7 @@ Class MainWindow
 
     Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
 
-        Dim calc_water_balance_cols As New CalculateWaterBalance
+        Dim calc_water_balance_cols As New WaterBalanceCalculator
 
         calc_water_balance_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
         Dim soil_prop As New List(Of String)
