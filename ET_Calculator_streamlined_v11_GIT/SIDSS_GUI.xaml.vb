@@ -1001,4 +1001,12 @@ Class MainWindow
             MessageBox.Show(ex.Message)
         End Try
     End Sub
+
+    Private Sub Label_MouseEnter(sender As Object, e As Input.MouseEventArgs)
+        lblPlantingDepth.FontWeight = FontWeights.Bold
+    End Sub
+
+    Private Sub LblPlantingDepth_MouseLeave(sender As Object, e As Input.MouseEventArgs)
+        lblPlantingDepth.FontWeight = FontWeights.Normal
+    End Sub
 End Class

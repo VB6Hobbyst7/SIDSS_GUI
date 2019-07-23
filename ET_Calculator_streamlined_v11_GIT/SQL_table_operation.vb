@@ -185,28 +185,30 @@ Public Class SQL_table_operation
         cmd.Connection = myConnection
         myConnection.Open()
         cmd.CommandText = Nothing
-        Dim val2 As String
-        Dim val3, val4, val5, val6, val7, val8, val9, val10, val11, val12, val13, val14 As Double
+        'Dim Date_Str As String
+        'Dim DOY, Precip, Irrig, Tmax, Tmin, GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di As Double
+        Dim GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di As Double
+
         Dim n_cols As Integer = col_data.Columns.Count
         Dim n_rows As Integer = col_data.Rows.Count
         For i = 0 To n_rows - 1
-            val2 = col_data.Rows(i)(1)
-            val3 = Math.Round(Convert.ToDouble(col_data.Rows(i)(2)), 3).ToString
-            val4 = Math.Round(Convert.ToDouble(col_data.Rows(i)(3)), 3).ToString
-            val5 = Math.Round(Convert.ToDouble(col_data.Rows(i)(4)), 3).ToString
-            val6 = Math.Round(Convert.ToDouble(col_data.Rows(i)(5)), 3).ToString
-            val7 = Math.Round(Convert.ToDouble(col_data.Rows(i)(6)), 3).ToString
-            val8 = Math.Round(Convert.ToDouble(col_data.Rows(i)(7)), 3).ToString
-            val9 = Math.Round(Convert.ToDouble(col_data.Rows(i)(8)), 3).ToString
-            val10 = Math.Round(Convert.ToDouble(col_data.Rows(i)(9)), 3).ToString
-            val11 = Math.Round(Convert.ToDouble(col_data.Rows(i)(10)), 3).ToString
-            val12 = Math.Round(Convert.ToDouble(col_data.Rows(i)(11)), 3).ToString
-            val13 = Math.Round(Convert.ToDouble(col_data.Rows(i)(12)), 3).ToString
-            val14 = Math.Round(Convert.ToDouble(col_data.Rows(i)(13)), 3).ToString
-            'cmd.CommandText &= String.Format("INSERT INTO WaterBalance_Table (Date, DOY, Precip, Irrig, [Tmax, F], [Tmin, F], GDD, Kc, ETr, ETc, Drz, Dmax, Di) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}');" _
-            '                            , val0, val1, val2, val3, val4, val5, val6, val7, val8, val9, val10, val11, val12) & Environment.NewLine
-            cmd.CommandText &= String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}' WHERE SNo={6};" _
-                                        , val8, val9, val11, val12, val13, val14, i + 1) & Environment.NewLine
+            'Date_Str = col_data.Rows(i)("Date")
+            'DOY = Math.Round(Convert.ToDouble(col_data.Rows(i)("DOY")), 3).ToString
+            'Precip = Math.Round(Convert.ToDouble(col_data.Rows(i)("Precip")), 3).ToString
+            'Irrig = Math.Round(Convert.ToDouble(col_data.Rows(i)("Irrig")), 3).ToString
+            'Tmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Tmax")), 3).ToString
+            'Tmin = Math.Round(Convert.ToDouble(col_data.Rows(i)("Tmin")), 3).ToString
+            GDD = Math.Round(Convert.ToDouble(col_data.Rows(i)("GDD")), 3).ToString
+            Kc = Math.Round(Convert.ToDouble(col_data.Rows(i)("Kc")), 3).ToString
+            ETr = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETr")), 3).ToString
+            ETc = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETc")), 3).ToString
+            Drz = Math.Round(Convert.ToDouble(col_data.Rows(i)("Drz")), 3).ToString
+            Dmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Dmax")), 3).ToString
+            Di = Math.Round(Convert.ToDouble(col_data.Rows(i)("Di")), 3).ToString
+            DP = Math.Round(Convert.ToDouble(col_data.Rows(i)("DP")), 3).ToString
+
+            cmd.CommandText &= String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}' WHERE SNo={7};" _
+                                        , GDD, Kc, ETc, Drz, Dmax, Di, DP, i + 1) & Environment.NewLine
         Next
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction
         Using tr

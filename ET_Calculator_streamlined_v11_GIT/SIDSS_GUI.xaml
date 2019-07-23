@@ -563,7 +563,14 @@
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Label Content="Planting depth, in.&#8594;"  Grid.Column="0"  />
+
+                                                    <Label x:Name="lblPlantingDepth" Content="Planting depth, in.&#8594;"  Grid.Column="0" MouseEnter="Label_MouseEnter" MouseLeave="LblPlantingDepth_MouseLeave" >
+                                                        <Label.ToolTip>
+                                                            <TextBox> Add 2" extra for actual root zone emergence depth.</TextBox>
+                                                        </Label.ToolTip>
+                                                        
+                                                    </Label>
+
                                                     <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Padding="2" Text="12" HorizontalContentAlignment="Center"/>
                                                     <Label Content="Max root depth, in.&#8594;" Grid.Column="2"  Margin="35,2,2,2" Padding="2" />
                                                     <TextBox x:Name="tbxMaxRootDepth" Grid.Column="3"  Margin="2" Padding="2" Text="48"  HorizontalContentAlignment="Center" />
@@ -627,7 +634,7 @@
 
                         </Grid>
 
-                        <DataGrid x:Name="dgvWaterBalance" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="460" />
+                        <DataGrid x:Name="dgvWaterBalance" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="440" />
 
 
                     </StackPanel>
