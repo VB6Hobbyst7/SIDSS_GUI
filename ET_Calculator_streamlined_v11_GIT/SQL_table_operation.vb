@@ -34,7 +34,6 @@ Public Class SQL_table_operation
 
     Public Function Write_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_index As Integer, ByVal col_data As DataTable, Optional ByVal curr_day_data As DataTable = Nothing)
 
-
         If myConnection.State = ConnectionState.Open Then
             myConnection.Close()
         End If
@@ -45,7 +44,10 @@ Public Class SQL_table_operation
         Dim count As Integer = col_data.Rows.Count
         Dim cell_value As Object
         For i = 0 To count - 1
-            If (col_index > 1) Then
+            If (col_index = 1) Then
+                cell_value = col_data.Rows(i)(col_index)
+
+            ElseIf (col_index > 1) Then
                 If Double.IsNaN(col_data.Rows(i)(col_index)) Then
                     cell_value = 0
                 Else
@@ -168,7 +170,8 @@ Public Class SQL_table_operation
         Try
             dt.Load(reader)
         Catch ex As Exception
-            MsgBox(ex.Message & vbCrLf & "Please check if some row is empty or too much text in Site Name(max 50 character) or Summary column (max 500 character).")
+            MsgBox(ex.Message & vbCrLf &
+                   "Please check if any textbox is empty or too much text in Site Name(max 50 character) or Summary column (max 500 character).")
 
         End Try
 
@@ -192,12 +195,6 @@ Public Class SQL_table_operation
         Dim n_cols As Integer = col_data.Columns.Count
         Dim n_rows As Integer = col_data.Rows.Count
         For i = 0 To n_rows - 1
-            'Date_Str = col_data.Rows(i)("Date")
-            'DOY = Math.Round(Convert.ToDouble(col_data.Rows(i)("DOY")), 3).ToString
-            'Precip = Math.Round(Convert.ToDouble(col_data.Rows(i)("Precip")), 3).ToString
-            'Irrig = Math.Round(Convert.ToDouble(col_data.Rows(i)("Irrig")), 3).ToString
-            'Tmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Tmax")), 3).ToString
-            'Tmin = Math.Round(Convert.ToDouble(col_data.Rows(i)("Tmin")), 3).ToString
             GDD = Math.Round(Convert.ToDouble(col_data.Rows(i)("GDD")), 3).ToString
             Kc = Math.Round(Convert.ToDouble(col_data.Rows(i)("Kc")), 3).ToString
             ETr = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETr")), 3).ToString
@@ -206,8 +203,8 @@ Public Class SQL_table_operation
             Dmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Dmax")), 3).ToString
             Di = Math.Round(Convert.ToDouble(col_data.Rows(i)("Di")), 3).ToString
             DP = Math.Round(Convert.ToDouble(col_data.Rows(i)("DP")), 3).ToString
-
-            cmd.CommandText &= String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}' WHERE SNo={7};" _
+            cmd.CommandText &=
+                String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}' WHERE SNo={7};" _
                                         , GDD, Kc, ETc, Drz, Dmax, Di, DP, i + 1) & Environment.NewLine
         Next
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction

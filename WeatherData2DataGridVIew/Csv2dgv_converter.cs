@@ -41,13 +41,24 @@ namespace WeatherData2DataGridVIew
                 DateTime cur_date;
                 //DateTime cur_date = new DateTime((int)Convert.ToDouble(curr_row[0]), (int)Convert.ToDouble(curr_row[1]), (int)Convert.ToDouble(curr_row[2]), (int)Convert.ToDouble(curr_row[3]),0,0);
                 table_row["SNo"] = i;
-                int _year = (int)Convert.ToDouble(curr_row[0]);
-                int _month = (int)Convert.ToDouble(curr_row[1]);
-                int _date = (int)Convert.ToDouble(curr_row[2]);
-                int _hour = (int)Convert.ToDouble(curr_row[3]);
+                int _year, _month,_date , _hour=0;
+
+                if (curr_row[0] is "" || curr_row[1] is "" || curr_row[2] is "" || curr_row[3] is "")
+                {
+                    curr_row[0] = "0";
+                    curr_row[1] = "0";
+                    curr_row[2] = "0";
+                    curr_row[3] = "0";
+                }
+
 
                 if (curr_row[3] == "24")
                 {
+                    _year = (int)Convert.ToDouble(curr_row[0]);
+                    _month = (int)Convert.ToDouble(curr_row[1]);
+                    _date = (int)Convert.ToDouble(curr_row[2]);
+                    _hour = (int)Convert.ToDouble(curr_row[3]);
+
                     cur_date = new DateTime(_year, _month, _date, 0, 0, 0);
 
                     cur_date = cur_date.AddDays(1);
@@ -58,14 +69,19 @@ namespace WeatherData2DataGridVIew
                 }
                 else
                 {
+                    _year = (int)Convert.ToDouble(curr_row[0]);
+                    _month = (int)Convert.ToDouble(curr_row[1]);
+                    _date = (int)Convert.ToDouble(curr_row[2]);
+                    _hour = (int)Convert.ToDouble(curr_row[3]);
+
                     cur_date = new DateTime(_year, _month, _date, _hour, 0, 0);
 
 
                     table_row["Date"] = string.Format("{0:MM/dd/yyyy}", cur_date);
 
                     table_row["StdTime"] = string.Format("{0:HH}", cur_date);
-
                 }
+
 
                 //table_row["StdTime"] = string.Format("{0:HH}", Convert.ToDateTime( curr_row[1]));
                 table_row["DOY"] = string.Format("{0}", cur_date.DayOfYear);

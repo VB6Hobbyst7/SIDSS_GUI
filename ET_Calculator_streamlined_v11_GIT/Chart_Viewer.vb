@@ -5,6 +5,7 @@ Imports ET_Calculator_streamlined_v11_GIT
 Imports System.Text
 Imports System
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Linq
 
 Public Class Graphs_Viewer
     'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
@@ -25,6 +26,8 @@ Public Class Graphs_Viewer
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
+        Dim summary_dictionary As New Dictionary(Of String, Double)
+        summary_dictionary = Calculate_summary(main_table)
 
         For i = 0 To chkGraphOptions.CheckedItems.Count - 1
             Dim current_item As String
@@ -156,4 +159,9 @@ Public Class Graphs_Viewer
             chrtWaterBalance.SaveImage(SaveFileDialog_chrt.FileName, format:=Forms.DataVisualization.Charting.ChartImageFormat.Png)
         End If
     End Sub
+
+    Private Function Calculate_summary(ByVal water_balance_table As DataTable)
+
+        Return Nothing
+    End Function
 End Class

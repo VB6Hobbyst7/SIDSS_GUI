@@ -275,28 +275,23 @@
                                     <ColumnDefinition Width="1.25*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" >
-                                       <TextBox  x:Name="KC_MS_file_path"  Text="Load calibrated NRG reflectance (%ge) image " HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
+                                       <TextBox  x:Name="KC_MS_file_path"  Text="Load calibrated NRG reflectance (%ge) image " HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
-                                        <Button x:Name="btn_KC_MS_tiff" Style="{StaticResource BTNCORNER}" Content="MS Image"  Width="130" Height="40" FontWeight="Bold"/>
+                                        <Button x:Name="btn_KC_MS_tiff" Style="{StaticResource BTNCORNER}" Content="Load MS Image"  Width="130" Height="40" FontWeight="Bold"/>
                                 </Grid>
                             </Grid>
-
                             <Grid Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1.5*"/>
                                     <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="5,0">
-                                    <Button x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
-                                </Grid>
-                                <Grid  Grid.Column="1" Margin="5,0">
-                                    <TextBox x:Name="RefET24hr" Text="Enter 24 hour Ref. ETr (alfalfa) in mm." TextAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
-                                </Grid>
-                                
-
-
+                                <Label Grid.Column="0" Content="24 Hour ETr (mm)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
+                                <TextBox Grid.Column="1" x:Name="RefET24hr" Text="Enter 24 hour Ref. ETr (alfalfa) in mm." TextAlignment="Center"  Margin="20,0" VerticalContentAlignment="Center" FontSize="16"/>
+                                <Button Grid.Column="2" x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
                             </Grid>
+
 
 
                         </StackPanel>
@@ -328,9 +323,9 @@
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Column="1">
-                                <Button x:Name="btn_EB_MS"  Style="{StaticResource BTNCORNER}" Content="MS Image"  Width="130" Height="40" FontWeight="Bold" Margin="0,10"/>
-                                <Button x:Name="btn_EB_Thermal"  Style="{StaticResource BTNCORNER}" Content="Thermal Image"  Width="130" Height="40" FontWeight="Bold" Margin="0,10"/>
-                                <Button x:Name="btn_EB_run"  Style="{StaticResource BTNCORNER}" Content="Calculate ET"  Width="130" Height="80" FontWeight="Bold"/>
+                                <Button x:Name="btn_EB_MS"  Style="{StaticResource BTNCORNER}" Content="Load MS Image"  Height="40" FontWeight="Bold" Margin="0,10"/>
+                                <Button x:Name="btn_EB_Thermal"  Style="{StaticResource BTNCORNER}" Content="Load Thermal Image"   Height="40" FontWeight="Bold" Margin="0,10"/>
+                                <Button x:Name="btn_EB_run"  Style="{StaticResource BTNCORNER}" Content="Calculate ET"   Height="60" FontWeight="Bold"/>
                             </StackPanel>
                         </Grid>
                         <Grid Margin="0,0,0,0">
@@ -344,7 +339,7 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="5*"/>
+                                            <ColumnDefinition Width="3*"/>
 
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0">
@@ -362,7 +357,7 @@
                                 <StackPanel Grid.Column="1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1.1*"/>
+                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0">
@@ -505,7 +500,7 @@
 
                                         <GroupBox Header="Soil Profile."  Grid.Column="1">
                                             <StackPanel >
-                                                <Grid Margin="0 0 0 5">
+                                                <Grid Margin="0 5 0 5">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="2.3*"/>
                                                         <ColumnDefinition Width="*"/>
@@ -516,12 +511,12 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Column="0" Margin="2" Padding="2"  Content="Soil depth, in.&#8594;"/>
-                                                    <TextBox Grid.Column="1" Margin="2" Padding="2"  x:Name="tbxSoilDepth_0" Text="0" TextAlignment="Center" IsEnabled="False"/>
-                                                    <TextBox x:Name="tbxSoilDepth_1" Margin="2" Padding="2" Grid.Column="2" Text="10" TextAlignment="Center"/>
-                                                    <TextBox x:Name="tbxSoilDepth_2"  Margin="2" Padding="2"  Grid.Column="3" Text="20" TextAlignment="Center" />
-                                                    <TextBox x:Name="tbxSoilDepth_3"  Margin="2" Padding="2"  Grid.Column="4" Text="25" TextAlignment="Center" />
-                                                    <TextBox x:Name="tbxSoilDepth_4" Margin="2" Padding="2"   Grid.Column="5" Text="60" TextAlignment="Center" />
-                                                    <TextBox x:Name="tbxSoilDepth_5"  Margin="2,2,10,2" Padding="2"  Grid.Column="6" Text="80" TextAlignment="Center"/>
+                                                    <TextBox Grid.Column="1" Margin="2" x:Name="tbxSoilDepth_0" Text="0" TextAlignment="Center" IsEnabled="False"/>
+                                                    <TextBox x:Name="tbxSoilDepth_1" Margin="2" Grid.Column="2" Text="10" TextAlignment="Center"/>
+                                                    <TextBox x:Name="tbxSoilDepth_2"  Margin="2"  Grid.Column="3" Text="20" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxSoilDepth_3"  Margin="2" Grid.Column="4" Text="25" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxSoilDepth_4" Margin="2" Grid.Column="5" Text="60" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxSoilDepth_5"  Margin="2,2,10,2" Grid.Column="6" Text="80" TextAlignment="Center"/>
                                                 </Grid>
                                                 <Grid Margin="0 0 0 5">
                                                     <Grid.ColumnDefinitions>
@@ -533,11 +528,11 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Label Content="Water @ FC in/in&#8594;"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
-                                                    <TextBox x:Name="tbxTAW_1"   Margin="2" Padding="2" Grid.Column="1" Text="0.125" TextAlignment="Center" />
-                                                    <TextBox x:Name="tbxTAW_2"   Margin="2" Padding="2" Grid.Column="2" Text="0.1835" TextAlignment="Center" />
-                                                    <TextBox x:Name="tbxTAW_3"   Margin="2" Padding="2" Grid.Column="3" Text="0.1834" TextAlignment="Center" />
-                                                    <TextBox x:Name="tbxTAW_4"   Margin="2" Padding="2" Grid.Column="4" Text="0.125" TextAlignment="Center"/>
-                                                    <TextBox x:Name="tbxTAW_5"   Margin="2" Padding="2" Grid.Column="5" Text="0.124" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxTAW_1"   Margin="2" Grid.Column="1" Text="0.125" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxTAW_2"   Margin="2" Grid.Column="2" Text="0.1835" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxTAW_3"   Margin="2" Grid.Column="3" Text="0.1834" TextAlignment="Center" />
+                                                    <TextBox x:Name="tbxTAW_4"   Margin="2" Grid.Column="4" Text="0.125" TextAlignment="Center"/>
+                                                    <TextBox x:Name="tbxTAW_5"   Margin="2" Grid.Column="5" Text="0.124" TextAlignment="Center" />
                                                 </Grid>
                                                 <Grid Margin="0 0 0 5">
                                                     <Grid.ColumnDefinitions>
@@ -549,19 +544,20 @@
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Label Content="Water @ MAD in/in&#8594;"  Margin="2,2,15,2" Padding="2" Grid.Column="0"/>
-                                                    <TextBox x:Name="tbxRAW_1"   Margin="2" Padding="2" Grid.Column="1" Text="0.125" TextAlignment="Center" IsEnabled="False"/>
-                                                    <TextBox x:Name="tbxRAW_2"   Margin="2" Padding="2" Grid.Column="2" Text="0.1835" TextAlignment="Center"  IsEnabled="False"/>
-                                                    <TextBox x:Name="tbxRAW_3"   Margin="2" Padding="2" Grid.Column="3" Text="0.1834" TextAlignment="Center"  IsEnabled="False"/>
-                                                    <TextBox x:Name="tbxRAW_4"   Margin="2" Padding="2" Grid.Column="4" Text="0.125" TextAlignment="Center" IsEnabled="False"/>
-                                                    <TextBox x:Name="tbxRAW_5"   Margin="2" Padding="2" Grid.Column="5" Text="0.124" TextAlignment="Center"  IsEnabled="False"/>
+                                                    <TextBox x:Name="tbxRAW_1"   Margin="2" Grid.Column="1" Text="0.125" TextAlignment="Center" IsEnabled="False"/>
+                                                    <TextBox x:Name="tbxRAW_2"   Margin="2" Grid.Column="2" Text="0.1835" TextAlignment="Center"  IsEnabled="False"/>
+                                                    <TextBox x:Name="tbxRAW_3"   Margin="2" Grid.Column="3" Text="0.1834" TextAlignment="Center"  IsEnabled="False"/>
+                                                    <TextBox x:Name="tbxRAW_4"   Margin="2" Grid.Column="4" Text="0.125" TextAlignment="Center" IsEnabled="False"/>
+                                                    <TextBox x:Name="tbxRAW_5"   Margin="2" Grid.Column="5" Text="0.124" TextAlignment="Center"  IsEnabled="False"/>
                                                 </Grid>
 
                                                 <Grid Margin="0 0 0 5">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="1.5*"/>
+                                                        <ColumnDefinition Width="0.5*"/>
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="0.5*"/>
                                                     </Grid.ColumnDefinitions>
 
                                                     <Label x:Name="lblPlantingDepth" Content="Planting depth, in.&#8594;"  Grid.Column="0" MouseEnter="Label_MouseEnter" MouseLeave="LblPlantingDepth_MouseLeave" >
@@ -571,16 +567,16 @@
                                                         
                                                     </Label>
 
-                                                    <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Padding="2" Text="12" HorizontalContentAlignment="Center"/>
-                                                    <Label Content="Max root depth, in.&#8594;" Grid.Column="2"  Margin="35,2,2,2" Padding="2" />
-                                                    <TextBox x:Name="tbxMaxRootDepth" Grid.Column="3"  Margin="2" Padding="2" Text="48"  HorizontalContentAlignment="Center" />
+                                                    <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="2" Text="12" HorizontalContentAlignment="Center"/>
+                                                    <Label Content="Max root depth, in.&#8594;" Grid.Column="3"  />
+                                                    <TextBox x:Name="tbxMaxRootDepth" Grid.Column="4"  Margin="2" Text="48"  HorizontalContentAlignment="Center" />
                                                 </Grid>
                                             </StackPanel>
                                         </GroupBox>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
-                            <GroupBox Header="Launch Input window" Margin="5" Grid.Column="1">
+                            <GroupBox Header="Input weather data" Margin="5" Grid.Column="1">
                                 <StackPanel >
                                     <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="2. Precip. (in)" Height="30"  >
                                         <Button.ToolTip>
@@ -644,11 +640,9 @@
 
                 </Grid>
             </TabItem>
-        <TabItem x:Name="tabKcbSetup" Header="Setup Kcb" Height="100" Width="200">                
-            </TabItem>
         <TabItem x:Name="tabImageView" Header="Review Images" Height="100" Width="200" >
               <Grid x:Name="grid_host"/>
         </TabItem>
-    </TabControl>
+        </TabControl>
     </StackPanel>
 </Window>

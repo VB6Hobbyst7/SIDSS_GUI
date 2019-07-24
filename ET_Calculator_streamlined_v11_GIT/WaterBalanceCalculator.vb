@@ -47,32 +47,6 @@ Public Class WaterBalanceCalculator
         input_data_complete.Write_Final_Table(input_data_table)
     End Sub
 
-
-    'Private Sub Calculate_DP(ByRef input_data_table As DataTable)
-    '    Dim Precip As Double
-    '    Dim Irrig As Double
-    '    Dim ETc As Double
-    '    Dim Di As Double
-    '    For i = 0 To input_data_table.Rows.Count - 1
-    '        GDD_val = Convert.ToDouble(input_data_table.Rows(i)("GDD"))
-    '        Kc_val = 0.29 + (-0.001 * GDD_val + 0.000003899 * GDD_val ^ 2 - 0.000000003388 * GDD_val ^ 3 + 0.00000000000119 * GDD_val ^ 4 - 0.000000000000000153 * GDD_val ^ 5)
-    '        input_data_table.Rows(i)(Kc_col_index) = Kc_val
-    '    Next
-
-    '    'Modifying initial dip in the Kc values and keeping them constant to the value of Kc_ini on the very first day.
-    '    Dim Kc_ini = Convert.ToDouble(input_data_table.Rows(0)(Kc_col_index))
-
-    '    ' Observing few Kc graphs the initial phase where the dip occurs is less than 30 days.
-    '    ' This value of 30 is just an arbitrary number to avoid dipping down of the Kc curve.
-    '    For i = 0 To 30
-    '        Kc_val = Convert.ToDouble(input_data_table.Rows(i)(Kc_col_index))
-    '        If Kc_val < Kc_ini Then
-    '            input_data_table.Rows(i)(Kc_col_index) = Kc_ini
-    '        End If
-    '    Next
-
-    'End Sub
-
     Private Sub GDD_Calculate(ByRef input_data_table As DataTable, ByVal Tbase As Integer)
 
         Dim GDD As Double = 0
@@ -234,8 +208,6 @@ Public Class WaterBalanceCalculator
         'Dim DP_pref As Double = 0
         Dim Dmax As Double = 0
 
-        Dim FC_upto_current_root_depth As Double
-
         ' Manually setting initial deficit (i.e. planting date) as zero.
         input_data_table.Rows(0)("Di") = 0
         input_data_table.Rows(0)("DP") = 0
@@ -243,18 +215,15 @@ Public Class WaterBalanceCalculator
 
         For i = 1 To input_data_table.Rows.Count - 1
             Dmax = input_data_table.Rows(i)("Dmax")
-            FC_upto_current_root_depth = Dmax / MAD_fraction
             ETc = Convert.ToDouble(input_data_table.Rows(i)("ETc"))
             Precip = Convert.ToDouble(input_data_table.Rows(i)("Precip"))
             Irrig = Convert.ToDouble(input_data_table.Rows(i - 1)("Irrig"))
-
-            If (Precip + Irrig - ETc - Di_prev) > FC_upto_current_root_depth Then
-                DP = (Precip + Irrig - ETc - Di_prev) - FC_upto_current_root_depth
+            If ((Precip + Irrig) > (ETc + Di_prev)) Then
+                DP = (Precip + Irrig) - (ETc + Di_prev)
                 Di = 0
             Else
                 Di = -(Precip + Irrig - ETc - Di_prev)
             End If
-
 
             input_data_table.Rows(i)("DP") = DP
             input_data_table.Rows(i)("Di") = Di

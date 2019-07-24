@@ -19,6 +19,7 @@ Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
 Imports System.Collections.Generic
 Imports ET_Calculator_streamlined_v11_GIT.OutputPath
 Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
+Imports ExtendedGrid
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
@@ -82,9 +83,9 @@ Class MainWindow
 
         'DgvRefET.ItemsSource = full_results_Table.DefaultView
 
-        Dim Write_SNo_Col As New SQL_table_operation
-        'Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
-        Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
+        'Dim Write_SNo_Col As New SQL_table_operation
+        ''Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
+        'Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
 
         Dim index As Integer = 0
         For Each column As DataColumn In csv_datatable.Columns
