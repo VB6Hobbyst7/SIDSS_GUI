@@ -44,7 +44,7 @@ Public Class WaterBalanceCalculator
         ETC_Calculate(input_data_table)
         Calculate_Di(input_data_table)
         'Calculate_DP(input_data_table)
-        input_data_complete.Write_Final_Table(input_data_table)
+        input_data_complete.Write_WaterBalance_Final_Table(input_data_table)
     End Sub
 
     Private Sub GDD_Calculate(ByRef input_data_table As DataTable, ByVal Tbase As Integer)

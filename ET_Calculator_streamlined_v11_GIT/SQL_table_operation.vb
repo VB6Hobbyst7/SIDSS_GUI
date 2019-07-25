@@ -4,6 +4,8 @@ Imports System.IO
 Public Class SQL_table_operation
     Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
     Dim cmd As New SQLiteCommand
+    Dim combined_CommandText As String
+
 
     Public Function Read_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_data As DataTable)
         'Connect to local SQLite database file. The text part is called connectionstring.
@@ -32,7 +34,8 @@ Public Class SQL_table_operation
         Return dt
     End Function
 
-    Public Function Write_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_index As Integer, ByVal col_data As DataTable, Optional ByVal curr_day_data As DataTable = Nothing)
+    Public Function Write_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_index As Integer, ByVal col_data As DataTable, Optional ByVal curr_day_data As DataTable = Nothing, Optional ByVal commit_tbl As Boolean = False)
+
 
         If myConnection.State = ConnectionState.Open Then
             myConnection.Close()
@@ -56,7 +59,7 @@ Public Class SQL_table_operation
 
             Else
                 Try
-                    cell_value = Convert.ToDouble(col_data.Rows(i)(col_index))
+                    cell_value = Math.Round(Convert.ToDouble(col_data.Rows(i)(col_index)), 3)
                 Catch ex As Exception
                     cell_value = col_data.Rows(i)(col_index)
                 End Try
@@ -72,15 +75,29 @@ Public Class SQL_table_operation
 
             End If
         Next
+        If commit_tbl = False Then
+            combined_CommandText += cmd.CommandText
+        ElseIf commit_tbl = True Then
+            combined_CommandText += cmd.CommandText
+            cmd.CommandText = combined_CommandText
 
-        Dim tr As SQLiteTransaction = myConnection.BeginTransaction
-        cmd.Transaction = tr
-        Using tr
-            cmd.ExecuteNonQuery()
-            tr.Commit()
-        End Using
+            Dim tr As SQLiteTransaction = myConnection.BeginTransaction
+            cmd.Transaction = tr
+            Using tr
+                cmd.ExecuteNonQuery()
+                tr.Commit()
+            End Using
+            myConnection.Close()
+        End If
 
-        myConnection.Close()
+        'Dim tr As SQLiteTransaction = myConnection.BeginTransaction
+        'cmd.Transaction = tr
+        'Using tr
+        '    cmd.ExecuteNonQuery()
+        '    tr.Commit()
+        'End Using
+
+        'myConnection.Close()
         Return ""
 
     End Function
@@ -184,7 +201,7 @@ Public Class SQL_table_operation
 
     End Function
 
-    Public Sub Write_Final_Table(ByRef col_data As DataTable)
+    Public Sub Write_WaterBalance_Final_Table(ByRef col_data As DataTable)
         cmd.Connection = myConnection
         myConnection.Open()
         cmd.CommandText = Nothing

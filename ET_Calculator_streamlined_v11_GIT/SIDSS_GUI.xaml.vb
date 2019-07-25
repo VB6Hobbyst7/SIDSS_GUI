@@ -88,10 +88,20 @@ Class MainWindow
         'Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
 
         Dim index As Integer = 0
+        Dim populate_col_in_db As New SQL_table_operation
+        Dim col_count As Integer = csv_datatable.Columns.Count
         For Each column As DataColumn In csv_datatable.Columns
             Dim col_name As String = column.ColumnName
-            Dim populate_col_in_db As New SQL_table_operation
-            populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable)
+            'Dim populate_col_in_db As New SQL_table_operation
+            If index = col_count - 1 Then
+                Dim commit_changes As Boolean = True
+                populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable,, commit_changes)
+
+            Else
+                populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable)
+
+            End If
+            'populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable)
             index += 1
 
         Next

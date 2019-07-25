@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
         Title="Spatial Irrigation Decision Support System (SIDSS)" Height="760" Width="1200" MinWidth="1200" MinHeight="760" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
@@ -219,7 +220,7 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox  Grid.Column="0" x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
+                            <TextBox  Grid.Column="0" x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" FlowDirection="RightToLeft" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
                             <Button Grid.Column="1" x:Name="btn_load_weather_data_csv"  Style="{StaticResource BTNCORNER}" Content="Load Weather data"  Width="170" Height="40" FontWeight="Bold"/>
                         </Grid>
                         <Grid Margin="5">
@@ -275,7 +276,7 @@
                                     <ColumnDefinition Width="1.25*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" >
-                                       <TextBox  x:Name="KC_MS_file_path"  Text="Load calibrated NRG reflectance (%ge) image " HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
+                                       <TextBox  x:Name="KC_MS_file_path" FlowDirection="RightToLeft" Text="Load calibrated NRG reflectance (%ge) image " HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
                                         <Button x:Name="btn_KC_MS_tiff" Style="{StaticResource BTNCORNER}" Content="Load MS Image"  Width="130" Height="40" FontWeight="Bold"/>
@@ -309,23 +310,22 @@
                         </LinearGradientBrush>
                     </Grid.Background>
                     <StackPanel>
-                        <Grid x:Name="paths0" Margin="5" Height="212">
-
+                        <Grid x:Name="paths0" Margin="5" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="31*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                                <TextBox  x:Name="tbx_EB_MS" Padding="12,0" Text="Load Surface reflectance % Image" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TextAlignment="Right" IsEnabled="False" Height="40" FontSize="16" FontWeight="Bold" Foreground="Red" VerticalAlignment="Top" Margin="0,10"/>
-                                <TextBox  x:Name="tbx_EB_Thermal" Padding="12,0" Text="Load Surface Temperature Image" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TextAlignment="Right" IsEnabled="False" Height="40" FontSize="16" FontWeight="Bold" Foreground="Red" VerticalAlignment="Top" Margin="0,10"/>
-                                <TextBlock Padding="0,10,0,0" Margin="0,40,0,0" TextWrapping="Wrap">
+                                <TextBox  x:Name="tbx_EB_MS" FlowDirection="RightToLeft" Padding="12,0" Text="Load Surface reflectance % Image" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TextAlignment="Right" IsEnabled="False" Height="40" FontSize="12" FontWeight="Bold" Foreground="Red" VerticalAlignment="Top" Margin="0,10"/>
+                                <TextBox  x:Name="tbx_EB_Thermal" Padding="12,0" FlowDirection="RightToLeft" Text="Load Surface Temperature Image" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TextAlignment="Right" IsEnabled="False" Height="40" FontSize="12" FontWeight="Bold" Foreground="Red" VerticalAlignment="Top" Margin="0,10"/>
+                                <TextBlock Padding="0,10" Margin="0,10,0,0" TextWrapping="Wrap" TextAlignment="Center" >
                                 Enter (hourly average) data from on-site datalogger at the time of image acquisition.
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Column="1">
                                 <Button x:Name="btn_EB_MS"  Style="{StaticResource BTNCORNER}" Content="Load MS Image"  Height="40" FontWeight="Bold" Margin="0,10"/>
                                 <Button x:Name="btn_EB_Thermal"  Style="{StaticResource BTNCORNER}" Content="Load Thermal Image"   Height="40" FontWeight="Bold" Margin="0,10"/>
-                                <Button x:Name="btn_EB_run"  Style="{StaticResource BTNCORNER}" Content="Calculate ET"   Height="60" FontWeight="Bold"/>
+                                <Button x:Name="btn_EB_run"  Style="{StaticResource BTNCORNER}" Content="Calculate ET"   Height="50" FontWeight="Bold"/>
                             </StackPanel>
                         </Grid>
                         <Grid Margin="0,0,0,0">
@@ -365,14 +365,6 @@
                                             <TextBox x:Name="tbx_Wind_Dir"  Text="304" Margin="5" Padding="5"/>
                                             <DatePicker Margin="5" Padding="5" Text="7/22/18" SelectedDateFormat="Short" ></DatePicker>
                                             <ComboBox Margin="5" Padding="5">
-                                                <ComboBoxItem Content="00:00"/>
-                                                <ComboBoxItem Content="01:00"/>
-                                                <ComboBoxItem Content="02:00"/>
-                                                <ComboBoxItem Content="03:00"/>
-                                                <ComboBoxItem Content="04:00"/>
-                                                <ComboBoxItem Content="05:00"/>
-                                                <ComboBoxItem Content="06:00"/>
-                                                <ComboBoxItem Content="07:00"/>
                                                 <ComboBoxItem Content="08:00"/>
                                                 <ComboBoxItem Content="09:00"/>
                                                 <ComboBoxItem Content="10:00"/>
@@ -384,32 +376,22 @@
                                                 <ComboBoxItem Content="16:00"/>
                                                 <ComboBoxItem Content="17:00"/>
                                                 <ComboBoxItem Content="18:00"/>
-                                                <ComboBoxItem Content="19:00"/>
-                                                <ComboBoxItem Content="20:00"/>
-                                                <ComboBoxItem Content="21:00"/>
-                                                <ComboBoxItem Content="22:00"/>
-                                                <ComboBoxItem Content="23:00"/>
                                             </ComboBox>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" TextBlock.FontWeight="Normal">
                                             <Label Content="Wind Speed (m/s)" Margin="5,7" Padding="5"/>
                                             <Label Content="Wind Direction (degrees)" Margin="5,7" Padding="5"/>
-                                            <Label Content=" Select Image acquisition date." Margin="5,7" Padding="5"/>
-                                            <Label Content=" Image acquisition time." Margin="5,7" Padding="5"/>
-
+                                            <Label Content=" Select Imagery date." Margin="5,7" Padding="5"/>
+                                            <Label Content=" Image acquisition time (Standard Time)." Margin="5,7" Padding="5"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
-
                             </Grid>
-
                         </Grid>
-
                     </StackPanel>
                 </Grid>
             </TabItem>
         <TabItem x:Name="tabWaterBalance" Header="Water Balance Scheduling" Height="100" Width="200">
-
                 <Grid>
                     <StackPanel>
                     <Grid x:Name="gridWaterBalanceTop">
@@ -423,13 +405,10 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="Planting Date" Grid.Column="0" HorizontalAlignment="Left"  />
                                 <Label Content="Harvest date" Grid.Column="1"  HorizontalAlignment="Left" />
-
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -439,9 +418,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-
-                                    <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" SelectedDate="2018-06-01" IsTodayHighlighted="False" DisplayDate="2018-06-01" Text="6/1/2018" Margin="5"/>
-                                    <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" SelectedDate="2018-11-17" IsTodayHighlighted="False" DisplayDate="2018-11-17" Text="11/17/2018" Margin="5"/>
+                                        <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" SelectedDate="{x:Static sys:DateTime.Now}" IsTodayHighlighted="True" Margin="5"/>
+                                        <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" SelectedDate="{x:Static sys:DateTime.Now}" IsTodayHighlighted="True" Margin="5"/>
                                     <Button x:Name="btnSetDates"  Grid.Column="2" Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Padding="5" Margin="5">
                                         <Button.ToolTip>
                                             <ToolTip>
@@ -484,9 +462,9 @@
                                         </Grid.ColumnDefinitions>
                                         <GroupBox Header="Crop info." Grid.Column="0" >
                                             <StackPanel Margin="5">
-                                                <RadioButton x:Name="rbCorn" Content="Corn (Tbase=50)"  Margin="0,5" HorizontalAlignment="Left" IsChecked="True"/>
-                                                <RadioButton x:Name="rbCotton" Content="Cotton"  Margin="0,5" HorizontalAlignment="Left" />
-                                                <RadioButton x:Name="rbWheat" Content="Wheat"  Margin="0,5" HorizontalAlignment="Left"  />
+                                                <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCorn" Content="Corn (Tbase=50)"  Margin="0,5" HorizontalAlignment="Left" IsChecked="True"/>
+                                                <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCotton" Content="Cotton"  Margin="0,5" HorizontalAlignment="Left" />
+                                                <RadioButton Height="20" VerticalContentAlignment="Center" x:Name="rbWheat" Content="Wheat"  Margin="0,5" HorizontalAlignment="Left"  />
                                                 <Grid Margin="0,5">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
