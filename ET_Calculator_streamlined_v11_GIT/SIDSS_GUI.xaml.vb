@@ -68,7 +68,7 @@ Class MainWindow
         Dim reset_ref_et As New SQL_table_operation
         ' Reset old data in the ref et database.
         'Delete all the contents of the table name matching the string.
-        'reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
+        reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
 
         Dim open_file As New Microsoft.Win32.OpenFileDialog With {
             .Filter = "CSV weather data|*.csv"
@@ -83,9 +83,9 @@ Class MainWindow
 
         'DgvRefET.ItemsSource = full_results_Table.DefaultView
 
-        'Dim Write_SNo_Col As New SQL_table_operation
-        ''Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
-        'Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
+        Dim Write_SNo_Col As New SQL_table_operation
+        ' Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
+        Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
 
         Dim index As Integer = 0
         Dim populate_col_in_db As New SQL_table_operation

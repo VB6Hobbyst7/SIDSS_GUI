@@ -78,16 +78,23 @@ Public Class SQL_table_operation
         If commit_tbl = False Then
             combined_CommandText += cmd.CommandText
         ElseIf commit_tbl = True Then
+
             combined_CommandText += cmd.CommandText
             cmd.CommandText = combined_CommandText
-
-            Dim tr As SQLiteTransaction = myConnection.BeginTransaction
-            cmd.Transaction = tr
-            Using tr
-                cmd.ExecuteNonQuery()
-                tr.Commit()
-            End Using
+            Dim temp_txt As String = Nothing
+            temp_txt = "begin;" & vbCrLf
+            temp_txt += combined_CommandText & "end;" & vbCrLf
+            cmd.CommandText = temp_txt
+            cmd.ExecuteNonQuery()
             myConnection.Close()
+
+            'Dim tr As SQLiteTransaction = myConnection.BeginTransaction
+            'cmd.Transaction = tr
+            'Using tr
+            '    cmd.ExecuteNonQuery()
+            '    tr.Commit()
+            'End Using
+            'myConnection.Close()
         End If
 
         'Dim tr As SQLiteTransaction = myConnection.BeginTransaction
