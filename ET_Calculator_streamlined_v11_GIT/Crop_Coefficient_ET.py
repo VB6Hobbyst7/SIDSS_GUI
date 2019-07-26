@@ -106,4 +106,4 @@ with rasterio.open(output_tiff, 'w', **kwargs) as dst:
 dst.close()
 
 print("Code ran sucessfullly. Waiting for 5 sec. to eixt. You can close this window anytime.")
-time.sleep(2)
+time.sleep(1)

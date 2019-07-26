@@ -47,8 +47,8 @@ Public Class MapWInGIS_Control
         Dim proj_coordinates As New System.Drawing.Point
         Map1.PointToClient(coordinates)
         ' Dim info As Object = tkCursorMode.cmIdentify
-        Dim projx, projy, minx, miny, maxx, maxy As Double
-        Dim resx, resy As Double
+        'Dim projx, projy, minx, miny, maxx, maxy As Double
+        'Dim resx, resy As Double
         Map1.PixelToProj(proj_coordinates)
         'Map1.PixelToProj(e.x, e.y, projx, projy)
         'Dim raster As Object = Legend1.

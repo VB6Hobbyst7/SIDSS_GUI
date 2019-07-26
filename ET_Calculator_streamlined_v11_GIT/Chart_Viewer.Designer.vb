@@ -37,6 +37,7 @@ Partial Class Graphs_Viewer
         Me.SaveAsImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChooseGraphToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
         Me.chkGraphOptions = New System.Windows.Forms.CheckedListBox()
         Me.chrtWaterBalance = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.SaveFileDialog_chrt = New System.Windows.Forms.SaveFileDialog()
@@ -57,7 +58,7 @@ Partial Class Graphs_Viewer
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ChooseGraphToolStripMenuItem, Me.ToolStripTextBox1})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ChooseGraphToolStripMenuItem, Me.ToolStripTextBox1, Me.ToolStripComboBox1})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(800, 27)
@@ -75,7 +76,7 @@ Partial Class Graphs_Viewer
         '
         Me.SaveAsImageToolStripMenuItem.AccessibleName = "mnuExport"
         Me.SaveAsImageToolStripMenuItem.Name = "SaveAsImageToolStripMenuItem"
-        Me.SaveAsImageToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveAsImageToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.SaveAsImageToolStripMenuItem.Text = "Export graph..."
         '
         'ChooseGraphToolStripMenuItem
@@ -90,6 +91,13 @@ Partial Class Graphs_Viewer
         Me.ToolStripTextBox1.Size = New System.Drawing.Size(200, 23)
         Me.ToolStripTextBox1.Text = "Type new graph heading here"
         '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.Items.AddRange(New Object() {"GDD", "Date"})
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
+        Me.ToolStripComboBox1.Text = "Select X-axis type"
+        '
         'chkGraphOptions
         '
         Me.chkGraphOptions.Dock = System.Windows.Forms.DockStyle.Fill
@@ -99,7 +107,7 @@ Partial Class Graphs_Viewer
         Me.chkGraphOptions.Location = New System.Drawing.Point(0, 0)
         Me.chkGraphOptions.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.chkGraphOptions.Name = "chkGraphOptions"
-        Me.chkGraphOptions.Size = New System.Drawing.Size(266, 185)
+        Me.chkGraphOptions.Size = New System.Drawing.Size(266, 184)
         Me.chkGraphOptions.TabIndex = 2
         '
         'chrtWaterBalance
@@ -185,7 +193,7 @@ Partial Class Graphs_Viewer
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.rtbxInfo)
         Me.SplitContainer2.Size = New System.Drawing.Size(266, 423)
-        Me.SplitContainer2.SplitterDistance = 185
+        Me.SplitContainer2.SplitterDistance = 184
         Me.SplitContainer2.TabIndex = 0
         '
         'rtbxInfo
@@ -194,7 +202,7 @@ Partial Class Graphs_Viewer
         Me.rtbxInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtbxInfo.Location = New System.Drawing.Point(0, 0)
         Me.rtbxInfo.Name = "rtbxInfo"
-        Me.rtbxInfo.Size = New System.Drawing.Size(266, 234)
+        Me.rtbxInfo.Size = New System.Drawing.Size(266, 235)
         Me.rtbxInfo.TabIndex = 0
         Me.rtbxInfo.Text = ""
         '
@@ -236,4 +244,5 @@ Partial Class Graphs_Viewer
     Friend WithEvents SplitContainer1 As Forms.SplitContainer
     Friend WithEvents SplitContainer2 As Forms.SplitContainer
     Friend WithEvents rtbxInfo As Forms.RichTextBox
+    Friend WithEvents ToolStripComboBox1 As Forms.ToolStripComboBox
 End Class

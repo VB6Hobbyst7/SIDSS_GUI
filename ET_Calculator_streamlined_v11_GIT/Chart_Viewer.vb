@@ -27,14 +27,23 @@ Public Class Graphs_Viewer
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
         Dim summary_dictionary As New Dictionary(Of String, Double)
+
+        ' TODO: Add summary about the calculated resuts.
         summary_dictionary = Calculate_summary(main_table)
+
+        Dim axis_type As String = Nothing
+        If ToolStripComboBox1.SelectedIndex = 1 Then
+            axis_type = "Date"
+        Else
+            axis_type = "GDD"
+        End If
 
         For i = 0 To chkGraphOptions.CheckedItems.Count - 1
             Dim current_item As String
             current_item = chkGraphOptions.CheckedItems(i)
             chrtWaterBalance.Series.Add(current_item)
             chrtWaterBalance.Series(i).BorderWidth = 2
-            chrtWaterBalance.ChartAreas(0).AxisX.Title = "GDD"
+            chrtWaterBalance.ChartAreas(0).AxisX.Title = axis_type
             chrtWaterBalance.ChartAreas(0).AxisY.Title = "Irrig, Precip, Di, Dmax (in/day)"
             chrtWaterBalance.ChartAreas(0).AxisY2.Title = "Kc, ETr, ETc (in/day)"
             'chrtWaterBalance.ChartAreas(0).AxisY.LabelStyle.Font.
@@ -76,7 +85,7 @@ Public Class Graphs_Viewer
 
             'Populate each line/cloumn with the corresponding data. Note: Checkbox items name the sql data table column names,
             'that Is how I am matching the data to the correct graph.
-            chrtWaterBalance.Series(current_item).Points.DataBindXY(main_table.Rows, "GDD", main_table.Rows, current_item)
+            chrtWaterBalance.Series(current_item).Points.DataBindXY(main_table.Rows, axis_type, main_table.Rows, current_item)
         Next
         chrtWaterBalance.Invalidate()
 
@@ -164,4 +173,6 @@ Public Class Graphs_Viewer
 
         Return Nothing
     End Function
+
+
 End Class

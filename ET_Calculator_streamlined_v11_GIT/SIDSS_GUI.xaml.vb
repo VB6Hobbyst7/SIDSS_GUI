@@ -19,7 +19,8 @@ Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
 Imports System.Collections.Generic
 Imports ET_Calculator_streamlined_v11_GIT.OutputPath
 Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
-Imports ExtendedGrid
+
+
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
@@ -31,6 +32,7 @@ Class MainWindow
     Dim Tbase As Integer = 50
     Dim myConnection As New SQLiteConnection(String.Format("Data Source={0}; Version=3;", app_path))
     Dim cmd As New SQLiteCommand
+    Dim message_shown As Boolean = False
 #End Region
     Public Shared main_window_shared As MainWindow
     Private Sub Load_DataGrid_RefET()
@@ -68,48 +70,44 @@ Class MainWindow
         Dim reset_ref_et As New SQL_table_operation
         ' Reset old data in the ref et database.
         'Delete all the contents of the table name matching the string.
-        reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
+        Dim warning_result As New DialogResult
+        warning_result = MessageBox.Show("You are about to reset and start new calculation." & vbCrLf & "Are you sure?", "Warning", MessageBoxButtons.YesNo)
+        If warning_result = Windows.Forms.DialogResult.Yes Then
 
-        Dim open_file As New Microsoft.Win32.OpenFileDialog With {
+            reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
+
+            Dim open_file As New Microsoft.Win32.OpenFileDialog With {
             .Filter = "CSV weather data|*.csv"
         }
-        open_file.ShowDialog()
-        tbx_csv1.Text = open_file.FileName()
+            open_file.ShowDialog()
+            tbx_csv1.Text = open_file.FileName()
 
-        Dim csv_datatable As New DataTable
-        Dim csv2dgv As New WeatherData2DataGridVIew.Csv2dgv_converter
-        csv2dgv._csv_path = tbx_csv1.Text
-        csv_datatable = csv2dgv.Csv2dgv
+            Dim csv_datatable As New DataTable
+            Dim csv2dgv As New WeatherData2DataGridVIew.Csv2dgv_converter
+            csv2dgv._csv_path = tbx_csv1.Text
+            csv_datatable = csv2dgv.Csv2dgv
 
-        'DgvRefET.ItemsSource = full_results_Table.DefaultView
+            'DgvRefET.ItemsSource = full_results_Table.DefaultView
 
-        Dim Write_SNo_Col As New SQL_table_operation
-        ' Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
-        Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
+            Dim Write_SNo_Col As New SQL_table_operation
+            ''Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
+            Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
 
-        Dim index As Integer = 0
-        Dim populate_col_in_db As New SQL_table_operation
-        Dim col_count As Integer = csv_datatable.Columns.Count
-        For Each column As DataColumn In csv_datatable.Columns
-            Dim col_name As String = column.ColumnName
-            'Dim populate_col_in_db As New SQL_table_operation
-            If index = col_count - 1 Then
-                Dim commit_changes As Boolean = True
-                populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable,, commit_changes)
-
-            Else
+            Dim index As Integer = 0
+            For Each column As DataColumn In csv_datatable.Columns
+                Dim col_name As String = column.ColumnName
+                Dim populate_col_in_db As New SQL_table_operation
                 populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable)
+                index += 1
 
-            End If
-            'populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable)
-            index += 1
+            Next
 
-        Next
+            Dim load_full_sql_table As New SQL_table_operation
+            Dim full_sql_table As New DataTable
+            full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
+            DgvRefET.ItemsSource = full_sql_table.DefaultView
 
-        Dim load_full_sql_table As New SQL_table_operation
-        Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
-        DgvRefET.ItemsSource = full_sql_table.DefaultView
+        End If
 
 
     End Sub
@@ -268,7 +266,12 @@ Class MainWindow
     End Function
 
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
-        Dim OpenCMD
+        If rtbxReflET.IsEnabled Then
+            Dim textrange As New TextRange(rtbxReflET.Document.ContentStart, rtbxReflET.Document.ContentEnd)
+            Dim Refl_ET_image_data As String = textrange.Text
+
+        End If
+        Dim OpenCMD As Object
         OpenCMD = CreateObject("wscript.shell")
         Dim command2 As String = String.Format("python.exe Crop_Coefficient_ET.py {0}", RefET24hr.Text)
         OpenCMD.run(command2, 1, True)
@@ -670,19 +673,21 @@ Class MainWindow
 
         Dim daily_results_table As New DataTable
 
-        Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET
-
-        ref_et_calc._Lm_longitude = Convert.ToDouble(tbx_lon.Text)
-        ref_et_calc._Lz_longitude = Convert.ToDouble(cbx_lon_center.Text)
-
-        ref_et_calc._phi_degree = Convert.ToDouble(tbx_lat.Text)
-        ref_et_calc._z_elevation = Convert.ToDouble(tbx_elev.Text)
-        ref_et_calc._ref_crop = cbxRefCrop.Text.ToLower
-        ref_et_calc._Zw_agl_WindRH_measurement = Convert.ToDouble(tbx_zu.Text)
-
-        If Convert.ToDouble(tbx_zt.Text) < 1.5 Or Convert.ToDouble(tbx_zt.Text) > 2.5 Then
-            MessageBox.Show("Please Note: Recommended temperautre measurement height is 1.5 to 2.5 m.")
+        Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET With {
+            ._Lm_longitude = Convert.ToDouble(tbx_lon.Text),
+            ._Lz_longitude = Convert.ToDouble(cbx_lon_center.Text),
+            ._phi_degree = Convert.ToDouble(tbx_lat.Text),
+            ._z_elevation = Convert.ToDouble(tbx_elev.Text),
+            ._ref_crop = cbxRefCrop.Text.ToLower,
+            ._Zw_agl_WindRH_measurement = Convert.ToDouble(tbx_zu.Text)
+        }
+        If message_shown = False Then
+            If Convert.ToDouble(tbx_zt.Text) < 1.5 Or Convert.ToDouble(tbx_zt.Text) > 2.5 Then
+                message_shown = True
+                MessageBox.Show("Please Note: Recommended temperautre measurement height is 1.5 to 2.5 m.")
+            End If
         End If
+
 
         Dim std_time, doy, tair, humidity, rad, windspd, curr_table_selected_col As New DataTable
         Dim read_curr_day_data As New SQL_table_operation
@@ -1019,5 +1024,48 @@ Class MainWindow
 
     Private Sub LblPlantingDepth_MouseLeave(sender As Object, e As Input.MouseEventArgs)
         lblPlantingDepth.FontWeight = FontWeights.Normal
+    End Sub
+
+    Private Sub Btn_Daily_ET_Sum_Click(sender As Object, e As RoutedEventArgs) Handles btn_Daily_ET_Sum.Click
+
+        Dim daily_et_sum_window As New DailyET_Sum_Window
+        daily_et_sum_window.Show()
+
+
+        Dim load_full_sql_table As New SQL_table_operation
+        Dim RefETTable As New DataTable
+        RefETTable = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
+        Dim daily_ET_Sum As New DataTable
+        daily_ET_Sum.Columns.Add("Date")
+        daily_ET_Sum.Columns.Add("ETr__in")
+        Dim doy As Integer = Convert.ToInt16(RefETTable(0)("DOY"))
+        Dim old_doy As Integer = Convert.ToInt16(RefETTable(0)("DOY"))
+        Dim et_sum As Double = 0
+        Dim date_string As String = ""
+        For Each curr_row In RefETTable.Rows
+            doy = Convert.ToInt16(curr_row("DOY"))
+            If doy = old_doy Then
+                et_sum += Convert.ToDouble(curr_row("ETr"))
+                date_string = curr_row("Date")
+            Else
+                Dim data_row As DataRow = daily_ET_Sum.NewRow
+                data_row("Date") = date_string
+                data_row("ETr__in") = Math.Round(et_sum / 25.4, 3)
+                old_doy = doy
+                daily_ET_Sum.Rows.Add(data_row)
+                et_sum=0
+            End If
+
+        Next
+
+        daily_et_sum_window.dgDailySumET.ItemsSource = daily_ET_Sum.DefaultView()
+
+
+    End Sub
+
+    Private Sub RbBatch_ReflET_OFF_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_OFF.Checked
+        rtbxReflET.IsEnabled = True
+        RefET24hr.IsEnabled = False
+
     End Sub
 End Class

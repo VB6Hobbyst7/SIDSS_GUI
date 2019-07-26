@@ -225,6 +225,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DailyET_Sum_Window.xaml.vb">
+      <DependentUpon>DailyET_Sum_Window.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WaterBalanceCalculator.vb" />
     <Compile Include="Chart_Viewer.Designer.vb">
       <DependentUpon>Chart_Viewer.vb</DependentUpon>
@@ -265,6 +268,10 @@
     <Compile Include="MapWInGIS_Control.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Page Include="DailyET_Sum_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SIDSS_GUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -25,10 +25,10 @@ namespace Hourly_Ref_ET_Calculator
         private double Mjph2Wm2 = 277.7;
         private double Wm2toMjph = 1 / 277.7;
         private double beta_old, beta_avg =0;
-        private double fcd_03 = 0;
+        //private double fcd_03 = 0;
         private bool fcd_set_morning = false;
         private bool fcd_set_evening = false;
-        private double fcd_prev = 0;
+        //private double fcd_prev = 0;
         private double fcd_evening;
         private double fcd_morning;
         private double fcd_evening_hour;
