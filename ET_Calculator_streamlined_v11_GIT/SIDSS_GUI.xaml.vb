@@ -130,30 +130,75 @@ Class MainWindow
     End Function
 
     Private Sub Main_window_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles main_window.SizeChanged
+        Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
+
+        Dim total_tabs As Integer = tab_control.Items.Count
+        For Each tab_item As TabItem In tab_control.Items
+            tab_item.Height = tab_control_h / total_tabs - 1
+        Next
+
+        dynamic_grid_resize()
+    End Sub
+
+    Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
+
+        KC_MS_file_path.Text = My.Settings.KC_MS_file_path_settings
+        tbx_csv1.Text = My.Settings.tbx_csv1_settings
+        tbx_EB_MS.Text = My.Settings.tbx_EB_MS_settings
+        tbx_EB_Thermal.Text = My.Settings.tbx_EB_Thermal_settings
+
+        tbxSoilDepth_1.Text = My.Settings.tbxSoilDepth_1_settings
+        tbxSoilDepth_2.Text = My.Settings.tbxSoilDepth_2_settings
+        tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
+        tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
+        tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
+        tbxTAW_1.Text = My.Settings.tbxTAW_1_settings
+        tbxTAW_2.Text = My.Settings.tbxTAW_2_settings
+        tbxTAW_3.Text = My.Settings.tbxTAW_3_settings
+        tbxTAW_4.Text = My.Settings.tbxTAW_4_settings
+        tbxTAW_5.Text = My.Settings.tbxTAW_5_settings
+        HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
+        HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
+        PlantDate.DisplayDate = My.Settings.PlantDate_settings
+        PlantDate.SelectedDate = My.Settings.PlantDate_settings
+
+        tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
+        tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
+
+        'Checks to see if the database exisits in the executable direcory, if not, then an empty database is created.
+        If Not File.Exists("SIDSS_database.db") Then
+            Dim fresh_db As New Create_Empty_SQL_Data_Tables
+            fresh_db.Create_empyt_tables()
+        End If
+
+        'Load Ref ET datagrid with old values from database.
+        Dim load_full_sql_table As New SQL_table_operation
+        Dim full_sql_table As New DataTable
+        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
+        DgvRefET.ItemsSource = full_sql_table.DefaultView
+
+        dynamic_grid_resize()
+
+    End Sub
+
+    Private Sub dynamic_grid_resize()
         Try
-
-            Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
-
-            Dim total_tabs As Integer = tab_control.Items.Count
-            For Each tab_item As TabItem In tab_control.Items
-                tab_item.Height = tab_control_h / total_tabs - 1
-            Next
-
-
-            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 75
+            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - 310
             dgvWaterBalance.Height = WaterBalance_Grid
 
-            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
+            Dim infoGrid As Integer = main_window.ActualHeight - 246 - 10
             DgvRefET.Height = infoGrid
 
-            Dim seteinfoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 75
+            Dim seteinfoGrid As Integer = main_window.ActualHeight - 530 - 15
             dgSiteInfo.Height = seteinfoGrid
 
-
+            Dim rtbxHeight As Integer = main_window.ActualHeight - 360 - 15
+            rtbxReflET.Height = rtbxHeight
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+
     End Sub
 
 
@@ -273,28 +318,27 @@ Class MainWindow
         If rtbxReflET.IsEnabled Then
             Dim textrange As New TextRange(rtbxReflET.Document.ContentStart, rtbxReflET.Document.ContentEnd)
             Dim Refl_ET_image_data As String = textrange.Text
-            'Refl_ET_image_data = Refl_ET_image_data.Replace(vbCrLf)
-            Dim data_lines As New StringReader(Refl_ET_image_data)
-            Dim curr_line As String = Nothing
-            While True
-                curr_line = data_lines.ReadLine()
+            Dim all_lines() As String = Refl_ET_image_data.Split(Environment.NewLine)
 
-                Dim tiff_path_and_et_value() As String = curr_line.Split(",")
+            For Each str As String In all_lines
+                str = str.Replace(vbLf, "")
+
+                If str.Length > 0 Then
+                    Dim tiff_path_and_et_value() As String = str.Split(",")
                     Dim tif_path As String = tiff_path_and_et_value(0)
-                If File.Exists(tif_path) Then
-                    MessageBox.Show(String.Format("{0} File already exists.", tif_path))
-                Else
-                    Try
+                    Dim out_et_tif As String = tif_path.Replace(".tif", "_daily_ET.tif")
+                    If File.Exists(out_et_tif) Then
+                        Continue For
+                    Else
                         tif_path = tif_path.Replace("\", "//")
                         Dim Daily_ETr As String = tiff_path_and_et_value(1)
                         ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
                         OpenCMD.run(ET_Kcb_Python_Script, 1, True)
-                    Catch ex As Exception
-
-                    End Try
+                    End If
                 End If
 
-            End While
+            Next
+
         Else
             ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py {0}", RefET24hr.Text)
 
@@ -592,64 +636,6 @@ Class MainWindow
         chrt_view.Show()
     End Sub
 
-    Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
-
-        KC_MS_file_path.Text = My.Settings.KC_MS_file_path_settings
-        tbx_csv1.Text = My.Settings.tbx_csv1_settings
-        tbx_EB_MS.Text = My.Settings.tbx_EB_MS_settings
-        tbx_EB_Thermal.Text = My.Settings.tbx_EB_Thermal_settings
-
-        tbxSoilDepth_1.Text = My.Settings.tbxSoilDepth_1_settings
-        tbxSoilDepth_2.Text = My.Settings.tbxSoilDepth_2_settings
-        tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
-        tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
-        tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
-        tbxTAW_1.Text = My.Settings.tbxTAW_1_settings
-        tbxTAW_2.Text = My.Settings.tbxTAW_2_settings
-        tbxTAW_3.Text = My.Settings.tbxTAW_3_settings
-        tbxTAW_4.Text = My.Settings.tbxTAW_4_settings
-        tbxTAW_5.Text = My.Settings.tbxTAW_5_settings
-        HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
-        HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
-        PlantDate.DisplayDate = My.Settings.PlantDate_settings
-        PlantDate.SelectedDate = My.Settings.PlantDate_settings
-
-        tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
-        tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
-
-        'Checks to see if the database exisits in the executable direcory, if not, then an empty database is created.
-        If Not File.Exists("SIDSS_database.db") Then
-            Dim fresh_db As New Create_Empty_SQL_Data_Tables
-            fresh_db.Create_empyt_tables()
-        End If
-
-        'Load Ref ET datagrid with old values from database.
-        Dim load_full_sql_table As New SQL_table_operation
-        Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
-        DgvRefET.ItemsSource = full_sql_table.DefaultView
-
-
-        Try
-
-            'Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 75
-            'dgvWaterBalance.Height = WaterBalance_Grid
-
-            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
-            DgvRefET.Height = infoGrid
-
-            Dim seteinfoGrid As Integer = main_window.ActualHeight - infoTop.ActualHeight - 75
-            dgSiteInfo.Height = seteinfoGrid
-
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-
-
-
-
-    End Sub
-
     Private Sub Btn_calc_ref_ET_Click(sender As Object, e As RoutedEventArgs) Handles btn_calc_ref_ET.Click
 
         Dim load_full_sql_table As New SQL_table_operation
@@ -713,7 +699,6 @@ Class MainWindow
                 MessageBox.Show("Please Note: Recommended temperautre measurement height is 1.5 to 2.5 m.")
             End If
         End If
-
 
         Dim std_time, doy, tair, humidity, rad, windspd, curr_table_selected_col As New DataTable
         Dim read_curr_day_data As New SQL_table_operation
@@ -979,8 +964,6 @@ Class MainWindow
         My.Settings.PlantDate_settings = PlantDate.DisplayDate
         My.Settings.PlantDate_settings = PlantDate.SelectedDate
 
-
-
         My.Settings.Save()
 
     End Sub
@@ -1017,33 +1000,6 @@ Class MainWindow
 
     End Sub
 
-    Private Sub DgvRefET_Loaded(sender As Object, e As RoutedEventArgs) Handles DgvRefET.Loaded
-        Try
-            Dim infoGrid As Integer = main_window.ActualHeight - refET_Top.ActualHeight - 75
-            DgvRefET.Height = infoGrid
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
-    Private Sub TabSiteInfo_Loaded(sender As Object, e As RoutedEventArgs) Handles tabSiteInfo.Loaded
-        Try
-            Dim SiteInfoTop As Integer = main_window.ActualHeight - infoTop.ActualHeight - 75
-            dgSiteInfo.Height = SiteInfoTop
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
-    Private Sub DgvWaterBalance_Loaded(sender As Object, e As RoutedEventArgs) Handles dgvWaterBalance.Loaded
-        Try
-            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - gridWaterBalanceTop.ActualHeight - 75
-            dgvWaterBalance.Height = WaterBalance_Grid
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
     Private Sub Label_MouseEnter(sender As Object, e As Input.MouseEventArgs)
         lblPlantingDepth.FontWeight = FontWeights.Bold
     End Sub
@@ -1056,7 +1012,6 @@ Class MainWindow
 
         Dim daily_et_sum_window As New DailyET_Sum_Window
         daily_et_sum_window.Show()
-
 
         Dim load_full_sql_table As New SQL_table_operation
         Dim RefETTable As New DataTable
@@ -1086,7 +1041,6 @@ Class MainWindow
 
         daily_et_sum_window.dgDailySumET.ItemsSource = daily_ET_Sum.DefaultView()
 
-
     End Sub
 
     Private Sub RbBatch_ReflET_OFF_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_OFF.Checked
@@ -1101,11 +1055,8 @@ Class MainWindow
     End Sub
 
     Private Sub RbBatch_ReflET_ON_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_ON.Checked
-
-
         rtbxReflET.IsEnabled = True
         RefET24hr.IsEnabled = False
         btn_KC_MS_tiff.IsEnabled = False
-
     End Sub
 End Class

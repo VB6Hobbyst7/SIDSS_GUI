@@ -3,7 +3,7 @@ import rasterio
 import sys,os
 import numpy as np
 # import pandas as pd
-# import time
+import time
 temp = np.seterr(divide='ignore', invalid='ignore')
 import matplotlib.pyplot as plt
 # plt.rcParams['figure.figsize'] = [10, 10] # Command to incerase the plot size.(numbers represent inches?)
@@ -37,13 +37,13 @@ with rasterio.open(tif_path) as src:
         if src.count == 4:
                 # 4 band raster, most likely Planed image with:-
                 # Band order Blue (1); Green (2); Red(3); NIR(4);
-                NIR_band_refl = src.read(4)/100
-                Red_band_refl = src.read(3)/100
-                Green_band_refl = src.read(2)/100
+                NIR_band_refl = src.read(4)
+                Red_band_refl = src.read(3)
+                Green_band_refl = src.read(2)
         elif src.count == 3:
-                NIR_band_refl = src.read(1)/100
-                Red_band_refl = src.read(2)/100
-                Green_band_refl = src.read(3)/100
+                NIR_band_refl = src.read(1)
+                Red_band_refl = src.read(2)
+                Green_band_refl = src.read(3)
         else:                        
                 print("Number of bands should be 3 or 4, this script doesn't support any other combination.")
                 time.sleep(20)
@@ -61,12 +61,13 @@ NIR_band_refl = np.nan_to_num(NIR_band_refl)
 Red_band_refl = np.nan_to_num(Red_band_refl)
 
 # Calculate canopy cover CC, NDVI and Kcb rasters.
-NDVI_array = np.where(NIR_band_refl-Red_band_refl == 0, 0, ((NIR_band_refl-Red_band_refl)/(NIR_band_refl+Red_band_refl)))
+NDVI_array = np.where(NIR_band_refl+Red_band_refl == 0, 0, ((NIR_band_refl-Red_band_refl)/(NIR_band_refl+Red_band_refl)))
 NDVI_array = np.nan_to_num(NDVI_array)
 
 # Clean NDVI values <-1 and >+1
 NDVI_array = np.where(((NDVI_array>1) | (NDVI_array<-1)), 0, NDVI_array)
-CC_array = 1.22*NDVI_array -0.21
+CC_array = 1.2346*NDVI_array -0.2222
+CC_array = np.where(CC_array<0,0,CC_array)
 Kcb_array = 1.13 *CC_array+0.14
 
 Daily_ET = Kcb_array*Full_Day_ET

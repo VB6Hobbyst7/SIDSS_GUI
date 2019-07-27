@@ -262,10 +262,10 @@
                                 <TextBlock TextAlignment="Center" FontSize="20" Padding="50,20" TextWrapping="Wrap">
                                     Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0%-100%).
                                 </TextBlock>
-                                <TextBlock TextAlignment="Center" FontSize="14" Padding="30" TextWrapping="Wrap">
+                                <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
                                     * Current ET estimates are based on Trout's 2007 paper.
                                 </TextBlock>
-                                <TextBlock TextAlignment="Center" FontSize="14" Padding="30" TextWrapping="Wrap">
+                                <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
                                     * Please make sure, that you ran Ref. ETo (grass) calculation on 24 hour period, as it will sum ETo values from the previous tab "Ref. ETo(hourly)".
                                 </TextBlock>
                             <Grid Margin="5">

@@ -354,11 +354,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SIDSS_database.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="drone-png-47013-Windows.ico" />
     <Content Include="Crop_Coefficient_ET.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SIDSS_database.db" />
     <Content Include="ProcessingMS_Raster.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
