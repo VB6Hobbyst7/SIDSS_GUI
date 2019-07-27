@@ -266,16 +266,42 @@ Class MainWindow
     End Function
 
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
+        Dim OpenCMD As Object = CreateObject("wscript.shell")
+        Dim ET_Kcb_Python_Script As String = Nothing
+
+
         If rtbxReflET.IsEnabled Then
             Dim textrange As New TextRange(rtbxReflET.Document.ContentStart, rtbxReflET.Document.ContentEnd)
             Dim Refl_ET_image_data As String = textrange.Text
+            'Refl_ET_image_data = Refl_ET_image_data.Replace(vbCrLf)
+            Dim data_lines As New StringReader(Refl_ET_image_data)
+            Dim curr_line As String = Nothing
+            While True
+                curr_line = data_lines.ReadLine()
+
+                Dim tiff_path_and_et_value() As String = curr_line.Split(",")
+                    Dim tif_path As String = tiff_path_and_et_value(0)
+                If File.Exists(tif_path) Then
+                    MessageBox.Show(String.Format("{0} File already exists.", tif_path))
+                Else
+                    Try
+                        tif_path = tif_path.Replace("\", "//")
+                        Dim Daily_ETr As String = tiff_path_and_et_value(1)
+                        ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
+                        OpenCMD.run(ET_Kcb_Python_Script, 1, True)
+                    Catch ex As Exception
+
+                    End Try
+                End If
+
+            End While
+        Else
+            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py {0}", RefET24hr.Text)
+
+            OpenCMD.run(ET_Kcb_Python_Script, 1, True)
 
         End If
-        Dim OpenCMD As Object
-        OpenCMD = CreateObject("wscript.shell")
-        Dim command2 As String = String.Format("python.exe Crop_Coefficient_ET.py {0}", RefET24hr.Text)
-        OpenCMD.run(command2, 1, True)
-        'btn_launch_qgis.IsEnabled = True
+
 
     End Sub
 
@@ -1064,8 +1090,22 @@ Class MainWindow
     End Sub
 
     Private Sub RbBatch_ReflET_OFF_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_OFF.Checked
+        Try
+            rtbxReflET.IsEnabled = False
+        Catch ex As Exception
+        End Try
+
+        RefET24hr.IsEnabled = True
+        btn_KC_MS_tiff.IsEnabled = True
+
+    End Sub
+
+    Private Sub RbBatch_ReflET_ON_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_ON.Checked
+
+
         rtbxReflET.IsEnabled = True
         RefET24hr.IsEnabled = False
+        btn_KC_MS_tiff.IsEnabled = False
 
     End Sub
 End Class

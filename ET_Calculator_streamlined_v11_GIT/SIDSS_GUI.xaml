@@ -258,20 +258,16 @@
                         </LinearGradientBrush>
                     </Grid.Background>
                     <Border>
-                        <StackPanel>
-                            <Grid>
-                                <StackPanel>
-                                    <TextBlock TextAlignment="Center" FontSize="20" Padding="50,20" TextWrapping="Wrap">
-                                        Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0%-100%).
-                                    </TextBlock>
-                                    <TextBlock TextAlignment="Center" FontSize="14" Padding="30" TextWrapping="Wrap">
-                                        * Current ET estimates are based on Trout's 2007 paper.
-                                    </TextBlock>
-                                    <TextBlock TextAlignment="Center" FontSize="14" Padding="30" TextWrapping="Wrap">
-                                        * Please make sure, that you ran Ref. ETo (grass) calculation on 24 hour period, as it will sum ETo values from the previous tab "Ref. ETo(hourly)".
-                                    </TextBlock>
-                                </StackPanel>
-                            </Grid>
+                        <StackPanel>                          
+                                <TextBlock TextAlignment="Center" FontSize="20" Padding="50,20" TextWrapping="Wrap">
+                                    Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0%-100%).
+                                </TextBlock>
+                                <TextBlock TextAlignment="Center" FontSize="14" Padding="30" TextWrapping="Wrap">
+                                    * Current ET estimates are based on Trout's 2007 paper.
+                                </TextBlock>
+                                <TextBlock TextAlignment="Center" FontSize="14" Padding="30" TextWrapping="Wrap">
+                                    * Please make sure, that you ran Ref. ETo (grass) calculation on 24 hour period, as it will sum ETo values from the previous tab "Ref. ETo(hourly)".
+                                </TextBlock>
                             <Grid Margin="5">
 
                                 <Grid.ColumnDefinitions>
@@ -293,36 +289,37 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="24 Hour ETr (mm)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
-                                <TextBox Grid.Column="1" x:Name="RefET24hr" TextAlignment="Center"  Margin="20,0" VerticalContentAlignment="Center" FontSize="16"/>
-                                <Button Grid.Column="2" x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
-                                <RadioButton HorizontalAlignment="Right" x:Name="rbBatch_ReflET_ON" Content="Single File mode" Grid.Column="3" IsChecked="True" VerticalContentAlignment="Center"/>
-                                <RadioButton Margin="20,0" HorizontalAlignment="Left"  x:Name="rbBatch_ReflET_OFF" Content="Batch File Mode" Grid.Column="4" VerticalContentAlignment="Center" />
+                                <Label Grid.Column="2" Content="24 Hour ETr (mm)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
+                                <TextBox Grid.Column="3" x:Name="RefET24hr" TextAlignment="Center"  Margin="20,0" VerticalContentAlignment="Center" FontSize="16"/>
+                                <Button Grid.Column="4" x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
+                                <RadioButton HorizontalAlignment="Right" x:Name="rbBatch_ReflET_OFF" Content="Single File mode" Grid.Column="0" IsChecked="True" VerticalContentAlignment="Center"/>
+                                <RadioButton Margin="20,0" HorizontalAlignment="Left"  x:Name="rbBatch_ReflET_ON" Content="Batch File Mode" IsChecked="False" Grid.Column="1" VerticalContentAlignment="Center" />
 
                             </Grid>
-                            <RichTextBox MinHeight="200" x:Name="rtbxReflET" IsEnabled="False" >
-                                <FlowDocument>
-                                    <Paragraph>
-                                        Full file path,ETr value.
-                                        <LineBreak/>
-                                        c:\images\plot_1.tif,5.679
-                                        <LineBreak/>
-                                        d:\new_images_folder\processed\calibrated\field1_calibrated.tif,6.7891
-                                    </Paragraph>
-                                </FlowDocument>
-                            </RichTextBox>
-                            <TextBox AcceptsReturn="True" >
-                                
-                            </TextBox>
+                            
+                            <Grid>
+                                <RichTextBox Height="300" x:Name="rtbxReflET" IsEnabled="False" VerticalScrollBarVisibility="Visible" >
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            Paste comma seperated (multi-line) full path to the tiff files and corresponding ETr values.
+                                            <LineBreak/>
+                                            eg.
+                                            <LineBreak/>
+                                            d:\image_folder1\calibrated_tiff_file_1.tif,5.689
+                                            <LineBreak/>
+                                            d:\image_folder2\calibrated_tiff_file_2.tif,5.689
 
-
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </Grid>
 
                         </StackPanel>
 
                     </Border>
-
                 </Grid>
             </TabItem>
+        
         <TabItem x:Name="tabEnergyBalET" Header="Daily ET &#xD;&#xA;Energy balance&#xD;&#xA;(Using NRG &amp; TIR)" Height="100" Width="200">
                 <Grid>
                     <Grid.Background>
