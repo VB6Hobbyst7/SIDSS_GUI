@@ -322,20 +322,24 @@ Class MainWindow
 
             For Each str As String In all_lines
                 str = str.Replace(vbLf, "")
-
-                If str.Length > 0 Then
-                    Dim tiff_path_and_et_value() As String = str.Split(",")
-                    Dim tif_path As String = tiff_path_and_et_value(0)
-                    Dim out_et_tif As String = tif_path.Replace(".tif", "_daily_ET.tif")
-                    If File.Exists(out_et_tif) Then
-                        Continue For
-                    Else
-                        tif_path = tif_path.Replace("\", "//")
-                        Dim Daily_ETr As String = tiff_path_and_et_value(1)
-                        ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
-                        OpenCMD.run(ET_Kcb_Python_Script, 1, True)
+                Try
+                    If str.Length > 0 Then
+                        Dim tiff_path_and_et_value() As String = str.Split(",")
+                        Dim tif_path As String = tiff_path_and_et_value(0)
+                        Dim out_et_tif As String = tif_path.Replace(".tif", "_daily_ET.tif")
+                        If File.Exists(out_et_tif) Then
+                            MessageBox.Show(Path.GetFileName(out_et_tif) & "already exists")
+                            Continue For
+                        Else
+                            tif_path = tif_path.Replace("\", "//")
+                            Dim Daily_ETr As String = tiff_path_and_et_value(1)
+                            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
+                            OpenCMD.run(ET_Kcb_Python_Script, 1, True)
+                        End If
                     End If
-                End If
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message)
+                End Try
 
             Next
 
@@ -346,8 +350,8 @@ Class MainWindow
 
         End If
 
-
     End Sub
+
 
     Private Sub Grid_host_GotFocus(sender As Object, e As RoutedEventArgs)
         Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
@@ -355,6 +359,7 @@ Class MainWindow
         host.Child = map_win
         Me.grid_host.Children.Add(host)
     End Sub
+
 
     Private Sub Tb_3_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles tabImageView.MouseUp
         Try
