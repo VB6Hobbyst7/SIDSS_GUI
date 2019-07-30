@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.IO;
 
+
 namespace WeatherData2DataGridVIew
 {
     public class Csv2dgv_converter
@@ -16,7 +17,17 @@ namespace WeatherData2DataGridVIew
 
         public DataTable _Csv2dgv(string csv_path)
         {
-            var csv_data = new StreamReader(csv_path);
+            StreamReader csv_data;
+            try
+            {
+                csv_data = new StreamReader(csv_path);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
 
             var csv_datatable = new DataTable();
             var curr_row = csv_data.ReadLine().Split(',');
