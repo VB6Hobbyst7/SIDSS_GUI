@@ -21,6 +21,7 @@ Imports ET_Calculator_streamlined_v11_GIT.OutputPath
 Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
 
 
+
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
@@ -83,7 +84,7 @@ Class MainWindow
             tbx_csv1.Text = open_file.FileName()
 
             Dim csv_datatable As New DataTable
-            Dim csv2dgv As New WeatherData2DataGridVIew.Csv2dgv_converter
+            Dim csv2dgv As New HourlyData2DataGridVIew.Csv2dgv_converter
             csv2dgv._csv_path = tbx_csv1.Text
             csv_datatable = csv2dgv.Csv2dgv
 

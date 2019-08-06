@@ -205,6 +205,7 @@ namespace Hourly_Ref_ET_Calculator
             double sin_phi = Math.Sin(phi) * Math.Sin(delta) + Math.Cos(phi) * Math.Cos(delta) * Math.Cos(omega);
             return sin_phi;
         }
+
         private double Calc_Sc(double J_doy)
         //Seasonal correction for solar time.
         {
@@ -290,9 +291,6 @@ namespace Hourly_Ref_ET_Calculator
 
             return fcd_adv;
         }
-
-
-
 
         private double Calc_Rs_Rso_adv(double Rso_adv, double Rs_measured_rad, double beta, double t_mid_time)
         {
@@ -412,7 +410,6 @@ namespace Hourly_Ref_ET_Calculator
             return Rso;
         }
 
-
         private double Calc_TKhr(double Ta_air_Temperature)
         {
             double TKhr = Ta_air_Temperature + 273.16;
@@ -514,7 +511,6 @@ namespace Hourly_Ref_ET_Calculator
             u2 = uz * Math.Log((2 - d) / Zom) / Math.Log((Zw - d) / Zom);
             return u2;
         }
-
 
         private double Calc_Cn(string ref_crop)
         {

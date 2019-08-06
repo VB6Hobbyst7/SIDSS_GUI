@@ -6,7 +6,7 @@ using System.Data;
 using System.IO;
 
 
-namespace WeatherData2DataGridVIew
+namespace HourlyData2DataGridVIew
 {
     public class Csv2dgv_converter
     {

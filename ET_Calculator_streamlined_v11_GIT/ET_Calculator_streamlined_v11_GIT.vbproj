@@ -1,4 +1,5 @@
-﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -197,8 +198,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DotSpatial\DotSpatial.Topology.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.111.0\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -393,9 +402,9 @@
       <Project>{d24815cd-16dc-4387-ab66-c6874faa73bd}</Project>
       <Name>Hourly_Ref_ET_Calculator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WeatherData2DataGridVIew\WeatherData2DataGridVIew.csproj">
+    <ProjectReference Include="..\WeatherData2DataGridVIew\HourlyData2DataGridVIew.csproj">
       <Project>{a9308e4f-6573-4cb8-8f2c-af9fc8f9b6ee}</Project>
-      <Name>WeatherData2DataGridVIew</Name>
+      <Name>HourlyData2DataGridVIew</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

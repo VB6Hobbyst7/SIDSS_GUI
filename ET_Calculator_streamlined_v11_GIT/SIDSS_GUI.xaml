@@ -194,7 +194,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Button Grid.Column="0" x:Name="btnSaveSiteInfo"  Style="{StaticResource BTNCORNER}" Content="Save new record"  Width="200" Height="40" HorizontalAlignment="Center" FontWeight="Bold" Margin="10"/>
-                            <Button Grid.Column="1" x:Name="btnEditSiteInfo"  Style="{StaticResource BTNCORNER}" Content="Edit selected record."  Width="200" Height="40" HorizontalAlignment="Center" FontWeight="Bold"/>
+                            <Button Grid.Column="1" x:Name="btnEditSiteInfo"  Style="{StaticResource BTNCORNER}" Content="Update selected record."  Width="200" Height="40" HorizontalAlignment="Center" FontWeight="Bold"/>
                             <Button Grid.Column="2" x:Name="btnDeleteSiteInfo"  Style="{StaticResource BTNCORNER}" Content="Delete selected record"  Width="200" Height="40" HorizontalAlignment="Center" FontWeight="Bold" Margin="10"/>
                         </Grid>
                         <TextBlock Margin="0" Padding="10" DockPanel.Dock="Bottom" Grid.Row="1" FontFamily="Consolas" FontSize="16" HorizontalAlignment="Stretch" Background="#FFB3DEE1" Foreground="#FF0063FF" TextWrapping="Wrap">
