@@ -38,7 +38,52 @@ Class MainWindow
     Dim message_shown As Boolean = False
 #End Region
     Public Shared main_window_shared As MainWindow
+    Public Class RefET_Cols
+        Public Property Sno As Int32
+        Public Property Date_ As DateTime
+        Public Property StdTime As Decimal
+        Public Property Tmid As Double
+        Public Property DOY As Int16
+        Public Property AirTemp As Double
+        Public Property RH As Double
+        Public Property Rs As Double
+        Public Property wind__spd As Double
+        Public Property Sc As Double
+        Public Property omega As Double
+        Public Property dr As Double
+        Public Property delta__vapor As Double
+        Public Property delta__angle As Double
+        Public Property phi As Double
+        Public Property beta As Double
+        Public Property omega__s As Double
+        Public Property omega__1 As Double
+        Public Property omega__2 As Double
+        Public Property Ra As Double
+        Public Property Rso As Double
+        Public Property fcd As Double
+        Public Property TKhr As Double
+        Public Property es As Double
+        Public Property ea As Double
+        Public Property Rnl As Double
+        Public Property Rns As Double
+        Public Property G As Double
+        Public Property P As Double
+        Public Property gamma As Double
+        Public Property u2 As Double
+        Public Property Cn As Double
+        Public Property Cd As Double
+        Public Property Rn As Double
+        Public Property fcd_adv As Double
+        Public Property Rs_Rso_adv As Double
+        Public Property Kd As Double
+        Public Property Kb As Double
+        Public Property Rso_adv As Double
+        Public Property W As Double
+        Public Property sin_phi As Double
+        Public Property ETo As Double
+        Public Property ETr As Double
 
+    End Class
     Private Sub Load_DataGrid_RefET()
         'Connect to local SQLite database file. The text part is called connectionstring.
         'Open connection to the database file, within the program.
@@ -676,65 +721,61 @@ Class MainWindow
         Next
 
         Dim index As Integer = 0
-        'Dim full_calc_table_list As New ArrayList
-        'Dim ref_et_row As New RefET_Cols
-        '' Dim full_calculated_table As Enumerable
-        'Dim enumerable_full_table = full_calculated_table.AsEnumerable()
+        Dim full_calc_table_list As New ArrayList
+        Dim ref_et_row As New RefET_Cols
+        For Each row As DataRow In full_calculated_table.Rows
+            Try
+                ref_et_row.Sno = full_sql_table(index)("Sno")
+                ref_et_row.Date_ = full_sql_table(index)("Date")
+                ref_et_row.StdTime = full_sql_table(index)("StdTime")
+                ref_et_row.Tmid = full_sql_table(index)("Tmid")
+                ref_et_row.DOY = full_sql_table(index)("DOY")
+                ref_et_row.AirTemp = full_sql_table(index)("AirTemp")
+                ref_et_row.RH = full_sql_table(index)("RH")
+                ref_et_row.Rs = full_sql_table(index)("Rs")
+                ref_et_row.wind__spd = full_sql_table(index)("wind__spd")
+                ref_et_row.Sc = row("Sc")
+                ref_et_row.omega = row("omega")
+                ref_et_row.dr = row("dr")
+                ref_et_row.delta__vapor = row("delta__vapor")
+                ref_et_row.delta__angle = row("delta__angle")
+                ref_et_row.phi = row("phi")
+                ref_et_row.beta = row("beta")
+                ref_et_row.omega__s = row("omega__s")
+                ref_et_row.omega__1 = row("omega__1")
+                ref_et_row.omega__2 = row("omega__2")
+                ref_et_row.Ra = row("Ra")
+                ref_et_row.Rso = row("Rso")
+                'ref_et_row.fcd = row("fcd")
+                ref_et_row.TKhr = row("TKhr")
+                ref_et_row.es = row("es")
+                ref_et_row.ea = row("ea")
+                ref_et_row.Rnl = row("Rnl")
+                ref_et_row.Rns = row("Rns")
+                ref_et_row.G = row("G")
+                ref_et_row.P = row("P")
+                ref_et_row.gamma = row("gamma")
+                ref_et_row.u2 = row("u2")
+                ref_et_row.Cn = row("Cn")
+                ref_et_row.Cd = row("Cd")
+                ref_et_row.Rn = row("Rn")
+                ref_et_row.fcd_adv = row("fcd_adv")
+                ref_et_row.Rs_Rso_adv = row("Rs_Rso_adv")
+                ref_et_row.Kd = row("Kd")
+                ref_et_row.Kb = row("Kb")
+                ref_et_row.Rso_adv = row("Rso_adv")
+                ref_et_row.W = row("W")
+                ref_et_row.sin_phi = row("sin_phi")
+                ref_et_row.ETo = row("ETo")
+                ref_et_row.ETr = row("ETr")
+            Catch ex As Exception
 
-        'For Each row In enumerable_full_table
-        '    Try
-        '        ref_et_row.Sno = full_sql_table(index)("Sno")
-        '        ref_et_row.Date_ = full_sql_table(index)("Date")
-        '        ref_et_row.StdTime = full_sql_table(index)("StdTime")
-        '        ref_et_row.Tmid = full_sql_table(index)("Tmid")
-        '        ref_et_row.DOY = full_sql_table(index)("DOY")
-        '        ref_et_row.AirTemp = full_sql_table(index)("AirTemp")
-        '        ref_et_row.RH = full_sql_table(index)("RH")
-        '        ref_et_row.Rs = full_sql_table(index)("Rs")
-        '        ref_et_row.wind__spd = full_sql_table(index)("wind__spd")
-        '        ref_et_row.Sc = row("Sc")
-        '        ref_et_row.omega = row("omega")
-        '        ref_et_row.dr = row("dr")
-        '        ref_et_row.delta__vapor = row("delta__vapor")
-        '        ref_et_row.delta__angle = row("delta__angle")
-        '        ref_et_row.phi = row("phi")
-        '        ref_et_row.beta = row("beta")
-        '        ref_et_row.omega__s = row("omega__s")
-        '        ref_et_row.omega__1 = row("omega__1")
-        '        ref_et_row.omega__2 = row("omega__2")
-        '        ref_et_row.Ra = row("Ra")
-        '        ref_et_row.Rso = row("Rso")
-        '        'ref_et_row.fcd = row("fcd")
-        '        ref_et_row.TKhr = row("TKhr")
-        '        ref_et_row.es = row("es")
-        '        ref_et_row.ea = row("ea")
-        '        ref_et_row.Rnl = row("Rnl")
-        '        ref_et_row.Rns = row("Rns")
-        '        ref_et_row.G = row("G")
-        '        ref_et_row.P = row("P")
-        '        ref_et_row.gamma = row("gamma")
-        '        ref_et_row.u2 = row("u2")
-        '        ref_et_row.Cn = row("Cn")
-        '        ref_et_row.Cd = row("Cd")
-        '        ref_et_row.Rn = row("Rn")
-        '        ref_et_row.fcd_adv = row("fcd_adv")
-        '        ref_et_row.Rs_Rso_adv = row("Rs_Rso_adv")
-        '        ref_et_row.Kd = row("Kd")
-        '        ref_et_row.Kb = row("Kb")
-        '        ref_et_row.Rso_adv = row("Rso_adv")
-        '        ref_et_row.W = row("W")
-        '        ref_et_row.sin_phi = row("sin_phi")
-        '        Dim Sc_ As Integer = row.Table.Columns("Sc").Ordinal
-        '        ref_et_row.ETo = row("ETo")
-        '        ref_et_row.ETr = row("ETr")
-        '    Catch ex As Exception
-
-        '    End Try
+            End Try
 
 
-        '    index += 1
-        '    full_calc_table_list.Add(ref_et_row)
-        'Next
+            index += 1
+            full_calc_table_list.Add(ref_et_row)
+        Next
         index = 0
 
         For Each column As DataColumn In full_calculated_table.Columns

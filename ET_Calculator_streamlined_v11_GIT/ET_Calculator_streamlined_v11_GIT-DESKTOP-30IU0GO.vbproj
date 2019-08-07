@@ -237,7 +237,6 @@
     <Compile Include="DailyET_Sum_Window.xaml.vb">
       <DependentUpon>DailyET_Sum_Window.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RefET_Cols.vb" />
     <Compile Include="WaterBalanceCalculator.vb" />
     <Compile Include="Chart_Viewer.Designer.vb">
       <DependentUpon>Chart_Viewer.vb</DependentUpon>
