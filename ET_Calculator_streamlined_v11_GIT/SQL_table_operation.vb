@@ -186,11 +186,14 @@ Public Class SQL_table_operation
 
     Public Sub Write_WaterBalance_Final_Table(ByRef col_data As DataTable)
         cmd.Connection = myConnection
+        If myConnection.State = ConnectionState.Open Then
+            myConnection.Close()
+        End If
         myConnection.Open()
         cmd.CommandText = Nothing
         'Dim Date_Str As String
         'Dim DOY, Precip, Irrig, Tmax, Tmin, GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di As Double
-        Dim GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di As Double
+        Dim GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di, eff_irrig, eff_precip, sro As Double
 
         Dim n_cols As Integer = col_data.Columns.Count
         Dim n_rows As Integer = col_data.Rows.Count
@@ -203,9 +206,14 @@ Public Class SQL_table_operation
             Dmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Dmax")), 3).ToString
             Di = Math.Round(Convert.ToDouble(col_data.Rows(i)("Di")), 3).ToString
             DP = Math.Round(Convert.ToDouble(col_data.Rows(i)("DP")), 3).ToString
+            eff_irrig = Math.Round(Convert.ToDouble(col_data.Rows(i)("Eff__Irrig")), 3).ToString
+            eff_precip = Math.Round(Convert.ToDouble(col_data.Rows(i)("Eff__Precip")), 3).ToString
+            sro = Math.Round(Convert.ToDouble(col_data.Rows(i)("Surface__Runoff")), 3).ToString
+
+
             cmd.CommandText &=
-                String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}' WHERE SNo={7};" _
-                                        , GDD, Kc, ETc, Drz, Dmax, Di, DP, i + 1) & Environment.NewLine
+                String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}', Eff__Irrig='{7}', Eff__Precip='{8}', Surface__Runoff='{9}' WHERE SNo={10};" _
+                                        , GDD, Kc, ETc, Drz, Dmax, Di, DP, eff_irrig, eff_precip, sro, i + 1) & Environment.NewLine
         Next
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction
         Using tr

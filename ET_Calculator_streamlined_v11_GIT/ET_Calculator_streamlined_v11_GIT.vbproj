@@ -234,6 +234,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Csv2dgv_converter.vb" />
     <Compile Include="DailyET_Sum_Window.xaml.vb">
       <DependentUpon>DailyET_Sum_Window.xaml</DependentUpon>
     </Compile>
@@ -402,10 +403,6 @@
     <ProjectReference Include="..\Hourly_Ref_ET_Calculator_\Hourly_Ref_ET_Calculator.csproj">
       <Project>{d24815cd-16dc-4387-ab66-c6874faa73bd}</Project>
       <Name>Hourly_Ref_ET_Calculator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WeatherData2DataGridVIew\HourlyData2DataGridVIew.csproj">
-      <Project>{a9308e4f-6573-4cb8-8f2c-af9fc8f9b6ee}</Project>
-      <Name>HourlyData2DataGridVIew</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

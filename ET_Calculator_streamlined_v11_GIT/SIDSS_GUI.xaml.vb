@@ -16,6 +16,7 @@ Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
 Imports ET_Calculator_streamlined_v11_GIT.WaterBalanceCalculator
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
+
 Imports System.Collections.Generic
 Imports ET_Calculator_streamlined_v11_GIT.OutputPath
 Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
@@ -87,7 +88,7 @@ Class MainWindow
             tbx_csv1.Text = open_file.FileName()
 
             Dim csv_datatable As New DataTable
-            Dim csv2dgv As New HourlyData2DataGridVIew.Csv2dgv_converter
+            Dim csv2dgv As New Csv2dgv_converter
             csv2dgv._csv_path = tbx_csv1.Text
             csv_datatable = csv2dgv.Csv2dgv
 
@@ -574,17 +575,20 @@ Class MainWindow
 
         calc_water_balance_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
         Dim soil_prop As New List(Of String)
-        soil_prop.Add(tbxSoilDepth_1.Text)
-        soil_prop.Add(tbxSoilDepth_2.Text)
-        soil_prop.Add(tbxSoilDepth_3.Text)
-        soil_prop.Add(tbxSoilDepth_4.Text)
-        soil_prop.Add(tbxSoilDepth_5.Text)
-        soil_prop.Add(tbxRAW_1.Text)
-        soil_prop.Add(tbxRAW_2.Text)
-        soil_prop.Add(tbxRAW_3.Text)
-        soil_prop.Add(tbxRAW_4.Text)
-        soil_prop.Add(tbxRAW_5.Text)
-        soil_prop.Add(tbxMAD_perecnt.Text)
+        soil_prop.Add(tbxSoilDepth_1.Text)  'Index no. 0
+        soil_prop.Add(tbxSoilDepth_2.Text)  'Index no. 1
+        soil_prop.Add(tbxSoilDepth_3.Text)  'Index no. 2
+        soil_prop.Add(tbxSoilDepth_4.Text)  'Index no. 3
+        soil_prop.Add(tbxSoilDepth_5.Text)  'Index no. 4
+        soil_prop.Add(tbxRAW_1.Text)      'Index no. 5
+        soil_prop.Add(tbxRAW_2.Text)  'Index no. 6
+        soil_prop.Add(tbxRAW_3.Text)  'Index no. 7
+        soil_prop.Add(tbxRAW_4.Text)  'Index no. 8
+        soil_prop.Add(tbxRAW_5.Text)  'Index no. 9
+        soil_prop.Add(tbxMAD_perecnt.Text)  'Index no. 10
+        soil_prop.Add(tbxIrrigEff.Text)  'Index no. 11
+        soil_prop.Add(tbxRunoffCN.Text)  'Index no. 12
+
         calc_water_balance_cols.Set_Soil_Profile = soil_prop
         calc_water_balance_cols.Calculate_Grid_Cols(Tbase)
         Load_Datagrid("WaterBalance_Table")
@@ -678,59 +682,59 @@ Class MainWindow
         Dim index As Integer = 0
         'Dim full_calc_table_list As New ArrayList
         'Dim ref_et_row As New RefET_Cols
-        '' Dim full_calculated_table As Enumerable
-        'Dim enumerable_full_table = full_calculated_table.AsEnumerable()
-
-        'For Each row In enumerable_full_table
+        'For Each row As DataRow In full_calculated_table.Rows
+        '    ref_et_row.Sno = full_sql_table(index)("Sno")
+        '    ref_et_row.Date_ = full_sql_table(index)("Date")
+        '    ref_et_row.StdTime = full_sql_table(index)("StdTime")
+        '    ref_et_row.Tmid = full_sql_table(index)("Tmid")
+        '    ref_et_row.DOY = full_sql_table(index)("DOY")
+        '    ref_et_row.AirTemp = full_sql_table(index)("AirTemp")
+        '    ref_et_row.RH = full_sql_table(index)("RH")
+        '    ref_et_row.Rs = full_sql_table(index)("Rs")
+        '    ref_et_row.wind__spd = full_sql_table(index)("wind__spd")
+        '    ref_et_row.Sc = row("Sc")
+        '    ref_et_row.omega = row("omega")
+        '    ref_et_row.dr = row("dr")
+        '    ref_et_row.delta__vapor = row("delta__vapor")
+        '    ref_et_row.delta__angle = row("delta__angle")
+        '    ref_et_row.phi = row("phi")
+        '    ref_et_row.beta = row("beta")
+        '    ref_et_row.omega__s = row("omega__s")
+        '    ref_et_row.omega__1 = row("omega__1")
+        '    ref_et_row.omega__2 = row("omega__2")
+        '    ref_et_row.Ra = row("Ra")
+        '    ref_et_row.Rso = row("Rso")
+        '    'ref_et_row.fcd = row("fcd")
+        '    ref_et_row.TKhr = row("TKhr")
+        '    ref_et_row.es = row("es")
+        '    ref_et_row.ea = row("ea")
+        '    ref_et_row.Rnl = row("Rnl")
+        '    ref_et_row.Rns = row("Rns")
+        '    ref_et_row.G = row("G")
+        '    ref_et_row.P = row("P")
+        '    ref_et_row.gamma = row("gamma")
+        '    ref_et_row.u2 = row("u2")
+        '    ref_et_row.Cn = row("Cn")
+        '    ref_et_row.Cd = row("Cd")
+        '    ref_et_row.Rn = row("Rn")
+        '    ref_et_row.fcd_adv = row("fcd_adv")
+        '    ref_et_row.Rs_Rso_adv = row("Rs_Rso_adv")
+        '    ref_et_row.Kd = row("Kd")
+        '    ref_et_row.Kb = row("Kb")
+        '    ref_et_row.Rso_adv = row("Rso_adv")
+        '    ref_et_row.W = row("W")
+        '    ref_et_row.sin_phi = row("sin_phi")
         '    Try
-        '        ref_et_row.Sno = full_sql_table(index)("Sno")
-        '        ref_et_row.Date_ = full_sql_table(index)("Date")
-        '        ref_et_row.StdTime = full_sql_table(index)("StdTime")
-        '        ref_et_row.Tmid = full_sql_table(index)("Tmid")
-        '        ref_et_row.DOY = full_sql_table(index)("DOY")
-        '        ref_et_row.AirTemp = full_sql_table(index)("AirTemp")
-        '        ref_et_row.RH = full_sql_table(index)("RH")
-        '        ref_et_row.Rs = full_sql_table(index)("Rs")
-        '        ref_et_row.wind__spd = full_sql_table(index)("wind__spd")
-        '        ref_et_row.Sc = row("Sc")
-        '        ref_et_row.omega = row("omega")
-        '        ref_et_row.dr = row("dr")
-        '        ref_et_row.delta__vapor = row("delta__vapor")
-        '        ref_et_row.delta__angle = row("delta__angle")
-        '        ref_et_row.phi = row("phi")
-        '        ref_et_row.beta = row("beta")
-        '        ref_et_row.omega__s = row("omega__s")
-        '        ref_et_row.omega__1 = row("omega__1")
-        '        ref_et_row.omega__2 = row("omega__2")
-        '        ref_et_row.Ra = row("Ra")
-        '        ref_et_row.Rso = row("Rso")
-        '        'ref_et_row.fcd = row("fcd")
-        '        ref_et_row.TKhr = row("TKhr")
-        '        ref_et_row.es = row("es")
-        '        ref_et_row.ea = row("ea")
-        '        ref_et_row.Rnl = row("Rnl")
-        '        ref_et_row.Rns = row("Rns")
-        '        ref_et_row.G = row("G")
-        '        ref_et_row.P = row("P")
-        '        ref_et_row.gamma = row("gamma")
-        '        ref_et_row.u2 = row("u2")
-        '        ref_et_row.Cn = row("Cn")
-        '        ref_et_row.Cd = row("Cd")
-        '        ref_et_row.Rn = row("Rn")
-        '        ref_et_row.fcd_adv = row("fcd_adv")
-        '        ref_et_row.Rs_Rso_adv = row("Rs_Rso_adv")
-        '        ref_et_row.Kd = row("Kd")
-        '        ref_et_row.Kb = row("Kb")
-        '        ref_et_row.Rso_adv = row("Rso_adv")
-        '        ref_et_row.W = row("W")
-        '        ref_et_row.sin_phi = row("sin_phi")
-        '        Dim Sc_ As Integer = row.Table.Columns("Sc").Ordinal
         '        ref_et_row.ETo = row("ETo")
+        '    Catch ex As Exception
+        '    End Try
+        '    If row("ETr") IsNot Nothing Then
+
+        '    End If
+        '    Try
         '        ref_et_row.ETr = row("ETr")
         '    Catch ex As Exception
-
         '    End Try
-
 
         '    index += 1
         '    full_calc_table_list.Add(ref_et_row)
