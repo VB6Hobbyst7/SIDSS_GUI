@@ -37,8 +37,28 @@ Class MainWindow
     Dim myConnection As New SQLiteConnection(String.Format("Data Source={0}; Version=3;", app_path))
     Dim cmd As New SQLiteCommand
     Dim message_shown As Boolean = False
+
+    'Dim setting = new AppDomain.CurrentDomain.SetData("DataDirecory",app_path)
+
+
+
+
+
+
+
+
 #End Region
     Public Shared main_window_shared As MainWindow
+    Private Sub Entity_DB_Test()
+        ' Encapsulating database in "using" statement to close the database immediately.
+        Using entity_table As New SIDSS_Entities()
+            ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
+            DgvRefET.ItemsSource = entity_table.Ref_ET_Table.ToList()
+        End Using
+
+
+    End Sub
+
 
     Private Sub Load_DataGrid_RefET()
         'Connect to local SQLite database file. The text part is called connectionstring.
@@ -70,6 +90,7 @@ Class MainWindow
         DgvRefET.ItemsSource = dt.DefaultView
 
     End Sub
+
 
     Private Sub Btn_tiff_Click(sender As Object, e As RoutedEventArgs) Handles btn_load_weather_data_csv.Click
         Dim reset_ref_et As New SQL_table_operation
@@ -117,11 +138,13 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub Open_tif(sender As Object, e As RoutedEventArgs) Handles btn_KC_MS_tiff.Click
         KC_MS_file_path.Text = get_file_path("Tiff Files", "TIF", "Select NRG calibrated image %ge values (0-100)")
         set_parameter_file()
 
     End Sub
+
 
     Private Function get_file_path(ByVal file_info As String, ByVal extension As String, ByVal title As String)
         Dim open_file As New Microsoft.Win32.OpenFileDialog With {
@@ -134,6 +157,7 @@ Class MainWindow
         Return open_file.FileName()
     End Function
 
+
     Private Sub Main_window_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles main_window.SizeChanged
         Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
 
@@ -142,51 +166,84 @@ Class MainWindow
             tab_item.Height = tab_control_h / total_tabs - 1
         Next
 
-        dynamic_grid_resize()
+        Dynamic_grid_resize()
     End Sub
+
 
     Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
+        Entity_DB_Test()
+        ' Return
 
-        KC_MS_file_path.Text = My.Settings.KC_MS_file_path_settings
-        tbx_csv1.Text = My.Settings.tbx_csv1_settings
-        tbx_EB_MS.Text = My.Settings.tbx_EB_MS_settings
-        tbx_EB_Thermal.Text = My.Settings.tbx_EB_Thermal_settings
+#Region "Load Settings"
+        Using SIDS_GUI_context As New SIDSS_Entities()
+            Dim gui_settings = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
+            KC_MS_file_path.Text = gui_settings.EB_MS_Tiff
+            tbx_csv1.Text = gui_settings.RefET_hourly_CSV
+            tbx_EB_MS.Text = gui_settings.EB_MS_Tiff
+            tbx_EB_Thermal.Text = gui_settings.EB_Thermal_Tiff
+            tbxSoilDepth_1.Text = gui_settings.SoilDepth_1
+            tbxSoilDepth_2.Text = gui_settings.SoilDepth_2
+            tbxSoilDepth_3.Text = gui_settings.SoilDepth_3
+            tbxSoilDepth_4.Text = gui_settings.SoilDepth_4
+            tbxSoilDepth_5.Text = gui_settings.SoilDepth_5
+            HarvestDate.DisplayDate = Convert.ToDateTime(gui_settings.Harvest_Date)
+            HarvestDate.SelectedDate = Convert.ToDateTime(gui_settings.Harvest_Date)
+            PlantDate.DisplayDate = Convert.ToDateTime(gui_settings.Plant_Date)
+            PlantDate.SelectedDate = Convert.ToDateTime(gui_settings.Plant_Date)
+            tbxMinRootDepth.Text = gui_settings.Min_Root_Depth
+            tbxMaxRootDepth.Text = gui_settings.Max_Root_Depth
+            tbxTAW_1.Text = gui_settings.TAW_1
+            tbxTAW_2.Text = gui_settings.TAW_2
+            tbxTAW_3.Text = gui_settings.TAW_3
+            tbxTAW_4.Text = gui_settings.TAW_4
+            tbxTAW_5.Text = gui_settings.TAW_5
+            'Dim ref_et_data = SIDS_GUI_context.Ref_ET_Table.Find(1)
+            'MessageBox.Show("")
+        End Using
 
-        tbxSoilDepth_1.Text = My.Settings.tbxSoilDepth_1_settings
-        tbxSoilDepth_2.Text = My.Settings.tbxSoilDepth_2_settings
-        tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
-        tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
-        tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
-        tbxTAW_1.Text = My.Settings.tbxTAW_1_settings
-        tbxTAW_2.Text = My.Settings.tbxTAW_2_settings
-        tbxTAW_3.Text = My.Settings.tbxTAW_3_settings
-        tbxTAW_4.Text = My.Settings.tbxTAW_4_settings
-        tbxTAW_5.Text = My.Settings.tbxTAW_5_settings
-        HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
-        HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
-        PlantDate.DisplayDate = My.Settings.PlantDate_settings
-        PlantDate.SelectedDate = My.Settings.PlantDate_settings
+        'KC_MS_file_path.Text = My.Settings.KC_MS_file_path_settings
+        'tbx_csv1.Text = My.Settings.tbx_csv1_settings
+        'tbx_EB_MS.Text = My.Settings.tbx_EB_MS_settings
+        'tbx_EB_Thermal.Text = My.Settings.tbx_EB_Thermal_settings
 
-        tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
-        tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
+        'tbxSoilDepth_1.Text = My.Settings.tbxSoilDepth_1_settings
+        'tbxSoilDepth_2.Text = My.Settings.tbxSoilDepth_2_settings
+        'tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
+        'tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
+        'tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
+        'tbxTAW_1.Text = My.Settings.tbxTAW_1_settings
+        'tbxTAW_2.Text = My.Settings.tbxTAW_2_settings
+        'tbxTAW_3.Text = My.Settings.tbxTAW_3_settings
+        'tbxTAW_4.Text = My.Settings.tbxTAW_4_settings
+        'tbxTAW_5.Text = My.Settings.tbxTAW_5_settings
+        'HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
+        'HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
+        'PlantDate.DisplayDate = My.Settings.PlantDate_settings
+        'PlantDate.SelectedDate = My.Settings.PlantDate_settings
+
+        'tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
+        'tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
+#End Region
 
         'Checks to see if the database exisits in the executable direcory, if not, then an empty database is created.
-        If Not File.Exists("SIDSS_database.db") Then
-            Dim fresh_db As New Create_Empty_SQL_Data_Tables
-            fresh_db.Create_empyt_tables()
-        End If
+        'If Not File.Exists("SIDSS_database.db") Then
+        '    Dim fresh_db As New Create_Empty_SQL_Data_Tables
+        '    fresh_db.Create_empyt_tables()
+        'End If
 
         'Load Ref ET datagrid with old values from database.
-        Dim load_full_sql_table As New SQL_table_operation
-        Dim full_sql_table As New DataTable
-        full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
-        DgvRefET.ItemsSource = full_sql_table.DefaultView
+        'Dim load_full_sql_table As New SQL_table_operation
+        'Dim full_sql_table As New DataTable
+        'full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
+        'DgvRefET.ItemsSource = full_sql_table.DefaultView
+        Entity_DB_Test()
 
-        dynamic_grid_resize()
+        Dynamic_grid_resize()
 
     End Sub
 
-    Private Sub dynamic_grid_resize()
+
+    Private Sub Dynamic_grid_resize()
         Try
             Dim WaterBalance_Grid As Integer = main_window.ActualHeight - 310
             dgvWaterBalance.Height = WaterBalance_Grid
@@ -263,6 +320,7 @@ Class MainWindow
         file.Close()
     End Sub
 
+
     Private Function Validate_decimal(ByVal tbx_sting)
         Dim decimal_vlaue As Decimal
         If Decimal.TryParse(tbx_sting, decimal_vlaue) Then
@@ -274,6 +332,7 @@ Class MainWindow
         End If
 
     End Function
+
 
     Private Function ReadCSV(ByVal FileName As String) As DataTable
         Dim csvDataTable As DataTable = New DataTable("csvdata")
@@ -314,6 +373,7 @@ Class MainWindow
 
         Return csvDataTable
     End Function
+
 
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
         Dim OpenCMD As Object = CreateObject("wscript.shell")
@@ -378,6 +438,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Function Update_Main_Grid(ByVal index As Integer)
         Dim i As Integer = 0
         Dim curr_row As DataRow
@@ -392,6 +453,7 @@ Class MainWindow
         Next
         Return final_table
     End Function
+
 
     Private Function Launch_Col_Input_From(ByVal col_name As String)
         dgv = New FormDGV
@@ -414,6 +476,7 @@ Class MainWindow
         Return ""
     End Function
 
+
     Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnPrecip.Click
         'Dim index As Integer = 1
         'Dim precip_table As New DataTable
@@ -425,6 +488,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub BtnIrrig_Click(sender As Object, e As RoutedEventArgs) Handles btnIrrig.Click
         Dim index As Integer = 1
         Dim Irrig_table As New DataTable
@@ -433,6 +497,7 @@ Class MainWindow
         Load_Datagrid("WaterBalance_Table")
         dgvWaterBalance.Items.Refresh()
     End Sub
+
 
     Private Sub BtnET_Click(sender As Object, e As RoutedEventArgs) Handles btnETr.Click
         Dim index As Integer = 1
@@ -444,6 +509,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub BtnTmax_Click(sender As Object, e As RoutedEventArgs) Handles btnTmax.Click
         Dim index As Integer = 1
         Dim Tmax_table As New DataTable
@@ -453,6 +519,7 @@ Class MainWindow
         dgvWaterBalance.Items.Refresh()
 
     End Sub
+
 
     Private Sub BtnTmin_Click(sender As Object, e As RoutedEventArgs) Handles btnTmin.Click
         Dim index As Integer = 1
@@ -464,9 +531,11 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub Dataset_Update()
         Dim ConnectionString As String = ""
     End Sub
+
 
     Private Sub BtnSetDates_Click(sender As Object, e As RoutedEventArgs) Handles btnSetDates.Click
 
@@ -502,9 +571,11 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub Tb_4_Loaded(sender As Object, e As RoutedEventArgs) Handles tabWaterBalance.Loaded
         Load_Datagrid("WaterBalance_Table")
     End Sub
+
 
     Public Sub Load_Datagrid(ByVal table_name As String, Optional ByVal save_csv As Boolean = False)
         'Connect to local SQLite database file. The text part is called connectionstring.
@@ -538,6 +609,7 @@ Class MainWindow
 
     End Sub
 
+
     Public Sub Load_Datagrid2(Optional ByVal save_csv As Boolean = False)
         'Connect to local SQLite database file. The text part is called connectionstring.
         Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
@@ -569,6 +641,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
 
         Dim calc_water_balance_cols As New WaterBalanceCalculator
@@ -595,15 +668,18 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub Btn_EB_MS_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_MS.Click
         tbx_EB_MS.Text = get_file_path("MS image", "tif", "Select MS calibrated Image for Energy Balance method")
         set_parameter_file()
     End Sub
 
+
     Private Sub Btn_EB_Thermal_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_Thermal.Click
         tbx_EB_Thermal.Text = get_file_path("Thermal 1-band image", "tif", "Select Thermal calibrated Image for Energy Balance method")
         set_parameter_file()
     End Sub
+
 
     Private Sub Btn_EB_MS_run_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_run.Click
         Dim OpenCMD
@@ -611,6 +687,7 @@ Class MainWindow
         Dim command2 As String = "python.exe " & """ET_Calculation_Field_data_with_cpp_v2.py"""
         OpenCMD.run(command2, 1, True)
     End Sub
+
 
     Private Sub RbCotton_Click(sender As Object, e As RoutedEventArgs) Handles rbCotton.Click
         If rbCotton.IsChecked = True Then
@@ -622,6 +699,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub RbWheat_Click(sender As Object, e As RoutedEventArgs) Handles rbWheat.Click
         If rbWheat.IsChecked = True Then
             rbCorn.Content = "Corn"
@@ -632,6 +710,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub RbCorn_Click(sender As Object, e As RoutedEventArgs) Handles rbCorn.Click
         If rbCorn.IsChecked = True Then
             rbCorn.Content = "Corn (Tbase=50)"
@@ -641,6 +720,7 @@ Class MainWindow
         End If
     End Sub
 
+
     Private Sub BtnChart_Click(sender As Object, e As RoutedEventArgs) Handles btnChart.Click
         Dim chrt_view As New Graphs_Viewer
         For i = 0 To chrt_view.chkGraphOptions.Items.Count - 1
@@ -648,6 +728,7 @@ Class MainWindow
         Next
         chrt_view.Show()
     End Sub
+
 
     Private Sub Btn_calc_ref_ET_Click(sender As Object, e As RoutedEventArgs) Handles btn_calc_ref_ET.Click
 
@@ -755,6 +836,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Function ref_ET_Single_Day_calc(ByVal curr_day_data As DataTable)
 
         Dim daily_results_table As New DataTable
@@ -856,9 +938,11 @@ Class MainWindow
         Return daily_results_table
     End Function
 
+
     Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
         Load_DataGrid_RefET()
     End Sub
+
 
     Private Sub SetCellValue(ByVal myGrid As DataGrid)
         Dim myCell As New DataGridCell()
@@ -869,6 +953,7 @@ Class MainWindow
         myGrid(myCell) = "New Value"
     End Sub
 
+
     Private Sub GetCellValue(ByVal myGrid As DataGrid)
         Dim myCell As New DataGridCell()
         ' Use an arbitrary cell.
@@ -877,9 +962,11 @@ Class MainWindow
         Console.WriteLine(myGrid(myCell))
     End Sub
 
+
     Private Sub DgSiteInfo_Loaded_1(sender As Object, e As RoutedEventArgs) Handles dgSiteInfo.Loaded
         Load_siteinfo()
     End Sub
+
 
     Private Sub Load_siteinfo()
         Dim dgSiteInfo_table As New DataTable
@@ -889,6 +976,7 @@ Class MainWindow
 
         dgSiteInfo.ItemsSource = dgSiteInfo_table.DefaultView()
     End Sub
+
 
     Private Sub DgSiteInfo_SelectedCellsChanged(sender As Object, e As SelectedCellsChangedEventArgs) Handles dgSiteInfo.SelectedCellsChanged
 
@@ -927,6 +1015,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub BtnEditSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnEditSiteInfo.Click
         Dim curr_row As DataRowView
         Try
@@ -958,6 +1047,7 @@ Class MainWindow
         myConnection.Close()
         Load_siteinfo()
     End Sub
+
 
     Private Sub btnSaveSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveSiteInfo.Click
         Dim dgSiteInfo_table As New DataTable
@@ -992,6 +1082,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub BtnDeleteSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnDeleteSiteInfo.Click
         Dim curr_row As DataRowView
         Try
@@ -1013,6 +1104,7 @@ Class MainWindow
         myConnection.Close()
         Load_siteinfo()
     End Sub
+
 
     Private Sub Main_window_Closing(sender As Object, e As CancelEventArgs) Handles main_window.Closing
         My.Settings.KC_MS_file_path_settings = KC_MS_file_path.Text
@@ -1042,6 +1134,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub MnuOutputPath_Click(sender As Object, e As RoutedEventArgs) Handles mnuOutputPath.Click
         Dim control_window = New OutputPath
         main_window.Hide()
@@ -1050,6 +1143,7 @@ Class MainWindow
         'Dim output_path As String = user_control.tbxOutputPath.ToString()
         'tbx_csv1.Text = result.ToString()
     End Sub
+
 
     Private Sub TbxTAW_1_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbxTAW_1.TextChanged, tbxTAW_2.TextChanged, tbxTAW_3.TextChanged, tbxTAW_4.TextChanged, tbxTAW_5.TextChanged
         Try
@@ -1074,13 +1168,16 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub Label_MouseEnter(sender As Object, e As Input.MouseEventArgs)
         lblPlantingDepth.FontWeight = FontWeights.Bold
     End Sub
 
+
     Private Sub LblPlantingDepth_MouseLeave(sender As Object, e As Input.MouseEventArgs)
         lblPlantingDepth.FontWeight = FontWeights.Normal
     End Sub
+
 
     Private Sub Btn_Daily_ET_Sum_Click(sender As Object, e As RoutedEventArgs) Handles btn_Daily_ET_Sum.Click
 
@@ -1117,6 +1214,7 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub RbBatch_ReflET_OFF_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_OFF.Checked
         Try
             rtbxReflET.IsEnabled = False
@@ -1128,9 +1226,12 @@ Class MainWindow
 
     End Sub
 
+
     Private Sub RbBatch_ReflET_ON_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_ON.Checked
         rtbxReflET.IsEnabled = True
         RefET24hr.IsEnabled = False
         btn_KC_MS_tiff.IsEnabled = False
     End Sub
+
+
 End Class

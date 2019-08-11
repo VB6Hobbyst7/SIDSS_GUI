@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f74968793e9400a9a2a961ad6087f5f" Name="Diagram1" ZoomLevel="76">
+        <EntityTypeShape EntityType="SIDSS_mainModel.Ref_ET_Table" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SIDSS_mainModel.SIDS_GUI_Parameters" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SIDSS_mainModel.Site_Info_Summary" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SIDSS_mainModel.SMD_Daily" Width="1.5" PointX="4.75" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

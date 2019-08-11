@@ -21,7 +21,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="7,7,7,7" Background="LightSkyBlue"  BorderBrush="#ccc" BorderThickness="1,1,1,1" >
+                        <Border CornerRadius="7,7,7,7" Background="LightSkyBlue"  BorderBrush="#000" BorderThickness="1,1,1,1" >
                             <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
@@ -289,7 +289,7 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="2" Content="24 Hour ETr (mm)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
+                                <Label Grid.Column="2" Content="24 Hour ETr (in)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
                                 <TextBox Grid.Column="3" x:Name="RefET24hr" TextAlignment="Center"  Margin="20,0" VerticalContentAlignment="Center" FontSize="16"/>
                                 <Button Grid.Column="4" x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
                                 <RadioButton HorizontalAlignment="Right" x:Name="rbBatch_ReflET_OFF" Content="Single File mode" Grid.Column="0" IsChecked="True" VerticalContentAlignment="Center"/>
@@ -410,7 +410,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-        <TabItem x:Name="tabWaterBalance" Header="Water Balance Scheduling" Height="100" Width="200">
+        <TabItem x:Name="tabWaterBalance" Header="Soil Moisture Defict" Height="100" Width="200">
                 <Grid>
                     <StackPanel>
                     <Grid x:Name="gridWaterBalanceTop">
@@ -481,7 +481,7 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
-                                        <GroupBox Header="Crop info." Grid.Column="0" >
+                                        <GroupBox Header="Crop options." Grid.Column="0" >
                                             <StackPanel Margin="5,2">
                                                 <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCorn" Content="Corn (Tbase=50)"  Margin="0,3" HorizontalAlignment="Left" IsChecked="True"/>
                                                 <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCotton" Content="Cotton"  Margin="0,3" HorizontalAlignment="Left" />
@@ -490,10 +490,11 @@
                                                     
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="0.4*"/>
+                                                        <ColumnDefinition Width="0.75*"/>
+
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Column="0" Content="MAD %" VerticalAlignment="Center"/>
-                                                    <TextBox Grid.Column="1" x:Name="tbxMAD_perecnt" FontSize="14" VerticalContentAlignment="Center" Padding="2" TextAlignment="Center" Text="50" VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Column="1" x:Name="tbxMAD_perecnt" FontSize="14" HorizontalAlignment="Left" Width="50" VerticalContentAlignment="Center" Padding="2" TextAlignment="Center" Text="50" VerticalAlignment="Stretch"/>
                                                     
                                                 </Grid>
                                                 <Grid Margin="0,3">
@@ -572,7 +573,7 @@
 
                                                     <Label x:Name="lblPlantingDepth" Content="Planting depth, in.&#8594;"  Grid.Column="0" MouseEnter="Label_MouseEnter" MouseLeave="LblPlantingDepth_MouseLeave" >
                                                         <Label.ToolTip>
-                                                            <TextBox> Add 2" extra for actual root zone emergence depth.</TextBox>
+                                                            <TextBox Background="LightGray" > Add 2" extra for actual root zone emergence depth.</TextBox>
                                                         </Label.ToolTip>
                                                         
                                                     </Label>
