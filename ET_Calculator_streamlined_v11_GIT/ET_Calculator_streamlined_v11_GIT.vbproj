@@ -411,12 +411,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SIDSS_database.db">
+    <EmbeddedResource Include="SIDSS_database.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SIDSS_Entity_database.db">
+    </EmbeddedResource>
+    <EmbeddedResource Include="SIDSS_Entity_database.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
     <Content Include="SQLite_SIDSS_Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>

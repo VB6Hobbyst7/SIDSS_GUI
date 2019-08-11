@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="760" Width="1200" MinWidth="1200" MinHeight="760" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3">
+        Title="Spatial Irrigation Decision Support System (SIDSS)" Height="760" Width="1200" MinWidth="1200" MinHeight="760" VerticalContentAlignment="Stretch" FontSize="14" Background="#FFEAE3E3" Icon="drone-png-47013-Windows.ico">
 
     <Window.Resources>
         <Style TargetType="Grid">

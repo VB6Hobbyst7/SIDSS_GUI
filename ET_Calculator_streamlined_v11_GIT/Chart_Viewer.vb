@@ -1,11 +1,13 @@
 ﻿Imports System.Data.SQLite
 Imports System.Data
-Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
+'Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT
+Imports ET_Calculator_streamlined_v11_GIT.MainWindow
 Imports System.Text
 Imports System
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Linq
+Imports System.Windows.Forms
 
 Public Class Graphs_Viewer
     'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
@@ -28,6 +30,8 @@ Public Class Graphs_Viewer
         chrtWaterBalance.ChartAreas(0).AxisX.Name = "GDD"
         chrtWaterBalance.ChartAreas(0).AxisY.LabelAutoFitStyle = LabelAutoFitStyles.None
         chrtWaterBalance.ChartAreas(0).AxisY.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
+        chrtWaterBalance.ChartAreas(0).AxisX.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
+        chrtWaterBalance.ChartAreas(0).AxisY2.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
@@ -85,15 +89,15 @@ Public Class Graphs_Viewer
                 Case "Eff__Precip"
                     'curr_item_title = "Effective Precip after surface runoff"
                     chrtWaterBalance.Series(i).ChartType = SeriesChartType.Column
-                    chrtWaterBalance.Series(i)("PixelPointWidth") = "5"
+                    chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
-                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
+                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.ForestGreen
                 Case "Eff__Irrig"
                     'curr_item_title = "Effective Irrig @ irrigation efficiency"
                     chrtWaterBalance.Series(i).ChartType = SeriesChartType.Column
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
-                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.ForestGreen
-                    chrtWaterBalance.Series(i)("PixelPointWidth") = "5"
+                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
+                    chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
             End Select
 
             'Populate each line/cloumn with the corresponding data. Note: Checkbox items name the sql data table column names,
@@ -200,4 +204,6 @@ Public Class Graphs_Viewer
     Private Sub ToolStripComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBox1.SelectedIndexChanged
         Load_Chart()
     End Sub
+
+
 End Class

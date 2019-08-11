@@ -24,7 +24,6 @@ Imports System.Linq
 Imports System.Collections
 
 
-
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
@@ -48,8 +47,12 @@ Class MainWindow
 
 
 #End Region
+
+
     Public Shared main_window_shared As MainWindow
-    Private Sub Entity_DB_Test()
+
+
+    Private Sub Load_RefET_DagaGrid()
         ' Encapsulating database in "using" statement to close the database immediately.
         Using entity_table As New SIDSS_Entities()
             ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
@@ -171,7 +174,7 @@ Class MainWindow
 
 
     Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
-        Entity_DB_Test()
+        Load_RefET_DagaGrid()
         ' Return
 
 #Region "Load Settings"
@@ -236,7 +239,7 @@ Class MainWindow
         'Dim full_sql_table As New DataTable
         'full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
         'DgvRefET.ItemsSource = full_sql_table.DefaultView
-        Entity_DB_Test()
+        Load_RefET_DagaGrid()
 
         Dynamic_grid_resize()
 
@@ -321,12 +324,12 @@ Class MainWindow
     End Sub
 
 
-    Private Function Validate_decimal(ByVal tbx_sting)
+    Private Function Validate_decimal(ByVal tbx_string)
         Dim decimal_vlaue As Decimal
-        If Decimal.TryParse(tbx_sting, decimal_vlaue) Then
+        If Decimal.TryParse(tbx_string, decimal_vlaue) Then
             Return decimal_vlaue
         Else
-            MessageBox.Show("Please enter a decimal number instead of " & tbx_sting)
+            MessageBox.Show("Please enter a decimal number instead of " & tbx_string)
             End
             Return Nothing
         End If
@@ -726,7 +729,9 @@ Class MainWindow
         For i = 0 To chrt_view.chkGraphOptions.Items.Count - 1
             chrt_view.chkGraphOptions.SetItemCheckState(i, CheckState.Checked)
         Next
-        chrt_view.Show()
+
+        chrt_view.ShowDialog()
+
     End Sub
 
 
@@ -940,7 +945,8 @@ Class MainWindow
 
 
     Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
-        Load_DataGrid_RefET()
+        Load_RefET_DagaGrid()
+        'Load_DataGrid_RefET()
     End Sub
 
 
@@ -1131,6 +1137,18 @@ Class MainWindow
         My.Settings.PlantDate_settings = PlantDate.SelectedDate
 
         My.Settings.Save()
+
+        If System.Windows.Forms.Application.MessageLoop Then
+
+            '// Use this since we are a WinForms app
+            System.Windows.Forms.Application.Exit()
+
+        Else
+
+            '// Use this since we are a console app
+            System.Environment.Exit(1)
+        End If
+
 
     End Sub
 
