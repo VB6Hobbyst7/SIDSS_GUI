@@ -39,5 +39,15 @@ Partial Public Class SIDS_GUI_Parameters
     Public Property Longitude_Centere As String
     Public Property Site_Name As String
     Public Property Site_Summary As String
+    Public Property MAD As String
+    Public Property CN_Number As String
+    Public Property Irrig_Efficiency As String
+    Public Property EB_Tair As String
+    Public Property EB_WindSpd As String
+    Public Property EB_Ra As String
+    Public Property EB_RH As String
+    Public Property EB_WindDir As String
+    Public Property EB_Date As String
+    Public Property EB_StdTime As String
 
 End Class

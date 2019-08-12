@@ -75,8 +75,8 @@
           <Property Name="TAW_3" Type="nvarchar" MaxLength="10" />
           <Property Name="TAW_4" Type="nvarchar" MaxLength="10" />
           <Property Name="TAW_5" Type="nvarchar" MaxLength="10" />
-          <Property Name="Plant_Date" Type="nvarchar" MaxLength="10" />
-          <Property Name="Harvest_Date" Type="nvarchar" MaxLength="10" />
+          <Property Name="Plant_Date" Type="nvarchar" MaxLength="100" />
+          <Property Name="Harvest_Date" Type="nvarchar" MaxLength="100" />
           <Property Name="Latitude" Type="nvarchar" MaxLength="10" />
           <Property Name="Longitude" Type="nvarchar" MaxLength="10" />
           <Property Name="Elevation" Type="nvarchar" MaxLength="10" />
@@ -85,6 +85,16 @@
           <Property Name="Longitude_Centere" Type="nvarchar" MaxLength="10" />
           <Property Name="Site_Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Site_Summary" Type="nvarchar" MaxLength="500" />
+          <Property Name="MAD" Type="nvarchar" MaxLength="10" />
+          <Property Name="CN_Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="Irrig_Efficiency" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_Tair" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_WindSpd" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_Ra" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_RH" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_WindDir" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_Date" Type="nvarchar" MaxLength="100" />
+          <Property Name="EB_StdTime" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Site_Info_Summary">
           <Key>
@@ -219,6 +229,16 @@
           <Property Name="Longitude_Centere" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Site_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Site_Summary" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MAD" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CN_Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Irrig_Efficiency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Tair" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_WindSpd" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Ra" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_RH" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_WindDir" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Date" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_StdTime" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Site_Info_Summary">
           <Key>
@@ -315,6 +335,16 @@
           <EntitySetMapping Name="SIDS_GUI_Parameters">
             <EntityTypeMapping TypeName="SIDSS_mainModel.SIDS_GUI_Parameters">
               <MappingFragment StoreEntitySet="SIDS_GUI_Parameters">
+                <ScalarProperty Name="EB_StdTime" ColumnName="EB_StdTime" />
+                <ScalarProperty Name="EB_Date" ColumnName="EB_Date" />
+                <ScalarProperty Name="EB_WindDir" ColumnName="EB_WindDir" />
+                <ScalarProperty Name="EB_RH" ColumnName="EB_RH" />
+                <ScalarProperty Name="EB_Ra" ColumnName="EB_Ra" />
+                <ScalarProperty Name="EB_WindSpd" ColumnName="EB_WindSpd" />
+                <ScalarProperty Name="EB_Tair" ColumnName="EB_Tair" />
+                <ScalarProperty Name="Irrig_Efficiency" ColumnName="Irrig_Efficiency" />
+                <ScalarProperty Name="CN_Number" ColumnName="CN_Number" />
+                <ScalarProperty Name="MAD" ColumnName="MAD" />
                 <ScalarProperty Name="Site_Summary" ColumnName="Site_Summary" />
                 <ScalarProperty Name="Site_Name" ColumnName="Site_Name" />
                 <ScalarProperty Name="Longitude_Centere" ColumnName="Longitude_Centere" />

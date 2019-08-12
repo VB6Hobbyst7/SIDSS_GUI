@@ -146,7 +146,7 @@
                                 <ComboBox x:Name="cbx_lon_center" Margin="5,0,5,0" Padding="5">
                                     <ComboBoxItem Content="75"/>
                                     <ComboBoxItem Content="90"/>
-                                    <ComboBoxItem Content="105" IsSelected="True"/>
+                                    <ComboBoxItem Content="105"/>
                                     <ComboBoxItem Content="120"/>
                                 </ComboBox>
 
@@ -220,7 +220,7 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox  Grid.Column="0" x:Name="tbx_csv1" Padding="10,0" Text="Load hourly weather station data (CSV file)" FlowDirection="RightToLeft" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
+                            <TextBox  Grid.Column="0" x:Name="tbx_csv_path_string" Padding="10,0" Text="Load hourly weather station data (CSV file)" FlowDirection="RightToLeft" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="Red"  MaxLines="1" TextAlignment="Right" IsEnabled="False" Height="40" VerticalAlignment="Top"/>
                             <Button Grid.Column="1" x:Name="btn_load_weather_data_csv"  Style="{StaticResource BTNCORNER}" Content="Load Weather data"  Width="170" Height="40" FontWeight="Bold"/>
                         </Grid>
                         <Grid Margin="5">
@@ -301,13 +301,14 @@
                                 <RichTextBox Height="300" x:Name="rtbxReflET" IsEnabled="False" VerticalScrollBarVisibility="Visible" >
                                     <FlowDocument>
                                         <Paragraph>
-                                            Paste comma seperated (multi-line) full path to the tiff files and corresponding ETr values.
+                                            Paste comma seperated (multi-line) full path to the tiff files and corresponding alfalfa reference ET (ETr), 24 hour total (inches).
                                             <LineBreak/>
                                             eg.
                                             <LineBreak/>
-                                            d:\image_folder1\calibrated_tiff_file_1.tif,5.689
                                             <LineBreak/>
-                                            d:\image_folder2\calibrated_tiff_file_2.tif,5.689
+                                            d:\image_folder1\20190513_160808_1043_3b_analyticms_clip_calib.tif,0.215
+                                            <LineBreak/>
+                                            F:\New_images\Planets_selected_tiffs\20190629_171033_1040_3b_analyticms_clip_calib.tif,0.331
 
                                         </Paragraph>
                                     </FlowDocument>
@@ -382,13 +383,13 @@
                                         <StackPanel Grid.Column="0">
                                             <TextBox x:Name="tbx_Wind_Spd" MaxLines="1" Text="3.11" Margin="5" Padding="5"/>
                                             <TextBox x:Name="tbx_Wind_Dir"  Text="304" Margin="5" Padding="5"/>
-                                            <DatePicker Margin="5" Padding="5" Text="7/22/18" SelectedDateFormat="Short" ></DatePicker>
-                                            <ComboBox Margin="5" Padding="5">
+                                            <DatePicker x:Name="Date_EB_Image" Margin="5" Padding="5" Text="7/22/18" SelectedDateFormat="Short" ></DatePicker>
+                                            <ComboBox x:Name="StdTime_EB_Image" Margin="5" Padding="5">
                                                 <ComboBoxItem Content="08:00"/>
                                                 <ComboBoxItem Content="09:00"/>
                                                 <ComboBoxItem Content="10:00"/>
                                                 <ComboBoxItem Content="11:00"/>
-                                                <ComboBoxItem Content="12:00" IsSelected="True"/>
+                                                <ComboBoxItem Content="12:00"/>
                                                 <ComboBoxItem Content="13:00"/>
                                                 <ComboBoxItem Content="14:00"/>
                                                 <ComboBoxItem Content="15:00"/>
@@ -437,8 +438,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" SelectedDate="{x:Static sys:DateTime.Now}" IsTodayHighlighted="True" Margin="5"/>
-                                        <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" SelectedDate="{x:Static sys:DateTime.Now}" IsTodayHighlighted="True" Margin="5"/>
+                                        <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" IsTodayHighlighted="True" Margin="5"/>
+                                        <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" IsTodayHighlighted="True" Margin="5"/>
                                     <Button x:Name="btnSetDates"  Grid.Column="2" Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Padding="5" Margin="5">
                                         <Button.ToolTip>
                                             <ToolTip>

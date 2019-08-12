@@ -16,7 +16,8 @@ Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
 Imports ET_Calculator_streamlined_v11_GIT.WaterBalanceCalculator
 Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
-
+Imports System.Data.Entity
+Imports System.Data.Entity.Validation
 Imports System.Collections.Generic
 Imports ET_Calculator_streamlined_v11_GIT.OutputPath
 Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
@@ -58,7 +59,6 @@ Class MainWindow
             ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
             DgvRefET.ItemsSource = entity_table.Ref_ET_Table.ToList()
         End Using
-
 
     End Sub
 
@@ -109,11 +109,11 @@ Class MainWindow
             .Filter = "CSV weather data|*.csv"
         }
             open_file.ShowDialog()
-            tbx_csv1.Text = open_file.FileName()
+            tbx_csv_path_string.Text = open_file.FileName()
 
             Dim csv_datatable As New DataTable
             Dim csv2dgv As New Csv2dgv_converter
-            csv2dgv._csv_path = tbx_csv1.Text
+            csv2dgv._csv_path = tbx_csv_path_string.Text
             csv_datatable = csv2dgv.Csv2dgv
 
             'DgvRefET.ItemsSource = full_results_Table.DefaultView
@@ -137,7 +137,6 @@ Class MainWindow
             DgvRefET.ItemsSource = full_sql_table.DefaultView
 
         End If
-
 
     End Sub
 
@@ -179,71 +178,60 @@ Class MainWindow
 
 #Region "Load Settings"
         Using SIDS_GUI_context As New SIDSS_Entities()
-            Dim gui_settings = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
-            KC_MS_file_path.Text = gui_settings.EB_MS_Tiff
-            tbx_csv1.Text = gui_settings.RefET_hourly_CSV
-            tbx_EB_MS.Text = gui_settings.EB_MS_Tiff
-            tbx_EB_Thermal.Text = gui_settings.EB_Thermal_Tiff
-            tbxSoilDepth_1.Text = gui_settings.SoilDepth_1
-            tbxSoilDepth_2.Text = gui_settings.SoilDepth_2
-            tbxSoilDepth_3.Text = gui_settings.SoilDepth_3
-            tbxSoilDepth_4.Text = gui_settings.SoilDepth_4
-            tbxSoilDepth_5.Text = gui_settings.SoilDepth_5
-            HarvestDate.DisplayDate = Convert.ToDateTime(gui_settings.Harvest_Date)
-            HarvestDate.SelectedDate = Convert.ToDateTime(gui_settings.Harvest_Date)
-            PlantDate.DisplayDate = Convert.ToDateTime(gui_settings.Plant_Date)
-            PlantDate.SelectedDate = Convert.ToDateTime(gui_settings.Plant_Date)
-            tbxMinRootDepth.Text = gui_settings.Min_Root_Depth
-            tbxMaxRootDepth.Text = gui_settings.Max_Root_Depth
-            tbxTAW_1.Text = gui_settings.TAW_1
-            tbxTAW_2.Text = gui_settings.TAW_2
-            tbxTAW_3.Text = gui_settings.TAW_3
-            tbxTAW_4.Text = gui_settings.TAW_4
-            tbxTAW_5.Text = gui_settings.TAW_5
-            'Dim ref_et_data = SIDS_GUI_context.Ref_ET_Table.Find(1)
-            'MessageBox.Show("")
+            Dim parameter_row = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
+            Dim item_name As String = ""
+            KC_MS_file_path.Text = parameter_row.Kcb_MS_Tiff
+            tbx_csv_path_string.Text = parameter_row.RefET_hourly_CSV
+            tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
+            tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
+            tbxSoilDepth_1.Text = parameter_row.SoilDepth_1
+            tbxSoilDepth_2.Text = parameter_row.SoilDepth_2
+            tbxSoilDepth_3.Text = parameter_row.SoilDepth_3
+            tbxSoilDepth_4.Text = parameter_row.SoilDepth_4
+            tbxSoilDepth_5.Text = parameter_row.SoilDepth_5
+            tbxTAW_1.Text = parameter_row.TAW_1
+            tbxTAW_2.Text = parameter_row.TAW_2
+            tbxTAW_3.Text = parameter_row.TAW_3
+            tbxTAW_4.Text = parameter_row.TAW_4
+            tbxTAW_5.Text = parameter_row.TAW_5
+            tbxMinRootDepth.Text = parameter_row.Min_Root_Depth
+            tbxMaxRootDepth.Text = parameter_row.Max_Root_Depth
+            HarvestDate.SelectedDate = Convert.ToDateTime(parameter_row.Harvest_Date)
+            HarvestDate.DisplayDate = Convert.ToDateTime(parameter_row.Harvest_Date)
+            PlantDate.SelectedDate = Convert.ToDateTime(parameter_row.Plant_Date)
+            PlantDate.DisplayDate = Convert.ToDateTime(parameter_row.Plant_Date)
+            tbx_lat.Text = parameter_row.Latitude
+            tbx_lon.Text = parameter_row.Longitude
+            tbx_elev.Text = parameter_row.Elevation
+            tbx_zt.Text = parameter_row.T_Air_H
+            tbx_zu.Text = parameter_row.W_Spd_H
+            tbxSiteName.Text = parameter_row.Site_Name
+            tbxSiteSummary.Text = parameter_row.Site_Summary
+            tbxMAD_perecnt.Text = parameter_row.MAD
+            tbxRunoffCN.Text = parameter_row.CN_Number
+            tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
+            cbx_lon_center.Text = parameter_row.Longitude_Centere
+            tbxMAD_perecnt.Text = parameter_row.MAD
+            tbxRunoffCN.Text = parameter_row.CN_Number
+            tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
+            tbx_Ta.Text = parameter_row.EB_Tair
+            tbx_Rs.Text = parameter_row.EB_Ra
+            tbx_RH.Text = parameter_row.EB_RH
+            tbx_Wind_Spd.Text = parameter_row.EB_WindSpd
+            tbx_Wind_Dir.Text = parameter_row.EB_WindDir
+            tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
+            tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
+            Date_EB_Image.SelectedDate = Convert.ToDateTime(parameter_row.EB_Date)
+            StdTime_EB_Image.Text = parameter_row.EB_StdTime
+
         End Using
-
-        'KC_MS_file_path.Text = My.Settings.KC_MS_file_path_settings
-        'tbx_csv1.Text = My.Settings.tbx_csv1_settings
-        'tbx_EB_MS.Text = My.Settings.tbx_EB_MS_settings
-        'tbx_EB_Thermal.Text = My.Settings.tbx_EB_Thermal_settings
-
-        'tbxSoilDepth_1.Text = My.Settings.tbxSoilDepth_1_settings
-        'tbxSoilDepth_2.Text = My.Settings.tbxSoilDepth_2_settings
-        'tbxSoilDepth_3.Text = My.Settings.tbxSoilDepth_3_settings
-        'tbxSoilDepth_4.Text = My.Settings.tbxSoilDepth_4_settings
-        'tbxSoilDepth_5.Text = My.Settings.tbxSoilDepth_5_settings
-        'tbxTAW_1.Text = My.Settings.tbxTAW_1_settings
-        'tbxTAW_2.Text = My.Settings.tbxTAW_2_settings
-        'tbxTAW_3.Text = My.Settings.tbxTAW_3_settings
-        'tbxTAW_4.Text = My.Settings.tbxTAW_4_settings
-        'tbxTAW_5.Text = My.Settings.tbxTAW_5_settings
-        'HarvestDate.DisplayDate = My.Settings.HarvestDate_settings
-        'HarvestDate.SelectedDate = My.Settings.HarvestDate_settings
-        'PlantDate.DisplayDate = My.Settings.PlantDate_settings
-        'PlantDate.SelectedDate = My.Settings.PlantDate_settings
-
-        'tbxMinRootDepth.Text = My.Settings.tbxMinRootDepth_settings
-        'tbxMaxRootDepth.Text = My.Settings.tbxMaxRootDepth_settings
 #End Region
-
-        'Checks to see if the database exisits in the executable direcory, if not, then an empty database is created.
-        'If Not File.Exists("SIDSS_database.db") Then
-        '    Dim fresh_db As New Create_Empty_SQL_Data_Tables
-        '    fresh_db.Create_empyt_tables()
-        'End If
-
-        'Load Ref ET datagrid with old values from database.
-        'Dim load_full_sql_table As New SQL_table_operation
-        'Dim full_sql_table As New DataTable
-        'full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
-        'DgvRefET.ItemsSource = full_sql_table.DefaultView
         Load_RefET_DagaGrid()
 
         Dynamic_grid_resize()
 
     End Sub
+
 
 
     Private Sub Dynamic_grid_resize()
@@ -294,7 +282,7 @@ Class MainWindow
         EB_YYYYMMDDHH_txt = "" 'tbx_YYYMMDDHH.Text
         EB_wind_dir_txt = tbx_Wind_Dir.Text
 
-        csv_file_path = tbx_csv1.Text
+        csv_file_path = tbx_csv_path_string.Text
 
         Dim file = My.Computer.FileSystem.OpenTextFileWriter("parameters_ref_ET.py", False)
         file.WriteLine("Lat=" & Lat)
@@ -336,46 +324,6 @@ Class MainWindow
 
     End Function
 
-
-    Private Function ReadCSV(ByVal FileName As String) As DataTable
-        Dim csvDataTable As DataTable = New DataTable("csvdata")
-        DgvRefET.Columns.Clear()
-
-        Try
-            Dim csvData As String() = File.ReadAllLines(FileName)
-
-            If csvData.Length = 0 Then
-                Return csvDataTable
-            End If
-
-            Dim headings As String() = csvData(0).Split(","c)
-
-            For i As Integer = 0 To headings.Length - 1
-                If headings(i) = "" Then
-                    csvDataTable.Columns.Add("Index")
-                Else
-                    csvDataTable.Columns.Add(headings(i))
-                End If
-
-            Next
-
-            For i As Integer = 1 To csvData.Length - 1
-                Dim row As DataRow = csvDataTable.NewRow()
-
-                For j As Integer = 0 To headings.Length - 1
-                    row(j) = csvData(i).Split(","c)(j)
-                Next
-
-                csvDataTable.Rows.Add(row)
-                DgvRefET.ItemsSource = csvDataTable.DefaultView
-            Next
-
-        Catch ex As Exception
-            'System.Windows.Forms.MessageBox.Show(ex.Message.ToString())
-        End Try
-
-        Return csvDataTable
-    End Function
 
 
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
@@ -441,21 +389,6 @@ Class MainWindow
 
     End Sub
 
-
-    Private Function Update_Main_Grid(ByVal index As Integer)
-        Dim i As Integer = 0
-        Dim curr_row As DataRow
-        Dim doy_mod As Integer
-        For Each curr_row In final_table.Rows
-            curr_row = final_table.Rows.Item(index)
-            doy_mod = Convert.ToInt16(curr_row(1))
-            doy_mod *= 2
-            curr_row(1) = doy_mod.ToString
-            final_table.AcceptChanges()
-            i += 1
-        Next
-        Return final_table
-    End Function
 
 
     Private Function Launch_Col_Input_From(ByVal col_name As String)
@@ -535,11 +468,6 @@ Class MainWindow
     End Sub
 
 
-    Private Sub Dataset_Update()
-        Dim ConnectionString As String = ""
-    End Sub
-
-
     Private Sub BtnSetDates_Click(sender As Object, e As RoutedEventArgs) Handles btnSetDates.Click
 
         Dim datatable_date, datatable_doy As New DataTable
@@ -609,38 +537,6 @@ Class MainWindow
 
         dgvWaterBalance.ItemsSource = dt.DefaultView
         dgvWaterBalance.Items.Refresh()
-
-    End Sub
-
-
-    Public Sub Load_Datagrid2(Optional ByVal save_csv As Boolean = False)
-        'Connect to local SQLite database file. The text part is called connectionstring.
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
-        'Open connection to the database file, within the program.
-        myConnection.Open()
-
-        'Select all columns from the database file to display in WPF datagrid.
-        Dim cmd As New SQLiteCommand With {
-            .Connection = myConnection,
-            .CommandText = "Select * from Ref_ET_Table"
-        }
-        Dim reader As SQLiteDataReader = cmd.ExecuteReader
-        Dim dt As New DataTable
-
-        'Load SQL database values into the following datable.
-        dt.Load(reader)
-
-        'Close connection to the database.
-        reader.Close()
-        myConnection.Close()
-
-        If save_csv = True Then
-            Dim csv_save As New DataTable2CSV
-            csv_save.Save2CSV("ETo_calculated.csv", dt)
-        End If
-
-        DgvRefET.ItemsSource = dt.DefaultView
-        DgvRefET.Items.Refresh()
 
     End Sub
 
@@ -737,6 +633,21 @@ Class MainWindow
 
     Private Sub Btn_calc_ref_ET_Click(sender As Object, e As RoutedEventArgs) Handles btn_calc_ref_ET.Click
 
+        Using database_context As New SIDSS_Entities()
+            Dim Starting_DOY = Convert.ToInt32(database_context.Ref_ET_Table.Find(1).DOY)
+            For i = Starting_DOY To 366
+                Dim doy2string = i.ToString
+                Dim first_record = (From rec In database_context.Ref_ET_Table Where rec.DOY = doy2string).ToList()
+                If first_record.Count > 0 Then
+
+                End If
+
+            Next
+
+
+
+        End Using
+
         Dim load_full_sql_table As New SQL_table_operation
         Dim full_sql_table As New DataTable
         Dim full_calculated_table As New DataTable
@@ -766,65 +677,7 @@ Class MainWindow
         Next
 
         Dim index As Integer = 0
-        'Dim full_calc_table_list As New ArrayList
-        'Dim ref_et_row As New RefET_Cols
-        'For Each row As DataRow In full_calculated_table.Rows
-        '    ref_et_row.Sno = full_sql_table(index)("Sno")
-        '    ref_et_row.Date_ = full_sql_table(index)("Date")
-        '    ref_et_row.StdTime = full_sql_table(index)("StdTime")
-        '    ref_et_row.Tmid = full_sql_table(index)("Tmid")
-        '    ref_et_row.DOY = full_sql_table(index)("DOY")
-        '    ref_et_row.AirTemp = full_sql_table(index)("AirTemp")
-        '    ref_et_row.RH = full_sql_table(index)("RH")
-        '    ref_et_row.Rs = full_sql_table(index)("Rs")
-        '    ref_et_row.wind__spd = full_sql_table(index)("wind__spd")
-        '    ref_et_row.Sc = row("Sc")
-        '    ref_et_row.omega = row("omega")
-        '    ref_et_row.dr = row("dr")
-        '    ref_et_row.delta__vapor = row("delta__vapor")
-        '    ref_et_row.delta__angle = row("delta__angle")
-        '    ref_et_row.phi = row("phi")
-        '    ref_et_row.beta = row("beta")
-        '    ref_et_row.omega__s = row("omega__s")
-        '    ref_et_row.omega__1 = row("omega__1")
-        '    ref_et_row.omega__2 = row("omega__2")
-        '    ref_et_row.Ra = row("Ra")
-        '    ref_et_row.Rso = row("Rso")
-        '    'ref_et_row.fcd = row("fcd")
-        '    ref_et_row.TKhr = row("TKhr")
-        '    ref_et_row.es = row("es")
-        '    ref_et_row.ea = row("ea")
-        '    ref_et_row.Rnl = row("Rnl")
-        '    ref_et_row.Rns = row("Rns")
-        '    ref_et_row.G = row("G")
-        '    ref_et_row.P = row("P")
-        '    ref_et_row.gamma = row("gamma")
-        '    ref_et_row.u2 = row("u2")
-        '    ref_et_row.Cn = row("Cn")
-        '    ref_et_row.Cd = row("Cd")
-        '    ref_et_row.Rn = row("Rn")
-        '    ref_et_row.fcd_adv = row("fcd_adv")
-        '    ref_et_row.Rs_Rso_adv = row("Rs_Rso_adv")
-        '    ref_et_row.Kd = row("Kd")
-        '    ref_et_row.Kb = row("Kb")
-        '    ref_et_row.Rso_adv = row("Rso_adv")
-        '    ref_et_row.W = row("W")
-        '    ref_et_row.sin_phi = row("sin_phi")
-        '    Try
-        '        ref_et_row.ETo = row("ETo")
-        '    Catch ex As Exception
-        '    End Try
-        '    If row("ETr") IsNot Nothing Then
 
-        '    End If
-        '    Try
-        '        ref_et_row.ETr = row("ETr")
-        '    Catch ex As Exception
-        '    End Try
-
-        '    index += 1
-        '    full_calc_table_list.Add(ref_et_row)
-        'Next
         index = 0
 
         For Each column As DataColumn In full_calculated_table.Columns
@@ -947,25 +800,6 @@ Class MainWindow
     Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
         Load_RefET_DagaGrid()
         'Load_DataGrid_RefET()
-    End Sub
-
-
-    Private Sub SetCellValue(ByVal myGrid As DataGrid)
-        Dim myCell As New DataGridCell()
-        ' Use an arbitrary cell.
-        myCell.RowNumber = 1
-        myCell.ColumnNumber = 1
-        ' Change the cell's value using the CurrentCell.
-        myGrid(myCell) = "New Value"
-    End Sub
-
-
-    Private Sub GetCellValue(ByVal myGrid As DataGrid)
-        Dim myCell As New DataGridCell()
-        ' Use an arbitrary cell.
-        myCell.RowNumber = 1
-        myCell.ColumnNumber = 1
-        Console.WriteLine(myGrid(myCell))
     End Sub
 
 
@@ -1113,42 +947,62 @@ Class MainWindow
 
 
     Private Sub Main_window_Closing(sender As Object, e As CancelEventArgs) Handles main_window.Closing
-        My.Settings.KC_MS_file_path_settings = KC_MS_file_path.Text
-        My.Settings.tbx_csv1_settings = tbx_csv1.Text
-        My.Settings.tbx_EB_MS_settings = tbx_EB_MS.Text
-        My.Settings.tbx_EB_Thermal_settings = tbx_EB_Thermal.Text
+        Using GUI_parameter As New SIDSS_Entities
+            Try
+                Dim parameter_row = (From row_vals In GUI_parameter.SIDS_GUI_Parameters Where row_vals.ID = 1).ToList(0)
+                parameter_row.Kcb_MS_Tiff = KC_MS_file_path.Text
+                parameter_row.RefET_hourly_CSV = tbx_csv_path_string.Text
+                parameter_row.EB_MS_Tiff = tbx_EB_MS.Text
+                parameter_row.EB_Thermal_Tiff = tbx_EB_Thermal.Text
+                parameter_row.SoilDepth_1 = tbxSoilDepth_1.Text
+                parameter_row.SoilDepth_2 = tbxSoilDepth_2.Text
+                parameter_row.SoilDepth_3 = tbxSoilDepth_3.Text
+                parameter_row.SoilDepth_4 = tbxSoilDepth_4.Text
+                parameter_row.SoilDepth_5 = tbxSoilDepth_5.Text
+                parameter_row.TAW_1 = tbxTAW_1.Text
+                parameter_row.TAW_2 = tbxTAW_2.Text
+                parameter_row.TAW_3 = tbxTAW_3.Text
+                parameter_row.TAW_4 = tbxTAW_4.Text
+                parameter_row.TAW_5 = tbxTAW_5.Text
+                parameter_row.Min_Root_Depth = tbxMinRootDepth.Text
+                parameter_row.Max_Root_Depth = tbxMaxRootDepth.Text
+                parameter_row.Harvest_Date = HarvestDate.SelectedDate
+                parameter_row.Plant_Date = PlantDate.SelectedDate
+                parameter_row.Latitude = tbx_lat.Text
+                parameter_row.Longitude = tbx_lon.Text
+                parameter_row.Elevation = tbx_elev.Text
+                parameter_row.T_Air_H = tbx_zt.Text
+                parameter_row.W_Spd_H = tbx_zu.Text
+                parameter_row.Site_Name = tbxSiteName.Text
+                parameter_row.Site_Summary = tbxSiteSummary.Text
+                parameter_row.MAD = tbxMAD_perecnt.Text
+                parameter_row.CN_Number = tbxRunoffCN.Text
+                parameter_row.Irrig_Efficiency = tbxIrrigEff.Text
+                parameter_row.Longitude_Centere = cbx_lon_center.SelectionBoxItem
+                parameter_row.EB_Tair = tbx_Ta.Text
+                parameter_row.EB_Ra = tbx_Rs.Text
+                parameter_row.EB_RH = tbx_RH.Text
+                parameter_row.EB_WindSpd = tbx_Wind_Spd.Text
+                parameter_row.EB_WindDir = tbx_Wind_Dir.Text
+                parameter_row.EB_MS_Tiff = tbx_EB_MS.Text
+                parameter_row.EB_Thermal_Tiff = tbx_EB_Thermal.Text
+                parameter_row.EB_StdTime = StdTime_EB_Image.SelectionBoxItem
+                parameter_row.EB_Date = Convert.ToString(Convert.ToDateTime(Date_EB_Image.SelectedDate.Value).ToShortDateString)
 
-        My.Settings.tbxSoilDepth_1_settings = tbxSoilDepth_1.Text
-        My.Settings.tbxSoilDepth_2_settings = tbxSoilDepth_2.Text
-        My.Settings.tbxSoilDepth_3_settings = tbxSoilDepth_3.Text
-        My.Settings.tbxSoilDepth_4_settings = tbxSoilDepth_4.Text
-        My.Settings.tbxSoilDepth_5_settings = tbxSoilDepth_5.Text
-        My.Settings.tbxTAW_1_settings = tbxTAW_1.Text
-        My.Settings.tbxTAW_2_settings = tbxTAW_2.Text
-        My.Settings.tbxTAW_3_settings = tbxTAW_3.Text
-        My.Settings.tbxTAW_4_settings = tbxTAW_4.Text
-        My.Settings.tbxTAW_5_settings = tbxTAW_5.Text
-        My.Settings.tbxMinRootDepth_settings = tbxMinRootDepth.Text
-        My.Settings.tbxMaxRootDepth_settings = tbxMaxRootDepth.Text
+                GUI_parameter.SaveChanges()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
 
-        My.Settings.HarvestDate_settings = HarvestDate.DisplayDate
-        My.Settings.HarvestDate_settings = HarvestDate.SelectedDate
-        My.Settings.PlantDate_settings = PlantDate.DisplayDate
-        My.Settings.PlantDate_settings = PlantDate.SelectedDate
-
-        My.Settings.Save()
+        End Using
 
         If System.Windows.Forms.Application.MessageLoop Then
-
             '// Use this since we are a WinForms app
             System.Windows.Forms.Application.Exit()
-
         Else
-
             '// Use this since we are a console app
             System.Environment.Exit(1)
         End If
-
 
     End Sub
 
@@ -1159,7 +1013,7 @@ Class MainWindow
         control_window.Show()
         control_window.BringToFront()
         'Dim output_path As String = user_control.tbxOutputPath.ToString()
-        'tbx_csv1.Text = result.ToString()
+        'tbx_csv_path_string.Text = result.ToString()
     End Sub
 
 
@@ -1223,9 +1077,8 @@ Class MainWindow
                 data_row("ETr__in") = Math.Round(et_sum / 25.4, 3)
                 old_doy = doy
                 daily_ET_Sum.Rows.Add(data_row)
-                et_sum=0
+                et_sum = 0
             End If
-
         Next
 
         daily_et_sum_window.dgDailySumET.ItemsSource = daily_ET_Sum.DefaultView()
