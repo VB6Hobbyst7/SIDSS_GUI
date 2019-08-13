@@ -21,8 +21,12 @@ Public Class Graphs_Viewer
         chrtWaterBalance.ChartAreas(0).AxisY.MinorGrid.Enabled = False
         chrtWaterBalance.ChartAreas(0).AxisY2.MajorGrid.LineDashStyle = Forms.DataVisualization.Charting.ChartDashStyle.Dot
         chrtWaterBalance.ChartAreas(0).AxisX.Name = "GDD"
+
         chrtWaterBalance.ChartAreas(0).AxisY.LabelAutoFitStyle = LabelAutoFitStyles.None
         chrtWaterBalance.ChartAreas(0).AxisY.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
+        chrtWaterBalance.ChartAreas(0).AxisX.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
+        chrtWaterBalance.ChartAreas(0).AxisY2.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
+
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()

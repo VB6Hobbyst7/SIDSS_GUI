@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SIDSS_mainModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="Data Source=&quot;F:\OneDrive - Colostate\SIDSS_GUI\ET_Calculator_streamlined_v11_GIT\bin\Debug\SIDSS_Entity_database.db&quot;" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ref_ET_Table">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="varchar" MaxLength="20" />
+          <Property Name="StdTime" Type="varchar" MaxLength="20" />
+          <Property Name="Tmid" Type="varchar" MaxLength="20" />
+          <Property Name="DOY" Type="varchar" MaxLength="5" />
+          <Property Name="AirTemp" Type="varchar" MaxLength="20" />
+          <Property Name="RH" Type="varchar" MaxLength="20" />
+          <Property Name="Rs" Type="varchar" MaxLength="20" />
+          <Property Name="wind__spd" Type="varchar" MaxLength="20" />
+          <Property Name="Sc" Type="varchar" MaxLength="20" />
+          <Property Name="omega" Type="varchar" MaxLength="20" />
+          <Property Name="dr" Type="varchar" MaxLength="20" />
+          <Property Name="delta__vapor" Type="varchar" MaxLength="20" />
+          <Property Name="delta__angle" Type="varchar" MaxLength="20" />
+          <Property Name="phi" Type="varchar" MaxLength="20" />
+          <Property Name="beta" Type="varchar" MaxLength="20" />
+          <Property Name="omega__s" Type="varchar" MaxLength="20" />
+          <Property Name="omega__1" Type="varchar" MaxLength="20" />
+          <Property Name="omega__2" Type="varchar" MaxLength="20" />
+          <Property Name="Ra" Type="varchar" MaxLength="20" />
+          <Property Name="Rso" Type="varchar" MaxLength="20" />
+          <Property Name="fcd" Type="varchar" MaxLength="20" />
+          <Property Name="TKhr" Type="varchar" MaxLength="20" />
+          <Property Name="es" Type="varchar" MaxLength="20" />
+          <Property Name="ea" Type="varchar" MaxLength="20" />
+          <Property Name="Rnl" Type="varchar" MaxLength="20" />
+          <Property Name="Rns" Type="varchar" MaxLength="20" />
+          <Property Name="G" Type="varchar" MaxLength="20" />
+          <Property Name="P" Type="varchar" MaxLength="20" />
+          <Property Name="gamma" Type="varchar" MaxLength="20" />
+          <Property Name="u2" Type="varchar" MaxLength="20" />
+          <Property Name="Cn" Type="varchar" MaxLength="20" />
+          <Property Name="Cd" Type="varchar" MaxLength="20" />
+          <Property Name="Rn" Type="varchar" MaxLength="20" />
+          <Property Name="fcd_adv" Type="varchar" MaxLength="20" />
+          <Property Name="Rs_Rso_adv" Type="varchar" MaxLength="20" />
+          <Property Name="Kd" Type="varchar" MaxLength="20" />
+          <Property Name="Kb" Type="varchar" MaxLength="20" />
+          <Property Name="Rso_adv" Type="varchar" MaxLength="20" />
+          <Property Name="W" Type="varchar" MaxLength="20" />
+          <Property Name="sin_phi" Type="varchar" MaxLength="20" />
+          <Property Name="ETo" Type="varchar" MaxLength="20" />
+          <Property Name="ETr" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="SIDS_GUI_Parameters">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefET_hourly_CSV" Type="nvarchar" MaxLength="500" />
+          <Property Name="SMD_daily_CSV" Type="nvarchar" MaxLength="500" />
+          <Property Name="EB_MS_Tiff" Type="nvarchar" MaxLength="500" />
+          <Property Name="EB_Thermal_Tiff" Type="nvarchar" MaxLength="500" />
+          <Property Name="Kcb_MS_Tiff" Type="nvarchar" MaxLength="500" />
+          <Property Name="SoilDepth_1" Type="nvarchar" MaxLength="10" />
+          <Property Name="SoilDepth_2" Type="nvarchar" MaxLength="10" />
+          <Property Name="SoilDepth_3" Type="nvarchar" MaxLength="10" />
+          <Property Name="SoilDepth_4" Type="nvarchar" MaxLength="10" />
+          <Property Name="SoilDepth_5" Type="nvarchar" MaxLength="10" />
+          <Property Name="Min_Root_Depth" Type="nvarchar" MaxLength="10" />
+          <Property Name="Max_Root_Depth" Type="nvarchar" MaxLength="10" />
+          <Property Name="TAW_1" Type="nvarchar" MaxLength="10" />
+          <Property Name="TAW_2" Type="nvarchar" MaxLength="10" />
+          <Property Name="TAW_3" Type="nvarchar" MaxLength="10" />
+          <Property Name="TAW_4" Type="nvarchar" MaxLength="10" />
+          <Property Name="TAW_5" Type="nvarchar" MaxLength="10" />
+          <Property Name="Plant_Date" Type="nvarchar" MaxLength="100" />
+          <Property Name="Harvest_Date" Type="nvarchar" MaxLength="100" />
+          <Property Name="Latitude" Type="nvarchar" MaxLength="10" />
+          <Property Name="Longitude" Type="nvarchar" MaxLength="10" />
+          <Property Name="Elevation" Type="nvarchar" MaxLength="10" />
+          <Property Name="T_Air_H" Type="nvarchar" MaxLength="10" />
+          <Property Name="W_Spd_H" Type="nvarchar" MaxLength="10" />
+          <Property Name="Longitude_Centere" Type="nvarchar" MaxLength="10" />
+          <Property Name="Site_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Site_Summary" Type="nvarchar" MaxLength="500" />
+          <Property Name="MAD" Type="nvarchar" MaxLength="10" />
+          <Property Name="CN_Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="Irrig_Efficiency" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_Tair" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_WindSpd" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_Ra" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_RH" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_WindDir" Type="nvarchar" MaxLength="10" />
+          <Property Name="EB_Date" Type="nvarchar" MaxLength="100" />
+          <Property Name="EB_StdTime" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Site_Info_Summary">
+          <Key>
+            <PropertyRef Name="SNo" />
+          </Key>
+          <Property Name="SNo" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteName" Type="varchar" MaxLength="50" />
+          <Property Name="Latitude" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Longitude" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Center_Longi" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Elevation" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Z__t" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Z__u" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Summary" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SMD_Daily">
+          <Key>
+            <PropertyRef Name="SNo" />
+          </Key>
+          <Property Name="SNo" Type="integer" Nullable="false" />
+          <Property Name="Date" Type="varchar" MaxLength="10" />
+          <Property Name="DOY" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Precip" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Surface__Runoff" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Eff__Precip" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Irrig" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Eff__Irrig" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Tmax" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Tmin" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="ETr" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="GDD" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Kc" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="ETc" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Drz" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Dmax" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="DP" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Di" Type="decimal" Precision="7" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="SIDSS_mainModelStoreContainer">
+          <EntitySet Name="Ref_ET_Table" EntityType="Self.Ref_ET_Table" store:Type="Tables" />
+          <EntitySet Name="SIDS_GUI_Parameters" EntityType="Self.SIDS_GUI_Parameters" store:Type="Tables" />
+          <EntitySet Name="Site_Info_Summary" EntityType="Self.Site_Info_Summary" store:Type="Tables" />
+          <EntitySet Name="SMD_Daily" EntityType="Self.SMD_Daily" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SIDSS_mainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SIDSS_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ref_ET_Table" EntityType="SIDSS_mainModel.Ref_ET_Table" />
+          <EntitySet Name="SIDS_GUI_Parameters" EntityType="SIDSS_mainModel.SIDS_GUI_Parameters" />
+          <EntitySet Name="Site_Info_Summary" EntityType="SIDSS_mainModel.Site_Info_Summary" />
+          <EntitySet Name="SMD_Daily" EntityType="SIDSS_mainModel.SMD_Daily" />
+        </EntityContainer>
+        <EntityType Name="Ref_ET_Table">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StdTime" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Tmid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DOY" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AirTemp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RH" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rs" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="wind__spd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Sc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="omega" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="dr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="delta__vapor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="delta__angle" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="phi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="beta" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="omega__s" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="omega__1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="omega__2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Ra" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rso" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fcd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TKhr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="es" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ea" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rnl" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rns" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="G" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="P" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="gamma" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="u2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fcd_adv" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rs_Rso_adv" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kb" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rso_adv" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="W" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sin_phi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ETo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ETr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SIDS_GUI_Parameters">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefET_hourly_CSV" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SMD_daily_CSV" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EB_MS_Tiff" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Thermal_Tiff" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Kcb_MS_Tiff" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SoilDepth_1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SoilDepth_2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SoilDepth_3" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SoilDepth_4" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SoilDepth_5" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Min_Root_Depth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Max_Root_Depth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TAW_1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TAW_2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TAW_3" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TAW_4" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TAW_5" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Plant_Date" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Harvest_Date" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Latitude" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Elevation" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="T_Air_H" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="W_Spd_H" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude_Centere" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Site_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Site_Summary" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MAD" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CN_Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Irrig_Efficiency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Tair" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_WindSpd" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Ra" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_RH" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_WindDir" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_Date" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EB_StdTime" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Site_Info_Summary">
+          <Key>
+            <PropertyRef Name="SNo" />
+          </Key>
+          <Property Name="SNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Latitude" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Longitude" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Center_Longi" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Elevation" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Z__t" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Z__u" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Summary" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SMD_Daily">
+          <Key>
+            <PropertyRef Name="SNo" />
+          </Key>
+          <Property Name="SNo" Type="Int64" Nullable="false" />
+          <Property Name="Date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DOY" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Precip" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Surface__Runoff" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Eff__Precip" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Irrig" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Eff__Irrig" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Tmax" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Tmin" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="ETr" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="GDD" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Kc" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="ETc" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Drz" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Dmax" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="DP" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Di" Type="Decimal" Precision="7" Scale="0" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SIDSS_mainModelStoreContainer" CdmEntityContainer="SIDSS_Entities">
+          <EntitySetMapping Name="Ref_ET_Table">
+            <EntityTypeMapping TypeName="SIDSS_mainModel.Ref_ET_Table">
+              <MappingFragment StoreEntitySet="Ref_ET_Table">
+                <ScalarProperty Name="ETr" ColumnName="ETr" />
+                <ScalarProperty Name="ETo" ColumnName="ETo" />
+                <ScalarProperty Name="sin_phi" ColumnName="sin_phi" />
+                <ScalarProperty Name="W" ColumnName="W" />
+                <ScalarProperty Name="Rso_adv" ColumnName="Rso_adv" />
+                <ScalarProperty Name="Kb" ColumnName="Kb" />
+                <ScalarProperty Name="Kd" ColumnName="Kd" />
+                <ScalarProperty Name="Rs_Rso_adv" ColumnName="Rs_Rso_adv" />
+                <ScalarProperty Name="fcd_adv" ColumnName="fcd_adv" />
+                <ScalarProperty Name="Rn" ColumnName="Rn" />
+                <ScalarProperty Name="Cd" ColumnName="Cd" />
+                <ScalarProperty Name="Cn" ColumnName="Cn" />
+                <ScalarProperty Name="u2" ColumnName="u2" />
+                <ScalarProperty Name="gamma" ColumnName="gamma" />
+                <ScalarProperty Name="P" ColumnName="P" />
+                <ScalarProperty Name="G" ColumnName="G" />
+                <ScalarProperty Name="Rns" ColumnName="Rns" />
+                <ScalarProperty Name="Rnl" ColumnName="Rnl" />
+                <ScalarProperty Name="ea" ColumnName="ea" />
+                <ScalarProperty Name="es" ColumnName="es" />
+                <ScalarProperty Name="TKhr" ColumnName="TKhr" />
+                <ScalarProperty Name="fcd" ColumnName="fcd" />
+                <ScalarProperty Name="Rso" ColumnName="Rso" />
+                <ScalarProperty Name="Ra" ColumnName="Ra" />
+                <ScalarProperty Name="omega__2" ColumnName="omega__2" />
+                <ScalarProperty Name="omega__1" ColumnName="omega__1" />
+                <ScalarProperty Name="omega__s" ColumnName="omega__s" />
+                <ScalarProperty Name="beta" ColumnName="beta" />
+                <ScalarProperty Name="phi" ColumnName="phi" />
+                <ScalarProperty Name="delta__angle" ColumnName="delta__angle" />
+                <ScalarProperty Name="delta__vapor" ColumnName="delta__vapor" />
+                <ScalarProperty Name="dr" ColumnName="dr" />
+                <ScalarProperty Name="omega" ColumnName="omega" />
+                <ScalarProperty Name="Sc" ColumnName="Sc" />
+                <ScalarProperty Name="wind__spd" ColumnName="wind__spd" />
+                <ScalarProperty Name="Rs" ColumnName="Rs" />
+                <ScalarProperty Name="RH" ColumnName="RH" />
+                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
+                <ScalarProperty Name="DOY" ColumnName="DOY" />
+                <ScalarProperty Name="Tmid" ColumnName="Tmid" />
+                <ScalarProperty Name="StdTime" ColumnName="StdTime" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SIDS_GUI_Parameters">
+            <EntityTypeMapping TypeName="SIDSS_mainModel.SIDS_GUI_Parameters">
+              <MappingFragment StoreEntitySet="SIDS_GUI_Parameters">
+                <ScalarProperty Name="EB_StdTime" ColumnName="EB_StdTime" />
+                <ScalarProperty Name="EB_Date" ColumnName="EB_Date" />
+                <ScalarProperty Name="EB_WindDir" ColumnName="EB_WindDir" />
+                <ScalarProperty Name="EB_RH" ColumnName="EB_RH" />
+                <ScalarProperty Name="EB_Ra" ColumnName="EB_Ra" />
+                <ScalarProperty Name="EB_WindSpd" ColumnName="EB_WindSpd" />
+                <ScalarProperty Name="EB_Tair" ColumnName="EB_Tair" />
+                <ScalarProperty Name="Irrig_Efficiency" ColumnName="Irrig_Efficiency" />
+                <ScalarProperty Name="CN_Number" ColumnName="CN_Number" />
+                <ScalarProperty Name="MAD" ColumnName="MAD" />
+                <ScalarProperty Name="Site_Summary" ColumnName="Site_Summary" />
+                <ScalarProperty Name="Site_Name" ColumnName="Site_Name" />
+                <ScalarProperty Name="Longitude_Centere" ColumnName="Longitude_Centere" />
+                <ScalarProperty Name="W_Spd_H" ColumnName="W_Spd_H" />
+                <ScalarProperty Name="T_Air_H" ColumnName="T_Air_H" />
+                <ScalarProperty Name="Elevation" ColumnName="Elevation" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Harvest_Date" ColumnName="Harvest_Date" />
+                <ScalarProperty Name="Plant_Date" ColumnName="Plant_Date" />
+                <ScalarProperty Name="TAW_5" ColumnName="TAW_5" />
+                <ScalarProperty Name="TAW_4" ColumnName="TAW_4" />
+                <ScalarProperty Name="TAW_3" ColumnName="TAW_3" />
+                <ScalarProperty Name="TAW_2" ColumnName="TAW_2" />
+                <ScalarProperty Name="TAW_1" ColumnName="TAW_1" />
+                <ScalarProperty Name="Max_Root_Depth" ColumnName="Max_Root_Depth" />
+                <ScalarProperty Name="Min_Root_Depth" ColumnName="Min_Root_Depth" />
+                <ScalarProperty Name="SoilDepth_5" ColumnName="SoilDepth_5" />
+                <ScalarProperty Name="SoilDepth_4" ColumnName="SoilDepth_4" />
+                <ScalarProperty Name="SoilDepth_3" ColumnName="SoilDepth_3" />
+                <ScalarProperty Name="SoilDepth_2" ColumnName="SoilDepth_2" />
+                <ScalarProperty Name="SoilDepth_1" ColumnName="SoilDepth_1" />
+                <ScalarProperty Name="Kcb_MS_Tiff" ColumnName="Kcb_MS_Tiff" />
+                <ScalarProperty Name="EB_Thermal_Tiff" ColumnName="EB_Thermal_Tiff" />
+                <ScalarProperty Name="EB_MS_Tiff" ColumnName="EB_MS_Tiff" />
+                <ScalarProperty Name="SMD_daily_CSV" ColumnName="SMD_daily_CSV" />
+                <ScalarProperty Name="RefET_hourly_CSV" ColumnName="RefET_hourly_CSV" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Site_Info_Summary">
+            <EntityTypeMapping TypeName="SIDSS_mainModel.Site_Info_Summary">
+              <MappingFragment StoreEntitySet="Site_Info_Summary">
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Z__u" ColumnName="Z__u" />
+                <ScalarProperty Name="Z__t" ColumnName="Z__t" />
+                <ScalarProperty Name="Elevation" ColumnName="Elevation" />
+                <ScalarProperty Name="Center_Longi" ColumnName="Center_Longi" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SMD_Daily">
+            <EntityTypeMapping TypeName="SIDSS_mainModel.SMD_Daily">
+              <MappingFragment StoreEntitySet="SMD_Daily">
+                <ScalarProperty Name="Di" ColumnName="Di" />
+                <ScalarProperty Name="DP" ColumnName="DP" />
+                <ScalarProperty Name="Dmax" ColumnName="Dmax" />
+                <ScalarProperty Name="Drz" ColumnName="Drz" />
+                <ScalarProperty Name="ETc" ColumnName="ETc" />
+                <ScalarProperty Name="Kc" ColumnName="Kc" />
+                <ScalarProperty Name="GDD" ColumnName="GDD" />
+                <ScalarProperty Name="ETr" ColumnName="ETr" />
+                <ScalarProperty Name="Tmin" ColumnName="Tmin" />
+                <ScalarProperty Name="Tmax" ColumnName="Tmax" />
+                <ScalarProperty Name="Eff__Irrig" ColumnName="Eff__Irrig" />
+                <ScalarProperty Name="Irrig" ColumnName="Irrig" />
+                <ScalarProperty Name="Eff__Precip" ColumnName="Eff__Precip" />
+                <ScalarProperty Name="Surface__Runoff" ColumnName="Surface__Runoff" />
+                <ScalarProperty Name="Precip" ColumnName="Precip" />
+                <ScalarProperty Name="DOY" ColumnName="DOY" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="SNo" ColumnName="SNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

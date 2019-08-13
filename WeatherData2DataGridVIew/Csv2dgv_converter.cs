@@ -70,14 +70,17 @@ namespace HourlyData2DataGridVIew
                     _date = (int)Convert.ToDouble(curr_row[2]);
                     _hour = (int)Convert.ToDouble(curr_row[3]);
 
+
                     cur_date = new DateTime(_year, _month, _date, 0, 0, 0);
 
-                    cur_date = cur_date.AddDays(1);
+                   cur_date = cur_date.AddDays(1);
 
                     table_row["Date"] = string.Format("{0:MM/dd/yyy}", cur_date);
 
                     table_row["StdTime"] = string.Format("{0:HH}", Convert.ToDateTime("0:00"));
+
                 }
+
                 else
                 {
                     _year = (int)Convert.ToDouble(curr_row[0]);
