@@ -10,17 +10,6 @@ Public Class WaterBalanceCalculator
     Private RootMin As Double
     Private RootMax As Double
     Private Di_pref As Double = 0
-    'Private Precip_col_index As Integer = 3
-    'Private Irrig_col_index As Integer = 4
-    'Private Tmax_col_index As Integer = 5
-    'Private Tmin_col_index As Integer = 6
-    'Private GDD_col_index As Integer = 7
-    'Private Kc_col_index As Integer = 8
-    'Private ETr_col_index As Integer = 9
-    'Private ETc_col_index As Integer = 10
-    'Private Drz_col_index As Integer = 11
-    'Private Dmad_co_indexl As Integer = 12
-    'Private Di_col_index As Integer = 13
     Private Drz_1 As Double
     Private Drz_2 As Double
     Private Drz_3 As Double
@@ -32,11 +21,33 @@ Public Class WaterBalanceCalculator
     Private RAW4 As Double
     Private RAW5 As Double
     Private MAD_fraction As Double
+    Public Runoff_CN As Double
+    Private Irrig_Efficiency As Double
 #End Region
+    Public WriteOnly Property Set_Soil_Profile As List(Of String)
+        Set(soil_prop As List(Of String))
+            Drz_1 = Convert.ToDouble(soil_prop(0))
+            Drz_2 = Convert.ToDouble(soil_prop(1))
+            Drz_3 = Convert.ToDouble(soil_prop(2))
+            Drz_4 = Convert.ToDouble(soil_prop(3))
+            Drz_5 = Convert.ToDouble(soil_prop(4))
+            RAW1 = Convert.ToDouble(soil_prop(5))
+            RAW2 = Convert.ToDouble(soil_prop(6))
+            RAW3 = Convert.ToDouble(soil_prop(7))
+            RAW4 = Convert.ToDouble(soil_prop(8))
+            RAW5 = Convert.ToDouble(soil_prop(9))
+            MAD_fraction = Convert.ToDouble(soil_prop(10)) / 100
+            Irrig_Efficiency = Convert.ToDouble(soil_prop(11))
+            Runoff_CN = Convert.ToDouble(soil_prop(12))
+        End Set
+    End Property
+
     Public Sub Calculate_Grid_Cols(ByVal Tbase As Integer)
         Dim input_data_table As DataTable
         Dim input_data_complete As New SQL_table_operation
         input_data_table = input_data_complete.Load_SQL_DataTable("WaterBalance_Table")
+        Eff_Precip_Calculate(input_data_table)
+        Eff_Irrig_Calculate(input_data_table)
         GDD_Calculate(input_data_table, Tbase)
         Kc_Calculate(input_data_table)
         Root_Profile(input_data_table)
@@ -45,6 +56,41 @@ Public Class WaterBalanceCalculator
         Calculate_Di(input_data_table)
         'Calculate_DP(input_data_table)
         input_data_complete.Write_WaterBalance_Final_Table(input_data_table)
+    End Sub
+
+    Private Sub Eff_Precip_Calculate(input_data_table As DataTable)
+        Dim Precip_in, Precip_mm As New Double
+        Dim eff_precip_in, eff_precip_mm As New Double
+        Dim runoff As New Double
+        Dim param_s As New Double
+        param_s = 250 * (100 / Runoff_CN - 1)
+
+        For i = 0 To input_data_table.Rows.Count - 1
+            Precip_in = Convert.ToDouble(input_data_table.Rows(i)("Precip"))
+            Precip_mm = 25.4 * Precip_in
+
+            If Precip_mm > 0.2 * param_s Then
+                runoff = Math.Pow((Precip_mm - 0.2 * param_s), 2) / (Precip_mm + 0.8 * param_s)
+                eff_precip_mm = Precip_mm - runoff
+                eff_precip_in = eff_precip_mm / 25.4
+            Else
+                runoff = 0
+                eff_precip_in = 0
+            End If
+            input_data_table.Rows(i)("Eff__Precip") = eff_precip_in
+            input_data_table.Rows(i)("Surface__Runoff") = runoff / 25.4
+
+        Next
+    End Sub
+
+    Private Sub Eff_Irrig_Calculate(input_data_table As DataTable)
+        Dim irrig As New Double
+        Dim eff_irrig As New Double
+        For i = 0 To input_data_table.Rows.Count - 1
+            irrig = Convert.ToDouble(input_data_table.Rows(i)("Irrig"))
+            eff_irrig = irrig * Irrig_Efficiency / 100
+            input_data_table.Rows(i)("Eff__Irrig") = eff_irrig
+        Next
     End Sub
 
     Private Sub GDD_Calculate(ByRef input_data_table As DataTable, ByVal Tbase As Integer)
@@ -132,21 +178,7 @@ Public Class WaterBalanceCalculator
         RootMin = Convert.ToDouble(RMin)
     End Sub
 
-    Public WriteOnly Property Set_Soil_Profile As List(Of String)
-        Set(soil_prop As List(Of String))
-            Drz_1 = Convert.ToDouble(soil_prop(0))
-            Drz_2 = Convert.ToDouble(soil_prop(1))
-            Drz_3 = Convert.ToDouble(soil_prop(2))
-            Drz_4 = Convert.ToDouble(soil_prop(3))
-            Drz_5 = Convert.ToDouble(soil_prop(4))
-            RAW1 = Convert.ToDouble(soil_prop(5))
-            RAW2 = Convert.ToDouble(soil_prop(6))
-            RAW3 = Convert.ToDouble(soil_prop(7))
-            RAW4 = Convert.ToDouble(soil_prop(8))
-            RAW5 = Convert.ToDouble(soil_prop(9))
-            MAD_fraction = Convert.ToDouble(soil_prop(10)) / 100
-        End Set
-    End Property
+
 
 
     Public Sub Calc_MAD(ByRef input_data_table As DataTable)
@@ -200,8 +232,8 @@ Public Class WaterBalanceCalculator
 
     Private Sub Calculate_Di(ByRef input_data_table As DataTable)
         Dim ETc As Double
-        Dim Precip As Double
-        Dim Irrig As Double
+        Dim Effective_Precipitation As Double
+        Dim Eff_Irrig As Double
         Dim Di_prev As Double = 0
         Dim Di As Double = 0
         Dim DP As Double = 0
@@ -216,13 +248,13 @@ Public Class WaterBalanceCalculator
         For i = 1 To input_data_table.Rows.Count - 1
             Dmax = input_data_table.Rows(i)("Dmax")
             ETc = Convert.ToDouble(input_data_table.Rows(i)("ETc"))
-            Precip = Convert.ToDouble(input_data_table.Rows(i)("Precip"))
-            Irrig = Convert.ToDouble(input_data_table.Rows(i - 1)("Irrig"))
-            If ((Precip + Irrig) > (ETc + Di_prev)) Then
-                DP = (Precip + Irrig) - (ETc + Di_prev)
+            Effective_Precipitation = Convert.ToDouble(input_data_table.Rows(i)("Eff__Precip"))
+            Eff_Irrig = Convert.ToDouble(input_data_table.Rows(i - 1)("Eff__Irrig"))
+            If ((Effective_Precipitation + Eff_Irrig) > (ETc + Di_prev)) Then
+                DP = (Effective_Precipitation + Eff_Irrig) - (ETc + Di_prev)
                 Di = 0
             Else
-                Di = -(Precip + Irrig - ETc - Di_prev)
+                Di = -(Effective_Precipitation + Eff_Irrig - ETc - Di_prev)
             End If
 
             input_data_table.Rows(i)("DP") = DP
