@@ -202,7 +202,7 @@
                             Additioanlly, by selecting any row from the table below, all text fields will be populated and edits can be saved back to the table.
                         </TextBlock>
                     </StackPanel>
-                    <DataGrid x:Name="dgSiteInfo" CanUserSortColumns="False" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" />
+                    <DataGrid x:Name="dgSiteInfo" x:FieldModifier="public" CanUserSortColumns="False" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" />
 
                     </StackPanel>
                 </Grid>

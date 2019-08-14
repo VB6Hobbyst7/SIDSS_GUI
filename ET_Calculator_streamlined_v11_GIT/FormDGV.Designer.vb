@@ -90,7 +90,7 @@ Partial Class FormDGV
         '
         Me.TextBox1.Location = New System.Drawing.Point(632, 14)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(81, 20)
+        Me.TextBox1.Size = New System.Drawing.Size(156, 20)
         Me.TextBox1.TabIndex = 4
         '
         'Label2

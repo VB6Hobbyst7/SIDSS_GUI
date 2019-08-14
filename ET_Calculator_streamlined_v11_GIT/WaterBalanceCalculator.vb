@@ -22,7 +22,7 @@ Public Class WaterBalanceCalculator
     Property RAW5 As Double
     Property MAD_fraction As Double
     Property Runoff_CN As Double
-    Property Irrig_Efficiency As Double
+    Property Irrigation_Efficiency_Fraction As Double
 #End Region
 
     'Public WriteOnly Property Set_Soil_Profile As List(Of String)
@@ -91,7 +91,7 @@ Public Class WaterBalanceCalculator
         Dim eff_irrig As New Double
         For i = 0 To input_data_table.Rows.Count - 1
             irrig = Convert.ToDouble(input_data_table.Rows(i)("Irrig"))
-            eff_irrig = irrig * Irrig_Efficiency
+            eff_irrig = irrig * Irrigation_Efficiency_Fraction
             input_data_table.Rows(i)("Eff__Irrig") = eff_irrig
         Next
     End Sub

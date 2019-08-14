@@ -254,6 +254,7 @@
     <Compile Include="Ref_ET_Table.vb">
       <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SIDSS_Entities_Operations.vb" />
     <Compile Include="SIDS_GUI_Parameters.vb">
       <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
     </Compile>

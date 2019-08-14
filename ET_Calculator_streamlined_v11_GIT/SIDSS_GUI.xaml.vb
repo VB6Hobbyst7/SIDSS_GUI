@@ -52,9 +52,22 @@ Class MainWindow
 
 
 #End Region
+    Public Class Shared_controls
+        'Public Shared dgvWaterbalance As Windows.Controls.DataGrid
+        'Public Shared DgvRefET As Windows.Controls.DataGrid
+        Public Shared main_window_shared As MainWindow
+    End Class
 
 
-    Public Shared main_window_shared As MainWindow
+
+    Private Sub Load_WaterBalance_DagaGrid()
+        ' Encapsulating database in "using" statement to close the database immediately.
+        Using entity_table As New SIDSS_Entities()
+            ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
+            dgvWaterBalance.ItemsSource = entity_table.SMD_Daily.ToList()
+        End Using
+
+    End Sub
 
 
     Private Sub Load_RefET_DagaGrid()
@@ -171,92 +184,8 @@ Class MainWindow
             SIDSS_Database.SaveChanges()
             Load_RefET_DagaGrid()
 
-            '    Try
-            '        SIDSS_Database.SaveChanges
-            '    Catch dbEx As DbEntityValidationException
-            '        Dim raise As Exception = dbEx
-            '        For Each validationErrors In dbEx.EntityValidationErrors
-            '            For Each validationError In validationErrors.ValidationErrors
-            '                Dim message As String = String.Format("{0}:{1}", validationErrors.Entry.Entity.ToString, validationError.ErrorMessage)
-            '                ' raise a new exception nesting  
-            '                ' the current instance as InnerException  
-            '                raise = New InvalidOperationException(message, raise)
-            '            Next
-            '        Next
-            '        Throw raise
-            '    End Try
-
         End If
 
-        'load_dgv
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        '    Dim reset_ref_et As New SQL_table_operation
-        '' Reset old data in the ref et database.
-        ''Delete all the contents of the table name matching the string.
-        'Dim warning_result As New DialogResult
-        'warning_result = MessageBox.Show("You are about to reset and start new calculation." & vbCrLf & "Are you sure?", "Warning", MessageBoxButtons.YesNo)
-        'If warning_result = Windows.Forms.DialogResult.Yes Then
-
-        '    reset_ref_et.Reset_SQL_Table("Ref_ET_Table")
-
-        '    Dim open_file As New Microsoft.Win32.OpenFileDialog With {
-        '    .Filter = "CSV weather data|*.csv"
-        '}
-        '    open_file.ShowDialog()
-        '    tbx_csv_path_string.Text = open_file.FileName()
-
-        '    Dim csv_datatable As New DataTable
-        '    Dim csv2dgv As New Csv2dgv_converter
-        '    csv2dgv._csv_path = tbx_csv_path_string.Text
-        '    csv_datatable = csv2dgv.Csv2dgv
-
-        '    'DgvRefET.ItemsSource = full_results_Table.DefaultView
-
-        '    Dim Write_SNo_Col As New SQL_table_operation
-        '    ''Write SNo column to populate the database with correct number of rows i.e. equal to the rows in csv data.
-        '    Write_SNo_Col.Write_SNo_Column(csv_datatable.Rows.Count, "Ref_ET_Table")
-
-        '    Dim index As Integer = 0
-        '    For Each column As DataColumn In csv_datatable.Columns
-        '        Dim col_name As String = column.ColumnName
-        '        Dim populate_col_in_db As New SQL_table_operation
-        '        populate_col_in_db.Write_SQL_Col("Ref_ET_Table", col_name, index, csv_datatable)
-        '        index += 1
-
-        '    Next
-
-        '    Dim load_full_sql_table As New SQL_table_operation
-        '    Dim full_sql_table As New DataTable
-        '    full_sql_table = load_full_sql_table.Load_SQL_DataTable("Ref_ET_Table")
-        '    DgvRefET.ItemsSource = full_sql_table.DefaultView
-
-        'End If
 
     End Sub
 
@@ -445,7 +374,6 @@ Class MainWindow
     End Function
 
 
-
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
         Dim OpenCMD As Object = CreateObject("wscript.shell")
         Dim ET_Kcb_Python_Script As String = Nothing
@@ -551,7 +479,8 @@ Class MainWindow
         Dim col_name As String = "Irrig, in inches"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
-        dgvWaterBalance.Items.Refresh()
+        Load_WaterBalance_DagaGrid()
+        'dgvWaterBalance.Items.Refresh()
     End Sub
 
 
@@ -561,7 +490,8 @@ Class MainWindow
         Dim col_name As String = "ETr, in inches"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
-        dgvWaterBalance.Items.Refresh()
+        Load_WaterBalance_DagaGrid()
+        'dgvWaterBalance.Items.Refresh()
 
     End Sub
 
@@ -572,7 +502,8 @@ Class MainWindow
         Dim col_name As String = "Tmax, in Farenheit"
         Launch_Col_Input_From(col_name)
         Load_Datagrid("WaterBalance_Table")
-        dgvWaterBalance.Items.Refresh()
+        Load_WaterBalance_DagaGrid()
+        'dgvWaterBalance.Items.Refresh()
 
     End Sub
 
@@ -582,8 +513,8 @@ Class MainWindow
         Dim Tmin_table As New DataTable
         Dim col_name As String = "Tmin, in Farenheit"
         Launch_Col_Input_From(col_name)
-        Load_Datagrid("WaterBalance_Table")
-        dgvWaterBalance.Items.Refresh()
+        'Load_Datagrid("WaterBalance_Table")
+        Load_WaterBalance_DagaGrid()
 
     End Sub
 
@@ -607,17 +538,22 @@ Class MainWindow
 
             For i = 0 To interval
                 current_date = PlantDate.SelectedDate.Value.AddDays(i)
-                date_string = Format(current_date, "yyyy/MM/dd")
+                date_string = Format(current_date, "MM/dd/yyyy")
                 datatable_date.Rows.Add(date_string)
                 datatable_doy.Rows.Add(current_date.DayOfYear)
             Next
 
+            Using SIDSS_Context As New SIDSS_Entities
+
+            End Using
             Dim set_date As New SQL_table_operation
 
             set_date.Write_Water_Balance_Dates("Date", datatable_date)
             set_date.Write_SQL_Col("WaterBalance_Table", "DOY", 0, datatable_doy)
-            Load_Datagrid("WaterBalance_Table")
-            dgvWaterBalance.Items.Refresh()
+
+            'Load_Datagrid("WaterBalance_Table")
+            Load_WaterBalance_DagaGrid()
+            'dgvWaterBalance.Items.Refresh()
         End If
 
     End Sub
@@ -655,9 +591,9 @@ Class MainWindow
             csv_save.Save2CSV(Format("{0}.csv", table_name), dt)
         End If
 
-        dgvWaterBalance.ItemsSource = dt.DefaultView
-        dgvWaterBalance.Items.Refresh()
-
+        'dgvWaterBalance.ItemsSource = dt.DefaultView
+        'dgvWaterBalance.Items.Refresh()
+        Load_WaterBalance_DagaGrid()
     End Sub
 
 
@@ -680,31 +616,12 @@ Class MainWindow
         SMD_Parameters.RAW5 = Convert.ToDouble(tbxRAW_5.Text)
 
         SMD_Parameters.MAD_fraction = Convert.ToDouble(tbxMAD_perecnt.Text) / 100
-        SMD_Parameters.Irrig_Efficiency = Convert.ToDouble(tbxIrrigEff.Text) / 100
+        SMD_Parameters.Irrigation_Efficiency_Fraction = Convert.ToDouble(tbxIrrigEff.Text) / 100
         SMD_Parameters.Runoff_CN = Convert.ToDouble(tbxRunoffCN.Text)
         SMD_Parameters.RootMax = Convert.ToDouble(tbxMaxRootDepth.Text)
         SMD_Parameters.RootMin = Convert.ToDouble(tbxMinRootDepth.Text)
-
-
-        'soil_prop.Add(tbxSoilDepth_1.Text)  'Index no. 0
-        'soil_prop.Add(tbxSoilDepth_2.Text)  'Index no. 1
-        'soil_prop.Add(tbxSoilDepth_3.Text)  'Index no. 2
-        'soil_prop.Add(tbxSoilDepth_4.Text)  'Index no. 3
-        'soil_prop.Add(tbxSoilDepth_5.Text)  'Index no. 4
-
-        'soil_prop.Add(tbxRAW_1.Text)      'Index no. 5
-        'soil_prop.Add(tbxRAW_2.Text)  'Index no. 6
-        'soil_prop.Add(tbxRAW_3.Text)  'Index no. 7
-        'soil_prop.Add(tbxRAW_4.Text)  'Index no. 8
-        'soil_prop.Add(tbxRAW_5.Text)  'Index no. 9
-
-        'soil_prop.Add(tbxMAD_perecnt.Text)  'Index no. 10
-        'soil_prop.Add(tbxIrrigEff.Text)  'Index no. 11
-        'soil_prop.Add(tbxRunoffCN.Text)  'Index no. 12
-        'calc_water_balance_cols.RootMax = 30
-
-        'calc_water_balance_cols.Set_Soil_Profile = soil_prop
         SMD_Parameters.Calculate_Grid_Cols(Tbase)
+
         Load_Datagrid("WaterBalance_Table")
 
     End Sub
@@ -851,22 +768,6 @@ Class MainWindow
                     ' For second run, resutls are saved this time.
                     Dim curr_full_row As DataRow = Nothing
                     ref_et_calc.Main_Calculation_Module()
-
-                    'Dim results_row As Dictionary(Of String, Double) = ref_et_calc.Main_Calculation_Module()
-
-                    'If first_row = True Then
-                    '    For Each kvp As KeyValuePair(Of String, Double) In results_row
-                    '        daily_results_table.Columns.Add(kvp.Key)
-                    '    Next
-                    'End If
-                    'first_row = False
-
-                    'daily_results_table.Rows.Add()
-                    'Dim k As Integer = 0
-                    'For Each kvp As KeyValuePair(Of String, Double) In results_row
-                    '    daily_results_table.Rows(i)(k) = Math.Round(kvp.Value, 4)
-                    '    k += 1
-                    'Next
 
                     Dim Mjph2Wm2 As Double = 277.7
                     daily_record(i).Sc = round_number(ref_et_calc.Sc)
