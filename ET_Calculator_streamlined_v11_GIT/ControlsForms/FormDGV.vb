@@ -19,28 +19,30 @@ Public Class FormDGV
             Dim full_water_balance_table = DataSet.SMD_Daily.ToArray()
             For i = 0 To x_y.Rows.Count - 1
                 Dim curr_value = x_y.Rows(i)(0)
-                'Dim curr_value = x_y.Rows(i)(1)
-                Dim curr_row = full_water_balance_table(i)
+                If curr_value IsNot "" Then
+                    'Dim curr_value = x_y.Rows(i)(1)
+                    Dim curr_row = full_water_balance_table(i)
 
-                Select Case col_name
-                    Case "Irrig"
-                        curr_row.Irrig = Convert.ToDouble(curr_value)
+                    Select Case col_name
+                        Case "Irrig"
+                            curr_row.Irrig = Convert.ToDouble(curr_value)
 
-                    Case "Precip"
-                        curr_row.Precip = Convert.ToDouble(curr_value)
+                        Case "Precip"
+                            curr_row.Precip = Convert.ToDouble(curr_value)
 
-                    Case "Tmax"
-                        curr_row.Tmax = Convert.ToDouble(curr_value)
+                        Case "Tmax"
+                            curr_row.Tmax = Convert.ToDouble(curr_value)
 
-                    Case "Tmin"
-                        curr_row.Irrig = Convert.ToDouble(curr_value)
+                        Case "Tmin"
+                            curr_row.Irrig = Convert.ToDouble(curr_value)
 
-                    Case "ETr"
-                        curr_row.ETr = Convert.ToDouble(curr_value)
+                        Case "ETr"
+                            curr_row.ETr = Convert.ToDouble(curr_value)
 
-                    Case Else
+                        Case Else
+                    End Select
+                End If
 
-                End Select
             Next
 
             DataSet.SaveChanges()
