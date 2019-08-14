@@ -1,17 +1,24 @@
 ﻿Imports System.Data.SQLite
 Imports System.Data
-Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
+'Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
 Imports ET_Calculator_streamlined_v11_GIT
+Imports ET_Calculator_streamlined_v11_GIT.MainWindow
 Imports System.Text
 Imports System
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Linq
+Imports System.Windows.Forms
 
 Public Class Graphs_Viewer
     'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
     'Dim cmd As New SQLiteCommand
 
-    Private Sub ChooseGraphToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChooseGraphToolStripMenuItem.Click
+    Private Sub ChooseGraphToolStripMenuItem_Click(sender As Object, e As EventArgs)
+        Load_Chart()
+
+    End Sub
+
+    Private Sub Load_Chart()
         'Clearing previously plotted lines from the chart area.
         chrtWaterBalance.Series.Clear()
         'Disabling X & Y axis lines as they were distracting and making hard to review the graph.
@@ -19,14 +26,12 @@ Public Class Graphs_Viewer
         chrtWaterBalance.ChartAreas(0).AxisY.MajorGrid.Enabled = False
         chrtWaterBalance.ChartAreas(0).AxisX.MinorGrid.Enabled = False
         chrtWaterBalance.ChartAreas(0).AxisY.MinorGrid.Enabled = False
-        chrtWaterBalance.ChartAreas(0).AxisY2.MajorGrid.LineDashStyle = Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        chrtWaterBalance.ChartAreas(0).AxisY2.MajorGrid.LineDashStyle = ChartDashStyle.Dot
         chrtWaterBalance.ChartAreas(0).AxisX.Name = "GDD"
-
         chrtWaterBalance.ChartAreas(0).AxisY.LabelAutoFitStyle = LabelAutoFitStyles.None
         chrtWaterBalance.ChartAreas(0).AxisY.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
         chrtWaterBalance.ChartAreas(0).AxisX.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
         chrtWaterBalance.ChartAreas(0).AxisY2.TitleFont = New System.Drawing.Font("Aerial", 12, System.Drawing.FontStyle.Bold)
-
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
@@ -36,10 +41,10 @@ Public Class Graphs_Viewer
         summary_dictionary = Calculate_summary(main_table)
 
         Dim axis_type As String = Nothing
-        If ToolStripComboBox1.SelectedIndex = 1 Then
-            axis_type = "Date"
-        Else
+        If ToolStripComboBox1.SelectedItem = "GDD" Then
             axis_type = "GDD"
+        Else
+            axis_type = "Date"
         End If
 
         For i = 0 To chkGraphOptions.CheckedItems.Count - 1
@@ -48,43 +53,51 @@ Public Class Graphs_Viewer
             chrtWaterBalance.Series.Add(current_item)
             chrtWaterBalance.Series(i).BorderWidth = 2
             chrtWaterBalance.ChartAreas(0).AxisX.Title = axis_type
-            chrtWaterBalance.ChartAreas(0).AxisY.Title = "Irrig, Precip, Di, Dmax (in/day)"
+            chrtWaterBalance.ChartAreas(0).AxisY.Title = "Eff_Irrig, Eff_Precip, Di, Dmax (in/day)"
             chrtWaterBalance.ChartAreas(0).AxisY2.Title = "Kc, ETr, ETc (in/day)"
             'chrtWaterBalance.ChartAreas(0).AxisY.LabelStyle.Font.
 
             'Customize each chart line/graph according to its data range e.g. Kc, ETr, ETc are small numbers so they are plottd on
             'Secondary axis, whereas irrigation, precip, MAD's depth, current deplition level etc. on main Y axis.
 
-
             Select Case current_item
                 Case "Kc"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Line
-                    chrtWaterBalance.Series(i).YAxisType = Forms.DataVisualization.Charting.AxisType.Secondary
+                    'curr_item_title = "Kc"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
+                    chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Black
                 Case "ETr"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Line
-                    chrtWaterBalance.Series(i).YAxisType = Forms.DataVisualization.Charting.AxisType.Secondary
+                    'curr_item_title = "ETr"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
+                    chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.IndianRed
                 Case "ETc"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Line
-                    chrtWaterBalance.Series(i).YAxisType = Forms.DataVisualization.Charting.AxisType.Secondary
+                    'curr_item_title = "ETc"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
+                    chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.DarkRed
                 Case "Di"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Line
+                    'curr_item_title = "Deficit, current"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.BlueViolet
                 Case "Dmax"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Line
+                    'curr_item_title = "Maximum allowed Deficit"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Red
-                Case "Precip"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Column
-                    chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
-                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
-                Case "Irrig"
-                    chrtWaterBalance.Series(i).ChartType = Forms.DataVisualization.Charting.SeriesChartType.Column
+                Case "Eff__Precip"
+                    'curr_item_title = "Effective Precip after surface runoff"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Column
+                    chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.ForestGreen
+                Case "Eff__Irrig"
+                    'curr_item_title = "Effective Irrig @ irrigation efficiency"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Column
+                    chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
+                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
+                    chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
             End Select
 
             'Populate each line/cloumn with the corresponding data. Note: Checkbox items name the sql data table column names,
@@ -92,9 +105,7 @@ Public Class Graphs_Viewer
             chrtWaterBalance.Series(current_item).Points.DataBindXY(main_table.Rows, axis_type, main_table.Rows, current_item)
         Next
         chrtWaterBalance.Invalidate()
-
     End Sub
-
 
     Private Function Load_SQL_Table()
         'Connect to local SQLite database file. The text part is called connectionstring.
@@ -162,6 +173,18 @@ Public Class Graphs_Viewer
         string_builder.AppendLine("Total ETc till now = uvw")
 
         rtbxInfo.Text = string_builder.ToString
+        Dim item_count As Integer = chkGraphOptions.Items.Count
+        For i = 0 To item_count - 1
+            If chkGraphOptions.Items(i).ToString = "ETr" Then
+                chkGraphOptions.SetItemChecked(i, False)
+            End If
+            If chkGraphOptions.Items(i).ToString = "ETc" Then
+                chkGraphOptions.SetItemChecked(i, False)
+            End If
+        Next
+
+        ToolStripComboBox1.SelectedItem = "GDD"
+        Load_Chart()
 
     End Sub
 
@@ -169,7 +192,7 @@ Public Class Graphs_Viewer
         SaveFileDialog_chrt.Filter = "Png Images (*.png*)|*.png"
         If SaveFileDialog_chrt.ShowDialog = Windows.Forms.DialogResult.OK _
        Then
-            chrtWaterBalance.SaveImage(SaveFileDialog_chrt.FileName, format:=Forms.DataVisualization.Charting.ChartImageFormat.Png)
+            chrtWaterBalance.SaveImage(SaveFileDialog_chrt.FileName, format:=ChartImageFormat.Png)
         End If
     End Sub
 
@@ -177,6 +200,10 @@ Public Class Graphs_Viewer
 
         Return Nothing
     End Function
+
+    Private Sub ToolStripComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBox1.SelectedIndexChanged
+        Load_Chart()
+    End Sub
 
 
 End Class

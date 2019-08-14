@@ -6,46 +6,49 @@ Public Class WaterBalanceCalculator
 #Region "Inits"
     Private ReadOnly myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
     Private cmd As New SQLiteCommand
-    Private Tbase As Double
-    Private RootMin As Double
-    Private RootMax As Double
-    Private Di_pref As Double = 0
-    Private Drz_1 As Double
-    Private Drz_2 As Double
-    Private Drz_3 As Double
-    Private Drz_4 As Double
-    Private Drz_5 As Double
-    Private RAW1 As Double
-    Private RAW2 As Double
-    Private RAW3 As Double
-    Private RAW4 As Double
-    Private RAW5 As Double
-    Private MAD_fraction As Double
-    Public Runoff_CN As Double
-    Private Irrig_Efficiency As Double
+    Property Tbase As Double
+    Property RootMin As Double
+    Property RootMax As Double
+    Property Di_pref As Double = 0
+    Property Drz_1 As Double
+    Property Drz_2 As Double
+    Property Drz_3 As Double
+    Property Drz_4 As Double
+    Property Drz_5 As Double
+    Property RAW1 As Double
+    Property RAW2 As Double
+    Property RAW3 As Double
+    Property RAW4 As Double
+    Property RAW5 As Double
+    Property MAD_fraction As Double
+    Property Runoff_CN As Double
+    Property Irrig_Efficiency As Double
 #End Region
-    Public WriteOnly Property Set_Soil_Profile As List(Of String)
-        Set(soil_prop As List(Of String))
-            Drz_1 = Convert.ToDouble(soil_prop(0))
-            Drz_2 = Convert.ToDouble(soil_prop(1))
-            Drz_3 = Convert.ToDouble(soil_prop(2))
-            Drz_4 = Convert.ToDouble(soil_prop(3))
-            Drz_5 = Convert.ToDouble(soil_prop(4))
-            RAW1 = Convert.ToDouble(soil_prop(5))
-            RAW2 = Convert.ToDouble(soil_prop(6))
-            RAW3 = Convert.ToDouble(soil_prop(7))
-            RAW4 = Convert.ToDouble(soil_prop(8))
-            RAW5 = Convert.ToDouble(soil_prop(9))
-            MAD_fraction = Convert.ToDouble(soil_prop(10)) / 100
-            Irrig_Efficiency = Convert.ToDouble(soil_prop(11))
-            Runoff_CN = Convert.ToDouble(soil_prop(12))
-        End Set
-    End Property
+
+    'Public WriteOnly Property Set_Soil_Profile As List(Of String)
+    '    Set(soil_prop As List(Of String))
+    '        Drz_1 = Convert.ToDouble(soil_prop(0))
+    '        Drz_2 = Convert.ToDouble(soil_prop(1))
+    '        Drz_3 = Convert.ToDouble(soil_prop(2))
+    '        Drz_4 = Convert.ToDouble(soil_prop(3))
+    '        Drz_5 = Convert.ToDouble(soil_prop(4))
+    '        RAW1 = Convert.ToDouble(soil_prop(5))
+    '        RAW2 = Convert.ToDouble(soil_prop(6))
+    '        RAW3 = Convert.ToDouble(soil_prop(7))
+    '        RAW4 = Convert.ToDouble(soil_prop(8))
+    '        RAW5 = Convert.ToDouble(soil_prop(9))
+    '        MAD_fraction = Convert.ToDouble(soil_prop(10)) / 100
+    '        Irrig_Efficiency = Convert.ToDouble(soil_prop(11))
+    '        Runoff_CN = Convert.ToDouble(soil_prop(12))
+    '    End Set
+    'End Property
 
     Public Sub Calculate_Grid_Cols(ByVal Tbase As Integer)
+
         Dim input_data_table As DataTable
         Dim input_data_complete As New SQL_table_operation
         input_data_table = input_data_complete.Load_SQL_DataTable("WaterBalance_Table")
+
         Eff_Precip_Calculate(input_data_table)
         Eff_Irrig_Calculate(input_data_table)
         GDD_Calculate(input_data_table, Tbase)
@@ -88,7 +91,7 @@ Public Class WaterBalanceCalculator
         Dim eff_irrig As New Double
         For i = 0 To input_data_table.Rows.Count - 1
             irrig = Convert.ToDouble(input_data_table.Rows(i)("Irrig"))
-            eff_irrig = irrig * Irrig_Efficiency / 100
+            eff_irrig = irrig * Irrig_Efficiency
             input_data_table.Rows(i)("Eff__Irrig") = eff_irrig
         Next
     End Sub
@@ -173,10 +176,10 @@ Public Class WaterBalanceCalculator
         Next
     End Sub
 
-    Public Sub Set_root_depth(ByVal RMin As String, ByVal Rmax As String)
-        RootMax = Convert.ToDouble(Rmax)
-        RootMin = Convert.ToDouble(RMin)
-    End Sub
+    'Public Sub Set_root_depth(ByVal RMin As String, ByVal Rmax As String)
+    '    RootMax = Convert.ToDouble(Rmax)
+    '    RootMin = Convert.ToDouble(RMin)
+    'End Sub
 
 
 

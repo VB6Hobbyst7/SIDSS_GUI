@@ -158,9 +158,10 @@ Class MainWindow
 
                     ref_ET_table.Date = date_string
                     ref_ET_table.DOY = Convert.ToString(cur_date.DayOfYear)
-                    ref_ET_table.StdTime = split_line(4)
-                    ref_ET_table.AirTemp = split_line(5)
-                    ref_ET_table.RH = split_line(6)
+                    ref_ET_table.StdTime = split_line(3)
+                    ref_ET_table.AirTemp = split_line(4)
+                    ref_ET_table.RH = split_line(5)
+                    ref_ET_table.Rs = split_line(6)
                     ref_ET_table.wind__spd = split_line(7)
                     SIDSS_Database.Ref_ET_Table.Add(ref_ET_table)
                 End If
@@ -292,7 +293,7 @@ Class MainWindow
 
 
     Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
-        Load_RefET_DagaGrid()
+        'Load_RefET_DagaGrid()
         ' Return
 
 #Region "Load Settings"
@@ -662,26 +663,48 @@ Class MainWindow
 
     Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
 
-        Dim calc_water_balance_cols As New WaterBalanceCalculator
+        Dim SMD_Parameters As New WaterBalanceCalculator
 
-        calc_water_balance_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
-        Dim soil_prop As New List(Of String)
-        soil_prop.Add(tbxSoilDepth_1.Text)  'Index no. 0
-        soil_prop.Add(tbxSoilDepth_2.Text)  'Index no. 1
-        soil_prop.Add(tbxSoilDepth_3.Text)  'Index no. 2
-        soil_prop.Add(tbxSoilDepth_4.Text)  'Index no. 3
-        soil_prop.Add(tbxSoilDepth_5.Text)  'Index no. 4
-        soil_prop.Add(tbxRAW_1.Text)      'Index no. 5
-        soil_prop.Add(tbxRAW_2.Text)  'Index no. 6
-        soil_prop.Add(tbxRAW_3.Text)  'Index no. 7
-        soil_prop.Add(tbxRAW_4.Text)  'Index no. 8
-        soil_prop.Add(tbxRAW_5.Text)  'Index no. 9
-        soil_prop.Add(tbxMAD_perecnt.Text)  'Index no. 10
-        soil_prop.Add(tbxIrrigEff.Text)  'Index no. 11
-        soil_prop.Add(tbxRunoffCN.Text)  'Index no. 12
+        'calc_water_balance_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
 
-        calc_water_balance_cols.Set_Soil_Profile = soil_prop
-        calc_water_balance_cols.Calculate_Grid_Cols(Tbase)
+        SMD_Parameters.Drz_1 = Convert.ToDouble(tbxSoilDepth_1.Text)
+        SMD_Parameters.Drz_2 = Convert.ToDouble(tbxSoilDepth_2.Text)
+        SMD_Parameters.Drz_3 = Convert.ToDouble(tbxSoilDepth_3.Text)
+        SMD_Parameters.Drz_4 = Convert.ToDouble(tbxSoilDepth_4.Text)
+        SMD_Parameters.Drz_5 = Convert.ToDouble(tbxSoilDepth_5.Text)
+
+        SMD_Parameters.RAW1 = Convert.ToDouble(tbxRAW_1.Text)
+        SMD_Parameters.RAW2 = Convert.ToDouble(tbxRAW_2.Text)
+        SMD_Parameters.RAW3 = Convert.ToDouble(tbxRAW_3.Text)
+        SMD_Parameters.RAW4 = Convert.ToDouble(tbxRAW_4.Text)
+        SMD_Parameters.RAW5 = Convert.ToDouble(tbxRAW_5.Text)
+
+        SMD_Parameters.MAD_fraction = Convert.ToDouble(tbxMAD_perecnt.Text) / 100
+        SMD_Parameters.Irrig_Efficiency = Convert.ToDouble(tbxIrrigEff.Text) / 100
+        SMD_Parameters.Runoff_CN = Convert.ToDouble(tbxRunoffCN.Text)
+        SMD_Parameters.RootMax = Convert.ToDouble(tbxMaxRootDepth.Text)
+        SMD_Parameters.RootMin = Convert.ToDouble(tbxMinRootDepth.Text)
+
+
+        'soil_prop.Add(tbxSoilDepth_1.Text)  'Index no. 0
+        'soil_prop.Add(tbxSoilDepth_2.Text)  'Index no. 1
+        'soil_prop.Add(tbxSoilDepth_3.Text)  'Index no. 2
+        'soil_prop.Add(tbxSoilDepth_4.Text)  'Index no. 3
+        'soil_prop.Add(tbxSoilDepth_5.Text)  'Index no. 4
+
+        'soil_prop.Add(tbxRAW_1.Text)      'Index no. 5
+        'soil_prop.Add(tbxRAW_2.Text)  'Index no. 6
+        'soil_prop.Add(tbxRAW_3.Text)  'Index no. 7
+        'soil_prop.Add(tbxRAW_4.Text)  'Index no. 8
+        'soil_prop.Add(tbxRAW_5.Text)  'Index no. 9
+
+        'soil_prop.Add(tbxMAD_perecnt.Text)  'Index no. 10
+        'soil_prop.Add(tbxIrrigEff.Text)  'Index no. 11
+        'soil_prop.Add(tbxRunoffCN.Text)  'Index no. 12
+        'calc_water_balance_cols.RootMax = 30
+
+        'calc_water_balance_cols.Set_Soil_Profile = soil_prop
+        SMD_Parameters.Calculate_Grid_Cols(Tbase)
         Load_Datagrid("WaterBalance_Table")
 
     End Sub
