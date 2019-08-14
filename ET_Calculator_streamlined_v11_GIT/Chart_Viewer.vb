@@ -108,34 +108,39 @@ Public Class Graphs_Viewer
     End Sub
 
     Private Function Load_SQL_Table()
+        'Using database_context As New SIDSS_Entities
+        '    Dim smd_table = database_context.SMD_Daily.ToArray()
+        '    Dim water_table As New DataTable
+
+
+        '    Return water_table
+        'End Using
+
+
         'Connect to local SQLite database file. The text part is called connectionstring.
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
+        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_Entity_database.db; Version=3")
         'Open connection to the database file, within the program.
         If myConnection.State = ConnectionState.Open Then
             myConnection.Close()
         End If
         myConnection.Open()
 
-        'Select all columns from the database file to display in WPF datagrid.
+        ' Select all columns from the database file to display in WPF datagrid.
         ' Ignoring all dates where Tmax & Tmin = 32F, i.e. where GDD is Zero. 
         ' I manually set Tmax and Tmin = 32F for the dates in future where no data is available.
         ' By doing so, I can remove no-data values from the datatable and just plot graph of only available data.
 
         Dim cmd As New SQLiteCommand
         cmd.Connection = myConnection
-        cmd.CommandText = "Select * from WaterBalance_Table WHERE Tmax>32 AND Tmin>32;"
+        cmd.CommandText = "Select * from SMD_Daily WHERE Tmax>32 AND Tmin>32;"
+        'cmd.CommandText = "Select * from SMD_Daily;"
 
         Dim reader As SQLiteDataReader = cmd.ExecuteReader
         Dim dt As New DataTable
 
         'Load SQL database values into the following datable.
         dt.Load(reader)
-        'Dim dt_filtered As New DataTable
-        'Dim data_view As DataView
-        'data_rows = data_view.("Tmin=32")
-        'For Each row In data_rows
 
-        'Next
         'Close connection to the database.
         reader.Close()
         myConnection.Close()
