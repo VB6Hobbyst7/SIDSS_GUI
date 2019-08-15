@@ -652,13 +652,21 @@
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
-
+                                    <Button x:Name="btnKcr_ETa_data" HorizontalContentAlignment="Center" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="Load Kcr, ETr data    " Height="30"  >
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Ref. ET alfalfa, mm"/></TextBlock>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                    </Button>
                                 </StackPanel>
                             </GroupBox>
 
                         </Grid>
 
-                        <DataGrid x:Name="dgvWaterBalance" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="440" />
+                        <DataGrid x:Name="dgvWaterBalance" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" />
 
 
                     </StackPanel>

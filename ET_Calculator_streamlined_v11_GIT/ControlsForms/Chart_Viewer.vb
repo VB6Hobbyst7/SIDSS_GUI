@@ -10,6 +10,8 @@ Imports System.Linq
 Imports System.Windows.Forms
 
 Public Class Graphs_Viewer
+    Dim start_date As String
+    Dim end_date As String
     'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
     'Dim cmd As New SQLiteCommand
 
@@ -35,6 +37,10 @@ Public Class Graphs_Viewer
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
+
+        'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
+
+
         Dim summary_dictionary As New Dictionary(Of String, Double)
 
         ' TODO: Add summary about the calculated resuts.
@@ -78,9 +84,11 @@ Public Class Graphs_Viewer
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.DarkRed
                 Case "Di"
                     'curr_item_title = "Deficit, current"
+                    chrtWaterBalance.Series(i).BorderDashStyle = ChartDashStyle.Dash
                     chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
-                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.BlueViolet
+                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
+                    chrtWaterBalance.Series(i)("PixelPointWidth") = "1"
                 Case "Dmax"
                     'curr_item_title = "Maximum allowed Deficit"
                     chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
@@ -98,6 +106,14 @@ Public Class Graphs_Viewer
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
                     chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
+
+                Case "Deficit_8214"
+                    'curr_item_title = "Effective Irrig @ irrigation efficiency"
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
+                    chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
+                    chrtWaterBalance.Series(i).Color = System.Drawing.Color.DarkSlateBlue
+                    'chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
+
             End Select
 
             'Populate each line/cloumn with the corresponding data. Note: Checkbox items name the sql data table column names,
@@ -107,7 +123,7 @@ Public Class Graphs_Viewer
         chrtWaterBalance.Invalidate()
     End Sub
 
-    Private Function Load_SQL_Table()
+    Public Function Load_SQL_Table()
         'Using database_context As New SIDSS_Entities
         '    Dim smd_table = database_context.SMD_Daily.ToArray()
         '    Dim water_table As New DataTable
@@ -132,7 +148,7 @@ Public Class Graphs_Viewer
 
         Dim cmd As New SQLiteCommand
         cmd.Connection = myConnection
-        cmd.CommandText = "Select * from SMD_Daily WHERE Tmax>32 AND Tmin>32;"
+        cmd.CommandText = "Select * from SMD_Daily WHERE NOT (Tmax=32 AND Tmin=32);"
         'cmd.CommandText = "Select * from SMD_Daily;"
 
         Dim reader As SQLiteDataReader = cmd.ExecuteReader
@@ -141,6 +157,9 @@ Public Class Graphs_Viewer
         'Load SQL database values into the following datable.
         dt.Load(reader)
 
+        start_date = dt.Rows(0)("Date")
+        end_date = dt.Rows(dt.Rows.Count - 1)("Date")
+        'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
         'Close connection to the database.
         reader.Close()
         myConnection.Close()
@@ -148,8 +167,9 @@ Public Class Graphs_Viewer
     End Function
 
     Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.TextChanged
+
         Try
-            chrtWaterBalance.Titles(0).Text = ToolStripTextBox1.Text
+            chrtWaterBalance.Titles(0).Text = ToolStripTextBox1.Text & vbCrLf & "(" & start_date & " to " & end_date & ")"
         Catch ex As Exception
 
         End Try

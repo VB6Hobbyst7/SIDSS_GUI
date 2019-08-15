@@ -34,7 +34,7 @@ Public Class FormDGV
                             curr_row.Tmax = Convert.ToDouble(curr_value)
 
                         Case "Tmin"
-                            curr_row.Irrig = Convert.ToDouble(curr_value)
+                            curr_row.Tmin = Convert.ToDouble(curr_value)
 
                         Case "ETr"
                             curr_row.ETr = Convert.ToDouble(curr_value)

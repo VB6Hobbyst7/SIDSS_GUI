@@ -80,6 +80,7 @@ Partial Class Graphs_Viewer
         '
         'ToolStripTextBox1
         '
+        Me.ToolStripTextBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
         Me.ToolStripTextBox1.Size = New System.Drawing.Size(200, 23)
         Me.ToolStripTextBox1.Text = "Type new graph heading here"
@@ -96,7 +97,7 @@ Partial Class Graphs_Viewer
         Me.chkGraphOptions.Dock = System.Windows.Forms.DockStyle.Fill
         Me.chkGraphOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkGraphOptions.FormattingEnabled = True
-        Me.chkGraphOptions.Items.AddRange(New Object() {"Kc", "ETr", "ETc", "Di", "Dmax", "Eff__Precip", "Eff__Irrig"})
+        Me.chkGraphOptions.Items.AddRange(New Object() {"Kc", "ETr", "ETc", "Di", "Dmax", "Eff__Precip", "Eff__Irrig", "Deficit_8214"})
         Me.chkGraphOptions.Location = New System.Drawing.Point(0, 0)
         Me.chkGraphOptions.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.chkGraphOptions.Name = "chkGraphOptions"

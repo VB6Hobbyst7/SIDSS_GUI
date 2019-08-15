@@ -246,6 +246,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ControlsForms\Kcr_ETa_Window.xaml.vb">
+      <DependentUpon>Kcr_ETa_Window.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Csv2dgv_converter.vb" />
     <Compile Include="DailyET_Sum_Window.xaml.vb">
       <DependentUpon>DailyET_Sum_Window.xaml</DependentUpon>
@@ -319,6 +322,10 @@
     <Compile Include="MapWInGIS_Control.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Page Include="ControlsForms\Kcr_ETa_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DailyET_Sum_Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -478,4 +485,8 @@
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

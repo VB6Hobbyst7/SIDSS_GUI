@@ -47,7 +47,7 @@ Public Class WaterBalanceCalculator
 
         Dim input_data_table As DataTable
         Dim input_data_complete As New SQL_table_operation
-        input_data_table = input_data_complete.Load_SQL_DataTable("WaterBalance_Table")
+        input_data_table = input_data_complete.Load_SQL_DataTable("SMD_Daily")
 
         Eff_Precip_Calculate(input_data_table)
         Eff_Irrig_Calculate(input_data_table)

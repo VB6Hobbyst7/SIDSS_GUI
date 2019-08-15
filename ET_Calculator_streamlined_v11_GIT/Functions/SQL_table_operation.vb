@@ -2,7 +2,7 @@
 Imports System.Data
 Imports System.IO
 Public Class SQL_table_operation
-    Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
+    Dim myConnection As New SQLiteConnection("Data Source=SIDSS_Entity_database.db; Version=3")
     Dim cmd As New SQLiteCommand
 
     Public Function Read_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_data As DataTable)
@@ -100,7 +100,7 @@ Public Class SQL_table_operation
     Public Function Write_Water_Balance_Dates(ByVal col_name As String, ByVal col_data As DataTable)
         'When Starting with saving date values to the table, reset old table to make space for the new data entry.
         'Populating date values will automatically reset old date in the table.
-        Reset_SQL_Table("WaterBalance_Table")
+        Reset_SQL_Table("SMD_Daily")
         myConnection.Open()
         cmd.Connection = myConnection
         cmd.CommandText = Nothing
@@ -109,7 +109,7 @@ Public Class SQL_table_operation
         Dim doy As Double
         For i = 0 To count - 1
             doy = Math.Pow(2, i) / Math.Pow(i, 2)
-            cmd.CommandText &= String.Format("INSERT INTO WaterBalance_Table (Date) VALUES ('{0}');", col_data.Rows(i)(0).ToString) & Environment.NewLine
+            cmd.CommandText &= String.Format("INSERT INTO SMD_Daily (Date) VALUES ('{0}');", col_data.Rows(i)(0).ToString) & Environment.NewLine
         Next
 
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction
@@ -149,7 +149,7 @@ Public Class SQL_table_operation
 
     Public Function Load_SQL_DataTable(ByVal table_name)
         'Connect to local SQLite database file. The text part is called connectionstring.
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
+        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_Entity_database.db; Version=3")
         'Open connection to the database file, within the program.
         If myConnection.State = ConnectionState.Closed Then
             myConnection.Open()
@@ -166,7 +166,7 @@ Public Class SQL_table_operation
         Dim dt As New DataTable
 
         'Load SQL database values into the following datable.
-        Dim app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_database.db"
+        Dim app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_Entity_database.db"
         Try
             dt.Load(reader)
         Catch ex As Exception
@@ -212,7 +212,7 @@ Public Class SQL_table_operation
 
 
             cmd.CommandText &=
-                String.Format("UPDATE WaterBalance_Table SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}', Eff__Irrig='{7}', Eff__Precip='{8}', Surface__Runoff='{9}' WHERE SNo={10};" _
+                String.Format("UPDATE SMD_Daily SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}', Eff__Irrig='{7}', Eff__Precip='{8}', Surface__Runoff='{9}' WHERE SNo={10};" _
                                         , GDD, Kc, ETc, Drz, Dmax, Di, DP, eff_irrig, eff_precip, sro, i + 1) & Environment.NewLine
         Next
         Dim tr As SQLiteTransaction = myConnection.BeginTransaction

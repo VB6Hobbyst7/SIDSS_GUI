@@ -49,5 +49,17 @@ Partial Public Class SIDS_GUI_Parameters
     Public Property EB_WindDir As String
     Public Property EB_Date As String
     Public Property EB_StdTime As String
+    Public Property Sigmoid_a_8214 As Nullable(Of Decimal)
+    Public Property Sigmoid_b_8214 As Nullable(Of Decimal)
+    Public Property Sigmoid_c_8214 As Nullable(Of Decimal)
+    Public Property Sigmoid_d_8214 As Nullable(Of Decimal)
+    Public Property Sigmoid_a_9110 As Nullable(Of Decimal)
+    Public Property Sigmoid_b_9110 As Nullable(Of Decimal)
+    Public Property Sigmoid_c_9110 As Nullable(Of Decimal)
+    Public Property Sigmoid_d_9110 As Nullable(Of Decimal)
+    Public Property Sigmoid_a_9308 As Nullable(Of Decimal)
+    Public Property Sigmoid_b_9308 As Nullable(Of Decimal)
+    Public Property Sigmoid_c_9308 As Nullable(Of Decimal)
+    Public Property Sigmoid_d_9308 As Nullable(Of Decimal)
 
 End Class

@@ -32,7 +32,7 @@ Imports System.Globalization
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
-    Public app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_database.db"
+    Public app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_Entity_database.db"
     Public dgv As FormDGV
     Public user_control As OutputPath
     Public Property Value As DateTime
@@ -285,7 +285,7 @@ Class MainWindow
 
     Private Sub Dynamic_grid_resize()
         Try
-            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - 310
+            Dim WaterBalance_Grid As Integer = main_window.ActualHeight - 360
             dgvWaterBalance.Height = WaterBalance_Grid
 
             Dim infoGrid As Integer = main_window.ActualHeight - 246 - 10
@@ -378,25 +378,27 @@ Class MainWindow
         Dim OpenCMD As Object = CreateObject("wscript.shell")
         Dim ET_Kcb_Python_Script As String = Nothing
 
-
+        Dim tif_path As String =  KC_MS_file_path.Text
+        Dim Daily_ETr As String = RefET24hr.Text
         If rtbxReflET.IsEnabled Then
+            tif_path = ""
+            Daily_ETr = ""
             Dim textrange As New TextRange(rtbxReflET.Document.ContentStart, rtbxReflET.Document.ContentEnd)
             Dim Refl_ET_image_data As String = textrange.Text
             Dim all_lines() As String = Refl_ET_image_data.Split(Environment.NewLine)
-
             For Each str As String In all_lines
                 str = str.Replace(vbLf, "")
                 Try
                     If str.Length > 0 Then
                         Dim tiff_path_and_et_value() As String = str.Split(",")
-                        Dim tif_path As String = tiff_path_and_et_value(0)
+                        tif_path = tiff_path_and_et_value(0)
                         Dim out_et_tif As String = tif_path.Replace(".tif", "_daily_ET.tif")
                         If File.Exists(out_et_tif) Then
                             MessageBox.Show(Path.GetFileName(out_et_tif) & "already exists")
                             Continue For
                         Else
                             tif_path = tif_path.Replace("\", "//")
-                            Dim Daily_ETr As String = tiff_path_and_et_value(1)
+                            Daily_ETr = tiff_path_and_et_value(1)
                             ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
                             OpenCMD.run(ET_Kcb_Python_Script, 1, True)
                         End If
@@ -408,7 +410,7 @@ Class MainWindow
             Next
 
         Else
-            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py {0}", RefET24hr.Text)
+            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
 
             OpenCMD.run(ET_Kcb_Python_Script, 1, True)
 
@@ -467,7 +469,7 @@ Class MainWindow
         Dim col_name As String = "Precip, in inches"
         Launch_Col_Input_From(col_name)
         'Populate_main_datagrid()
-        Load_Datagrid("WaterBalance_Table")
+        Load_Datagrid("SMD_Daily")
         dgvWaterBalance.Items.Refresh()
 
     End Sub
@@ -478,7 +480,7 @@ Class MainWindow
         Dim Irrig_table As New DataTable
         Dim col_name As String = "Irrig, in inches"
         Launch_Col_Input_From(col_name)
-        Load_Datagrid("WaterBalance_Table")
+        Load_Datagrid("SMD_Daily")
         Load_WaterBalance_DagaGrid()
         'dgvWaterBalance.Items.Refresh()
     End Sub
@@ -489,7 +491,7 @@ Class MainWindow
         Dim ETr_table As New DataTable
         Dim col_name As String = "ETr, in inches"
         Launch_Col_Input_From(col_name)
-        Load_Datagrid("WaterBalance_Table")
+        Load_Datagrid("SMD_Daily")
         Load_WaterBalance_DagaGrid()
         'dgvWaterBalance.Items.Refresh()
 
@@ -501,7 +503,7 @@ Class MainWindow
         Dim Tmax_table As New DataTable
         Dim col_name As String = "Tmax, in Farenheit"
         Launch_Col_Input_From(col_name)
-        Load_Datagrid("WaterBalance_Table")
+        Load_Datagrid("SMD_Daily")
         Load_WaterBalance_DagaGrid()
         'dgvWaterBalance.Items.Refresh()
 
@@ -549,7 +551,7 @@ Class MainWindow
             Dim set_date As New SQL_table_operation
 
             set_date.Write_Water_Balance_Dates("Date", datatable_date)
-            set_date.Write_SQL_Col("WaterBalance_Table", "DOY", 0, datatable_doy)
+            set_date.Write_SQL_Col("SMD_Daily", "DOY", 0, datatable_doy)
 
             'Load_Datagrid("WaterBalance_Table")
             Load_WaterBalance_DagaGrid()
@@ -560,7 +562,7 @@ Class MainWindow
 
 
     Private Sub Tb_4_Loaded(sender As Object, e As RoutedEventArgs) Handles tabWaterBalance.Loaded
-        Load_Datagrid("WaterBalance_Table")
+        Load_Datagrid("SMD_Daily")
     End Sub
 
 
@@ -622,7 +624,7 @@ Class MainWindow
         SMD_Parameters.RootMin = Convert.ToDouble(tbxMinRootDepth.Text)
         SMD_Parameters.Calculate_Grid_Cols(Tbase)
 
-        Load_Datagrid("WaterBalance_Table")
+        Load_Datagrid("SMD_Daily")
 
     End Sub
 
@@ -1122,5 +1124,9 @@ Class MainWindow
         btn_KC_MS_tiff.IsEnabled = False
     End Sub
 
+    Private Sub BtnKcr_ETa_data_Click(sender As Object, e As RoutedEventArgs) Handles btnKcr_ETa_data.Click
+        Dim kcr_eta_panel = New Kcr_ETa_Window
 
+        kcr_eta_panel.ShowDialog()
+    End Sub
 End Class
