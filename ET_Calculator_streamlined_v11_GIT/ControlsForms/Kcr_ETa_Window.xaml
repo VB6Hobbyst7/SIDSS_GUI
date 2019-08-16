@@ -8,7 +8,7 @@
         Title="Kcr_ETa_Window" Height="450" Width="800">
     <Grid>
         <Button x:Name="btnAddKcrETa" Content="Add Kcr ETa" Margin="0,50,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="107"/>
-        <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,150,100,10">
+        <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,150,10,10" VerticalScrollBarVisibility="Visible" >
             <FlowDocument>
                 <Paragraph>
                     Date	 Kcr_8214	 Kcr_9110	 Kcr_9308 	 ETa_8214	 ETa_9110	 ETa_9308

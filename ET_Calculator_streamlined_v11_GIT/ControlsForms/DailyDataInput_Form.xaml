@@ -1,0 +1,33 @@
+﻿<Window x:Class="DailyDataInput_Form"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ET_Calculator_streamlined_v11_GIT"
+        mc:Ignorable="d"
+        Title="DailyDataInput_Form" Height="450" Width="800">
+    <Grid>
+        <RichTextBox x:Name="rtbxDailyData" HorizontalAlignment="Left" Height="334" Margin="10,75,0,0" VerticalAlignment="Top" Width="772">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="Clear this text and enter daily weather data, tab-separated values copy and paste from spreadsheet to this textbx."/>
+                    <LineBreak/>
+                    <LineBreak/>
+                    Date	T-High F	T-Low F	Precip inches	Irrigation, inches	ETr (SIDSS) inches
+                    <LineBreak/>
+                    5/13/2019	81.374	31.658	0	0	0.289
+                    <LineBreak/>
+                    5/14/2019	85.406	45.788	0	0	0.300
+                    <LineBreak/>
+                    5/15/2019	86.774	51.89	0	0	0.333
+                    <LineBreak/>
+                    5/16/2019	86.594	49.01	0.07	0	0.286 
+                    <LineBreak/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+        <Button x:Name="btnSaveDailyData" Content="Save Data" Margin="0,30,32,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Width="90"/>
+
+    </Grid>
+</Window>

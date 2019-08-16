@@ -246,6 +246,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ControlsForms\DailyDataInput_Form.xaml.vb">
+      <DependentUpon>DailyDataInput_Form.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlsForms\Kcr_ETa_Window.xaml.vb">
       <DependentUpon>Kcr_ETa_Window.xaml</DependentUpon>
     </Compile>
@@ -322,6 +325,10 @@
     <Compile Include="MapWInGIS_Control.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Page Include="ControlsForms\DailyDataInput_Form.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlsForms\Kcr_ETa_Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

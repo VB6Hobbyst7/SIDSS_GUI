@@ -12,10 +12,10 @@ Public Class Kcr_ETa_Window
             tbxSigmoid_b_9110.Text = gui_parameters.Sigmoid_b_9110.ToString
             tbxSigmoid_c_9110.Text = gui_parameters.Sigmoid_c_9110.ToString
             tbxSigmoid_d_9110.Text = gui_parameters.Sigmoid_d_9110.ToString
-            tbxSigmoid_a_9308.Text = gui_parameters.Sigmoid_a_9308.ToString
-            tbxSigmoid_b_9308.Text = gui_parameters.Sigmoid_b_9308.ToString
-            tbxSigmoid_c_9308.Text = gui_parameters.Sigmoid_c_9308.ToString
-            tbxSigmoid_d_9308.Text = gui_parameters.Sigmoid_d_9308.ToString
+            tbxSigmoid_a_8214.Text = gui_parameters.Sigmoid_a_9308.ToString
+            tbxSigmoid_b_8214.Text = gui_parameters.Sigmoid_b_9308.ToString
+            tbxSigmoid_c_8214.Text = gui_parameters.Sigmoid_c_9308.ToString
+            tbxSigmoid_d_8214.Text = gui_parameters.Sigmoid_d_9308.ToString
         End Using
     End Sub
 
@@ -30,10 +30,10 @@ Public Class Kcr_ETa_Window
             gui_parameters.Sigmoid_b_9110 = Convert.ToDecimal(tbxSigmoid_b_9110.Text)
             gui_parameters.Sigmoid_c_9110 = Convert.ToDecimal(tbxSigmoid_c_9110.Text)
             gui_parameters.Sigmoid_d_9110 = Convert.ToDecimal(tbxSigmoid_d_9110.Text)
-            gui_parameters.Sigmoid_a_9308 = Convert.ToDecimal(tbxSigmoid_a_9308.Text)
-            gui_parameters.Sigmoid_b_9308 = Convert.ToDecimal(tbxSigmoid_b_9308.Text)
-            gui_parameters.Sigmoid_c_9308 = Convert.ToDecimal(tbxSigmoid_c_9308.Text)
-            gui_parameters.Sigmoid_d_9308 = Convert.ToDecimal(tbxSigmoid_d_9308.Text)
+            gui_parameters.Sigmoid_a_9308 = Convert.ToDecimal(tbxSigmoid_a_8214.Text)
+            gui_parameters.Sigmoid_b_9308 = Convert.ToDecimal(tbxSigmoid_b_8214.Text)
+            gui_parameters.Sigmoid_c_9308 = Convert.ToDecimal(tbxSigmoid_c_8214.Text)
+            gui_parameters.Sigmoid_d_9308 = Convert.ToDecimal(tbxSigmoid_d_8214.Text)
             sidss_context.SaveChanges()
         End Using
     End Sub
@@ -48,19 +48,8 @@ Public Class Kcr_ETa_Window
 
             Dim smd_data = sidss_context.SMD_Daily.ToList()
             Dim smd_rows_count As Integer = sidss_context.SMD_Daily.Count
-            ' Erase previous dataset in Kcr and ETa columns to make space for latest values.
-            For r = 0 To smd_rows_count - 1
-                smd_data(r).Kcr_8214 = 0
-                smd_data(r).Kcr_9110 = 0
-                smd_data(r).Kcr_9308 = 0
-                smd_data(r).ETa_8214 = 0
-                smd_data(r).ETa_9110 = 0
-                smd_data(r).ETa_9308 = 0
-            Next
-            sidss_context.SaveChanges()
-            Dim input_row = 1
             For j = 0 To smd_rows_count - 1
-                For i = input_row To input_data_lines.Count - 1
+                For i = 1 To input_data_lines.Count - 1
                     Dim current_row = input_data_lines(i).Replace(vbLf, "").Split(vbTab)
                     If current_row.Length = 7 Then
                         date_value = current_row(0)
@@ -70,7 +59,6 @@ Public Class Kcr_ETa_Window
                         ETa_8214 = current_row(4)
                         ETa_9110 = current_row(5)
                         ETa_9308 = current_row(6)
-
                     End If
                     If Convert.ToDateTime(smd_data(j).Date) = Convert.ToDateTime(date_value) Then
                         smd_data(j).Kcr_8214 = Math.Round(Convert.ToDecimal(Kcr_8214), 4)
@@ -79,14 +67,13 @@ Public Class Kcr_ETa_Window
                         smd_data(j).ETa_8214 = Math.Round(Convert.ToDecimal(ETa_8214), 4)
                         smd_data(j).ETa_9110 = Math.Round(Convert.ToDecimal(ETa_9110), 4)
                         smd_data(j).ETa_9308 = Math.Round(Convert.ToDecimal(ETa_9308), 4)
-                        'input_row = i + 1
                         Exit For
                     End If
                 Next
             Next
 
+            MessageBox.Show("")
             sidss_context.SaveChanges()
-            MessageBox.Show("Data added successfully.")
 
 
         End Using
@@ -105,7 +92,9 @@ Public Class Kcr_ETa_Window
                 calc_Kcr = Calc_Sigmoid_Kcr(GDD, Kcr_i(0))
                 smd_data(i).Kcr_calculated = Math.Round(calc_Kcr, 4)
                 calc_Kcr = 0
-                If smd_data(i).Kcr_8214 = 0 Or smd_data(i).Kcr_9110 = 0 Or smd_data(i).Kcr_9308 = 0 Then
+                If Not (IsNumeric(smd_data(i).Kcr_8214) Or IsNumeric(smd_data(i).Kcr_9110) Or IsNumeric(smd_data(i).Kcr_9308)) Then
+                    'Kcr = smd_data(i).Kcr_8214
+
 
                     calc_Kcr = Calc_Sigmoid_Kcr(GDD, Kcr_i(0))
 
@@ -132,7 +121,7 @@ Public Class Kcr_ETa_Window
             Next
             sidss_context.SaveChanges()
         End Using
-        MessageBox.Show("All missing values interpolated.")
+
     End Sub
 
     Private Function Calc_Sigmoid_Kcr(ByVal GDD As Double, ByVal Kcr_i As String)
@@ -158,13 +147,9 @@ Public Class Kcr_ETa_Window
             sig_c = Convert.ToDouble(tbxSigmoid_c_9308.Text)
             sig_d = Convert.ToDouble(tbxSigmoid_d_9308.Text)
         End If
-        Dim a = sig_a
-        Dim b = sig_b
-        Dim x0 = sig_c
-        Dim y0 = sig_d
-        'Dim calculated_Kcr = sig_a + (sig_b - sig_a) / (1 + Math.Pow((GDD / sig_c), sig_d))
-        Dim SigmaPlot_Eq = y0 + a * Math.Exp(-0.5 * Math.Pow(Math.Log(GDD / x0) / b, 2)) / GDD
-        Return SigmaPlot_Eq
+
+        Dim calculated_Kcr = sig_a + (sig_b - sig_a) / (1 + Math.Pow((GDD / sig_c), sig_d))
+        Return calculated_Kcr
     End Function
 
     Private Sub btnFillMissignKcrETa_Click(sender As Object, e As RoutedEventArgs) Handles btnFillMissignKcrETa.Click

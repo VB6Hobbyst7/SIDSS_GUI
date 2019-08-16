@@ -1,4 +1,4 @@
-import parameters_ref_ET
+# import parameters_ref_ET
 import rasterio
 import sys,os
 import numpy as np
@@ -7,12 +7,8 @@ import time
 temp = np.seterr(divide='ignore', invalid='ignore')
 import matplotlib.pyplot as plt
 # plt.rcParams['figure.figsize'] = [10, 10] # Command to incerase the plot size.(numbers represent inches?)
-
-tif_path = parameters_ref_ET.KC_MS_file_path
-tif_folder = os.path.dirname(tif_path)
 arg_length = len(sys.argv)
-Full_Day_ET = 0
-
+Full_Day_ET = 0		
 if arg_length == 3:
         try:
                 Full_Day_ET = float(sys.argv[2])
@@ -24,6 +20,11 @@ else:
                 Full_Day_ET = float(sys.argv[1])
         except:
                 pass
+				
+# tif_path = parameters_ref_ET.KC_MS_file_path
+tif_folder = os.path.dirname(tif_path)
+
+		
 
 print(Full_Day_ET)
 f = open(tif_folder+"\\Full_Day_ET.txt", "a")

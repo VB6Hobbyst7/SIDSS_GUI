@@ -128,12 +128,7 @@ Public Class Graphs_Viewer
 
             'Populate each line/cloumn with the corresponding data. Note: Checkbox items name the sql data table column names,
             'that Is how I am matching the data to the correct graph.
-            Try
-                chrtWaterBalance.Series(current_item).Points.DataBindXY(main_table.Rows, axis_type, main_table.Rows, current_item)
-
-            Catch ex As Exception
-
-            End Try
+            chrtWaterBalance.Series(current_item).Points.DataBindXY(main_table.Rows, axis_type, main_table.Rows, current_item)
         Next
         chrtWaterBalance.Invalidate()
     End Sub
@@ -172,18 +167,13 @@ Public Class Graphs_Viewer
         'Load SQL database values into the following datable.
         dt.Load(reader)
 
-        Try
-            start_date = dt.Rows(0)("Date")
-            end_date = dt.Rows(dt.Rows.Count - 1)("Date")
-            'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
-            'Close connection to the database.
-            reader.Close()
-            myConnection.Close()
-            Return dt
-        Catch ex As Exception
-
-        End Try
-
+        start_date = dt.Rows(0)("Date")
+        end_date = dt.Rows(dt.Rows.Count - 1)("Date")
+        'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
+        'Close connection to the database.
+        reader.Close()
+        myConnection.Close()
+        Return dt
     End Function
 
     Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.TextChanged
@@ -234,7 +224,8 @@ Public Class Graphs_Viewer
     End Sub
 
     Private Sub SaveAsImageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsImageToolStripMenuItem.Click
-        SaveFileDialog_chrt.Filter = "Png Images (*.png*)|*.png"
+        SaveFileDialog_chrt.Filter = "Png Images (*.png)|*.png"
+        SaveFileDialog_chrt.FileName = Format(Now, "yyyy_MM_dd_hh_mm")
         If SaveFileDialog_chrt.ShowDialog = Windows.Forms.DialogResult.OK _
        Then
             chrtWaterBalance.SaveImage(SaveFileDialog_chrt.FileName, format:=ChartImageFormat.Png)

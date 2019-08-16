@@ -492,17 +492,15 @@ Class MainWindow
 
 
         Dim dlg_result As New DialogResult
-        dlg_result = MessageBox.Show("You are about to reset and start new calculations.", "", MessageBoxButtons.OKCancel)
+        dlg_result = MessageBox.Show(Me, "You are about to reset and start new calculations.", "Warning!!!", MessageBoxButton.OKCancel)
 
         If dlg_result = MessageBoxResult.Cancel Then
             Return
         End If
         '###############################################################################################################
-        Reset_SMD_table()
-        Load_WaterBalance_DagaGrid()
+
         Dim daily_data_form As New DailyDataInput_Form
         daily_data_form.ShowDialog()
-        Load_WaterBalance_DagaGrid()
         '###############################################################################################################
 
         'Dim index As Integer = 1
