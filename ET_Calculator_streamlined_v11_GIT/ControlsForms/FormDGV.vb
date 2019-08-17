@@ -46,6 +46,7 @@ Public Class FormDGV
             Next
 
             DataSet.SaveChanges()
+
         End Using
 
         'Dim save_col As New SQL_table_operation
@@ -58,6 +59,7 @@ Public Class FormDGV
         'Dim main_window As New MainWindow
         'main_window.dgvWaterBalance.ItemsSource = full_table.DefaultView
         Me.Close()
+
 
     End Sub
     'Private Sub Load_WaterBalance_DagaGrid()

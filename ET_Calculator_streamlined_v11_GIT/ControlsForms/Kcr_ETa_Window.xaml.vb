@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports ET_Calculator_streamlined_v11_GIT.MainWindow.Shared_controls
 
 Public Class Kcr_ETa_Window
     Private Sub Kcr_ETa_Window_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
@@ -87,6 +88,9 @@ Public Class Kcr_ETa_Window
 
             sidss_context.SaveChanges()
             MessageBox.Show("Data added successfully.")
+            main_window_shared.Load_WaterBalance_DagaGrid()
+
+            'ET_Calculator_streamlined_v11_GIT.MainWindow.Shared_controls.main_window_shared.dgvWaterBalance.ItemsSource = sidss_context.SMD_Daily.ToList()
 
 
         End Using
@@ -133,6 +137,7 @@ Public Class Kcr_ETa_Window
             sidss_context.SaveChanges()
         End Using
         MessageBox.Show("All missing values interpolated.")
+
     End Sub
 
     Private Function Calc_Sigmoid_Kcr(ByVal GDD As Double, ByVal Kcr_i As String)
@@ -170,6 +175,9 @@ Public Class Kcr_ETa_Window
     Private Sub btnFillMissignKcrETa_Click(sender As Object, e As RoutedEventArgs) Handles btnFillMissignKcrETa.Click
         Calculate_missing_Kcr_ETa_Data()
         Calculate_ETa_Deficit()
+        MessageBox.Show("Calculated missing Kcr and ETa values.")
+        'main_window_shared.Load_WaterBalance_DagaGrid()
+
     End Sub
     Private Sub Calculate_ETa_Deficit()
 
@@ -192,5 +200,6 @@ Public Class Kcr_ETa_Window
             sidss_context.SaveChanges()
 
         End Using
+
     End Sub
 End Class

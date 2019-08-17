@@ -60,7 +60,7 @@ Class MainWindow
 
 
 
-    Private Sub Load_WaterBalance_DagaGrid()
+    Public Sub Load_WaterBalance_DagaGrid()
         ' Encapsulating database in "using" statement to close the database immediately.
         Using entity_table As New SIDSS_Entities()
             ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
@@ -70,7 +70,7 @@ Class MainWindow
     End Sub
 
 
-    Private Sub Load_RefET_DagaGrid()
+    Public Sub Load_RefET_DagaGrid()
         ' Encapsulating database in "using" statement to close the database immediately.
         Using entity_table As New SIDSS_Entities()
             ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
@@ -1167,7 +1167,13 @@ Class MainWindow
 
     Private Sub BtnKcr_ETa_data_Click(sender As Object, e As RoutedEventArgs) Handles btnKcr_ETa_data.Click
         Dim kcr_eta_panel = New Kcr_ETa_Window
+        Me.Hide()
+        Try
+            kcr_eta_panel.ShowDialog()
+        Catch ex As Exception
 
-        kcr_eta_panel.ShowDialog()
+        End Try
+        Me.Show()
+        Load_WaterBalance_DagaGrid()
     End Sub
 End Class
