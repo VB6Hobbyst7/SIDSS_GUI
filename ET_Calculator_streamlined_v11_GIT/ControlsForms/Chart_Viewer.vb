@@ -107,7 +107,7 @@ Public Class Graphs_Viewer
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Blue
                     chrtWaterBalance.Series(i)("PixelPointWidth") = "10"
 
-                Case "Deficit_8214"
+                Case "Deficit_plot"
                     'curr_item_title = "Effective Irrig @ irrigation efficiency"
                     chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
                     chrtWaterBalance.ChartAreas(0).AxisY.IsReversed = True
@@ -119,7 +119,7 @@ Public Class Graphs_Viewer
                     chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.DarkGray
 
-                Case "Kcr_8214"
+                Case "Kcr_plot"
                     chrtWaterBalance.Series(i).ChartType = SeriesChartType.Point
                     chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Black

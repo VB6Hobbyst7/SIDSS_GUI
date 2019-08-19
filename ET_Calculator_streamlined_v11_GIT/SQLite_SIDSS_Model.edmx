@@ -95,18 +95,14 @@
           <Property Name="EB_WindDir" Type="nvarchar" MaxLength="10" />
           <Property Name="EB_Date" Type="nvarchar" MaxLength="100" />
           <Property Name="EB_StdTime" Type="nvarchar" MaxLength="10" />
-          <Property Name="Sigmoid_a_8214" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_b_8214" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_c_8214" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_d_8214" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_a_9110" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_b_9110" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_c_9110" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_d_9110" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_a_9308" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_b_9308" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_c_9308" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_d_9308" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a0" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_w" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a1" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a2" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a3" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_b1" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_b2" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_b3" Type="decimal" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="Site_Info_Summary">
           <Key>
@@ -144,14 +140,10 @@
           <Property Name="Dmax" Type="decimal" Precision="7" Scale="0" />
           <Property Name="DP" Type="decimal" Precision="7" Scale="0" />
           <Property Name="Di" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="Kcr_8214" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="Kcr_9110" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="Kcr_9308" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Kcr_plot" Type="decimal" Precision="7" Scale="0" />
           <Property Name="Kcr_calculated" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="ETa_8214" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="ETa_9110" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="ETa_9308" Type="decimal" Precision="7" Scale="0" />
-          <Property Name="Deficit_8214" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="ETa_plot" Type="decimal" Precision="7" Scale="0" />
+          <Property Name="Deficit_plot" Type="decimal" Precision="7" Scale="0" />
         </EntityType>
         <EntityContainer Name="SIDSS_mainModelStoreContainer">
           <EntitySet Name="Ref_ET_Table" EntityType="Self.Ref_ET_Table" store:Type="Tables" />
@@ -259,18 +251,14 @@
           <Property Name="EB_WindDir" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="EB_Date" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="EB_StdTime" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Sigmoid_a_8214" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_b_8214" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_c_8214" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_d_8214" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_a_9110" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_b_9110" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_c_9110" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_d_9110" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_a_9308" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_b_9308" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_c_9308" Type="Decimal" Precision="10" Scale="0" />
-          <Property Name="Sigmoid_d_9308" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a0" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_w" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a1" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a2" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_a3" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_b1" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_b2" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Fourier_b3" Type="Decimal" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="Site_Info_Summary">
           <Key>
@@ -308,14 +296,10 @@
           <Property Name="Dmax" Type="Decimal" Precision="7" Scale="0" />
           <Property Name="DP" Type="Decimal" Precision="7" Scale="0" />
           <Property Name="Di" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="Kcr_8214" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="Kcr_9110" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="Kcr_9308" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Kcr_plot" Type="Decimal" Precision="7" Scale="0" />
           <Property Name="Kcr_calculated" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="ETa_8214" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="ETa_9110" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="ETa_9308" Type="Decimal" Precision="7" Scale="0" />
-          <Property Name="Deficit_8214" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="ETa_plot" Type="Decimal" Precision="7" Scale="0" />
+          <Property Name="Deficit_plot" Type="Decimal" Precision="7" Scale="0" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -375,18 +359,14 @@
           <EntitySetMapping Name="SIDS_GUI_Parameters">
             <EntityTypeMapping TypeName="SIDSS_mainModel.SIDS_GUI_Parameters">
               <MappingFragment StoreEntitySet="SIDS_GUI_Parameters">
-                <ScalarProperty Name="Sigmoid_d_9308" ColumnName="Sigmoid_d_9308" />
-                <ScalarProperty Name="Sigmoid_c_9308" ColumnName="Sigmoid_c_9308" />
-                <ScalarProperty Name="Sigmoid_b_9308" ColumnName="Sigmoid_b_9308" />
-                <ScalarProperty Name="Sigmoid_a_9308" ColumnName="Sigmoid_a_9308" />
-                <ScalarProperty Name="Sigmoid_d_9110" ColumnName="Sigmoid_d_9110" />
-                <ScalarProperty Name="Sigmoid_c_9110" ColumnName="Sigmoid_c_9110" />
-                <ScalarProperty Name="Sigmoid_b_9110" ColumnName="Sigmoid_b_9110" />
-                <ScalarProperty Name="Sigmoid_a_9110" ColumnName="Sigmoid_a_9110" />
-                <ScalarProperty Name="Sigmoid_d_8214" ColumnName="Sigmoid_d_8214" />
-                <ScalarProperty Name="Sigmoid_c_8214" ColumnName="Sigmoid_c_8214" />
-                <ScalarProperty Name="Sigmoid_b_8214" ColumnName="Sigmoid_b_8214" />
-                <ScalarProperty Name="Sigmoid_a_8214" ColumnName="Sigmoid_a_8214" />
+                <ScalarProperty Name="Fourier_b3" ColumnName="Fourier_b3" />
+                <ScalarProperty Name="Fourier_b2" ColumnName="Fourier_b2" />
+                <ScalarProperty Name="Fourier_b1" ColumnName="Fourier_b1" />
+                <ScalarProperty Name="Fourier_a3" ColumnName="Fourier_a3" />
+                <ScalarProperty Name="Fourier_a2" ColumnName="Fourier_a2" />
+                <ScalarProperty Name="Fourier_a1" ColumnName="Fourier_a1" />
+                <ScalarProperty Name="Fourier_w" ColumnName="Fourier_w" />
+                <ScalarProperty Name="Fourier_a0" ColumnName="Fourier_a0" />
                 <ScalarProperty Name="EB_StdTime" ColumnName="EB_StdTime" />
                 <ScalarProperty Name="EB_Date" ColumnName="EB_Date" />
                 <ScalarProperty Name="EB_WindDir" ColumnName="EB_WindDir" />
@@ -446,14 +426,10 @@
           <EntitySetMapping Name="SMD_Daily">
             <EntityTypeMapping TypeName="SIDSS_mainModel.SMD_Daily">
               <MappingFragment StoreEntitySet="SMD_Daily">
-                <ScalarProperty Name="Deficit_8214" ColumnName="Deficit_8214" />
-                <ScalarProperty Name="ETa_9308" ColumnName="ETa_9308" />
-                <ScalarProperty Name="ETa_9110" ColumnName="ETa_9110" />
-                <ScalarProperty Name="ETa_8214" ColumnName="ETa_8214" />
+                <ScalarProperty Name="Deficit_plot" ColumnName="Deficit_plot" />
+                <ScalarProperty Name="ETa_plot" ColumnName="ETa_plot" />
                 <ScalarProperty Name="Kcr_calculated" ColumnName="Kcr_calculated" />
-                <ScalarProperty Name="Kcr_9308" ColumnName="Kcr_9308" />
-                <ScalarProperty Name="Kcr_9110" ColumnName="Kcr_9110" />
-                <ScalarProperty Name="Kcr_8214" ColumnName="Kcr_8214" />
+                <ScalarProperty Name="Kcr_plot" ColumnName="Kcr_plot" />
                 <ScalarProperty Name="Di" ColumnName="Di" />
                 <ScalarProperty Name="DP" ColumnName="DP" />
                 <ScalarProperty Name="Dmax" ColumnName="Dmax" />

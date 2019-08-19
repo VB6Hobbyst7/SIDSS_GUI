@@ -402,9 +402,9 @@ Class MainWindow
         Dim OpenCMD As Object = CreateObject("wscript.shell")
         Dim ET_Kcb_Python_Script As String = Nothing
 
-        Dim tif_path As String =  KC_MS_file_path.Text
+        Dim tif_path As String = """" & KC_MS_file_path.Text & """"
         Dim Daily_ETr As String = RefET24hr.Text
-        If rtbxReflET.IsEnabled Then
+        If Not rbBatch_ReflET_OFF.IsChecked Then
             tif_path = ""
             Daily_ETr = ""
             Dim textrange As New TextRange(rtbxReflET.Document.ContentStart, rtbxReflET.Document.ContentEnd)
@@ -434,7 +434,7 @@ Class MainWindow
             Next
 
         Else
-            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
+            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py {0} {1}", tif_path, Daily_ETr)
 
             OpenCMD.run(ET_Kcb_Python_Script, 1, True)
 
@@ -501,17 +501,12 @@ Class MainWindow
         Reset_SMD_table()
         Load_WaterBalance_DagaGrid()
         Dim daily_data_form As New DailyDataInput_Form
+        Me.Hide()
         daily_data_form.ShowDialog()
         Load_WaterBalance_DagaGrid()
+        Me.Show()
         '###############################################################################################################
 
-        'Dim index As Integer = 1
-        'Dim precip_table As New DataTable
-        'Dim col_name As String = "Precip, in inches"
-        'Launch_Col_Input_From(col_name)
-        ''Populate_main_datagrid()
-        'Load_Datagrid("SMD_Daily")
-        'dgvWaterBalance.Items.Refresh()
 
     End Sub
 

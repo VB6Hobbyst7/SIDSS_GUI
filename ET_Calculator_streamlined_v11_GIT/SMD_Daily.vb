@@ -29,13 +29,9 @@ Partial Public Class SMD_Daily
     Public Property Dmax As Nullable(Of Decimal)
     Public Property DP As Nullable(Of Decimal)
     Public Property Di As Nullable(Of Decimal)
-    Public Property Kcr_8214 As Nullable(Of Decimal)
-    Public Property Kcr_9110 As Nullable(Of Decimal)
-    Public Property Kcr_9308 As Nullable(Of Decimal)
+    Public Property Kcr_plot As Nullable(Of Decimal)
     Public Property Kcr_calculated As Nullable(Of Decimal)
-    Public Property ETa_8214 As Nullable(Of Decimal)
-    Public Property ETa_9110 As Nullable(Of Decimal)
-    Public Property ETa_9308 As Nullable(Of Decimal)
-    Public Property Deficit_8214 As Nullable(Of Decimal)
+    Public Property ETa_plot As Nullable(Of Decimal)
+    Public Property Deficit_plot As Nullable(Of Decimal)
 
 End Class

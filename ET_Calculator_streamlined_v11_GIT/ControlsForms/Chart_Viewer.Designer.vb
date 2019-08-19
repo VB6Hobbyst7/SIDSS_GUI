@@ -22,16 +22,16 @@ Partial Class Graphs_Viewer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series15 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series16 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series17 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series18 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series19 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series20 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series21 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Title3 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -80,6 +80,7 @@ Partial Class Graphs_Viewer
         '
         'ToolStripTextBox1
         '
+        Me.ToolStripTextBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
         Me.ToolStripTextBox1.Size = New System.Drawing.Size(200, 23)
         Me.ToolStripTextBox1.Text = "Type new graph heading here"
@@ -96,7 +97,7 @@ Partial Class Graphs_Viewer
         Me.chkGraphOptions.Dock = System.Windows.Forms.DockStyle.Fill
         Me.chkGraphOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkGraphOptions.FormattingEnabled = True
-        Me.chkGraphOptions.Items.AddRange(New Object() {"Kc", "ETr", "ETc", "Di", "Dmax", "Eff__Precip", "Eff__Irrig", "Deficit_8214", "Kcr_calculated", "Kcr_8214"})
+        Me.chkGraphOptions.Items.AddRange(New Object() {"Kc", "ETr", "ETc", "Di", "Dmax", "Eff__Precip", "Eff__Irrig", "Deficit_plot", "Kcr_calculated", "Kcr_plot"})
         Me.chkGraphOptions.Location = New System.Drawing.Point(0, 0)
         Me.chkGraphOptions.Margin = New System.Windows.Forms.Padding(10, 3, 3, 3)
         Me.chkGraphOptions.Name = "chkGraphOptions"
@@ -105,55 +106,55 @@ Partial Class Graphs_Viewer
         '
         'chrtWaterBalance
         '
-        ChartArea3.Name = "ChartArea1"
-        Me.chrtWaterBalance.ChartAreas.Add(ChartArea3)
+        ChartArea1.Name = "ChartArea1"
+        Me.chrtWaterBalance.ChartAreas.Add(ChartArea1)
         Me.chrtWaterBalance.Dock = System.Windows.Forms.DockStyle.Fill
-        Legend3.Name = "Legend1"
-        Me.chrtWaterBalance.Legends.Add(Legend3)
+        Legend1.Name = "Legend1"
+        Me.chrtWaterBalance.Legends.Add(Legend1)
         Me.chrtWaterBalance.Location = New System.Drawing.Point(0, 0)
         Me.chrtWaterBalance.Name = "chrtWaterBalance"
         Me.chrtWaterBalance.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel
-        Series15.ChartArea = "ChartArea1"
-        Series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series15.Legend = "Legend1"
-        Series15.Name = "Kc"
-        Series16.ChartArea = "ChartArea1"
-        Series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series16.Legend = "Legend1"
-        Series16.Name = "ETr"
-        Series17.ChartArea = "ChartArea1"
-        Series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series17.Legend = "Legend1"
-        Series17.Name = "ETc"
-        Series18.ChartArea = "ChartArea1"
-        Series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series18.Legend = "Legend1"
-        Series18.Name = "Di"
-        Series19.ChartArea = "ChartArea1"
-        Series19.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series19.Legend = "Legend1"
-        Series19.Name = "Dmax"
-        Series20.ChartArea = "ChartArea1"
-        Series20.Legend = "Legend1"
-        Series20.Name = "Precip"
-        Series21.BorderWidth = 3
-        Series21.ChartArea = "ChartArea1"
-        Series21.Legend = "Legend1"
-        Series21.Name = "Irrig"
-        Me.chrtWaterBalance.Series.Add(Series15)
-        Me.chrtWaterBalance.Series.Add(Series16)
-        Me.chrtWaterBalance.Series.Add(Series17)
-        Me.chrtWaterBalance.Series.Add(Series18)
-        Me.chrtWaterBalance.Series.Add(Series19)
-        Me.chrtWaterBalance.Series.Add(Series20)
-        Me.chrtWaterBalance.Series.Add(Series21)
+        Series1.ChartArea = "ChartArea1"
+        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series1.Legend = "Legend1"
+        Series1.Name = "Kc"
+        Series2.ChartArea = "ChartArea1"
+        Series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series2.Legend = "Legend1"
+        Series2.Name = "ETr"
+        Series3.ChartArea = "ChartArea1"
+        Series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series3.Legend = "Legend1"
+        Series3.Name = "ETc"
+        Series4.ChartArea = "ChartArea1"
+        Series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series4.Legend = "Legend1"
+        Series4.Name = "Di"
+        Series5.ChartArea = "ChartArea1"
+        Series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series5.Legend = "Legend1"
+        Series5.Name = "Dmax"
+        Series6.ChartArea = "ChartArea1"
+        Series6.Legend = "Legend1"
+        Series6.Name = "Precip"
+        Series7.BorderWidth = 3
+        Series7.ChartArea = "ChartArea1"
+        Series7.Legend = "Legend1"
+        Series7.Name = "Irrig"
+        Me.chrtWaterBalance.Series.Add(Series1)
+        Me.chrtWaterBalance.Series.Add(Series2)
+        Me.chrtWaterBalance.Series.Add(Series3)
+        Me.chrtWaterBalance.Series.Add(Series4)
+        Me.chrtWaterBalance.Series.Add(Series5)
+        Me.chrtWaterBalance.Series.Add(Series6)
+        Me.chrtWaterBalance.Series.Add(Series7)
         Me.chrtWaterBalance.Size = New System.Drawing.Size(678, 423)
         Me.chrtWaterBalance.TabIndex = 3
         Me.chrtWaterBalance.Text = "Chart1"
-        Title3.Font = New System.Drawing.Font("Palatino Linotype", 15.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Title3.Name = "Title1"
-        Title3.Text = "Water Balance Graphs"
-        Me.chrtWaterBalance.Titles.Add(Title3)
+        Title1.Font = New System.Drawing.Font("Palatino Linotype", 15.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Title1.Name = "Title1"
+        Title1.Text = "Water Balance Graphs"
+        Me.chrtWaterBalance.Titles.Add(Title1)
         '
         'SplitContainer1
         '

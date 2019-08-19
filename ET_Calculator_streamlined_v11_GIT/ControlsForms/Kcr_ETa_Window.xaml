@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Kcr_ETa_Window" Height="450" Width="800">
     <Grid>
-        <Button x:Name="btnAddKcrETa" Content="Add Kcr ETa" Margin="0,50,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="107"/>
-        <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,150,10,10" VerticalScrollBarVisibility="Visible" >
+        <Button x:Name="btnAddKcrETa" Content="Input reflectance based Kcr ETa" Margin="0,30,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="29"/>
+        <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,108,10,10" VerticalScrollBarVisibility="Visible" >
             <FlowDocument>
                 <Paragraph>
                     Date	 Kcr_8214	 Kcr_9110	 Kcr_9308 	 ETa_8214	 ETa_9110	 ETa_9308
@@ -32,32 +32,24 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <TextBox x:Name="tbxSigmoid_a_8214" HorizontalAlignment="Left" Height="23" Margin="115,44,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="Sigmoidal Curve parameters for each plot." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385"/>
-        <Label Content="Plot 8214 a=>" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="100"/>
-        <TextBox  x:Name="tbxSigmoid_b_8214" HorizontalAlignment="Left" Height="23" Margin="225,44,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="b=" HorizontalAlignment="Left" Margin="180,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox  x:Name="tbxSigmoid_c_8214" HorizontalAlignment="Left" Height="23" Margin="395,44,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="c=" HorizontalAlignment="Left" Margin="350,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox x:Name="tbxSigmoid_d_8214" HorizontalAlignment="Left" Height="23" Margin="565,44,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="d=" HorizontalAlignment="Left" Margin="520,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox x:Name="tbxSigmoid_a_9110" HorizontalAlignment="Left" Height="23" Margin="115,75,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="Plot 9110 a=>" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="100"/>
-        <TextBox  x:Name="tbxSigmoid_b_9110" HorizontalAlignment="Left" Height="23" Margin="225,75,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="b=" HorizontalAlignment="Left" Margin="180,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox  x:Name="tbxSigmoid_c_9110" HorizontalAlignment="Left" Height="23" Margin="395,75,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="c=" HorizontalAlignment="Left" Margin="350,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox x:Name="tbxSigmoid_d_9110" HorizontalAlignment="Left" Height="23" Margin="565,75,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="d=" HorizontalAlignment="Left" Margin="520,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox x:Name="tbxSigmoid_a_9308" HorizontalAlignment="Left" Height="23" Margin="115,106,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="Plot 9308 a=>" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="100"/>
-        <TextBox  x:Name="tbxSigmoid_b_9308" HorizontalAlignment="Left" Height="23" Margin="225,106,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="b=" HorizontalAlignment="Left" Margin="180,104,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox  x:Name="tbxSigmoid_c_9308" HorizontalAlignment="Left" Height="23" Margin="395,106,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="c=" HorizontalAlignment="Left" Margin="350,104,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <TextBox x:Name="tbxSigmoid_d_9308" HorizontalAlignment="Left" Height="23" Margin="565,106,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="d=" HorizontalAlignment="Left" Margin="520,104,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="40"/>
-        <Button x:Name="btnFillMissignKcrETa" Content="Calculate Kcr" Margin="0,83,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="107"/>
+        <TextBox x:Name="tbxFourier_w" HorizontalAlignment="Left" Height="23" Margin="64,36,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="Fourier curve fit parameters for calculating missing data." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385"/>
+        <Label Content="w=>" HorizontalAlignment="Left" Margin="14,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45"/>
+        <TextBox  x:Name="tbxFourier_a1" HorizontalAlignment="Left" Height="23" Margin="174,36,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="a1=" HorizontalAlignment="Left" Margin="140,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
+        <TextBox  x:Name="tbxFourier_a2" HorizontalAlignment="Left" Height="23" Margin="344,36,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="a2=" HorizontalAlignment="Left" Margin="310,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
+        <TextBox x:Name="tbxFourier_a3" HorizontalAlignment="Left" Height="23" Margin="514,36,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="a3=" HorizontalAlignment="Left" Margin="480,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
+        <TextBox x:Name="tbxFourier_a0" HorizontalAlignment="Left" Height="23" Margin="64,67,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="a0=>" HorizontalAlignment="Left" Margin="14,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45"/>
+        <TextBox  x:Name="tbxFourier_b1" HorizontalAlignment="Left" Height="23" Margin="174,67,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="b1=" HorizontalAlignment="Left" Margin="140,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
+        <TextBox  x:Name="tbxFourier_b2" HorizontalAlignment="Left" Height="23" Margin="344,67,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="b2=" HorizontalAlignment="Left" Margin="310,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
+        <TextBox x:Name="tbxFourier_b3" HorizontalAlignment="Left" Height="23" Margin="514,67,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="b3=" HorizontalAlignment="Left" Margin="480,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
+        <Button x:Name="btnFillMissignKcrETa" Content="Calculate missing Kcr" Margin="0,67,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="28"/>
 
     </Grid>
 </Window>
