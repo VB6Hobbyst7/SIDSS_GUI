@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\SQLite.3.13.0\build\net45\SQLite.props" Condition="Exists('..\packages\SQLite.3.13.0\build\net45\SQLite.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -203,11 +202,9 @@
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -216,7 +213,6 @@
     </Reference>
     <Reference Include="System.Data.SQLite.EF6, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.EF6.1.0.111.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.111.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
@@ -257,34 +253,7 @@
       <DependentUpon>DailyET_Sum_Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\RefET_Cols.vb" />
-    <Compile Include="Ref_ET_Table.vb">
-      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Functions\SIDSS_Entities_Operations.vb" />
-    <Compile Include="SIDS_GUI_Parameters.vb">
-      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Site_Info_Summary.vb">
-      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SMD_Daily.vb">
-      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SQLite_SIDSS_Model.Context.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SQLite_SIDSS_Model.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SQLite_SIDSS_Model.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="SQLite_SIDSS_Model.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Functions\WaterBalanceCalculator.vb" />
     <Compile Include="ControlsForms\Chart_Viewer.Designer.vb">
       <DependentUpon>Chart_Viewer.vb</DependentUpon>
@@ -324,6 +293,33 @@
     </Compile>
     <Compile Include="MapWInGIS_Control.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ref_ET_Table.vb">
+      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SIDS_GUI_Parameters.vb">
+      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Site_Info_Summary.vb">
+      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SMD_Daily.vb">
+      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SQLite_SIDSS_Model.Context.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SQLite_SIDSS_Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SQLite_SIDSS_Model.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="SQLite_SIDSS_Model.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SQLite_SIDSS_Model.tt</DependentUpon>
     </Compile>
     <Page Include="ControlsForms\DailyDataInput_Form.xaml">
       <SubType>Designer</SubType>
@@ -426,9 +422,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SIDSS_Entity_database.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <Content Include="SQLite_SIDSS_Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>
@@ -439,6 +432,9 @@
       <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>
       <LastGenOutput>SQLite_SIDSS_Model.vb</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="SIDSS_Entity_database.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="drone-png-47013-Windows.ico" />
     <Content Include="Crop_Coefficient_ET.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -481,16 +477,15 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\SQLite.3.13.0\build\net45\SQLite.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLite.3.13.0\build\net45\SQLite.props'))" />
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets'))" />
-  </Target>
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
 </Project>

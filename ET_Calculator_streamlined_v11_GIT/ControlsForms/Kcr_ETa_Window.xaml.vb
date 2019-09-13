@@ -56,6 +56,9 @@ Public Class Kcr_ETa_Window
                         date_value = current_row(0)
                         Kcr_plot = current_row(1)
                         ETa_plot = current_row(4)
+                    ElseIf current_row.Length > 1 Then
+                        MessageBox.Show("Please make shure there are 7 columns of data pasted, i.e. Date, Kc x 3, ETa x 3.")
+                        Exit Sub
                     End If
                     If Convert.ToDateTime(smd_data(j).Date) = Convert.ToDateTime(date_value) Then
                         smd_data(j).Kcr_plot = Math.Round(Convert.ToDecimal(Kcr_plot), 4)
@@ -68,7 +71,7 @@ Public Class Kcr_ETa_Window
 
             sidss_context.SaveChanges()
             MessageBox.Show("Data added successfully.")
-            Me.Close()
+
             'main_window_shared.Load_WaterBalance_DagaGrid()
 
 
@@ -76,6 +79,7 @@ Public Class Kcr_ETa_Window
 
 
         End Using
+        Me.Close()
     End Sub
 
     Private Sub Calculate_missing_Kcr_ETa_Data()

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SIDSS_mainModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="Data Source=C:\Folders_To_Sync\SIDSS_GUI\ET_Calculator_streamlined_v11_GIT\bin\Debug\SIDSS_Entity_database.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SIDSS_Model.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ref_ET_Table">
           <Key>
             <PropertyRef Name="ID" />
@@ -145,22 +145,17 @@
           <Property Name="ETa_plot" Type="decimal" Precision="7" Scale="0" />
           <Property Name="Deficit_plot" Type="decimal" Precision="7" Scale="0" />
         </EntityType>
-        <EntityContainer Name="SIDSS_mainModelStoreContainer">
+        <EntityContainer Name="SIDSS_ModelStoreContainer">
           <EntitySet Name="Ref_ET_Table" EntityType="Self.Ref_ET_Table" store:Type="Tables" />
           <EntitySet Name="SIDS_GUI_Parameters" EntityType="Self.SIDS_GUI_Parameters" store:Type="Tables" />
           <EntitySet Name="Site_Info_Summary" EntityType="Self.Site_Info_Summary" store:Type="Tables" />
           <EntitySet Name="SMD_Daily" EntityType="Self.SMD_Daily" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SIDSS_mainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="SIDSS_Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Ref_ET_Table" EntityType="SIDSS_mainModel.Ref_ET_Table" />
-          <EntitySet Name="SIDS_GUI_Parameters" EntityType="SIDSS_mainModel.SIDS_GUI_Parameters" />
-          <EntitySet Name="Site_Info_Summary" EntityType="SIDSS_mainModel.Site_Info_Summary" />
-          <EntitySet Name="SMD_Daily" EntityType="SIDSS_mainModel.SMD_Daily" />
-        </EntityContainer>
+      <Schema Namespace="SIDSS_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Ref_ET_Table">
           <Key>
             <PropertyRef Name="ID" />
@@ -301,153 +296,159 @@
           <Property Name="ETa_plot" Type="Decimal" Precision="7" Scale="0" />
           <Property Name="Deficit_plot" Type="Decimal" Precision="7" Scale="0" />
         </EntityType>
-        </Schema>
+        <EntityContainer Name="SIDSS_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ref_ET_Table" EntityType="Self.Ref_ET_Table" />
+          <EntitySet Name="SIDS_GUI_Parameters" EntityType="Self.SIDS_GUI_Parameters" />
+          <EntitySet Name="Site_Info_Summary" EntityType="Self.Site_Info_Summary" />
+          <EntitySet Name="SMD_Daily" EntityType="Self.SMD_Daily" />
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SIDSS_mainModelStoreContainer" CdmEntityContainer="SIDSS_Entities">
+        <EntityContainerMapping StorageEntityContainer="SIDSS_ModelStoreContainer" CdmEntityContainer="SIDSS_Entities">
           <EntitySetMapping Name="Ref_ET_Table">
-            <EntityTypeMapping TypeName="SIDSS_mainModel.Ref_ET_Table">
+            <EntityTypeMapping TypeName="SIDSS_Model.Ref_ET_Table">
               <MappingFragment StoreEntitySet="Ref_ET_Table">
-                <ScalarProperty Name="ETr" ColumnName="ETr" />
-                <ScalarProperty Name="ETo" ColumnName="ETo" />
-                <ScalarProperty Name="sin_phi" ColumnName="sin_phi" />
-                <ScalarProperty Name="W" ColumnName="W" />
-                <ScalarProperty Name="Rso_adv" ColumnName="Rso_adv" />
-                <ScalarProperty Name="Kb" ColumnName="Kb" />
-                <ScalarProperty Name="Kd" ColumnName="Kd" />
-                <ScalarProperty Name="Rs_Rso_adv" ColumnName="Rs_Rso_adv" />
-                <ScalarProperty Name="fcd_adv" ColumnName="fcd_adv" />
-                <ScalarProperty Name="Rn" ColumnName="Rn" />
-                <ScalarProperty Name="Cd" ColumnName="Cd" />
-                <ScalarProperty Name="Cn" ColumnName="Cn" />
-                <ScalarProperty Name="u2" ColumnName="u2" />
-                <ScalarProperty Name="gamma" ColumnName="gamma" />
-                <ScalarProperty Name="P" ColumnName="P" />
-                <ScalarProperty Name="G" ColumnName="G" />
-                <ScalarProperty Name="Rns" ColumnName="Rns" />
-                <ScalarProperty Name="Rnl" ColumnName="Rnl" />
-                <ScalarProperty Name="ea" ColumnName="ea" />
-                <ScalarProperty Name="es" ColumnName="es" />
-                <ScalarProperty Name="TKhr" ColumnName="TKhr" />
-                <ScalarProperty Name="fcd" ColumnName="fcd" />
-                <ScalarProperty Name="Rso" ColumnName="Rso" />
-                <ScalarProperty Name="Ra" ColumnName="Ra" />
-                <ScalarProperty Name="omega__2" ColumnName="omega__2" />
-                <ScalarProperty Name="omega__1" ColumnName="omega__1" />
-                <ScalarProperty Name="omega__s" ColumnName="omega__s" />
-                <ScalarProperty Name="beta" ColumnName="beta" />
-                <ScalarProperty Name="phi" ColumnName="phi" />
-                <ScalarProperty Name="delta__angle" ColumnName="delta__angle" />
-                <ScalarProperty Name="delta__vapor" ColumnName="delta__vapor" />
-                <ScalarProperty Name="dr" ColumnName="dr" />
-                <ScalarProperty Name="omega" ColumnName="omega" />
-                <ScalarProperty Name="Sc" ColumnName="Sc" />
-                <ScalarProperty Name="wind__spd" ColumnName="wind__spd" />
-                <ScalarProperty Name="Rs" ColumnName="Rs" />
-                <ScalarProperty Name="RH" ColumnName="RH" />
-                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
-                <ScalarProperty Name="DOY" ColumnName="DOY" />
-                <ScalarProperty Name="Tmid" ColumnName="Tmid" />
-                <ScalarProperty Name="StdTime" ColumnName="StdTime" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StdTime" ColumnName="StdTime" />
+                <ScalarProperty Name="Tmid" ColumnName="Tmid" />
+                <ScalarProperty Name="DOY" ColumnName="DOY" />
+                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
+                <ScalarProperty Name="RH" ColumnName="RH" />
+                <ScalarProperty Name="Rs" ColumnName="Rs" />
+                <ScalarProperty Name="wind__spd" ColumnName="wind__spd" />
+                <ScalarProperty Name="Sc" ColumnName="Sc" />
+                <ScalarProperty Name="omega" ColumnName="omega" />
+                <ScalarProperty Name="dr" ColumnName="dr" />
+                <ScalarProperty Name="delta__vapor" ColumnName="delta__vapor" />
+                <ScalarProperty Name="delta__angle" ColumnName="delta__angle" />
+                <ScalarProperty Name="phi" ColumnName="phi" />
+                <ScalarProperty Name="beta" ColumnName="beta" />
+                <ScalarProperty Name="omega__s" ColumnName="omega__s" />
+                <ScalarProperty Name="omega__1" ColumnName="omega__1" />
+                <ScalarProperty Name="omega__2" ColumnName="omega__2" />
+                <ScalarProperty Name="Ra" ColumnName="Ra" />
+                <ScalarProperty Name="Rso" ColumnName="Rso" />
+                <ScalarProperty Name="fcd" ColumnName="fcd" />
+                <ScalarProperty Name="TKhr" ColumnName="TKhr" />
+                <ScalarProperty Name="es" ColumnName="es" />
+                <ScalarProperty Name="ea" ColumnName="ea" />
+                <ScalarProperty Name="Rnl" ColumnName="Rnl" />
+                <ScalarProperty Name="Rns" ColumnName="Rns" />
+                <ScalarProperty Name="G" ColumnName="G" />
+                <ScalarProperty Name="P" ColumnName="P" />
+                <ScalarProperty Name="gamma" ColumnName="gamma" />
+                <ScalarProperty Name="u2" ColumnName="u2" />
+                <ScalarProperty Name="Cn" ColumnName="Cn" />
+                <ScalarProperty Name="Cd" ColumnName="Cd" />
+                <ScalarProperty Name="Rn" ColumnName="Rn" />
+                <ScalarProperty Name="fcd_adv" ColumnName="fcd_adv" />
+                <ScalarProperty Name="Rs_Rso_adv" ColumnName="Rs_Rso_adv" />
+                <ScalarProperty Name="Kd" ColumnName="Kd" />
+                <ScalarProperty Name="Kb" ColumnName="Kb" />
+                <ScalarProperty Name="Rso_adv" ColumnName="Rso_adv" />
+                <ScalarProperty Name="W" ColumnName="W" />
+                <ScalarProperty Name="sin_phi" ColumnName="sin_phi" />
+                <ScalarProperty Name="ETo" ColumnName="ETo" />
+                <ScalarProperty Name="ETr" ColumnName="ETr" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SIDS_GUI_Parameters">
-            <EntityTypeMapping TypeName="SIDSS_mainModel.SIDS_GUI_Parameters">
+            <EntityTypeMapping TypeName="SIDSS_Model.SIDS_GUI_Parameters">
               <MappingFragment StoreEntitySet="SIDS_GUI_Parameters">
-                <ScalarProperty Name="Fourier_b3" ColumnName="Fourier_b3" />
-                <ScalarProperty Name="Fourier_b2" ColumnName="Fourier_b2" />
-                <ScalarProperty Name="Fourier_b1" ColumnName="Fourier_b1" />
-                <ScalarProperty Name="Fourier_a3" ColumnName="Fourier_a3" />
-                <ScalarProperty Name="Fourier_a2" ColumnName="Fourier_a2" />
-                <ScalarProperty Name="Fourier_a1" ColumnName="Fourier_a1" />
-                <ScalarProperty Name="Fourier_w" ColumnName="Fourier_w" />
-                <ScalarProperty Name="Fourier_a0" ColumnName="Fourier_a0" />
-                <ScalarProperty Name="EB_StdTime" ColumnName="EB_StdTime" />
-                <ScalarProperty Name="EB_Date" ColumnName="EB_Date" />
-                <ScalarProperty Name="EB_WindDir" ColumnName="EB_WindDir" />
-                <ScalarProperty Name="EB_RH" ColumnName="EB_RH" />
-                <ScalarProperty Name="EB_Ra" ColumnName="EB_Ra" />
-                <ScalarProperty Name="EB_WindSpd" ColumnName="EB_WindSpd" />
-                <ScalarProperty Name="EB_Tair" ColumnName="EB_Tair" />
-                <ScalarProperty Name="Irrig_Efficiency" ColumnName="Irrig_Efficiency" />
-                <ScalarProperty Name="CN_Number" ColumnName="CN_Number" />
-                <ScalarProperty Name="MAD" ColumnName="MAD" />
-                <ScalarProperty Name="Site_Summary" ColumnName="Site_Summary" />
-                <ScalarProperty Name="Site_Name" ColumnName="Site_Name" />
-                <ScalarProperty Name="Longitude_Centere" ColumnName="Longitude_Centere" />
-                <ScalarProperty Name="W_Spd_H" ColumnName="W_Spd_H" />
-                <ScalarProperty Name="T_Air_H" ColumnName="T_Air_H" />
-                <ScalarProperty Name="Elevation" ColumnName="Elevation" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Harvest_Date" ColumnName="Harvest_Date" />
-                <ScalarProperty Name="Plant_Date" ColumnName="Plant_Date" />
-                <ScalarProperty Name="TAW_5" ColumnName="TAW_5" />
-                <ScalarProperty Name="TAW_4" ColumnName="TAW_4" />
-                <ScalarProperty Name="TAW_3" ColumnName="TAW_3" />
-                <ScalarProperty Name="TAW_2" ColumnName="TAW_2" />
-                <ScalarProperty Name="TAW_1" ColumnName="TAW_1" />
-                <ScalarProperty Name="Max_Root_Depth" ColumnName="Max_Root_Depth" />
-                <ScalarProperty Name="Min_Root_Depth" ColumnName="Min_Root_Depth" />
-                <ScalarProperty Name="SoilDepth_5" ColumnName="SoilDepth_5" />
-                <ScalarProperty Name="SoilDepth_4" ColumnName="SoilDepth_4" />
-                <ScalarProperty Name="SoilDepth_3" ColumnName="SoilDepth_3" />
-                <ScalarProperty Name="SoilDepth_2" ColumnName="SoilDepth_2" />
-                <ScalarProperty Name="SoilDepth_1" ColumnName="SoilDepth_1" />
-                <ScalarProperty Name="Kcb_MS_Tiff" ColumnName="Kcb_MS_Tiff" />
-                <ScalarProperty Name="EB_Thermal_Tiff" ColumnName="EB_Thermal_Tiff" />
-                <ScalarProperty Name="EB_MS_Tiff" ColumnName="EB_MS_Tiff" />
-                <ScalarProperty Name="SMD_daily_CSV" ColumnName="SMD_daily_CSV" />
-                <ScalarProperty Name="RefET_hourly_CSV" ColumnName="RefET_hourly_CSV" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RefET_hourly_CSV" ColumnName="RefET_hourly_CSV" />
+                <ScalarProperty Name="SMD_daily_CSV" ColumnName="SMD_daily_CSV" />
+                <ScalarProperty Name="EB_MS_Tiff" ColumnName="EB_MS_Tiff" />
+                <ScalarProperty Name="EB_Thermal_Tiff" ColumnName="EB_Thermal_Tiff" />
+                <ScalarProperty Name="Kcb_MS_Tiff" ColumnName="Kcb_MS_Tiff" />
+                <ScalarProperty Name="SoilDepth_1" ColumnName="SoilDepth_1" />
+                <ScalarProperty Name="SoilDepth_2" ColumnName="SoilDepth_2" />
+                <ScalarProperty Name="SoilDepth_3" ColumnName="SoilDepth_3" />
+                <ScalarProperty Name="SoilDepth_4" ColumnName="SoilDepth_4" />
+                <ScalarProperty Name="SoilDepth_5" ColumnName="SoilDepth_5" />
+                <ScalarProperty Name="Min_Root_Depth" ColumnName="Min_Root_Depth" />
+                <ScalarProperty Name="Max_Root_Depth" ColumnName="Max_Root_Depth" />
+                <ScalarProperty Name="TAW_1" ColumnName="TAW_1" />
+                <ScalarProperty Name="TAW_2" ColumnName="TAW_2" />
+                <ScalarProperty Name="TAW_3" ColumnName="TAW_3" />
+                <ScalarProperty Name="TAW_4" ColumnName="TAW_4" />
+                <ScalarProperty Name="TAW_5" ColumnName="TAW_5" />
+                <ScalarProperty Name="Plant_Date" ColumnName="Plant_Date" />
+                <ScalarProperty Name="Harvest_Date" ColumnName="Harvest_Date" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Elevation" ColumnName="Elevation" />
+                <ScalarProperty Name="T_Air_H" ColumnName="T_Air_H" />
+                <ScalarProperty Name="W_Spd_H" ColumnName="W_Spd_H" />
+                <ScalarProperty Name="Longitude_Centere" ColumnName="Longitude_Centere" />
+                <ScalarProperty Name="Site_Name" ColumnName="Site_Name" />
+                <ScalarProperty Name="Site_Summary" ColumnName="Site_Summary" />
+                <ScalarProperty Name="MAD" ColumnName="MAD" />
+                <ScalarProperty Name="CN_Number" ColumnName="CN_Number" />
+                <ScalarProperty Name="Irrig_Efficiency" ColumnName="Irrig_Efficiency" />
+                <ScalarProperty Name="EB_Tair" ColumnName="EB_Tair" />
+                <ScalarProperty Name="EB_WindSpd" ColumnName="EB_WindSpd" />
+                <ScalarProperty Name="EB_Ra" ColumnName="EB_Ra" />
+                <ScalarProperty Name="EB_RH" ColumnName="EB_RH" />
+                <ScalarProperty Name="EB_WindDir" ColumnName="EB_WindDir" />
+                <ScalarProperty Name="EB_Date" ColumnName="EB_Date" />
+                <ScalarProperty Name="EB_StdTime" ColumnName="EB_StdTime" />
+                <ScalarProperty Name="Fourier_a0" ColumnName="Fourier_a0" />
+                <ScalarProperty Name="Fourier_w" ColumnName="Fourier_w" />
+                <ScalarProperty Name="Fourier_a1" ColumnName="Fourier_a1" />
+                <ScalarProperty Name="Fourier_a2" ColumnName="Fourier_a2" />
+                <ScalarProperty Name="Fourier_a3" ColumnName="Fourier_a3" />
+                <ScalarProperty Name="Fourier_b1" ColumnName="Fourier_b1" />
+                <ScalarProperty Name="Fourier_b2" ColumnName="Fourier_b2" />
+                <ScalarProperty Name="Fourier_b3" ColumnName="Fourier_b3" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Site_Info_Summary">
-            <EntityTypeMapping TypeName="SIDSS_mainModel.Site_Info_Summary">
+            <EntityTypeMapping TypeName="SIDSS_Model.Site_Info_Summary">
               <MappingFragment StoreEntitySet="Site_Info_Summary">
-                <ScalarProperty Name="Summary" ColumnName="Summary" />
-                <ScalarProperty Name="Z__u" ColumnName="Z__u" />
-                <ScalarProperty Name="Z__t" ColumnName="Z__t" />
-                <ScalarProperty Name="Elevation" ColumnName="Elevation" />
-                <ScalarProperty Name="Center_Longi" ColumnName="Center_Longi" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
                 <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Center_Longi" ColumnName="Center_Longi" />
+                <ScalarProperty Name="Elevation" ColumnName="Elevation" />
+                <ScalarProperty Name="Z__t" ColumnName="Z__t" />
+                <ScalarProperty Name="Z__u" ColumnName="Z__u" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SMD_Daily">
-            <EntityTypeMapping TypeName="SIDSS_mainModel.SMD_Daily">
+            <EntityTypeMapping TypeName="SIDSS_Model.SMD_Daily">
               <MappingFragment StoreEntitySet="SMD_Daily">
-                <ScalarProperty Name="Deficit_plot" ColumnName="Deficit_plot" />
-                <ScalarProperty Name="ETa_plot" ColumnName="ETa_plot" />
-                <ScalarProperty Name="Kcr_calculated" ColumnName="Kcr_calculated" />
-                <ScalarProperty Name="Kcr_plot" ColumnName="Kcr_plot" />
-                <ScalarProperty Name="Di" ColumnName="Di" />
-                <ScalarProperty Name="DP" ColumnName="DP" />
-                <ScalarProperty Name="Dmax" ColumnName="Dmax" />
-                <ScalarProperty Name="Drz" ColumnName="Drz" />
-                <ScalarProperty Name="ETc" ColumnName="ETc" />
-                <ScalarProperty Name="Kc" ColumnName="Kc" />
-                <ScalarProperty Name="GDD" ColumnName="GDD" />
-                <ScalarProperty Name="ETr" ColumnName="ETr" />
-                <ScalarProperty Name="Tmin" ColumnName="Tmin" />
-                <ScalarProperty Name="Tmax" ColumnName="Tmax" />
-                <ScalarProperty Name="Eff__Irrig" ColumnName="Eff__Irrig" />
-                <ScalarProperty Name="Irrig" ColumnName="Irrig" />
-                <ScalarProperty Name="Eff__Precip" ColumnName="Eff__Precip" />
-                <ScalarProperty Name="Surface__Runoff" ColumnName="Surface__Runoff" />
-                <ScalarProperty Name="Precip" ColumnName="Precip" />
-                <ScalarProperty Name="DOY" ColumnName="DOY" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="SNo" ColumnName="SNo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DOY" ColumnName="DOY" />
+                <ScalarProperty Name="Precip" ColumnName="Precip" />
+                <ScalarProperty Name="Surface__Runoff" ColumnName="Surface__Runoff" />
+                <ScalarProperty Name="Eff__Precip" ColumnName="Eff__Precip" />
+                <ScalarProperty Name="Irrig" ColumnName="Irrig" />
+                <ScalarProperty Name="Eff__Irrig" ColumnName="Eff__Irrig" />
+                <ScalarProperty Name="Tmax" ColumnName="Tmax" />
+                <ScalarProperty Name="Tmin" ColumnName="Tmin" />
+                <ScalarProperty Name="ETr" ColumnName="ETr" />
+                <ScalarProperty Name="GDD" ColumnName="GDD" />
+                <ScalarProperty Name="Kc" ColumnName="Kc" />
+                <ScalarProperty Name="ETc" ColumnName="ETc" />
+                <ScalarProperty Name="Drz" ColumnName="Drz" />
+                <ScalarProperty Name="Dmax" ColumnName="Dmax" />
+                <ScalarProperty Name="DP" ColumnName="DP" />
+                <ScalarProperty Name="Di" ColumnName="Di" />
+                <ScalarProperty Name="Kcr_plot" ColumnName="Kcr_plot" />
+                <ScalarProperty Name="Kcr_calculated" ColumnName="Kcr_calculated" />
+                <ScalarProperty Name="ETa_plot" ColumnName="ETa_plot" />
+                <ScalarProperty Name="Deficit_plot" ColumnName="Deficit_plot" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

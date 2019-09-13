@@ -4,7 +4,7 @@ Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
 
 Public Class WaterBalanceCalculator
 #Region "Inits"
-    Private ReadOnly myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
+    Private ReadOnly myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_database.db; Version=3")
     Private cmd As New SQLiteCommand
     Property Tbase As Double
     Property RootMin As Double
@@ -25,29 +25,15 @@ Public Class WaterBalanceCalculator
     Property Irrigation_Efficiency_Fraction As Double
 #End Region
 
-    'Public WriteOnly Property Set_Soil_Profile As List(Of String)
-    '    Set(soil_prop As List(Of String))
-    '        Drz_1 = Convert.ToDouble(soil_prop(0))
-    '        Drz_2 = Convert.ToDouble(soil_prop(1))
-    '        Drz_3 = Convert.ToDouble(soil_prop(2))
-    '        Drz_4 = Convert.ToDouble(soil_prop(3))
-    '        Drz_5 = Convert.ToDouble(soil_prop(4))
-    '        RAW1 = Convert.ToDouble(soil_prop(5))
-    '        RAW2 = Convert.ToDouble(soil_prop(6))
-    '        RAW3 = Convert.ToDouble(soil_prop(7))
-    '        RAW4 = Convert.ToDouble(soil_prop(8))
-    '        RAW5 = Convert.ToDouble(soil_prop(9))
-    '        MAD_fraction = Convert.ToDouble(soil_prop(10)) / 100
-    '        Irrig_Efficiency = Convert.ToDouble(soil_prop(11))
-    '        Runoff_CN = Convert.ToDouble(soil_prop(12))
-    '    End Set
-    'End Property
-
     Public Sub Calculate_Grid_Cols(ByVal Tbase As Integer)
 
         Dim input_data_table As DataTable
         Dim input_data_complete As New SQL_table_operation
         input_data_table = input_data_complete.Load_SQL_DataTable("SMD_Daily")
+        Using SIDSS_Context As New SIDSS_Entities
+            Dim SMD_table = SIDSS_Context.SMD_Daily.ToArray()
+
+        End Using
 
         Eff_Precip_Calculate(input_data_table)
         Eff_Irrig_Calculate(input_data_table)
@@ -61,18 +47,18 @@ Public Class WaterBalanceCalculator
         input_data_complete.Write_WaterBalance_Final_Table(input_data_table)
     End Sub
 
-    Private Sub Eff_Precip_Calculate(input_data_table As DataTable)
+    Private Sub Eff_Precip_Calculate(ByRef input_data_table As DataTable)
         Dim Precip_in, Precip_mm As New Double
         Dim eff_precip_in, eff_precip_mm As New Double
         Dim runoff As New Double
         Dim param_s As New Double
         param_s = 250 * (100 / Runoff_CN - 1)
-
+        Dim cutoff = param_s * 0.2
         For i = 0 To input_data_table.Rows.Count - 1
             Precip_in = Convert.ToDouble(input_data_table.Rows(i)("Precip"))
             Precip_mm = 25.4 * Precip_in
 
-            If Precip_mm > 0.2 * param_s Then
+            If Precip_mm > cutoff Then
                 runoff = Math.Pow((Precip_mm - 0.2 * param_s), 2) / (Precip_mm + 0.8 * param_s)
                 eff_precip_mm = Precip_mm - runoff
                 eff_precip_in = eff_precip_mm / 25.4
@@ -86,7 +72,7 @@ Public Class WaterBalanceCalculator
         Next
     End Sub
 
-    Private Sub Eff_Irrig_Calculate(input_data_table As DataTable)
+    Private Sub Eff_Irrig_Calculate(ByRef input_data_table As DataTable)
         Dim irrig As New Double
         Dim eff_irrig As New Double
         For i = 0 To input_data_table.Rows.Count - 1
@@ -133,7 +119,7 @@ Public Class WaterBalanceCalculator
         Dim Kc_ini = Convert.ToDouble(input_data_table.Rows(0)("Kc"))
 
         ' Observing few Kc graphs the initial phase where the dip occurs is less than 30 days.
-        ' This value of 30 is just an arbitrary number to avoid dipping down of the Kc curve.
+        ' This value of 30 days is just an arbitrary number to avoid dipping down of the Kc curve (i.e. ommit values lower than Kc_ini).
         For i = 0 To 30
             Kc_val = Convert.ToDouble(input_data_table.Rows(i)("Kc"))
             If Kc_val < Kc_ini Then
@@ -175,13 +161,6 @@ Public Class WaterBalanceCalculator
             End If
         Next
     End Sub
-
-    'Public Sub Set_root_depth(ByVal RMin As String, ByVal Rmax As String)
-    '    RootMax = Convert.ToDouble(Rmax)
-    '    RootMin = Convert.ToDouble(RMin)
-    'End Sub
-
-
 
 
     Public Sub Calc_MAD(ByRef input_data_table As DataTable)

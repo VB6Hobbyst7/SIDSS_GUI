@@ -149,7 +149,7 @@ Public Class Graphs_Viewer
 
 
         'Connect to local SQLite database file. The text part is called connectionstring.
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_Entity_database.db; Version=3")
+        Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
         'Open connection to the database file, within the program.
         If myConnection.State = ConnectionState.Open Then
             myConnection.Close()

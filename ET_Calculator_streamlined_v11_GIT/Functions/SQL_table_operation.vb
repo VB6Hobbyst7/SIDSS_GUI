@@ -2,7 +2,7 @@
 Imports System.Data
 Imports System.IO
 Public Class SQL_table_operation
-    Dim myConnection As New SQLiteConnection("Data Source=SIDSS_Entity_database.db; Version=3")
+    Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
     Dim cmd As New SQLiteCommand
 
     Public Function Read_SQL_Col(ByVal table_name As String, ByVal col_name As String, ByVal col_data As DataTable)
@@ -149,7 +149,7 @@ Public Class SQL_table_operation
 
     Public Function Load_SQL_DataTable(ByVal table_name)
         'Connect to local SQLite database file. The text part is called connectionstring.
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_Entity_database.db; Version=3")
+        Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
         'Open connection to the database file, within the program.
         If myConnection.State = ConnectionState.Closed Then
             myConnection.Open()
