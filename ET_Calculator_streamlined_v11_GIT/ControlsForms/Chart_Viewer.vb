@@ -139,13 +139,14 @@ Public Class Graphs_Viewer
     End Sub
 
     Public Function Load_SQL_Table()
+        'Dim smd_table As Array
+        'Dim water_table As New DataTable
         'Using database_context As New SIDSS_Entities
-        '    Dim smd_table = database_context.SMD_Daily.ToArray()
-        '    Dim water_table As New DataTable
 
+        '    smd_table = database_context.SMD_Daily.ToArray()
 
-        '    Return water_table
         'End Using
+        'Dim items = smd_table.
 
 
         'Connect to local SQLite database file. The text part is called connectionstring.

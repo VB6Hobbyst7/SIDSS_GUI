@@ -24,7 +24,6 @@ Imports System.Linq
 Imports System.Collections
 Imports ET_Calculator_streamlined_v11_GIT
 Imports System.Data.Entity.Validation.DbEntityValidationException
-
 Imports System.Globalization
 
 
@@ -372,7 +371,7 @@ Class MainWindow
         file.WriteLine("KC_MS_file_path=" & "r" & """" & tif_KC_MS_file_path & """")
         file.WriteLine("EB_MS_file_path=" & "r" & """" & tif_EB_MS_file_path & """")
         file.WriteLine("EB_Thermal_file_path=" & "r" & """" & tif_EB_Thermal_file_path & """")
-        file.WriteLine("csv_file_path=" & "r" & """" & csv_file_path & """")
+        file.WriteLine("csv_file_path=" & "r" & """ & csv_file_path & """)
 
         file.WriteLine("EB_Ta_txt=" & EB_Ta_txt)
         file.WriteLine("EB_Rs_txt=" & EB_Rs_txt)
@@ -948,11 +947,12 @@ Class MainWindow
 
 
     Private Sub btnSaveSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveSiteInfo.Click
+
         Dim dgSiteInfo_table As New DataTable
         Dim read_database As New SQL_table_operation
         dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
 
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
+        Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
         Dim cmd As New SQLiteCommand
         'Open connection to the database file, within the program.
 
@@ -977,6 +977,12 @@ Class MainWindow
         cmd.ExecuteNonQuery()
         myConnection.Close()
         Load_siteinfo()
+
+        Using SIDSS_context As New SIDSS_Entities()
+            Dim site_summary_table As New Object
+            site_summary_table = SIDSS_context.Site_Info_Summary
+            site_summary_table(siten)
+        End Using
 
     End Sub
 
@@ -1005,6 +1011,18 @@ Class MainWindow
 
 
     Private Sub Main_window_Closing(sender As Object, e As CancelEventArgs) Handles main_window.Closing
+
+        If System.Windows.Forms.Application.MessageLoop Then
+            '// Use this since we are a WinForms app
+            System.Windows.Forms.Application.Exit()
+        Else
+            '// Use this since we are a console app
+            System.Environment.Exit(1)
+        End If
+
+    End Sub
+
+    Private Sub Save_Parameters()
         Using GUI_parameter As New SIDSS_Entities
             Try
                 Dim parameter_row = (From row_vals In GUI_parameter.SIDS_GUI_Parameters Where row_vals.ID = 1).ToList(0)
@@ -1053,18 +1071,7 @@ Class MainWindow
             End Try
 
         End Using
-
-        If System.Windows.Forms.Application.MessageLoop Then
-            '// Use this since we are a WinForms app
-            System.Windows.Forms.Application.Exit()
-        Else
-            '// Use this since we are a console app
-            System.Environment.Exit(1)
-        End If
-
     End Sub
-
-
     Private Sub MnuOutputPath_Click(sender As Object, e As RoutedEventArgs) Handles mnuOutputPath.Click
         Dim control_window = New OutputPath
         main_window.Hide()
