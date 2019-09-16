@@ -677,6 +677,8 @@ Class MainWindow
 
 
     Private Sub Btn_EB_MS_run_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_run.Click
+        set_parameter_file()
+        Save_Parameters()
         Dim OpenCMD
         OpenCMD = CreateObject("wscript.shell")
         Dim command2 As String = "python.exe " & """ET_Calculation_Field_data_with_cpp_v2.py"""
@@ -978,11 +980,11 @@ Class MainWindow
         myConnection.Close()
         Load_siteinfo()
 
-        Using SIDSS_context As New SIDSS_Entities()
-            Dim site_summary_table As New Object
-            site_summary_table = SIDSS_context.Site_Info_Summary
-            site_summary_table(siten)
-        End Using
+        'Using SIDSS_context As New SIDSS_Entities()
+        '    Dim site_summary_table As New Object
+        '    site_summary_table = SIDSS_context.Site_Info_Summary
+        '    site_summary_table(siten)
+        'End Using
 
     End Sub
 
@@ -1011,7 +1013,7 @@ Class MainWindow
 
 
     Private Sub Main_window_Closing(sender As Object, e As CancelEventArgs) Handles main_window.Closing
-
+        Save_Parameters()
         If System.Windows.Forms.Application.MessageLoop Then
             '// Use this since we are a WinForms app
             System.Windows.Forms.Application.Exit()
