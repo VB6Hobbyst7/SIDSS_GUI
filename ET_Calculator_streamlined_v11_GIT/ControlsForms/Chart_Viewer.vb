@@ -199,7 +199,7 @@ Public Class Graphs_Viewer
     End Sub
 
     Private Sub Graphs_Viewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim form_access As New ET_Calculator_streamlined_v11_GIT.MainWindow
+        Dim form_access As New SIDSS_Planner_GUI.MainWindow
         Dim string_builder As New StringBuilder
         string_builder.AppendLine("Where:-")
         string_builder.AppendLine("Precip. & Irrig. are measured in inches.")

@@ -1,7 +1,7 @@
 ﻿
 Imports System.Data.Entity
-Imports ET_Calculator_streamlined_v11_GIT.MainWindow.Shared_controls
-Imports ET_Calculator_streamlined_v11_GIT.SIDSS_Entities
+Imports SIDSS_Planner_GUI.MainWindow.Shared_controls
+Imports SIDSS_Planner_GUI.SIDSS_Entities
 
 Public Class SIDSS_Entities_Operations
     Public Sub Reset_RefET_Table()
@@ -37,7 +37,7 @@ Public Class SIDSS_Entities_Operations
     Public Sub Load_WaterBalance_DagaGrid()
 
         ' Encapsulating database in "using" statement to close the database immediately.
-        Using entity_table As New ET_Calculator_streamlined_v11_GIT.SIDSS_Entities()
+        Using entity_table As New SIDSS_Planner_GUI.SIDSS_Entities()
             ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
             main_window_shared.dgvWaterBalance.ItemsSource = entity_table.SMD_Daily.ToList()
         End Using

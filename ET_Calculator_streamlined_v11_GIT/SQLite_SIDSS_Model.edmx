@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SIDSS_Model.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SIDSS_Model.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ref_ET_Table">
           <Key>
             <PropertyRef Name="ID" />
@@ -103,6 +103,7 @@
           <Property Name="Fourier_b1" Type="decimal" Precision="10" Scale="0" />
           <Property Name="Fourier_b2" Type="decimal" Precision="10" Scale="0" />
           <Property Name="Fourier_b3" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="ETr_in" Type="decimal" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="Site_Info_Summary">
           <Key>
@@ -151,8 +152,7 @@
           <EntitySet Name="Site_Info_Summary" EntityType="Self.Site_Info_Summary" store:Type="Tables" />
           <EntitySet Name="SMD_Daily" EntityType="Self.SMD_Daily" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SIDSS_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -254,6 +254,7 @@
           <Property Name="Fourier_b1" Type="Decimal" Precision="10" Scale="0" />
           <Property Name="Fourier_b2" Type="Decimal" Precision="10" Scale="0" />
           <Property Name="Fourier_b3" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="ETr_in" Type="Decimal" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="Site_Info_Summary">
           <Key>
@@ -360,6 +361,7 @@
           <EntitySetMapping Name="SIDS_GUI_Parameters">
             <EntityTypeMapping TypeName="SIDSS_Model.SIDS_GUI_Parameters">
               <MappingFragment StoreEntitySet="SIDS_GUI_Parameters">
+                <ScalarProperty Name="ETr_in" ColumnName="ETr_in" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="RefET_hourly_CSV" ColumnName="RefET_hourly_CSV" />
                 <ScalarProperty Name="SMD_daily_CSV" ColumnName="SMD_daily_CSV" />

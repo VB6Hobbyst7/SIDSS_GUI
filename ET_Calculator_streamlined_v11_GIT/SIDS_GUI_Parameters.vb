@@ -57,5 +57,6 @@ Partial Public Class SIDS_GUI_Parameters
     Public Property Fourier_b1 As Nullable(Of Decimal)
     Public Property Fourier_b2 As Nullable(Of Decimal)
     Public Property Fourier_b3 As Nullable(Of Decimal)
+    Public Property ETr_in As Nullable(Of Decimal)
 
 End Class

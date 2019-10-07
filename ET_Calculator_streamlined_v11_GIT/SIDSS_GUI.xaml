@@ -363,14 +363,18 @@
 
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0">
+                                            <!--<TextBox x:Name="tbx_EB_WindSpd_height" Text="3.3" Margin="5" Padding="5"/>-->
                                             <TextBox x:Name="tbx_Ta"  Text="30.5" Margin="5" Padding="5"/>
                                             <TextBox x:Name="tbx_Rs"  Text="55.52" Margin="5" Padding="5"/>
                                             <TextBox x:Name="tbx_RH" Text="28.7" Margin="5" Padding="5"/>
+                                            <TextBox x:Name="tbx_ETr" Text="0.27" Margin="5" Padding="5"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" TextBlock.FontWeight="Normal">
+                                            <!--<Label Content="Wind speed measurement height (m)" Margin="5,7" Padding="5"/>-->
                                             <Label Content="Air Temperature (C)" Margin="5,7" Padding="5"/>
                                             <Label Content="Incoming Short Wave radiation (kJ/m2/min)" Margin="5,7" Padding="5"/>
                                             <Label Content="Relative Humidity (%)" Margin="5,7" Padding="5"/>
+                                            <Label Content="Reference alfalfa ETr(in.)" Margin="5,7" Padding="5"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
@@ -381,24 +385,48 @@
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0">
+                                            <!--<TextBox x:Name="tbx_EB_RH_measurement_height" MaxLines="1" Text="3.3" Margin="5" Padding="5"/>-->
                                             <TextBox x:Name="tbx_Wind_Spd" MaxLines="1" Text="3.11" Margin="5" Padding="5"/>
                                             <TextBox x:Name="tbx_Wind_Dir"  Text="304" Margin="5" Padding="5"/>
                                             <DatePicker x:Name="Date_EB_Image" Margin="5" Padding="5" Text="7/22/18" SelectedDateFormat="Short" ></DatePicker>
                                             <ComboBox x:Name="StdTime_EB_Image" Margin="5" Padding="5">
-                                                <ComboBoxItem Content="08:00"/>
-                                                <ComboBoxItem Content="09:00"/>
+                                                <ComboBoxItem Content="8:00"/>
+                                                <ComboBoxItem Content="8:15"/>
+                                                <ComboBoxItem Content="8:30"/>
+                                                <ComboBoxItem Content="8:45"/>
+                                                <ComboBoxItem Content="9:00"/>
+                                                <ComboBoxItem Content="9:15"/>
+                                                <ComboBoxItem Content="9:30"/>
+                                                <ComboBoxItem Content="9:45"/>
                                                 <ComboBoxItem Content="10:00"/>
+                                                <ComboBoxItem Content="10:15"/>
+                                                <ComboBoxItem Content="10:30"/>
+                                                <ComboBoxItem Content="10:45"/>
                                                 <ComboBoxItem Content="11:00"/>
+                                                <ComboBoxItem Content="11:15"/>
+                                                <ComboBoxItem Content="11:30"/>
+                                                <ComboBoxItem Content="11:45"/>
                                                 <ComboBoxItem Content="12:00"/>
+                                                <ComboBoxItem Content="12:15"/>
+                                                <ComboBoxItem Content="12:30"/>
+                                                <ComboBoxItem Content="12:45"/>
                                                 <ComboBoxItem Content="13:00"/>
+                                                <ComboBoxItem Content="13:15"/>
+                                                <ComboBoxItem Content="13:30"/>
+                                                <ComboBoxItem Content="13:45"/>
                                                 <ComboBoxItem Content="14:00"/>
+                                                <ComboBoxItem Content="14:15"/>
+                                                <ComboBoxItem Content="14:30"/>
+                                                <ComboBoxItem Content="14:45"/>
                                                 <ComboBoxItem Content="15:00"/>
+                                                <ComboBoxItem Content="15:15"/>
+                                                <ComboBoxItem Content="15:30"/>
+                                                <ComboBoxItem Content="15:45"/>
                                                 <ComboBoxItem Content="16:00"/>
-                                                <ComboBoxItem Content="17:00"/>
-                                                <ComboBoxItem Content="18:00"/>
                                             </ComboBox>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" TextBlock.FontWeight="Normal">
+                                            <!--<Label Content="RH measurement height (m)" Margin="5,7" Padding="5"/>-->
                                             <Label Content="Wind Speed (m/s)" Margin="5,7" Padding="5"/>
                                             <Label Content="Wind Direction (degrees)" Margin="5,7" Padding="5"/>
                                             <Label Content=" Select Imagery date." Margin="5,7" Padding="5"/>
@@ -606,7 +634,7 @@
                             </Grid>
                             <GroupBox Header="Input weather data" Margin="5" Grid.Column="1">
                                 <StackPanel >
-                                    <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="2. Precip. (in)" Height="30"  >
+                                    <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="Input Weather Data" Height="30"  >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>

@@ -1,4 +1,4 @@
-﻿' T4 code generation is enabled for model 'E:\Desktop\SIDSS_Recovered\SIDSS_GUI\ET_Calculator_streamlined_v11_GIT\SQLite_SIDSS_Model.edmx'. 
+﻿' T4 code generation is enabled for model 'C:\Folders_To_Sync\SIDSS_GUI\ET_Calculator_streamlined_v11_GIT\SQLite_SIDSS_Model.edmx'. 
 ' To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 ' property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 ' is open in the designer.

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ET_Calculator_streamlined_v11_GIT", "ET_Calculator_streamlined_v11_GIT\ET_Calculator_streamlined_v11_GIT.vbproj", "{F354530A-9DE2-4B18-A33B-9877EDFD4905}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SIDSS_Planner_Core", "ET_Calculator_streamlined_v11_GIT\SIDSS_Planner_Core.vbproj", "{F354530A-9DE2-4B18-A33B-9877EDFD4905}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hourly_Ref_ET_Calculator", "Hourly_Ref_ET_Calculator_\Hourly_Ref_ET_Calculator.csproj", "{D24815CD-16DC-4387-AB66-C6874FAA73BD}"
 EndProject

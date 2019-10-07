@@ -19,27 +19,45 @@ print(f"Path to python execuable is:- {sys.executable}")
 print ("This script is running from", sys.argv[0])
 temp=np.seterr(all='ignore')
 
-# ground_data = {"Date":"8/31/2017 12:00",	"Ta":25.97,	"Ts":26.90,"Rs":48.57,"NDVI":0.885,"OSAVI":0.747,"RH":48.2,"Wnd_spd":1.267,"Wnd_dir":125}
+# calib_MS_file_name=r"F:\RSET_0\2018_RSET\LIRF_2018\Quick_Mosaic\TIFF\Rect_to_Basemap\ET_Prep\20180831_LIRF_MS_mosaic_rect_calib_cut1.tif"
+calib_MS_file_name=parameters.EB_MS_file_path
+MS_tif_name = os.path.split(calib_MS_file_name)[1]
+with rasterio.open(calib_MS_file_name) as src_ms:
+    NIR = src_ms.read(1)
+    Red = src_ms.read(2)
+    Green = src_ms.read(3)
+    Mean_NIR = np.mean(NIR)
+    if Mean_NIR > 1.0:
+        NIR=NIR/100.0
+        Red = Red/100.0
+        Green = Green/100.0
 
-
-
-calib_MS_file_name=r"F:\RSET_0\2018_RSET\LIRF_2018\Quick_Mosaic\TIFF\Rect_to_Basemap\ET_Prep\20180831_LIRF_MS_mosaic_rect_calib_cut1.tif"
-# calib_MS_file_name=parameters.EB_MS_file_path
-with rasterio.open(calib_MS_file_name) as src:
-    NIR = src.read(1)/100
-    Red = src.read(2)/100
-
-FLIR_calib=r"F:\RSET_0\2018_RSET\LIRF_2018\Quick_Mosaic\TIFF\Rect_to_Basemap\ET_Prep\20180831_LIRF_DOY243_FLIR_mosaic_calib_rect_cut_resz.tif"
-# FLIR_calib = parameters.EB_Thermal_file_path
-with rasterio.open(FLIR_calib) as src:
-    # Surface temperature Ts is obtained from the image instead of point data from on-site measurements.
-    col_Ts = src.read(1)
-
-kwargs = src.meta
+kwargs = src_ms.meta
 kwargs.update(
     dtype=rasterio.float32,
     count = 1,
     compress='lzw')
+
+kwargs_3b = src_ms.meta
+kwargs_3b.update(
+    dtype=rasterio.float32,
+    count = 3,
+    compress='lzw')
+
+# FLIR_calib=r"F:\RSET_0\2018_RSET\LIRF_2018\Quick_Mosaic\TIFF\Rect_to_Basemap\ET_Prep\20180831_LIRF_DOY243_FLIR_mosaic_calib_rect_cut_resz.tif"
+FLIR_calib = parameters.EB_Thermal_file_path
+FLIR_tif_name = os.path.split(FLIR_calib)[1]
+with rasterio.open(FLIR_calib) as src_flir:
+    # Surface temperature Ts is obtained from the image instead of point data from on-site measurements.
+    col_Ts = src_flir.read(1)
+
+
+def save_raster_3b(f_name,array1_name,array2_name,array3_name):
+    with rasterio.open(f_name, 'w', **kwargs_3b) as dst:
+        dst.write_band(1, array1_name.astype(rasterio.float32))
+        dst.write_band(2, array2_name.astype(rasterio.float32))
+        dst.write_band(3, array3_name.astype(rasterio.float32))
+    dst.close()
 
 
 def save_raster(f_name,array_name):
@@ -52,29 +70,32 @@ def read_raster(f_name):
         array_name = src.read(1)
         return array_name
 
+save_raster_3b(MS_tif_name, NIR, Red, Green)
+save_raster(FLIR_tif_name,col_Ts)
 # def calc_NDVI():
 #     NIR, RED  = read_raster_as_array()
 NDVI = np.where((NIR+Red)==0,0,(NIR-Red)/(NIR+Red))
+NDVI = np.where(((NDVI<-1) | (NDVI>1)),0,NDVI)
 
 Y=0.16 
 OSAVI = (1+Y)*(NIR-Red)/(NIR+Red+Y)
 save_raster("OSAVI.tif",OSAVI)
 
 # Site specific information
-Lat = np.deg2rad(parameters.Lat)    # Decimal degrees, convert it to radians.
-Lm = np.deg2rad(parameters.Lm)      # Decimal degrees, convert to radians
-Elev = (1424)*100/2.54/12           # Elevation of GLY04 in ft
+Lat = np.deg2rad(parameters.Lat)    # Latitude, Decimal degrees, convert it to radians.
+Lm = np.deg2rad(parameters.Lm)      # Longitude, Decimal degrees, convert to radians
+Elev = (parameters.Elev)*100/2.54/12           # Elevation of GLY04 in ft
 Lz = parameters.Lz                  # Longitude of the center of the local time zone(Rocky Mountain zone)
 interval_sec = 3600                 # data record frequency 3600 sec for 1 hour.
 
 # Define Constants
-const_g = parameters.const_g        # acceleration due to gravity[m/s**2]
+const_g = 9.81        # acceleration due to gravity[m/s**2]
 const_k = 0.41        # Von Karman constant
 const_Cpa= 1005     # Specific heat capacities of air [J/kg.K]
-const_Z_u = 3.3    # Wind reference height [m]
-const_Z_T = 3.3   # Air Temp reference height [m], can be edited...
-Z_uET_r = 2 # WEATHER STATION Wind reference height [m]
-Z_TET_r = 1.5  # WEATHER STATION Air Temp reference height [m]
+const_Z_u = parameters.const_Z_u    # Wind reference height [m]
+const_Z_T = parameters.const_Z_T   # Air Temp reference height [m], can be edited...
+# Z_uET_r = 2 # WEATHER STATION Wind reference height [m]
+# Z_TET_r = 1.5  # WEATHER STATION Air Temp reference height [m]
 const_min_u= 0.5 # Lowest allowed wind speed value [m/s]
 
 
@@ -83,38 +104,20 @@ const_min_u= 0.5 # Lowest allowed wind speed value [m/s]
 #######################################################################
 # On-Site parameters obtained from the datalogger tower within the research field.
 #######################################################################
+# col_date = pd.to_datetime(parameters.EB_YYYYMMDDHH_txt)  # Date
 col_date = pd.to_datetime(parameters.EB_YYYYMMDDHH_txt)  # Date
 col_time = col_date.hour
-col_Ta = 28.44 # Air Temp C from on site sensor aug 13 2018
-#col_Ts = ground_data["Ts"]  # Surface Temp C  "Add thermal image array"
+col_Ta = parameters.EB_Ta_txt # Air Temp C from on site sensor aug 13 2018
+#col_Ts = ground_data["Ts"]  # Surface Temp C  from thermal imagery.
 col_Rs = parameters.EB_Rs_txt  # Radiation SW, incoming KJ/m2/min
 col_NDVI = NDVI  # NDVI band ratio
 col_OSAVI = OSAVI  # OSAVI band values
 col_RH = parameters.EB_RH_txt  # Relative Humidity
-col_wind_spd = parameters.EB_Wind_Spd_txt # Wind speed
+site_wind_spd = parameters.EB_Wind_Spd_txt # Wind speed
 col_theta = parameters.EB_wind_dir_txt  # Wind direction.
-u = col_wind_spd
+u = site_wind_spd
 
-
-#######################################################################
-# Weather Station parameters, to be read from the parameters file. 
-# And finally add textboxes/fields for user input in SIDSS.
-#######################################################################
-dateET_r = col_date #"07/25/2018" # textET_r(2:length(textET_r),1); % Weather Station Date in mm/dd/yyyy format
-timeET_r = 12.5  # dataET_r(1:length(dataET_r),1); % Weather Station time as fraction of hour
-TimeStringET_r = ""  # datestr(timeET_r); % Weather Station Time as a name
-TaET_r = 25.6 # dataET_r(1:length(dataET_r),2); % Weather Station Air Temperature (C)
-RsET_r = 568.5  # dataET_r(1:length(dataET_r),3); % Weather Station Incoming short-wave radiation (KJ/m^2/min)
-RHET_r = 84.2  # dataET_r(1:length(dataET_r),4); % Weather Station Relative Humidity (%)
-uET_r = 1.6 # dataET_r(1:length(dataET_r),5); % Weather Station Wind Speed @ 2 m measurement height (m/s)
-
-
-
-# No need to convert wind speed at 
-# u = col_wind_spd* (4.87 / np.log(67.8 * 3.3 - 5.42))**(-1)
-
-# row = 1
-
+# u = site_wind_spd* (4.87 / np.log(67.8 * 3.3 - 5.42))**(-1)
 
 # -------------
 # > Convert to DOY & decimal_DOY arrays from column 1 & column 2
@@ -142,10 +145,10 @@ LAMBDA_V = lambda_v
 
 Pa = 101325*(1-2.25577e-5*Elev*0.3048)**5.25588  # Atmospheric pressure [Pascal]
 es=0.6108 * np.exp(17.27 * col_Ta / (col_Ta+ 237.3))  # Saturated vapor pressure (kPa)
-esET_r = 0.6108 * np.exp(17.27 * TaET_r/ (TaET_r+ 237.3)) # WEATHER STATION Saturated vapor pressure (kPa)
+# esET_r = 0.6108 * np.exp(17.27 * TaET_r/ (TaET_r+ 237.3)) # WEATHER STATION Saturated vapor pressure (kPa)
 
 ea=es*col_RH/100  #actual vapor pressure (kPa)
-eaET_r = esET_r * RHET_r/100  # WEATHER STATION actual vapor pressure (kPa)
+# eaET_r = esET_r * RHET_r/100  # WEATHER STATION actual vapor pressure (kPa)
 
 Tkv=(col_Ta+273.15)/(1-0.378*ea/Pa/1000)  # virtual temperature (K)
 rho_a=3.486*Pa/1000/Tkv  # [Kg/m3], Pa=[Pascal], Ta=[C], (ASCE EWRI 2005)
@@ -170,7 +173,7 @@ ea_mb = 10*ea
 
 Ta_K = col_Ta+273.15
 Ts_K = np.asarray(col_Ts)+273.15
-Rs_inc = col_Rs*(1000/60) # MJ/m2/hour
+Rs_inc = col_Rs*(1000/60) # Conversion from kJ/m2/min to W/m2
 
 t = 24* col_time_dec + 0.5
 
@@ -281,11 +284,9 @@ Rn = Rs_inc - Rs_out + Rl_in - Rl_out # Rn stands for the Estimated Net Radiatio
 
 # ### SECTION 02 - SOIL HEAT FLUX MODEL
 
-# > Calculating the Soil Heat Flux (G)
+# > Calculating the Soil Heat Flux (G) W/m2
 
 G = 34.15 * np.log(col_Ts) - 48.31 * np.exp(col_OSAVI) + 0.02 * (Rn**2 * albedo**3)+20.64 * fc**5 # Soil Heat Flux Model
-
-#row = row + 1 # Term to keep the interation process for each cell of the imported spreadsheet
 
 
 # ### SECTION 03 - SENSIBLE HEAT FLUX MODEL
@@ -293,14 +294,14 @@ G = 34.15 * np.log(col_Ts) - 48.31 * np.exp(col_OSAVI) + 0.02 * (Rn**2 * albedo*
 # Model to calculate crop height based on LAI
 Ho= 0.697 *np.exp(0.236*LAI)-3.42*np.exp(-3.177*LAI)
 
-crop_height_max_index = np.argmax(Ho)
+# crop_height_max_index = np.argmax(Ho)
 crop_height_max = Ho.max()
 hc = Ho  # hc is crop height obtained using vegetation index. Chavez et. al used hc_corn = (1.86*OSAVI-0.2)*(1+4.82E-7*EXP(17.69*OSAVI))
-hc_2 = (1.86*col_OSAVI-0.2)*(1+4.82E-7*np.exp(17.69*col_OSAVI))
+# hc_2 = (1.86*col_OSAVI-0.2)*(1+4.82E-7*np.exp(17.69*col_OSAVI))
 
     
 Wind_Direc = col_theta  # # Wind Speed Direction (degrees decimal)
-Wind_Speed = col_wind_spd  # # Wind Speed (m/s)
+Wind_Speed = site_wind_spd  # # Wind Speed (m/s)
 
 #     
 # > Calculating the roughness length variables of the canopy
@@ -355,7 +356,7 @@ To = np.where((LAI>3.5),(-1.912 * fc + 0.443 * Ta + 0.509 * col_Ts + 0.115 * rp 
 # #### Monin-Obhukov Stability Theory (MOST), for atmospheric stability corrections
 # #### First Iteration, Assume Neutral Atmospheric Conditions:
 
-U_star=(u*const_k)/(np.log((Zm-d)/Zom))
+U_star=(u*const_k)/(np.log((Zm-d)/Zom)) # Under neutral conditions.
 rah=np.log((Zm-d)/Zom)*np.log((Zm-d)/Zoh)/(u*const_k**2)
 H=(rho_a*const_Cpa)*(To-Ta)/rah
 L_mo=-(U_star**3*(Ta+273.15)*rho_a*const_Cpa)/(const_g*const_k*H) # MOST length (L, m)
@@ -419,8 +420,9 @@ percentiles_H = np.nanquantile(H,(p_min,p_max), interpolation=interp)  # Find 1 
 
 
 # Remove very low or very high values(1 & 99 percentile).
-H = np.where((H<=percentiles_H[0]) | (H>=percentiles_H[1]), np.nan,H)  
-H = np.where((H>Rn) | (H<0),np.nan,H)    
+# H = np.where((H<=percentiles_H[0]) | (H>=percentiles_H[1]), np.nan,H)  
+
+# H = np.where((H>Rn) | (H<0),np.nan,H)    
 
 
 # Clean rah values
@@ -430,40 +432,44 @@ rah = np.where((rah<=percentiles_rah[0]) | (rah>=percentiles_rah[1]), np.nan,rah
 
 # Clean G values
 percentiles_G = np.nanquantile(G,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
-G = np.where((G<=percentiles_G[0]) | (G>=percentiles_G[1]), np.nan,G)
-G = np.where(G<0,np.nan,G)
+# G = np.where((G<=percentiles_G[0]) | (G>=percentiles_G[1]), np.nan,G)
+G = np.where(((G>-1000) and (G<1000)),G,0)
 
 
 
 # Clean Rn values
 percentiles_Rn = np.nanquantile(Rn,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
 
-Rn = np.where((Rn<=percentiles_Rn[0]) | (Rn>=percentiles_Rn[1]), np.nan,Rn)
+# Rn = np.where((Rn<=percentiles_Rn[0]) | (Rn>=percentiles_Rn[1]), np.nan,Rn)
 Rn = np.where(Rn<0,np.nan,Rn)
 
-
+LE = Rn-G-H
 # Clean LE values
 percentiles_LE = np.nanquantile(LE,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
 
-LE = np.where((LE<=percentiles_LE[0]) | (LE>=percentiles_LE[1]), np.nan,LE)
+# LE = np.where((LE<=percentiles_LE[0]) | (LE>=percentiles_LE[1]), np.nan,LE)
 
-LE = np.where((Rn<H),np.nan,LE)  # Verify statement, should there be LE in the conditional statement?
+# LE = np.where((Rn<H),np.nan,LE)  # Verify statement, should there be LE in the conditional statement?
 
 # Clean ET_inst values
 percentiles_ET = np.nanquantile(ET_inst,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
 # ET_inst = percentiles_ET
 
+ET_inst=interval_sec*LE/lambda_v/1
+
+save_raster("temp_ET_Inst.tif",ET_inst)
+
 ET_inst = np.where((ET_inst<=percentiles_ET[0]) | (ET_inst>=percentiles_ET[1]), np.nan,ET_inst)
-ET_inst = np.where((ET_inst > 0.001) | (ET_inst < 999),ET_inst,0)
-ETr = 0.27 # Alfalfa reference ET from SIDSS for 24 hour in inches.
+ET_inst = np.where((ET_inst < 0.001) | (ET_inst > 999),0,ET_inst)
+ETr = parameters.ETr # Alfalfa reference ET from SIDSS for 24 hour in inches.
 
 # Energy Balance ETa 24 hour in inches
-ETa = ET_inst*ETr
+ETa_mm = ET_inst*ETr*25.4
 
 save_raster("LE.tif",LE)
 save_raster("Rn.tif",Rn)
-save_raster("G.tif",G)
-save_raster("H.tif",H)
+save_raster("G_final.tif",G)
+save_raster("H_final.tif",H)
 save_raster("ET_inst.tif",ET_inst)
 save_raster("L_mo.tif",L_mo)
 save_raster("rah.tif",rah)
@@ -471,5 +477,10 @@ save_raster("U_star.tif",U_star)
 save_raster("OSAVI.tif",OSAVI)
 save_raster("LAI.tif",LAI)
 save_raster("NDVI.tif",NDVI)
-save_raster("ETa_24hr_inches.tif",ETa)
+# save_raster("ETa_24hr_inches.tif",ETa)
+save_raster("ETa_24hr_mm.tif",ETa_mm)
 
+out_folder_name = MS_tif_name.replace(".tif","")
+os.system("md " + out_folder_name)
+os.system("move *.tif " + out_folder_name + '\\')
+print("\n\n\nScript execution complete, you can close this window.\n\n")

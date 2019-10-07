@@ -250,51 +250,58 @@ Class MainWindow
 
 #Region "Load Settings"
         Using SIDS_GUI_context As New SIDSS_Entities()
-            Dim parameter_row = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
-            Dim item_name As String = ""
-            KC_MS_file_path.Text = parameter_row.Kcb_MS_Tiff
-            tbx_csv_path_string.Text = parameter_row.RefET_hourly_CSV
-            tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
-            tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
-            tbxSoilDepth_1.Text = parameter_row.SoilDepth_1
-            tbxSoilDepth_2.Text = parameter_row.SoilDepth_2
-            tbxSoilDepth_3.Text = parameter_row.SoilDepth_3
-            tbxSoilDepth_4.Text = parameter_row.SoilDepth_4
-            tbxSoilDepth_5.Text = parameter_row.SoilDepth_5
-            tbxTAW_1.Text = parameter_row.TAW_1
-            tbxTAW_2.Text = parameter_row.TAW_2
-            tbxTAW_3.Text = parameter_row.TAW_3
-            tbxTAW_4.Text = parameter_row.TAW_4
-            tbxTAW_5.Text = parameter_row.TAW_5
-            tbxMinRootDepth.Text = parameter_row.Min_Root_Depth
-            tbxMaxRootDepth.Text = parameter_row.Max_Root_Depth
-            HarvestDate.SelectedDate = Convert.ToDateTime(parameter_row.Harvest_Date)
-            HarvestDate.DisplayDate = Convert.ToDateTime(parameter_row.Harvest_Date)
-            PlantDate.SelectedDate = Convert.ToDateTime(parameter_row.Plant_Date)
-            PlantDate.DisplayDate = Convert.ToDateTime(parameter_row.Plant_Date)
-            tbx_lat.Text = parameter_row.Latitude
-            tbx_lon.Text = parameter_row.Longitude
-            tbx_elev.Text = parameter_row.Elevation
-            tbx_zt.Text = parameter_row.T_Air_H
-            tbx_zu.Text = parameter_row.W_Spd_H
-            tbxSiteName.Text = parameter_row.Site_Name
-            tbxSiteSummary.Text = parameter_row.Site_Summary
-            tbxMAD_perecnt.Text = parameter_row.MAD
-            tbxRunoffCN.Text = parameter_row.CN_Number
-            tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
-            cbx_lon_center.Text = parameter_row.Longitude_Centere
-            tbxMAD_perecnt.Text = parameter_row.MAD
-            tbxRunoffCN.Text = parameter_row.CN_Number
-            tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
-            tbx_Ta.Text = parameter_row.EB_Tair
-            tbx_Rs.Text = parameter_row.EB_Ra
-            tbx_RH.Text = parameter_row.EB_RH
-            tbx_Wind_Spd.Text = parameter_row.EB_WindSpd
-            tbx_Wind_Dir.Text = parameter_row.EB_WindDir
-            tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
-            tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
-            Date_EB_Image.SelectedDate = Convert.ToDateTime(parameter_row.EB_Date)
-            StdTime_EB_Image.Text = parameter_row.EB_StdTime
+            Try
+                Dim parameter_row = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
+                Dim item_name As String = ""
+                KC_MS_file_path.Text = parameter_row.Kcb_MS_Tiff
+                tbx_csv_path_string.Text = parameter_row.RefET_hourly_CSV
+                tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
+                tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
+                tbxSoilDepth_1.Text = parameter_row.SoilDepth_1
+                tbxSoilDepth_2.Text = parameter_row.SoilDepth_2
+                tbxSoilDepth_3.Text = parameter_row.SoilDepth_3
+                tbxSoilDepth_4.Text = parameter_row.SoilDepth_4
+                tbxSoilDepth_5.Text = parameter_row.SoilDepth_5
+                tbxTAW_1.Text = parameter_row.TAW_1
+                tbxTAW_2.Text = parameter_row.TAW_2
+                tbxTAW_3.Text = parameter_row.TAW_3
+                tbxTAW_4.Text = parameter_row.TAW_4
+                tbxTAW_5.Text = parameter_row.TAW_5
+                tbxMinRootDepth.Text = parameter_row.Min_Root_Depth
+                tbxMaxRootDepth.Text = parameter_row.Max_Root_Depth
+                HarvestDate.SelectedDate = Convert.ToDateTime(parameter_row.Harvest_Date)
+                HarvestDate.DisplayDate = Convert.ToDateTime(parameter_row.Harvest_Date)
+                PlantDate.SelectedDate = Convert.ToDateTime(parameter_row.Plant_Date)
+                PlantDate.DisplayDate = Convert.ToDateTime(parameter_row.Plant_Date)
+                tbx_lat.Text = parameter_row.Latitude
+                tbx_lon.Text = parameter_row.Longitude
+                tbx_elev.Text = parameter_row.Elevation
+                tbx_zt.Text = parameter_row.T_Air_H
+                tbx_zu.Text = parameter_row.W_Spd_H
+                tbxSiteName.Text = parameter_row.Site_Name
+                tbxSiteSummary.Text = parameter_row.Site_Summary
+                tbxMAD_perecnt.Text = parameter_row.MAD
+                tbxRunoffCN.Text = parameter_row.CN_Number
+                tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
+                cbx_lon_center.Text = parameter_row.Longitude_Centere
+                tbxMAD_perecnt.Text = parameter_row.MAD
+                tbxRunoffCN.Text = parameter_row.CN_Number
+                tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
+                tbx_Ta.Text = parameter_row.EB_Tair
+                tbx_Rs.Text = parameter_row.EB_Ra
+                tbx_RH.Text = parameter_row.EB_RH
+                tbx_Wind_Spd.Text = parameter_row.EB_WindSpd
+                tbx_Wind_Dir.Text = parameter_row.EB_WindDir
+                tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
+                tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
+                Date_EB_Image.SelectedDate = Convert.ToDateTime(parameter_row.EB_Date)
+                StdTime_EB_Image.Text = parameter_row.EB_StdTime
+                tbx_ETr.Text = parameter_row.ETr_in
+                'tbx_EB_RH_measurement_height.Text = parameter_row.EB_RH_h
+                'tbx_EB_WindSpd_height.Text = parameter_row.EB_WindSpd_h
+            Catch ex As Exception
+
+            End Try
 
         End Using
 #End Region
@@ -330,7 +337,7 @@ Class MainWindow
     Private Sub set_parameter_file()
         Dim Lat, Lm, Elev, Lz, df, const_g, const_k, const_Cpa, const_Z_u, const_Z_T, const_min_u As Decimal
         Dim tif_KC_MS_file_path, csv_file_path, tif_EB_MS_file_path, tif_EB_Thermal_file_path As String
-        Dim EB_Ta_txt, EB_Rs_txt, EB_RH_txt, EB_Wind_Spd_txt, EB_YYYYMMDDHH_txt, EB_wind_dir_txt As String
+        Dim EB_Ta_txt, EB_Rs_txt, EB_RH_txt, EB_Wind_Spd_txt, EB_YYYYMMDDHH_txt, EB_wind_dir_txt, EB_STD_Time_txt, EB_SW_Rad_txt As String
 
         Lat = Validate_decimal(tbx_lat.Text)
         Lm = Validate_decimal(tbx_lon.Text)
@@ -351,7 +358,8 @@ Class MainWindow
         EB_Rs_txt = tbx_Rs.Text
         EB_RH_txt = tbx_RH.Text
         EB_Wind_Spd_txt = tbx_Wind_Spd.Text
-        EB_YYYYMMDDHH_txt = "" 'tbx_YYYMMDDHH.Text
+        EB_YYYYMMDDHH_txt = Date_EB_Image.Text
+        EB_STD_Time_txt = StdTime_EB_Image.Text
         EB_wind_dir_txt = tbx_Wind_Dir.Text
 
         csv_file_path = tbx_csv_path_string.Text
@@ -361,10 +369,10 @@ Class MainWindow
         file.WriteLine("Lm=" & Lm)
         file.WriteLine("Elev=" & Elev)
         file.WriteLine("Lz=" & Lz)
-        file.WriteLine("df=" & df)
-        file.WriteLine("const_g=" & const_g)
-        file.WriteLine("const_k=" & const_k)
-        file.WriteLine("const_Cpa=" & const_Cpa)
+        'file.WriteLine("df=" & df)
+        'file.WriteLine("const_g=" & const_g)
+        'file.WriteLine("const_k=" & const_k)
+        'file.WriteLine("const_Cpa=" & const_Cpa)
         file.WriteLine("const_Z_u=" & const_Z_u)
         file.WriteLine("const_Z_T=" & const_Z_T)
         file.WriteLine("const_min_u=" & const_min_u)
@@ -372,14 +380,15 @@ Class MainWindow
         file.WriteLine("EB_MS_file_path=" & "r" & """" & tif_EB_MS_file_path & """")
         file.WriteLine("EB_Thermal_file_path=" & "r" & """" & tif_EB_Thermal_file_path & """")
         file.WriteLine("csv_file_path=" & "r" & """ & csv_file_path & """)
-
+        file.WriteLine("ETr = " & tbx_ETr.Text)
         file.WriteLine("EB_Ta_txt=" & EB_Ta_txt)
         file.WriteLine("EB_Rs_txt=" & EB_Rs_txt)
         file.WriteLine("EB_RH_txt=" & EB_RH_txt)
         file.WriteLine("EB_Wind_Spd_txt=" & EB_Wind_Spd_txt)
-        file.WriteLine("EB_YYYYMMDDHH_txt=" & "r" & """" & EB_YYYYMMDDHH_txt & """")
+        file.WriteLine("EB_YYYYMMDDHH_txt=" & "r" & """" & EB_YYYYMMDDHH_txt & " " & EB_STD_Time_txt & """")
         file.WriteLine("EB_wind_dir_txt=" & EB_wind_dir_txt)
-
+        'file.WriteLine("EB_WindSpd_h= " & tbx_EB_WindSpd_height.Text)
+        'file.WriteLine("EB_RH_h= " & tbx_EB_WindSpd_height.Text)
         file.Close()
     End Sub
 
@@ -453,7 +462,7 @@ Class MainWindow
     Private Sub Tb_3_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles tabImageView.MouseUp
         Try
             Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
-            Dim map_win As New ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
+            Dim map_win As New SIDSS_Planner_GUI.MapWInGIS_Control
             host.Child = map_win
             Me.grid_host.Children.Add(host)
         Catch ex As Exception
@@ -681,7 +690,8 @@ Class MainWindow
         Save_Parameters()
         Dim OpenCMD
         OpenCMD = CreateObject("wscript.shell")
-        Dim command2 As String = "python.exe " & """ET_Calculation_Field_data_with_cpp_v2.py"""
+        Dim command2 As String = "python.exe " & """ET_Calculation_Field_data_with_cpp_v3.py"""
+        command2 = "%comspec% /k " & command2
         OpenCMD.run(command2, 1, True)
     End Sub
 
@@ -1065,8 +1075,10 @@ Class MainWindow
                 parameter_row.EB_MS_Tiff = tbx_EB_MS.Text
                 parameter_row.EB_Thermal_Tiff = tbx_EB_Thermal.Text
                 parameter_row.EB_StdTime = StdTime_EB_Image.SelectionBoxItem
+                parameter_row.ETr_in = tbx_ETr.Text
                 parameter_row.EB_Date = Convert.ToString(Convert.ToDateTime(Date_EB_Image.SelectedDate.Value).ToShortDateString)
-
+                'parameter_row.EB_WindSpd_h = tbx_EB_WindSpd_height.Text
+                'parameter_row.EB_RH_h = tbx_EB_RH_measurement_height.Text
                 GUI_parameter.SaveChanges()
             Catch ex As Exception
                 MessageBox.Show(ex.Message)

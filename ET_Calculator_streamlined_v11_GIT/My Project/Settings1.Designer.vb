@@ -62,9 +62,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.ET_Calculator_streamlined_v11_GIT.MySettings
+        Friend ReadOnly Property Settings() As Global.SIDSS_Planner_GUI.MySettings
             Get
-                Return Global.ET_Calculator_streamlined_v11_GIT.MySettings.Default
+                Return Global.SIDSS_Planner_GUI.MySettings.Default
             End Get
         End Property
     End Module
