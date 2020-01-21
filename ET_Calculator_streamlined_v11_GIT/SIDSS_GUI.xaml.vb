@@ -11,18 +11,18 @@ Imports DotSpatial.Symbology
 Imports DotSpatial.Controls
 Imports DotSpatial.Data
 Imports DotSpatial.Topology
-Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
-Imports ET_Calculator_streamlined_v11_GIT.WaterBalanceCalculator
-Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
-Imports ET_Calculator_streamlined_v11_GIT.Create_Empty_SQL_Data_Tables
+Imports SIDSS_Planner_GUI.SQL_table_operation
+Imports SIDSS_Planner_GUI.WaterBalanceCalculator
+Imports SIDSS_Planner_GUI.Graphs_Viewer
+Imports SIDSS_Planner_GUI.Create_Empty_SQL_Data_Tables
 Imports System.Data.Entity
 Imports System.Data.Entity.Validation
 Imports System.Collections.Generic
-Imports ET_Calculator_streamlined_v11_GIT.OutputPath
-Imports ET_Calculator_streamlined_v11_GIT.MapWInGIS_Control
+Imports SIDSS_Planner_GUI.OutputPath
+Imports SIDSS_Planner_GUI.MapWInGIS_Control
 Imports System.Linq
 Imports System.Collections
-Imports ET_Calculator_streamlined_v11_GIT
+Imports SIDSS_Planner_GUI
 Imports System.Data.Entity.Validation.DbEntityValidationException
 Imports System.Globalization
 
@@ -339,16 +339,16 @@ Class MainWindow
         Dim tif_KC_MS_file_path, csv_file_path, tif_EB_MS_file_path, tif_EB_Thermal_file_path As String
         Dim EB_Ta_txt, EB_Rs_txt, EB_RH_txt, EB_Wind_Spd_txt, EB_YYYYMMDDHH_txt, EB_wind_dir_txt, EB_STD_Time_txt, EB_SW_Rad_txt As String
 
-        Lat = Validate_decimal(tbx_lat.Text)
-        Lm = Validate_decimal(tbx_lon.Text)
-        Elev = Validate_decimal(tbx_elev.Text)
-        Lz = Validate_decimal(cbx_lon_center.Text)
+        Lat = Validate_decimal(tbx_lat.Text, "Latitude")
+        Lm = Validate_decimal(tbx_lon.Text, "Longitude")
+        Elev = Validate_decimal(tbx_elev.Text, "Elevation")
+        Lz = Validate_decimal(cbx_lon_center.Text, "Center Longitude")
         'df = Validate_decimal(tbx_freq.Text)
         const_g = 9.81
         'const_k = Validate_decimal(tbx_k.Text)
         'const_Cpa = Validate_decimal(tbx_cpa.Text)
-        const_Z_u = Validate_decimal(tbx_zu.Text)
-        const_Z_T = Validate_decimal(tbx_zt.Text)
+        const_Z_u = Validate_decimal(tbx_zu.Text, "Wind measurement height")
+        const_Z_T = Validate_decimal(tbx_zt.Text, "Temperature measurement height")
         'const_min_u = Validate_decimal(tbx_min_u.Text)
         tif_KC_MS_file_path = KC_MS_file_path.Text
         tif_EB_MS_file_path = tbx_EB_MS.Text
@@ -393,12 +393,13 @@ Class MainWindow
     End Sub
 
 
-    Private Function Validate_decimal(ByVal tbx_string)
+    Private Function Validate_decimal(ByVal tbx_string, ByVal type)
         Dim decimal_vlaue As Decimal
         If Decimal.TryParse(tbx_string, decimal_vlaue) Then
             Return decimal_vlaue
         Else
-            MessageBox.Show("Please enter a decimal number instead of " & tbx_string)
+
+            MessageBox.Show("Please check " & type)
             End
             Return Nothing
         End If

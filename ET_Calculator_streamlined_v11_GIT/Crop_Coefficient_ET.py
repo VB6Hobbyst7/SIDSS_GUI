@@ -12,21 +12,24 @@ Full_Day_ET = 0
 if arg_length == 3:
         try:
                 Full_Day_ET = float(sys.argv[2])
+                Full_Day_ET = Full_Day_ET * 25.4
                 tif_path = sys.argv[1]
         except:
                 pass
 else:
         try:
                 Full_Day_ET = float(sys.argv[1])
+                # Convert ETr from inches to mm
+                Full_Day_ET = Full_Day_ET * 25.4
         except:
                 pass
-				
+
 # tif_path = parameters_ref_ET.KC_MS_file_path
 tif_folder = os.path.dirname(tif_path)
 
 		
 
-print(Full_Day_ET)
+print("24 hr ETr = ".format(Full_Day_ET))
 f = open(tif_folder+"\\Full_Day_ET.txt", "a")
 text_line = str(tif_path) + "; 24 Hour ET = "+ str(Full_Day_ET)+";\n"
 f.write(text_line)
@@ -102,8 +105,8 @@ Daily_ET_Kcr = np.where(Daily_ET_Kcr<0, 0, Daily_ET_Kcr)
 Daily_ET = np.where(Daily_ET > 100, 0,Daily_ET)
 Daily_ET = np.where(Daily_ET < 0, 0, Daily_ET)
 
-# Write band calculations to a new raster file
-output_tiff = tif_path.replace(".tif", "_daily_ET.tif")
+# Write band calculations to a new raster file (Daily ET output in mm, ETr values are in inches.)
+output_tiff = tif_path.replace(".tif", "_daily_ET_mm.tif")
 with rasterio.open(output_tiff, 'w', **kwargs) as dst:
         dst.write_band(1, Daily_ET.astype(rasterio.float32))
 dst.close()
