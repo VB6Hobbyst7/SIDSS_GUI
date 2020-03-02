@@ -20,9 +20,6 @@ hourly_ref_ET = np.where(hourly_ref_ET<0,0,hourly_ref_ET)
 Daily_ET_sum = np.nansum(hourly_ref_ET)
 
 
-
-
-
 # Load red and NIR bands - note all PlanetScope 4-band images have band order BGRN
 
 with rasterio.open(parameters_ref_ET.tif_file_path) as src:
@@ -69,6 +66,3 @@ output_tiff = parameters_ref_ET.tif_file_path.replace(".tif", "_NDVI.tif")
 with rasterio.open(output_tiff, 'w', **kwargs) as dst:
         dst.write_band(1, NDVI_array.astype(rasterio.float32))
 dst.close()
-
-# raster = rasterio.open(tif_file_path_1)
-# rasterio.plot.show(raster.read(),transform=src.transform)

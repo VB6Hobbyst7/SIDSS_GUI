@@ -12,6 +12,7 @@ Full_Day_ET = 0
 if arg_length == 3:
         try:
                 Full_Day_ET = float(sys.argv[2])
+                Full_Day_ET = round(Full_Day_ET,3)
                 Full_Day_ET = Full_Day_ET * 25.4
                 tif_path = sys.argv[1]
         except:
@@ -19,6 +20,7 @@ if arg_length == 3:
 else:
         try:
                 Full_Day_ET = float(sys.argv[1])
+                Full_Day_ET = round(Full_Day_ET,3)
                 # Convert ETr from inches to mm
                 Full_Day_ET = Full_Day_ET * 25.4
         except:
@@ -26,9 +28,7 @@ else:
 
 # tif_path = parameters_ref_ET.KC_MS_file_path
 tif_folder = os.path.dirname(tif_path)
-tif_file = os.path.split(tif_path)[1]
-
-		
+tif_file = os.path.split(tif_path)[1]		
 
 print("24 hr ETr = {0}; tif file==> {1}".format(Full_Day_ET, tif_file))
 f = open(tif_folder+"\\Full_Day_ET.txt", "a")
@@ -72,46 +72,42 @@ NDVI_array = np.nan_to_num(NDVI_array)
 # Clean NDVI values <-1 and >+1
 NDVI_array = np.where(((NDVI_array>1) | (NDVI_array<-1)), 0, NDVI_array)
 
-# Creating Kcr reflectance based crop coefficient (Walter Baush, 1993, page 214, eq. 2; Fruita CO)
-# Soil Background Effects on Reflectance-Based Crop Coefficients for Corn
-# Kcr_array1 = 1.092*NDVI_array-0.053
-# Kcr_array1 = np.where(Kcr_array1<0,0,Kcr_array1)
+# Calculate SAVI
+L = 0.5
+SAVI_array = np.where((NIR_band_refl+Red_band_refl+L)==0,0,(NIR_band_refl-Red_band_refl)/(NIR_band_refl+Red_band_refl+L)*(1+L))
 
-# Creating Kcr reflectance based crop coefficient (Walter Baush, 1993, page 214, eq. 3; Greeley CO)
+# Cleanup SAVI min/max vaules
+SAVI_array = np.where(SAVI_array<-1,0,SAVI_array)
+SAVI_array = np.where(SAVI_array>1,0,SAVI_array)
+
+# Creating Kcr reflectance based crop coefficient (Walter Baush, 1993, page 219, eq. 8; Fort Collins, CO)
 # Soil Background Effects on Reflectance-Based Crop Coefficients for Corn
-Kcr_array = 1.181*NDVI_array-0.026
-Kcr_array = np.where(Kcr_array<0,0,Kcr_array)
+Kcr_walter = 1.416*SAVI_array-0.017
+Kcr_walter = np.where(Kcr_walter<0,0,Kcr_walter)
+
+Daily_ET_walter = Kcr_walter*Full_Day_ET
+# Removing any -ve values from daily ET
+Daily_ET_walter = np.where(Daily_ET_walter<0, 0, Daily_ET_walter)
 
 # Johnson & Trout 2012, Satellite NDVI Assisted Monitoring of Vegetable Crop
 # Evapotranspiration in California’s San Joaquin Valley, Page 446, Equation 1.
 CC_array = 1.26*NDVI_array - 0.18
 # Removing any -ve values from crop 
-CC_array = np.where(CC_array<0,0,CC_array)
-
+CC_array = np.where(CC_array<0.0001,0,CC_array)
 
 # Trout; J. Irrig. Drain Eng. 2018 (144(6); Page 10; Fig. 10a; entire season (corn as crop)
 # Experiment site at LIRF, Greeley.
-Kcb_array = 1.1 *CC_array+0.17
+Kcb_trout = 1.1 *CC_array+0.17
 # Removing -ve values from Kcb (reflectance based).
-Kcb_array = np.where(Kcb_array<0, 0, Kcb_array)
+Kcb_trout = np.where(Kcb_trout<=0.17, 0, Kcb_trout)
 
-Daily_ET = Kcb_array*Full_Day_ET
+Daily_ET_Trout  = Kcb_trout*Full_Day_ET
 # Removing any -ve values from daily ET
-Daily_ET = np.where(Daily_ET<0, 0, Daily_ET)
-
-Daily_ET_Kcr = Kcr_array*Full_Day_ET
-# Removing any -ve values from daily ET
-Daily_ET_Kcr = np.where(Daily_ET_Kcr<0, 0, Daily_ET_Kcr)
+Daily_ET_Trout  = np.where(Daily_ET_Trout<0, 0, Daily_ET_Trout)
 
 # Removing -ve and too high values 
-Daily_ET = np.where(Daily_ET > 100, 0,Daily_ET)
-Daily_ET = np.where(Daily_ET < 0, 0, Daily_ET)
-
-# Write band calculations to a new raster file (Daily ET output in mm, ETr values are in inches.)
-output_tiff = tif_path.replace(".tif", "_daily_ET_mm.tif")
-with rasterio.open(output_tiff, 'w', **kwargs) as dst:
-        dst.write_band(1, Daily_ET.astype(rasterio.float32))
-dst.close()
+Daily_ET_Trout  = np.where(Daily_ET_Trout  > 100, 0,Daily_ET_Trout)
+Daily_ET_Trout  = np.where(Daily_ET_Trout  < 0, 0, Daily_ET_Trout)
 
 # Write band calculations to a new raster file
 output_tiff = tif_path.replace(".tif", "_NDVI.tif")
@@ -126,28 +122,16 @@ with rasterio.open(output_tiff, 'w', **kwargs) as dst:
 dst.close()
 
 # Write band calculations to a new raster file
-output_tiff = tif_path.replace(".tif", "_Kcb.tif")
+output_tiff = tif_path.replace(".tif", "_Kcb_trout.tif")
 with rasterio.open(output_tiff, 'w', **kwargs) as dst:
-        dst.write_band(1, Kcb_array.astype(rasterio.float32))
+        dst.write_band(1, Kcb_trout.astype(rasterio.float32))
 dst.close()
 
 # Write band calculations to a new raster file
-#output_tiff = tif_path.replace(".tif", "_Kcr1.tif")
-#with rasterio.open(output_tiff, 'w', **kwargs) as dst:
-#        dst.write_band(1, Kcr_array1.astype(rasterio.float32))
-#dst.close()
-
-# Write band calculations to a new raster file
-output_tiff = tif_path.replace(".tif", "_Kcr.tif")
+output_tiff = tif_path.replace(".tif", "_ET_mm_trout.tif")
 with rasterio.open(output_tiff, 'w', **kwargs) as dst:
-        dst.write_band(1, Kcr_array.astype(rasterio.float32))
+        dst.write_band(1, Daily_ET_Trout.astype(rasterio.float32))
 dst.close()
-
-# Write band calculations to a new raster file
-# output_tiff = tif_path.replace(".tif", "_ET_Kcr2.tif")
-# with rasterio.open(output_tiff, 'w', **kwargs) as dst:
-#         dst.write_band(1, Daily_ET_Kcr.astype(rasterio.float32))
-# dst.close()
 
 print("Code ran sucessfullly.")
-# time.sleep(0)
+time.sleep(0)

@@ -41,14 +41,6 @@ Class MainWindow
     Dim cmd As New SQLiteCommand
     Dim message_shown As Boolean = False
 
-    'Dim setting = new AppDomain.CurrentDomain.SetData("DataDirecory",app_path)
-
-
-
-
-
-
-
 
 #End Region
     Public Class Shared_controls
@@ -879,62 +871,83 @@ Class MainWindow
 
 
     Private Sub Load_siteinfo()
-        Dim dgSiteInfo_table As New DataTable
-        Dim read_database As New SQL_table_operation
-        dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
-        Dim row_count As Integer = dgSiteInfo_table.Rows.Count
 
-        dgSiteInfo.ItemsSource = dgSiteInfo_table.DefaultView()
+        Using entity_table As New SIDSS_Entities()
+            ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
+            Try
+                dgSiteInfo.ItemsSource = entity_table.Site_Info_Summary.ToList()
+
+            Catch ex As Exception
+
+            End Try
+        End Using
+
     End Sub
 
 
     Private Sub DgSiteInfo_SelectedCellsChanged(sender As Object, e As SelectedCellsChangedEventArgs) Handles dgSiteInfo.SelectedCellsChanged
 
-        Dim curr_row As DataRowView
+        'Dim curr_row As DataRow
+        Dim row_index As Integer
         Dim lon_mid As String
-        Try
-            curr_row = dgSiteInfo.SelectedItem
-            tbx_lat.Text = curr_row("Latitude").ToString()
-            tbx_lon.Text = curr_row("Longitude").ToString()
-            tbx_elev.Text = curr_row("Elevation").ToString()
-            tbx_zt.Text = curr_row("Z__t").ToString()
-            tbx_zu.Text = curr_row("Z__u").ToString()
-            tbxSiteSummary.Text = curr_row("Summary").ToString()
-            tbxSiteName.Text = curr_row("SiteName").ToString()
-            lon_mid = curr_row("Center_Longi").ToString()
-        Catch ex As Exception
-            'MessageBox.Show(ex.Message.ToString())
+
+        If dgSiteInfo.SelectedItem IsNot Nothing Then
+            Try
+                row_index = dgSiteInfo.SelectedIndex()
+
+                Dim curr_row = dgSiteInfo.SelectedItem
+                'Dim newval = curr_row(0)
+                'Dim temp_vals = curr_row.ToString().Split()
+                'curr_row = dgSiteInfo.SelectedItem
+
+                tbx_lat.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Latitude.ToString()
+                tbx_lon.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Longitude.ToString()
+                tbx_elev.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Elevation.ToString()
+                tbx_zt.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Z__t.ToString()
+                tbx_zu.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Z__u.ToString()
+                tbxSiteSummary.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Summary.ToString()
+                tbxSiteName.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).SiteName.ToString()
+                lon_mid = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Center_Longi
+            Catch ex As Exception
+                MessageBox.Show(ex.Message.ToString())
+                Exit Sub
+            End Try
+
+            Select Case lon_mid
+                Case "75"
+                    cbx_lon_center.SelectedIndex = (0)
+                Case "90"
+                    cbx_lon_center.SelectedIndex = (1)
+                Case "105"
+                    cbx_lon_center.SelectedIndex = (2)
+                Case "120"
+                    cbx_lon_center.SelectedIndex = (3)
+
+            End Select
+
+            Dim dgSiteInfo_table As New DataTable
+
+            Dim selected_row As Integer = dgSiteInfo.Items.IndexOf(dgSiteInfo.CurrentItem)
+        Else
             Exit Sub
-        End Try
 
-        Select Case lon_mid
-            Case "75"
-                cbx_lon_center.SelectedIndex = (0)
-            Case "90"
-                cbx_lon_center.SelectedIndex = (1)
-            Case "105"
-                cbx_lon_center.SelectedIndex = (2)
-            Case "120"
-                cbx_lon_center.SelectedIndex = (3)
+        End If
 
-        End Select
 
-        Dim dgSiteInfo_table As New DataTable
 
-        Dim selected_row As Integer = dgSiteInfo.Items.IndexOf(dgSiteInfo.CurrentItem)
 
     End Sub
 
 
     Private Sub BtnEditSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnEditSiteInfo.Click
-        Dim curr_row As DataRowView
-        Try
-            curr_row = dgSiteInfo.SelectedItem
-        Catch ex As Exception
-            MessageBox.Show(ex.Message.ToString())
+
+        If dgSiteInfo.SelectedItem Is Nothing Then
+            MessageBox.Show("First select an item to be updated from the table below.")
+            'Continue loop execution if there is any item selected in 
             Exit Sub
-        End Try
-        Dim site_index As String = curr_row("SNo")
+        End If
+        Dim curr_row = dgSiteInfo.SelectedItem
+        Dim sn = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).SNo
 
         Dim SiteName As String = tbxSiteName.Text
         Dim Latitude As String = tbx_lat.Text
@@ -944,17 +957,32 @@ Class MainWindow
         Dim Z__u As String = tbx_zu.Text
         Dim Z__t As String = tbx_zt.Text
         Dim Summary As String = tbxSiteSummary.Text
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        Summary = Summary.Replace("'", "''")
-        Dim cmd_string As String =
-       String.Format("UPDATE Site_Info_Summary SET SiteName='{0}', Latitude={1}, Longitude={2}, Center_Longi={3}, Elevation={4}, Z__u={5}, Z__t={6}, Summary='{7}' WHERE SNo={8};", SiteName, Latitude, Longitude, Center_Longi, Elevation, Z__u, Z__t, Summary, site_index)
-        myConnection.Open()
-        cmd.Connection = myConnection
-        cmd.CommandText = cmd_string
-        cmd.ExecuteNonQuery()
-        myConnection.Close()
+
+
+        Using site_info As New SIDSS_Entities
+            Dim site_info_data = site_info.Site_Info_Summary
+            Dim selected_row = (From site_row In site_info.Site_Info_Summary Where site_row.SNo = sn).ToList()(0)
+
+            selected_row.Latitude = Latitude
+            selected_row.Longitude = Longitude
+            selected_row.Center_Longi = Center_Longi
+
+            selected_row.Elevation = Elevation
+            selected_row.Z__u = Z__u
+            selected_row.Z__t = Z__t
+
+            selected_row.Summary = Summary
+            selected_row.SiteName = SiteName
+
+            Try
+                site_info.SaveChanges()
+
+            Catch ex As Exception
+
+            End Try
+
+        End Using
+        'dgSiteInfo.ItemsSource = Nothing
         Load_siteinfo()
     End Sub
 
@@ -969,14 +997,18 @@ Class MainWindow
         Dim cmd As New SQLiteCommand
         'Open connection to the database file, within the program.
 
-        Dim SiteName As String = tbxSiteName.Text
         Dim Latitude As String = tbx_lat.Text
         Dim Longitude As String = tbx_lon.Text
         Dim Center_Longi As String = cbx_lon_center.SelectionBoxItem.ToString
+
         Dim Elevation As String = tbx_elev.Text
         Dim Z__u As String = tbx_zu.Text
         Dim Z__t As String = tbx_zt.Text
+
         Dim Summary As String = tbxSiteSummary.Text
+        Dim SiteName As String = tbxSiteName.Text
+
+
         If myConnection.State = ConnectionState.Open Then
             myConnection.Close()
         End If
@@ -1001,24 +1033,32 @@ Class MainWindow
 
 
     Private Sub BtnDeleteSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnDeleteSiteInfo.Click
-        Dim curr_row As DataRowView
-        Try
-            curr_row = dgSiteInfo.SelectedItem
-        Catch ex As Exception
-            MessageBox.Show(ex.Message.ToString())
-            Exit Sub
-        End Try
-        Dim site_index As String = curr_row("SNo")
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
-        Dim cmd As New SQLiteCommand
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        myConnection.Open()
-        cmd.Connection = myConnection
-        cmd.CommandText = String.Format("DELETE FROM Site_Info_Summary WHERE SNo={0};", site_index)
-        cmd.ExecuteNonQuery()
-        myConnection.Close()
+        Dim curr_row = dgSiteInfo.SelectedItem
+        Dim row_sn = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).SNo
+
+        'Dim curr_row As DataRowView
+
+        'Try
+        '    curr_row = TryCast(sender, DataRowView)
+        'Catch ex As Exception
+        '    MessageBox.Show(ex.Message.ToString())
+        '    Exit Sub
+        'End Try
+
+
+        Using GUI_parameter As New SIDSS_Entities
+            Try
+                'Dim row_sn As Integer = curr_row(0)
+
+                Dim parameter_row = (From row_vals In GUI_parameter.Site_Info_Summary Where row_vals.SNo = row_sn).ToList(0)
+                GUI_parameter.Site_Info_Summary.Remove(parameter_row)
+                GUI_parameter.SaveChanges()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+        End Using
+
         Load_siteinfo()
     End Sub
 
@@ -1083,6 +1123,7 @@ Class MainWindow
                 GUI_parameter.SaveChanges()
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
+                MessageBox.Show(ex.InnerException.Message)
             End Try
 
         End Using
@@ -1136,6 +1177,7 @@ Class MainWindow
         Dim daily_ET_Sum As New DataTable
         daily_ET_Sum.Columns.Add("Date")
         daily_ET_Sum.Columns.Add("ETr__in")
+        daily_ET_Sum.Columns.Add("ETo__in")
 
         Using database_context As New SIDSS_Entities()
             Dim Starting_DOY = Convert.ToInt32(database_context.Ref_ET_Table.Find(1).DOY)
@@ -1144,13 +1186,16 @@ Class MainWindow
                 Dim doy2string = i.ToString
                 Dim daily_record = (From rec In database_context.Ref_ET_Table Where rec.DOY = doy2string).ToList()
                 If daily_record.Count > 0 Then
-                    Dim sum As Double = 0
+                    Dim sum_etr As Double = 0
+                    Dim sum_eto As Double = 0
                     For Each record In daily_record
-                        sum += record.ETr
+                        sum_etr += record.ETr
+                        sum_eto += record.ETo
                     Next
                     Dim data_row As DataRow = daily_ET_Sum.NewRow
                     data_row("Date") = daily_record(0).Date
-                    data_row("ETr__in") = round_number(sum / 24.5) 'Converting mm to inches.
+                    data_row("ETr__in") = round_number(sum_etr / 25.4) 'Converting mm to inches.
+                    data_row("ETo__in") = round_number(sum_eto / 25.4) 'Converting mm to inches.
                     daily_ET_Sum.Rows.Add(data_row)
                 End If
 

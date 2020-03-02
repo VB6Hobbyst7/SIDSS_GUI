@@ -236,7 +236,7 @@
                                 <ComboBoxItem Content="Alfalfa"/>
                             </ComboBox>
                             <Button Grid.Column="2" x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Padding="10,0" Margin="10,0"/>
-                            <Button Grid.Column="3" x:Name="btn_Daily_ET_Sum"  Style="{StaticResource BTNCORNER}" Content="Sum daily ETr/o..." Padding="10,0"  Margin="10,0"/>
+                            <Button Grid.Column="3" x:Name="btn_Daily_ET_Sum"  Style="{StaticResource BTNCORNER}" Content="Sum daily ETr/ETo..." Padding="10,0"  Margin="10,0"/>
 
                         </Grid>
                         <TextBlock Margin="0,10,0,0" TextWrapping="Wrap" FontSize="16" LineHeight="30" TextAlignment="Center" VerticalAlignment="Center" Padding="5,0" Background="LightSkyBlue">
@@ -249,7 +249,7 @@
 
                 </Grid>
             </TabItem>
-        <TabItem x:Name="tabKcbET" Header="Kcb_refl. based ET" Height="100" Width="200">
+        <TabItem x:Name="tabKcbET" Header="Kcb_VI based ET" Height="100" Width="200">
                 <Grid>
                     <Grid.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -260,7 +260,7 @@
                     <Border>
                         <StackPanel>                          
                                 <TextBlock TextAlignment="Center" FontSize="20" Padding="50,20" TextWrapping="Wrap">
-                                    Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0%-100%).
+                                    Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0.0-1.0).
                                 </TextBlock>
                                 <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
                                     * Current ET estimates are based on Trout's 2007 paper.
@@ -289,7 +289,7 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="2" Content="24 Hour ETr (in)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
+                                <Label Grid.Column="2" Content="24 Hour ETo (in)==>" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="16"/>
                                 <TextBox Grid.Column="3" x:Name="RefET24hr" TextAlignment="Center"  Margin="20,0" VerticalContentAlignment="Center" FontSize="16"/>
                                 <Button Grid.Column="4" x:Name="btn_et_daily" Style="{StaticResource BTNCORNER}" Content="Crop coefficient based ET" FontWeight="Bold" Padding="0,10"/>
                                 <RadioButton HorizontalAlignment="Right" x:Name="rbBatch_ReflET_OFF" Content="Single File mode" Grid.Column="0" IsChecked="True" VerticalContentAlignment="Center"/>
@@ -301,7 +301,7 @@
                                 <RichTextBox Height="300" x:Name="rtbxReflET" IsEnabled="False" VerticalScrollBarVisibility="Visible" >
                                     <FlowDocument>
                                         <Paragraph>
-                                            Paste comma seperated (multi-line) full path to the tiff files and corresponding alfalfa reference ET (ETr), 24 hour total (inches).
+                                            Paste comma seperated (multi-line) full path to the tiff files and corresponding grass reference ET (ETo), 24 hour total (inches).
                                             <LineBreak/>
                                             eg.
                                             <LineBreak/>

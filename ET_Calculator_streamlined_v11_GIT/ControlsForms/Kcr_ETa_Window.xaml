@@ -32,23 +32,19 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <TextBox x:Name="tbxFourier_w" HorizontalAlignment="Left" Height="23" Margin="64,36,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
+        <TextBox x:Name="tbxFourier_a0" HorizontalAlignment="Left" Height="23" Margin="64,36,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
         <Label Content="Fourier curve fit parameters for calculating missing data." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385"/>
-        <Label Content="w=>" HorizontalAlignment="Left" Margin="14,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45"/>
+        <Label Content="a0=>" HorizontalAlignment="Left" Margin="14,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45"/>
         <TextBox  x:Name="tbxFourier_a1" HorizontalAlignment="Left" Height="23" Margin="174,36,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
         <Label Content="a1=" HorizontalAlignment="Left" Margin="140,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
         <TextBox  x:Name="tbxFourier_a2" HorizontalAlignment="Left" Height="23" Margin="344,36,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
         <Label Content="a2=" HorizontalAlignment="Left" Margin="310,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
-        <TextBox x:Name="tbxFourier_a3" HorizontalAlignment="Left" Height="23" Margin="514,36,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="a3=" HorizontalAlignment="Left" Margin="480,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
-        <TextBox x:Name="tbxFourier_a0" HorizontalAlignment="Left" Height="23" Margin="64,67,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="a0=>" HorizontalAlignment="Left" Margin="14,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45"/>
+        <TextBox x:Name="tbxFourier_w" HorizontalAlignment="Left" Height="23" Margin="64,67,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
+        <Label Content="w=>" HorizontalAlignment="Left" Margin="14,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45"/>
         <TextBox  x:Name="tbxFourier_b1" HorizontalAlignment="Left" Height="23" Margin="174,67,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
         <Label Content="b1=" HorizontalAlignment="Left" Margin="140,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
         <TextBox  x:Name="tbxFourier_b2" HorizontalAlignment="Left" Height="23" Margin="344,67,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826"/>
         <Label Content="b2=" HorizontalAlignment="Left" Margin="310,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
-        <TextBox x:Name="tbxFourier_b3" HorizontalAlignment="Left" Height="23" Margin="514,67,0,0" TextWrapping="Wrap" Text="6.3638" VerticalAlignment="Top" Width="55" RenderTransformOrigin="1.25,2.826"/>
-        <Label Content="b3=" HorizontalAlignment="Left" Margin="480,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29"/>
         <Button x:Name="btnFillMissignKcrETa" Content="Calculate missing Kcr" Margin="0,67,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="28"/>
 
     </Grid>
