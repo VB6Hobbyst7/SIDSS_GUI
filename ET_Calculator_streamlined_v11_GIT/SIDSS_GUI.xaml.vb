@@ -26,12 +26,13 @@ Imports SIDSS_Planner_GUI
 Imports System.Data.Entity.Validation.DbEntityValidationException
 Imports System.Globalization
 
-
-
 Class MainWindow
 #Region "Public Vars"
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
     Public app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_Entity_database.db"
+    'Public database_directory As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location)
+
+
     Public dgv As FormDGV
     Public user_control As OutputPath
     Public Property Value As DateTime
@@ -57,8 +58,6 @@ Class MainWindow
         Public Shared main_window_shared As MainWindow
     End Class
 
-
-
     Public Sub Load_WaterBalance_DagaGrid()
         ' Encapsulating database in "using" statement to close the database immediately.
         Using entity_table As New SIDSS_Entities()
@@ -68,7 +67,6 @@ Class MainWindow
 
     End Sub
 
-
     Public Sub Load_RefET_DagaGrid()
         ' Encapsulating database in "using" statement to close the database immediately.
         Using entity_table As New SIDSS_Entities()
@@ -77,7 +75,6 @@ Class MainWindow
         End Using
 
     End Sub
-
 
     Private Sub Load_DataGrid_RefET()
         'Connect to local SQLite database file. The text part is called connectionstring.
@@ -109,18 +106,18 @@ Class MainWindow
         DgvRefET.ItemsSource = dt.DefaultView
 
     End Sub
-    Private Sub Reset_RefET_Table()
+    Private Sub Reset_SIDSS_Table(ByVal table_name As String)
+
         Using SIDSS_context = New SIDSS_Entities()
 
             Try
-
                 ' Delete all rows of the table.
-                SIDSS_context.Database.ExecuteSqlCommand("DELETE FROM Ref_ET_Table;")
+                SIDSS_context.Database.ExecuteSqlCommand($"DELETE FROM {table_name};")
                 'Clean extra space leftover from previous data.
                 SIDSS_context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, "VACUUM;")
 
                 '//Reset the ID number to start from 1.
-                SIDSS_context.Database.ExecuteSqlCommand("update SQLITE_SEQUENCE set seq = 0 where name = 'Ref_ET_Table';")
+                SIDSS_context.Database.ExecuteSqlCommand($"update SQLITE_SEQUENCE set seq = 0 where name = '{table_name}';")
 
             Catch ex As Exception
 
@@ -134,38 +131,38 @@ Class MainWindow
 
     End Sub
 
-    Private Sub Reset_SMD_table()
-        Using SIDSS_context = New SIDSS_Entities()
+    'Private Sub Reset_SMD_table()
+    '    Using SIDSS_context = New SIDSS_Entities()
 
-            Try
+    '        Try
 
-                ' Delete all rows of the table.
-                SIDSS_context.Database.ExecuteSqlCommand("DELETE FROM SMD_Daily;")
-                'Clean extra space leftover from previous data.
-                SIDSS_context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, "VACUUM;")
+    '            ' Delete all rows of the table.
+    '            SIDSS_context.Database.ExecuteSqlCommand("DELETE FROM SMD_Daily;")
+    '            'Clean extra space leftover from previous data.
+    '            SIDSS_context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, "VACUUM;")
 
-                '//Reset the ID number to start from 1.
-                SIDSS_context.Database.ExecuteSqlCommand("update SQLITE_SEQUENCE set seq = 0 where name = 'SMD_Daily';")
+    '            '//Reset the ID number to start from 1.
+    '            SIDSS_context.Database.ExecuteSqlCommand("update SQLITE_SEQUENCE set seq = 0 where name = 'SMD_Daily';")
 
-            Catch ex As Exception
+    '        Catch ex As Exception
 
-                MessageBox.Show(ex.Message)
+    '            MessageBox.Show(ex.Message)
 
-            End Try
+    '        End Try
 
-        End Using
+    '    End Using
 
-        Load_RefET_DagaGrid()
+    '    Load_RefET_DagaGrid()
 
-    End Sub
+    'End Sub
     Private Sub Btn_tiff_Click(sender As Object, e As RoutedEventArgs) Handles btn_load_weather_data_csv.Click
-        If MessageBox.Show("You are about to reset current data table. Are you sure?", "Dialog", MessageBoxButtons.YesNo) = vbYes Then
-            Reset_RefET_Table()
+        If MessageBox.Show("By loading new weather data you will be resetting current data table. Are you sure?", "Dialog", MessageBoxButtons.YesNo) = vbYes Then
+            Reset_SIDSS_Table("Ref_ET_Table")
         Else
             Return
         End If
 
-        Dim file_name As String = ""
+        Dim file_name As String = Nothing
 
         Dim OpenFileDialog1 As New OpenFileDialog
 
@@ -177,7 +174,12 @@ Class MainWindow
             Return
         End If
 
-        If (file_name.Length > 0) Then
+        Load_Weather_Data_CSV(file_name)
+
+    End Sub
+
+    Private Sub Load_Weather_Data_CSV(file_name As String)
+        If File.Exists(file_name) Then
             Dim string_stream = New StreamReader(File.OpenRead(file_name))
             Dim SIDSS_Database = New SIDSS_Entities
 
@@ -206,19 +208,16 @@ Class MainWindow
             End While
             SIDSS_Database.SaveChanges()
             Load_RefET_DagaGrid()
-
+            tbx_csv_path_string.Text = file_name.ToString()
         End If
 
-
     End Sub
-
 
     Private Sub Open_tif(sender As Object, e As RoutedEventArgs) Handles btn_KC_MS_tiff.Click
         KC_MS_file_path.Text = get_file_path("Tiff Files", "TIF", "Select NRG calibrated image %ge values (0-100)")
         set_parameter_file()
 
     End Sub
-
 
     Private Function get_file_path(ByVal file_info As String, ByVal extension As String, ByVal title As String)
         Dim open_file As New Microsoft.Win32.OpenFileDialog With {
@@ -231,7 +230,6 @@ Class MainWindow
         Return open_file.FileName()
     End Function
 
-
     Private Sub Main_window_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles main_window.SizeChanged
         Dim tab_control_h As Integer = CType((e.NewSize.Height), Integer) - 70
 
@@ -242,7 +240,6 @@ Class MainWindow
 
         Dynamic_grid_resize()
     End Sub
-
 
     Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
         'Load_RefET_DagaGrid()
@@ -311,8 +308,6 @@ Class MainWindow
 
     End Sub
 
-
-
     Private Sub Dynamic_grid_resize()
         Try
             Dim WaterBalance_Grid As Integer = main_window.ActualHeight - 360
@@ -332,7 +327,6 @@ Class MainWindow
         End Try
 
     End Sub
-
 
     Private Sub set_parameter_file()
         Dim Lat, Lm, Elev, Lz, df, const_g, const_k, const_Cpa, const_Z_u, const_Z_T, const_min_u As Decimal
@@ -392,7 +386,6 @@ Class MainWindow
         file.Close()
     End Sub
 
-
     Private Function Validate_decimal(ByVal tbx_string, ByVal type)
         Dim decimal_vlaue As Decimal
         If Decimal.TryParse(tbx_string, decimal_vlaue) Then
@@ -405,7 +398,6 @@ Class MainWindow
         End If
 
     End Function
-
 
     Private Sub Daily_ET_raster(sender As Object, e As RoutedEventArgs) Handles btn_et_daily.Click
         Dim OpenCMD As Object = CreateObject("wscript.shell")
@@ -451,14 +443,12 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub Grid_host_GotFocus(sender As Object, e As RoutedEventArgs)
         Dim host As New System.Windows.Forms.Integration.WindowsFormsHost()
         Dim map_win As New MapWInGIS_Control
         host.Child = map_win
         Me.grid_host.Children.Add(host)
     End Sub
-
 
     Private Sub Tb_3_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles tabImageView.MouseUp
         Try
@@ -471,8 +461,6 @@ Class MainWindow
         End Try
 
     End Sub
-
-
 
     Private Function Launch_Col_Input_From(ByVal col_name As String)
         dgv = New FormDGV
@@ -495,7 +483,6 @@ Class MainWindow
         Return ""
     End Function
 
-
     Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnPrecip.Click
 
 
@@ -507,7 +494,7 @@ Class MainWindow
             Return
         End If
         '###############################################################################################################
-        Reset_SMD_table()
+        'Reset_SIDSS_Table("SMD_Daily")
         Load_WaterBalance_DagaGrid()
         Dim daily_data_form As New DailyDataInput_Form
         Me.Hide()
@@ -519,7 +506,6 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub BtnIrrig_Click(sender As Object, e As RoutedEventArgs) Handles btnIrrig.Click
         Dim index As Integer = 1
         Dim Irrig_table As New DataTable
@@ -529,7 +515,6 @@ Class MainWindow
         Load_WaterBalance_DagaGrid()
         'dgvWaterBalance.Items.Refresh()
     End Sub
-
 
     Private Sub BtnET_Click(sender As Object, e As RoutedEventArgs) Handles btnETr.Click
         Dim index As Integer = 1
@@ -542,7 +527,6 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub BtnTmax_Click(sender As Object, e As RoutedEventArgs) Handles btnTmax.Click
         Dim index As Integer = 1
         Dim Tmax_table As New DataTable
@@ -554,7 +538,6 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub BtnTmin_Click(sender As Object, e As RoutedEventArgs) Handles btnTmin.Click
         Dim index As Integer = 1
         Dim Tmin_table As New DataTable
@@ -564,7 +547,6 @@ Class MainWindow
         Load_WaterBalance_DagaGrid()
 
     End Sub
-
 
     Private Sub BtnSetDates_Click(sender As Object, e As RoutedEventArgs) Handles btnSetDates.Click
 
@@ -580,23 +562,35 @@ Class MainWindow
             P_doy = PlantDate.SelectedDate.Value.DayOfYear
             Dim current_date As DateTime
 
-            Dim date_string As String
+            'Dim date_string As String
             interval = H_doy - P_doy
+            If interval > 0 Then
+                Reset_SIDSS_Table("SMD_Daily")
+            Else
+                MessageBox.Show("Please make sure the planting and harvest dates are set correctly.")
+                Exit Sub
 
-            For i = 0 To interval
-                current_date = PlantDate.SelectedDate.Value.AddDays(i)
-                date_string = Format(current_date, "MM/dd/yyyy")
-                datatable_date.Rows.Add(date_string)
-                datatable_doy.Rows.Add(current_date.DayOfYear)
-            Next
+            End If
 
             Using SIDSS_Context As New SIDSS_Entities
 
+                'water_table.Date
+
+                For i = 0 To interval
+                    Dim smd_daily_row = New SMD_Daily
+                    current_date = PlantDate.SelectedDate.Value.AddDays(i)
+                    smd_daily_row.SNo = i + 1
+                    smd_daily_row.Date = Format(current_date, "MM/dd/yyyy")
+                    smd_daily_row.DOY = current_date.DayOfYear
+                    SIDSS_Context.SMD_Daily.Add(smd_daily_row)
+
+                Next
+                SIDSS_Context.SaveChanges()
             End Using
             Dim set_date As New SQL_table_operation
 
-            set_date.Write_Water_Balance_Dates("Date", datatable_date)
-            set_date.Write_SQL_Col("SMD_Daily", "DOY", 0, datatable_doy)
+            'set_date.Write_Water_Balance_Dates("Date", datatable_date)
+            'set_date.Write_SQL_Col("SMD_Daily", "DOY", 0, datatable_doy)
 
             'Load_Datagrid("WaterBalance_Table")
             Load_WaterBalance_DagaGrid()
@@ -605,11 +599,9 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub Tb_4_Loaded(sender As Object, e As RoutedEventArgs) Handles tabWaterBalance.Loaded
         Load_Datagrid("SMD_Daily")
     End Sub
-
 
     Public Sub Load_Datagrid(ByVal table_name As String, Optional ByVal save_csv As Boolean = False)
         'Connect to local SQLite database file. The text part is called connectionstring.
@@ -643,7 +635,6 @@ Class MainWindow
         Load_WaterBalance_DagaGrid()
     End Sub
 
-
     Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
 
         Dim SMD_Parameters As New WaterBalanceCalculator
@@ -673,18 +664,15 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub Btn_EB_MS_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_MS.Click
         tbx_EB_MS.Text = get_file_path("MS image", "tif", "Select MS calibrated Image for Energy Balance method")
         set_parameter_file()
     End Sub
 
-
     Private Sub Btn_EB_Thermal_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_Thermal.Click
         tbx_EB_Thermal.Text = get_file_path("Thermal 1-band image", "tif", "Select Thermal calibrated Image for Energy Balance method")
         set_parameter_file()
     End Sub
-
 
     Private Sub Btn_EB_MS_run_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_run.Click
         set_parameter_file()
@@ -696,7 +684,6 @@ Class MainWindow
         OpenCMD.run(command2, 1, True)
     End Sub
 
-
     Private Sub RbCotton_Click(sender As Object, e As RoutedEventArgs) Handles rbCotton.Click
         If rbCotton.IsChecked = True Then
             rbCorn.Content = "Corn"
@@ -706,7 +693,6 @@ Class MainWindow
         End If
 
     End Sub
-
 
     Private Sub RbWheat_Click(sender As Object, e As RoutedEventArgs) Handles rbWheat.Click
         If rbWheat.IsChecked = True Then
@@ -718,7 +704,6 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub RbCorn_Click(sender As Object, e As RoutedEventArgs) Handles rbCorn.Click
         If rbCorn.IsChecked = True Then
             rbCorn.Content = "Corn (Tbase=50)"
@@ -727,7 +712,6 @@ Class MainWindow
             Tbase = 50
         End If
     End Sub
-
 
     Private Sub BtnChart_Click(sender As Object, e As RoutedEventArgs) Handles btnChart.Click
         Dim chrt_view As New Graphs_Viewer
@@ -738,6 +722,7 @@ Class MainWindow
         chrt_view.ShowDialog()
 
     End Sub
+
     Private Function round_number(ByRef input_number As Double)
         Return Math.Round(input_number, 3)
     End Function
@@ -769,7 +754,6 @@ Class MainWindow
         Load_RefET_DagaGrid()
 
     End Sub
-
 
     Private Function ref_ET_Single_Day_calc(ByRef daily_record As List(Of Ref_ET_Table))
 
@@ -866,42 +850,70 @@ Class MainWindow
         Return daily_results_table
     End Function
 
-
     Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
         Load_RefET_DagaGrid()
         'Load_DataGrid_RefET()
     End Sub
 
-
     Private Sub DgSiteInfo_Loaded_1(sender As Object, e As RoutedEventArgs) Handles dgSiteInfo.Loaded
         Load_siteinfo()
     End Sub
 
-
     Private Sub Load_siteinfo()
-        Dim dgSiteInfo_table As New DataTable
-        Dim read_database As New SQL_table_operation
-        dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
-        Dim row_count As Integer = dgSiteInfo_table.Rows.Count
+        'Dim dgSiteInfo_table As New DataTable
+        'Dim read_database As New SQL_table_operation
+        'dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
+        'Dim row_count As Integer = dgSiteInfo_table.Rows.Count
 
-        dgSiteInfo.ItemsSource = dgSiteInfo_table.DefaultView()
+        'dgSiteInfo.ItemsSource = dgSiteInfo_table.DefaultView()
+
+        ' Encapsulating database in "using" statement to close the database immediately.
+        Using entity_table As New SIDSS_Entities()
+            ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
+            dgSiteInfo.ItemsSource = entity_table.Site_Info_Summary.ToList()
+        End Using
+
+
     End Sub
-
 
     Private Sub DgSiteInfo_SelectedCellsChanged(sender As Object, e As SelectedCellsChangedEventArgs) Handles dgSiteInfo.SelectedCellsChanged
 
-        Dim curr_row As DataRowView
+        'Dim curr_row As DataRow
+        Dim row_index As Integer
         Dim lon_mid As String
         Try
-            curr_row = dgSiteInfo.SelectedItem
-            tbx_lat.Text = curr_row("Latitude").ToString()
-            tbx_lon.Text = curr_row("Longitude").ToString()
-            tbx_elev.Text = curr_row("Elevation").ToString()
-            tbx_zt.Text = curr_row("Z__t").ToString()
-            tbx_zu.Text = curr_row("Z__u").ToString()
-            tbxSiteSummary.Text = curr_row("Summary").ToString()
-            tbxSiteName.Text = curr_row("SiteName").ToString()
-            lon_mid = curr_row("Center_Longi").ToString()
+            row_index = dgSiteInfo.SelectedIndex()
+            Dim curr_row = dgSiteInfo.SelectedItem
+            'Dim newval = curr_row(0)
+            'Dim temp_vals = curr_row.ToString().Split()
+            'curr_row = dgSiteInfo.SelectedItem
+            
+            tbx_lat.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Center_Longi
+            tbx_lon.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Longitude.ToString()
+            tbx_elev.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Elevation.ToString()
+            tbx_zt.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Z__t.ToString()
+            tbx_zu.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Z__u.ToString()
+            tbxSiteSummary.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Summary.ToString()
+            tbxSiteName.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).SiteName.ToString()
+            lon_mid = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Center_Longi
+        Catch ex As Exception
+            MessageBox.Show(ex.Message.ToString())
+            Exit Sub
+        End Try
+
+
+        'Dim curr_row As DataRowView
+
+        Try
+            'curr_row = dgSiteInfo.SelectedItem
+            'tbx_lat.Text = curr_row("Latitude").ToString()
+            'tbx_lon.Text = curr_row("Longitude").ToString()
+            'tbx_elev.Text = curr_row("Elevation").ToString()
+            'tbx_zt.Text = curr_row("Z__t").ToString()
+            'tbx_zu.Text = curr_row("Z__u").ToString()
+            'tbxSiteSummary.Text = curr_row("Summary").ToString()
+            'tbxSiteName.Text = curr_row("SiteName").ToString()
+            'lon_mid = curr_row("Center_Longi").ToString()
         Catch ex As Exception
             'MessageBox.Show(ex.Message.ToString())
             Exit Sub
@@ -925,11 +937,15 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub BtnEditSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnEditSiteInfo.Click
         Dim curr_row As DataRowView
         Try
-            curr_row = dgSiteInfo.SelectedItem
+            'curr_row = dgSiteInfo.SelectedItem
+            'curr_row = DirectCast(dgSiteInfo.SelectedItem, SIDSS_Planner_GUI.Site_Info_Summary)
+            If curr_row Is Nothing Then
+                MessageBox.Show("First select a row in the table below to edit it.")
+                Exit Sub
+            End If
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())
             Exit Sub
@@ -957,7 +973,6 @@ Class MainWindow
         myConnection.Close()
         Load_siteinfo()
     End Sub
-
 
     Private Sub btnSaveSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveSiteInfo.Click
 
@@ -999,29 +1014,32 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub BtnDeleteSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnDeleteSiteInfo.Click
         Dim curr_row As DataRowView
+
         Try
             curr_row = dgSiteInfo.SelectedItem
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())
             Exit Sub
         End Try
-        Dim site_index As String = curr_row("SNo")
-        Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
-        Dim cmd As New SQLiteCommand
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        myConnection.Open()
-        cmd.Connection = myConnection
-        cmd.CommandText = String.Format("DELETE FROM Site_Info_Summary WHERE SNo={0};", site_index)
-        cmd.ExecuteNonQuery()
-        myConnection.Close()
+
+
+        Using GUI_parameter As New SIDSS_Entities
+            Try
+                Dim row_sn As Integer = curr_row(0)
+
+                Dim parameter_row = (From row_vals In GUI_parameter.Site_Info_Summary Where row_vals.SNo = row_sn).ToList(0)
+                GUI_parameter.Site_Info_Summary.Remove(parameter_row)
+                GUI_parameter.SaveChanges()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+                Exit Sub
+            End Try
+        End Using
+
         Load_siteinfo()
     End Sub
-
 
     Private Sub Main_window_Closing(sender As Object, e As CancelEventArgs) Handles main_window.Closing
         Save_Parameters()
@@ -1083,10 +1101,12 @@ Class MainWindow
                 GUI_parameter.SaveChanges()
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
+                MessageBox.Show(ex.InnerException.Message)
             End Try
 
         End Using
     End Sub
+
     Private Sub MnuOutputPath_Click(sender As Object, e As RoutedEventArgs) Handles mnuOutputPath.Click
         Dim control_window = New OutputPath
         main_window.Hide()
@@ -1095,7 +1115,6 @@ Class MainWindow
         'Dim output_path As String = user_control.tbxOutputPath.ToString()
         'tbx_csv_path_string.Text = result.ToString()
     End Sub
-
 
     Private Sub TbxTAW_1_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbxTAW_1.TextChanged, tbxTAW_2.TextChanged, tbxTAW_3.TextChanged, tbxTAW_4.TextChanged, tbxTAW_5.TextChanged
         Try
@@ -1120,22 +1139,20 @@ Class MainWindow
 
     End Sub
 
-
     Private Sub Label_MouseEnter(sender As Object, e As Input.MouseEventArgs)
         lblPlantingDepth.FontWeight = FontWeights.Bold
     End Sub
 
-
     Private Sub LblPlantingDepth_MouseLeave(sender As Object, e As Input.MouseEventArgs)
         lblPlantingDepth.FontWeight = FontWeights.Normal
     End Sub
-
 
     Private Sub Btn_Daily_ET_Sum_Click(sender As Object, e As RoutedEventArgs) Handles btn_Daily_ET_Sum.Click
 
         Dim daily_ET_Sum As New DataTable
         daily_ET_Sum.Columns.Add("Date")
         daily_ET_Sum.Columns.Add("ETr__in")
+        daily_ET_Sum.Columns.Add("ET0__in")
 
         Using database_context As New SIDSS_Entities()
             Dim Starting_DOY = Convert.ToInt32(database_context.Ref_ET_Table.Find(1).DOY)
@@ -1144,16 +1161,18 @@ Class MainWindow
                 Dim doy2string = i.ToString
                 Dim daily_record = (From rec In database_context.Ref_ET_Table Where rec.DOY = doy2string).ToList()
                 If daily_record.Count > 0 Then
-                    Dim sum As Double = 0
+                    Dim sum_ETr As Double = 0
+                    Dim sum_ET0 As Double = 0
                     For Each record In daily_record
-                        sum += record.ETr
+                        sum_ETr += record.ETr
+                        sum_ET0 += record.ETo
                     Next
                     Dim data_row As DataRow = daily_ET_Sum.NewRow
                     data_row("Date") = daily_record(0).Date
-                    data_row("ETr__in") = round_number(sum / 24.5) 'Converting mm to inches.
+                    data_row("ETr__in") = round_number(sum_ETr / 24.5) 'Converting mm to inches.
+                    data_row("ET0__in") = round_number(sum_ET0 / 24.5) 'Converting mm to inches.
                     daily_ET_Sum.Rows.Add(data_row)
                 End If
-
 
             Next
         End Using
@@ -1162,7 +1181,6 @@ Class MainWindow
         daily_et_sum_window.dgDailySumET.ItemsSource = daily_ET_Sum.DefaultView()
 
     End Sub
-
 
     Private Sub RbBatch_ReflET_OFF_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_OFF.Checked
         Try
@@ -1174,7 +1192,6 @@ Class MainWindow
         btn_KC_MS_tiff.IsEnabled = True
 
     End Sub
-
 
     Private Sub RbBatch_ReflET_ON_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_ON.Checked
         rtbxReflET.IsEnabled = True

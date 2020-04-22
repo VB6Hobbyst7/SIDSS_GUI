@@ -82,11 +82,11 @@ OSAVI = (1+Y)*(NIR-Red)/(NIR+Red+Y)
 save_raster("OSAVI.tif",OSAVI)
 
 # Site specific information
-Lat = np.deg2rad(parameters.Lat)    # Latitude, Decimal degrees, convert it to radians.
-Lm = np.deg2rad(parameters.Lm)      # Longitude, Decimal degrees, convert to radians
-Elev = (parameters.Elev)*100/2.54/12           # Elevation of GLY04 in ft
-Lz = parameters.Lz                  # Longitude of the center of the local time zone(Rocky Mountain zone)
-interval_sec = 3600                 # data record frequency 3600 sec for 1 hour.
+Lat = np.deg2rad(parameters.Lat)        # Latitude, Decimal degrees, convert it to radians.
+Lm = np.deg2rad(parameters.Lm)          # Longitude, Decimal degrees, convert to radians
+Elev = (parameters.Elev)*100/2.54/12    # Elevation of GLY04 in ft
+Lz = parameters.Lz                      # Longitude of the center of the local time zone(Rocky Mountain zone)
+interval_sec = 3600                     # data record frequency 3600 sec for 1 hour.
 
 # Define Constants
 const_g = 9.81        # acceleration due to gravity[m/s**2]
@@ -94,8 +94,6 @@ const_k = 0.41        # Von Karman constant
 const_Cpa= 1005     # Specific heat capacities of air [J/kg.K]
 const_Z_u = parameters.const_Z_u    # Wind reference height [m]
 const_Z_T = parameters.const_Z_T   # Air Temp reference height [m], can be edited...
-# Z_uET_r = 2 # WEATHER STATION Wind reference height [m]
-# Z_TET_r = 1.5  # WEATHER STATION Air Temp reference height [m]
 const_min_u= 0.5 # Lowest allowed wind speed value [m/s]
 
 
@@ -138,17 +136,15 @@ decimal_DOY_sheet_1 = DOY+col_time_dec
 if const_min_u>u:
     u=const_min_u
 
-# lambda_v=(2.501-0.2361*col_Ta*10**-3)*10**6 #latent heat of vaporization (MJ/Kg)
-lambda_v=(2.501-0.00236 * col_Ta)*10**6 #latent heat of vaporization (J/Kg), On-Site
-lambda_vET_r = lambda_v # WEATHER STATION latent heat of vaporization (J./Kg)
+lambda_v=(2.501-0.00236 * col_Ta)*10**6     #latent heat of vaporization (J/Kg), On-Site
+lambda_vET_r = lambda_v                     # WEATHER STATION latent heat of vaporization (J./Kg)
 LAMBDA_V = lambda_v
 
-Pa = 101325*(1-2.25577e-5*Elev*0.3048)**5.25588  # Atmospheric pressure [Pascal]
-es=0.6108 * np.exp(17.27 * col_Ta / (col_Ta+ 237.3))  # Saturated vapor pressure (kPa)
+Pa = 101325*(1-2.25577e-5*Elev*0.3048)**5.25588             # Atmospheric pressure [Pascal]
+es=0.6108 * np.exp(17.27 * col_Ta / (col_Ta+ 237.3))        # Saturated vapor pressure (kPa)
 # esET_r = 0.6108 * np.exp(17.27 * TaET_r/ (TaET_r+ 237.3)) # WEATHER STATION Saturated vapor pressure (kPa)
 
 ea=es*col_RH/100  #actual vapor pressure (kPa)
-# eaET_r = esET_r * RHET_r/100  # WEATHER STATION actual vapor pressure (kPa)
 
 Tkv=(col_Ta+273.15)/(1-0.378*ea/Pa/1000)  # virtual temperature (K)
 rho_a=3.486*Pa/1000/Tkv  # [Kg/m3], Pa=[Pascal], Ta=[C], (ASCE EWRI 2005)
@@ -297,18 +293,13 @@ Ho= 0.697 *np.exp(0.236*LAI)-3.42*np.exp(-3.177*LAI)
 # crop_height_max_index = np.argmax(Ho)
 crop_height_max = Ho.max()
 hc = Ho  # hc is crop height obtained using vegetation index. Chavez et. al used hc_corn = (1.86*OSAVI-0.2)*(1+4.82E-7*EXP(17.69*OSAVI))
-# hc_2 = (1.86*col_OSAVI-0.2)*(1+4.82E-7*np.exp(17.69*col_OSAVI))
-
     
 Wind_Direc = col_theta  # # Wind Speed Direction (degrees decimal)
 Wind_Speed = site_wind_spd  # # Wind Speed (m/s)
 
-#     
 # > Calculating the roughness length variables of the canopy
 X = 0.2* LAI
-# d = 0.67 * hc  # #zero plane displacement height [m]
 # Below equation giving -Ve numbers for zero plane displacement height.
-# d=hc*(np.log(1+(X**(1/6)))+0.03*np.log(1+(X**6))) # zero plane displacement (Choudh 369
 # Refered Chowdhary et.al paper 1988 and found following equation.
 d=1.1*hc*(np.log(1+(np.power(X,0.25)))) # zero plane displacement (Choudh 369
 # REPLACE THE Zom EQUATION FOR THE FOLLOWING ONE (lines 337 to 345)
@@ -325,21 +316,12 @@ rp = col_theta
 if Wind_Direc<=90:
     rp=Wind_Direc/(180-Wind_Direc)/Wind_Speed
 
-
-#    elseif theta(z) > 90 && theta(z) <= 180
-# rp = np.where((Wind_Direc>90) & (Wind_Direc<=180),((180-Wind_Direc)/Wind_Direc/Wind_Speed),rp)
 elif Wind_Direc>90 and Wind_Direc<=180:
     rp=(180-Wind_Direc)/Wind_Direc/Wind_Speed
 
-
-#    elseif Wind_Direc > 180 && Wind_Direc <= 270
-# rp = np.where((Wind_Direc>180) & (Wind_Direc<=270),((Wind_Direc-180)/(360-Wind_Direc)/Wind_Speed),rp) 
 elif Wind_Direc>180 and Wind_Direc<=270:
     rp=(Wind_Direc-180)/(360-Wind_Direc)/Wind_Speed
 
-
-#    elseif Wind_Direc > 270 && Wind_Direc <= 360
-# rp = np.where((Wind_Direc>270) & (Wind_Direc<=360),((360-Wind_Direc)/(Wind_Direc-180)/Wind_Speed),rp) 
 elif Wind_Direc>270 and Wind_Direc<=360:
     rp=(360-Wind_Direc)/(Wind_Direc-180)/Wind_Speed
 
@@ -378,9 +360,8 @@ save_raster("Zoh_in.tif",Zoh)
 save_raster("To_in.tif",To)
 ############################################
 
-
-execution_command = '"'+r"C:\Users\HomeUser\source\repos\Array_Processor_Gdaled\x64\Release\Array_Processor_Gdaled.exe"+'"'+" \
-    {0} {1} {2} {3} {4} {5} {6} {7} {8}".format(u,const_k,const_Cpa,const_g,rho_a,Ta,Zm,img_width,img_height)
+array_processor_gdaled_path = r"Array_Processor_Gdaled.exe"
+execution_command = '"'+array_processor_gdaled_path+'"'+" {0} {1} {2} {3} {4} {5} {6} {7} {8}".format(u,const_k,const_Cpa,const_g,rho_a,Ta,Zm,img_width,img_height)
 print (execution_command)
 os.system(execution_command)
 
@@ -396,7 +377,6 @@ U_star=read_raster("U_star_out.tif")
 
 #ET from Energy Balance
 LE=Rn-G-H
-# LE = np.where(LE<0,np.nan,LE)
 
 
 # ### SECTION 05 - CONVERTING INSTANTANEOUS LATENT HEAT FLUX TO INSTANTANEOUS ET WATER DEPTH
@@ -409,21 +389,14 @@ ET_inst=interval_sec*LE/lambda_v/1
 #Filter Output from outliers:
 #---------------------------
 interp = 'lower'
-p_min = 1/100 # Minimum cutoff percentile
-p_max = 99/100 # Max cutoff percentile.
+p_min = 1/1000 # Minimum cutoff percentile
+p_max = 99/1000 # Max cutoff percentile.
 #Note matlab's percentile funcition is essentially same as numpy's quantile function.
 # There is numpy percentile function too, but the results doesn't match well with matlab's percentile function.
 
 
 # Clean H values
 percentiles_H = np.nanquantile(H,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
-
-
-# Remove very low or very high values(1 & 99 percentile).
-# H = np.where((H<=percentiles_H[0]) | (H>=percentiles_H[1]), np.nan,H)  
-
-# H = np.where((H>Rn) | (H<0),np.nan,H)    
-
 
 # Clean rah values
 percentiles_rah = np.nanquantile(rah,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
@@ -432,24 +405,18 @@ rah = np.where((rah<=percentiles_rah[0]) | (rah>=percentiles_rah[1]), np.nan,rah
 
 # Clean G values
 percentiles_G = np.nanquantile(G,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
-# G = np.where((G<=percentiles_G[0]) | (G>=percentiles_G[1]), np.nan,G)
-G = np.where(((G>-1000) and (G<1000)),G,0)
+G = np.where((G<=percentiles_G[0]) | (G>=percentiles_G[1]), np.nan,G)
+# G = np.where(((percentiles_G[0]>-1000) | (G<1000)),G,0)
 
 
 
 # Clean Rn values
 percentiles_Rn = np.nanquantile(Rn,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
-
-# Rn = np.where((Rn<=percentiles_Rn[0]) | (Rn>=percentiles_Rn[1]), np.nan,Rn)
 Rn = np.where(Rn<0,np.nan,Rn)
 
 LE = Rn-G-H
 # Clean LE values
 percentiles_LE = np.nanquantile(LE,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
-
-# LE = np.where((LE<=percentiles_LE[0]) | (LE>=percentiles_LE[1]), np.nan,LE)
-
-# LE = np.where((Rn<H),np.nan,LE)  # Verify statement, should there be LE in the conditional statement?
 
 # Clean ET_inst values
 percentiles_ET = np.nanquantile(ET_inst,(p_min,p_max), interpolation=interp)  # Find 1 & 99th percentile values
@@ -463,7 +430,7 @@ ET_inst = np.where((ET_inst<=percentiles_ET[0]) | (ET_inst>=percentiles_ET[1]), 
 ET_inst = np.where((ET_inst < 0.001) | (ET_inst > 999),0,ET_inst)
 ETr = parameters.ETr # Alfalfa reference ET from SIDSS for 24 hour in inches.
 
-# Energy Balance ETa 24 hour in inches
+# Energy Balance ETa calculation using 24 hour in mm.
 ETa_mm = ET_inst*ETr*25.4
 
 save_raster("LE.tif",LE)

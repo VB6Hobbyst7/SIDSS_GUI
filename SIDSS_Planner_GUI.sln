@@ -7,6 +7,11 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SIDSS_Planner_Core", "ET_Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hourly_Ref_ET_Calculator", "Hourly_Ref_ET_Calculator_\Hourly_Ref_ET_Calculator.csproj", "{D24815CD-16DC-4387-AB66-C6874FAA73BD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9FD6FD12-BCFC-46D1-9BC5-3DCB3F8ECB11}"
+	ProjectSection(SolutionItems) = preProject
+		SIDSS_Entity_database.db = SIDSS_Entity_database.db
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

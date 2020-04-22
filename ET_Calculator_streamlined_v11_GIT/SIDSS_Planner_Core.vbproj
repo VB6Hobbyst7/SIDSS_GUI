@@ -80,7 +80,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>drone-png-47013-Windows.ico</ApplicationIcon>
@@ -412,6 +412,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SQLite_SIDSS_Model.Designer.vb</LastGenOutput>
     </EntityDeploy>
+    <EmbeddedResource Include="SIDSS_Entity_database.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="SQLite_SIDSS_Model.edmx.diagram">
       <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>
     </None>
@@ -435,9 +438,6 @@
       <DependentUpon>SQLite_SIDSS_Model.edmx</DependentUpon>
       <LastGenOutput>SQLite_SIDSS_Model.vb</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="SIDSS_Entity_database.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <Resource Include="drone-png-47013-Windows.ico" />
     <Content Include="Crop_Coefficient_ET.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -8,10 +8,10 @@ Public Class Kcr_ETa_Window
             tbxFourier_a0.Text = gui_parameters.Fourier_a0.ToString
             tbxFourier_a1.Text = gui_parameters.Fourier_a1.ToString
             tbxFourier_a2.Text = gui_parameters.Fourier_a2.ToString
-            tbxFourier_a3.Text = gui_parameters.Fourier_a3.ToString
+            'tbxFourier_a3.Text = gui_parameters.Fourier_a3.ToString
             tbxFourier_b1.Text = gui_parameters.Fourier_b1.ToString
             tbxFourier_b2.Text = gui_parameters.Fourier_b2.ToString
-            tbxFourier_b3.Text = gui_parameters.Fourier_b3.ToString
+            'tbxFourier_b3.Text = gui_parameters.Fourier_b3.ToString
             tbxFourier_w.Text = gui_parameters.Fourier_w.ToString
 
         End Using
@@ -23,10 +23,10 @@ Public Class Kcr_ETa_Window
             gui_parameters.Fourier_a0 = Convert.ToDecimal(tbxFourier_a0.Text)
             gui_parameters.Fourier_a1 = Convert.ToDecimal(tbxFourier_a1.Text)
             gui_parameters.Fourier_a2 = Convert.ToDecimal(tbxFourier_a2.Text)
-            gui_parameters.Fourier_a3 = Convert.ToDecimal(tbxFourier_a3.Text)
+            'gui_parameters.Fourier_a3 = Convert.ToDecimal(tbxFourier_a3.Text)
             gui_parameters.Fourier_b1 = Convert.ToDecimal(tbxFourier_b1.Text)
             gui_parameters.Fourier_b2 = Convert.ToDecimal(tbxFourier_b2.Text)
-            gui_parameters.Fourier_b3 = Convert.ToDecimal(tbxFourier_b3.Text)
+            'gui_parameters.Fourier_b3 = Convert.ToDecimal(tbxFourier_b3.Text)
             gui_parameters.Fourier_w = Convert.ToDecimal(tbxFourier_w.Text)
             sidss_context.SaveChanges()
         End Using
@@ -115,12 +115,12 @@ Public Class Kcr_ETa_Window
         Dim w = Convert.ToDouble(tbxFourier_w.Text)
         Dim a1 = Convert.ToDouble(tbxFourier_a1.Text)
         Dim a2 = Convert.ToDouble(tbxFourier_a2.Text)
-        Dim a3 = Convert.ToDouble(tbxFourier_a3.Text)
+        'Dim a3 = Convert.ToDouble(tbxFourier_a3.Text)
         Dim b1 = Convert.ToDouble(tbxFourier_b1.Text)
         Dim b2 = Convert.ToDouble(tbxFourier_b2.Text)
-        Dim b3 = Convert.ToDouble(tbxFourier_b3.Text)
+        'Dim b3 = Convert.ToDouble(tbxFourier_b3.Text)
 
-        Fourier_result = a0 + a1 * Math.Cos(GDD * w) + b1 * Math.Sin(GDD * w) + a2 * Math.Cos(2 * GDD * w) + b2 * Math.Sin(2 * GDD * w) + b3 * Math.Sin(3 * GDD * w)
+        Fourier_result = a0 + a1 * Math.Cos(GDD * w) + b1 * Math.Sin(GDD * w) + a2 * Math.Cos(2 * GDD * w) + b2 * Math.Sin(2 * GDD * w)
         Return Fourier_result
 
     End Function
