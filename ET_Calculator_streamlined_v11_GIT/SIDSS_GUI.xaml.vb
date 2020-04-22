@@ -106,7 +106,11 @@ Class MainWindow
         DgvRefET.ItemsSource = dt.DefaultView
 
     End Sub
-    Private Sub Reset_SIDSS_Table(ByVal table_name As String)
+    Private Function Reset_SIDSS_Table(ByVal table_name As String)
+        Dim dlg_result = MessageBox.Show($"You are about to reset {table_name} table.", "Warning!!!", MessageBoxButtons.OKCancel)
+        If dlg_result = MessageBoxResult.Cancel Then
+            Return False
+        End If
 
         Using SIDSS_context = New SIDSS_Entities()
 
@@ -127,34 +131,12 @@ Class MainWindow
 
         End Using
 
-        Load_RefET_DagaGrid()
+        'Load_RefET_DagaGrid()
+        'Load_WaterBalance_DagaGrid()
+        Return True
+    End Function
 
-    End Sub
 
-    'Private Sub Reset_SMD_table()
-    '    Using SIDSS_context = New SIDSS_Entities()
-
-    '        Try
-
-    '            ' Delete all rows of the table.
-    '            SIDSS_context.Database.ExecuteSqlCommand("DELETE FROM SMD_Daily;")
-    '            'Clean extra space leftover from previous data.
-    '            SIDSS_context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, "VACUUM;")
-
-    '            '//Reset the ID number to start from 1.
-    '            SIDSS_context.Database.ExecuteSqlCommand("update SQLITE_SEQUENCE set seq = 0 where name = 'SMD_Daily';")
-
-    '        Catch ex As Exception
-
-    '            MessageBox.Show(ex.Message)
-
-    '        End Try
-
-    '    End Using
-
-    '    Load_RefET_DagaGrid()
-
-    'End Sub
     Private Sub Btn_tiff_Click(sender As Object, e As RoutedEventArgs) Handles btn_load_weather_data_csv.Click
         If MessageBox.Show("By loading new weather data you will be resetting current data table. Are you sure?", "Dialog", MessageBoxButtons.YesNo) = vbYes Then
             Reset_SIDSS_Table("Ref_ET_Table")
@@ -483,19 +465,19 @@ Class MainWindow
         Return ""
     End Function
 
-    Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnPrecip.Click
+    Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnDailyWeatherData.Click
 
 
 
-        Dim dlg_result As New DialogResult
-        dlg_result = MessageBox.Show("You are about to reset and start new calculations.", "", MessageBoxButtons.OKCancel)
+        'Dim dlg_result As New DialogResult
+        'dlg_result = MessageBox.Show("You are about to reset and start new calculations.", "", MessageBoxButtons.OKCancel)
 
-        If dlg_result = MessageBoxResult.Cancel Then
-            Return
-        End If
+        'If dlg_result = MessageBoxResult.Cancel Then
+        '    Return
+        'End If
         '###############################################################################################################
         'Reset_SIDSS_Table("SMD_Daily")
-        Load_WaterBalance_DagaGrid()
+        'Load_WaterBalance_DagaGrid()
         Dim daily_data_form As New DailyDataInput_Form
         Me.Hide()
         daily_data_form.ShowDialog()
@@ -564,11 +546,15 @@ Class MainWindow
 
             'Dim date_string As String
             interval = H_doy - P_doy
-            If interval > 0 Then
-                Reset_SIDSS_Table("SMD_Daily")
-            Else
+            If interval <= 0 Then
                 MessageBox.Show("Please make sure the planting and harvest dates are set correctly.")
                 Exit Sub
+            Else
+
+                If Reset_SIDSS_Table("SMD_Daily") = False Then
+                    Exit Sub
+                End If
+
 
             End If
 
@@ -588,9 +574,6 @@ Class MainWindow
                 SIDSS_Context.SaveChanges()
             End Using
             Dim set_date As New SQL_table_operation
-
-            'set_date.Write_Water_Balance_Dates("Date", datatable_date)
-            'set_date.Write_SQL_Col("SMD_Daily", "DOY", 0, datatable_doy)
 
             'Load_Datagrid("WaterBalance_Table")
             Load_WaterBalance_DagaGrid()

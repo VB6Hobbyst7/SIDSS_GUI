@@ -35,6 +35,8 @@ Public Class DailyDataInput_Form
                     'new_row.Date = Format("MM/dd/yyyy", Convert.ToDateTime(date_value))
                     Dim search_row = From smd_data_row In smd_data
                                      Where CType(smd_data_row.Date, Date) = CType(formatted_date, Date)
+
+
                     'Select smd_data_row.Date
                     Dim result = search_row.ToArray()
 
@@ -43,15 +45,15 @@ Public Class DailyDataInput_Form
                     If result.Length > 0 Then
 
                         'new_row.DOY = Convert.ToDateTime(date_value).DayOfYear
-                        'smd_data.. = Math.Round(Convert.ToDecimal(Tmax), 4)
-                        'search_row.Tmin = Math.Round(Convert.ToDecimal(Tmin), 4)
-                        'search_row.Precip = Math.Round(Convert.ToDecimal(Precip), 4)
-                        'search_row.Irrig = Math.Round(Convert.ToDecimal(Irrig), 4)
-                        'search_row.ETr = Math.Round(Convert.ToDecimal(ETr), 4)
-                        'search_row.SNo = j
-                        'smd_data.Add(search_row)
+                        search_row.First.Tmax = Math.Round(Convert.ToDecimal(Tmax), 4)
+                        search_row.First.Tmin = Math.Round(Convert.ToDecimal(Tmin), 4)
+                        search_row.First.Precip = Math.Round(Convert.ToDecimal(Precip), 4)
+                        search_row.First.Irrig = Math.Round(Convert.ToDecimal(Irrig), 4)
+                        search_row.First.ETr = Math.Round(Convert.ToDecimal(ETr), 4)
+                        'search_row.First.SNo = j
+                        'search_row.Add(search_row)
                     End If
-                    MessageBox.Show(result.ToString())
+                    'MessageBox.Show(result.ToString())
 
                 Next
 

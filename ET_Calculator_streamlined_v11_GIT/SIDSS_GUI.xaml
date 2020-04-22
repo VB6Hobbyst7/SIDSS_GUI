@@ -634,7 +634,7 @@
                             </Grid>
                             <GroupBox Header="Input weather data" Margin="5" Grid.Column="1">
                                 <StackPanel >
-                                    <Button x:Name="btnPrecip" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="Input Weather Data" Height="30"  >
+                                    <Button x:Name="btnDailyWeatherData" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="Input Weather Data" Height="30"  >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>

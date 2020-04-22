@@ -3,6 +3,7 @@ Imports System.Data
 Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
 
 Public Class WaterBalanceCalculator
+
 #Region "Inits"
     Private ReadOnly myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_database.db; Version=3")
     Private cmd As New SQLiteCommand
