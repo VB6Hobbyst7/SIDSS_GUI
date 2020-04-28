@@ -30,8 +30,8 @@ Partial Class MapWInGIS_Control
         Me.SpatialToolStrip1 = New DotSpatial.Controls.SpatialToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.Map1 = New DotSpatial.Controls.Map()
         Me.Legend1 = New DotSpatial.Controls.Legend()
@@ -93,7 +93,7 @@ Partial Class MapWInGIS_Control
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(85, 22)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(87, 22)
         Me.ToolStripLabel1.Text = "Pixel size N x N"
         '
         'ToolStripTextBox1
@@ -102,16 +102,16 @@ Partial Class MapWInGIS_Control
         Me.ToolStripTextBox1.Size = New System.Drawing.Size(35, 25)
         Me.ToolStripTextBox1.Text = "3"
         '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
         'ToolStripLabel2
         '
         Me.ToolStripLabel2.Name = "ToolStripLabel2"
         Me.ToolStripLabel2.Size = New System.Drawing.Size(81, 22)
         Me.ToolStripLabel2.Text = "Average value"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'ToolStripButton1
         '

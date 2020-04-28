@@ -1,10 +1,10 @@
-﻿Imports System.Data.SQLite
-Imports System.Data
-Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
+﻿Imports System.Data
+Imports System.Data.SQLite
 
 Public Class WaterBalanceCalculator
 
 #Region "Inits"
+
     Private ReadOnly myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_database.db; Version=3")
     Private cmd As New SQLiteCommand
     Property Tbase As Double
@@ -24,6 +24,7 @@ Public Class WaterBalanceCalculator
     Property MAD_fraction As Double
     Property Runoff_CN As Double
     Property Irrigation_Efficiency_Fraction As Double
+
 #End Region
 
     Public Sub Calculate_Grid_Cols(ByVal Tbase As Integer)
@@ -163,7 +164,6 @@ Public Class WaterBalanceCalculator
         Next
     End Sub
 
-
     Public Sub Calc_MAD(ByRef input_data_table As DataTable)
         Dim deficit_old As Double = 0
         Dim deficit As Double = 0
@@ -227,7 +227,6 @@ Public Class WaterBalanceCalculator
         input_data_table.Rows(0)("Di") = 0
         input_data_table.Rows(0)("DP") = 0
 
-
         For i = 1 To input_data_table.Rows.Count - 1
             Dmax = input_data_table.Rows(i)("Dmax")
             ETc = Convert.ToDouble(input_data_table.Rows(i)("ETc"))
@@ -248,4 +247,5 @@ Public Class WaterBalanceCalculator
         Next
 
     End Sub
+
 End Class

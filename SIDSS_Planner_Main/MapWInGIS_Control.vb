@@ -60,47 +60,8 @@ Public Class MapWInGIS_Control
         Map1.AddLayer()
     End Sub
 
-    'Private Sub AxMap1_MouseDownEvent(sender As Object, e As _DMapEvents_MouseDownEvent) Handles AxMap1.MouseDownEvent
-    '    Dim coordinates As New System.Drawing.Point
-    '    AxMap1.PointToClient(coordinates)
-    '    Dim info As Object = tkCursorMode.cmIdentify
-    '    Dim projx, projy, minx, miny, maxx, maxy As Double
-    '    Dim resx, resy As Double
-    '    AxMap1.PixelToProj(e.x, e.y, projx, projy)
+    Private Sub SpatialToolStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles SpatialToolStrip1.ItemClicked
 
-    '    Dim raster As New Image With {
-    '        .UseRgbBandMapping = True
-    '    }
-    '    raster = AxMap1.get_Image(layerHandle:=AxMap1.get_LayerHandle(0))
-    '    Dim tif_name As String = Nothing
-    '    tif_name = IO.Path.GetFileName(Global_varaiables.raster_name)
-
-    '    Dim no_of_bands = raster.NoBands
-
-    '    Dim extnt As New Extents
-    '    extnt = raster.Extents
-    '    minx = extnt.xMin
-    '    miny = extnt.yMin
-    '    maxx = extnt.xMax
-    '    maxy = extnt.yMax
-    '    resx = raster.OriginalDX
-    '    resy = raster.OriginalDY
-
-    '    Dim col, row, pix_size As Integer
-    '    Dim min, max, stdev, count, avg_pix_val As Double
-    '    col = Int((projx - minx) / resx)
-    '    row = Int((maxy - projy) / resy)
-    '    Dim avg_area As Integer = Convert.ToInt16(TextBox1.Text)
-    '    If avg_area < 3 Then
-    '        MessageBox.Show("Averaging area should be greater than 3x3")
-    '        avg_area = 3
-    '    End If
-    '    pix_size = Math.Round((avg_area - 1) / 2, 0)
-
-    '    raster.ActiveBand.ComputeLocalStatistics(col, row, pix_size, min, max, avg_pix_val, stdev, count)
-
-    '    Label1.Text = (tif_name & vbCrLf & "Average pixel value=" & Math.Round(avg_pix_val, 2) & "; X=" & Math.Round(projx, 2) & "; Y=" & Math.Round(projy, 2) & "; (averaging " & count ^ 0.5 & " x " & count ^ 0.5 & " pixels)")
-
-    'End Sub
+    End Sub
 
 End Class

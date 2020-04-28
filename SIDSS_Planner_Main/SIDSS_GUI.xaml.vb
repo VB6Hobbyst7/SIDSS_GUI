@@ -1,61 +1,34 @@
-﻿Imports System.Data
-Imports System.Configuration
-Imports System
-Imports System.IO
-Imports System.Text
-Imports Microsoft.VisualBasic.FileIO
-Imports System.ComponentModel
-Imports System.Windows.Forms
-Imports System.Data.SQLite
-Imports DotSpatial.Symbology
-Imports DotSpatial.Controls
-Imports DotSpatial.Data
-Imports DotSpatial.Topology
-Imports SIDSS_Planner_GUI.SQL_table_operation
-Imports SIDSS_Planner_GUI.WaterBalanceCalculator
-Imports SIDSS_Planner_GUI.Graphs_Viewer
-Imports SIDSS_Planner_GUI.Create_Empty_SQL_Data_Tables
+﻿Imports System.ComponentModel
+Imports System.Data
 Imports System.Data.Entity
 Imports System.Data.Entity.Validation
-Imports System.Collections.Generic
-Imports SIDSS_Planner_GUI.OutputPath
-Imports SIDSS_Planner_GUI.MapWInGIS_Control
-Imports System.Linq
-Imports System.Collections
-Imports SIDSS_Planner_GUI
-Imports System.Data.Entity.Validation.DbEntityValidationException
-Imports System.Globalization
+Imports System.Data.SQLite
+Imports System.IO
+Imports System.Windows.Forms
+Imports DotSpatial.Symbology
 
 Class MainWindow
+
 #Region "Public Vars"
+
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
     Public app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_Entity_database.db"
-    'Public database_directory As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location)
-
-
     Public dgv As FormDGV
     Public user_control As OutputPath
     Public Property Value As DateTime
     Public final_table As New DataTable
     Dim Tbase As Integer = 50
-    Dim myConnection As New SQLiteConnection(String.Format("Data Source={0}; Version=3;", app_path))
     Dim cmd As New SQLiteCommand
     Dim message_shown As Boolean = False
 
-    'Dim setting = new AppDomain.CurrentDomain.SetData("DataDirecory",app_path)
-
-
-
-
-
-
-
-
 #End Region
+
     Public Class Shared_controls
+
         'Public Shared dgvWaterbalance As Windows.Controls.DataGrid
         'Public Shared DgvRefET As Windows.Controls.DataGrid
         Public Shared main_window_shared As MainWindow
+
     End Class
 
     Public Sub Load_WaterBalance_DagaGrid()
@@ -76,36 +49,10 @@ Class MainWindow
 
     End Sub
 
-    Private Sub Load_DataGrid_RefET()
-        'Connect to local SQLite database file. The text part is called connectionstring.
-        'Open connection to the database file, within the program.
-        If myConnection.State = ConnectionState.Closed Then
-            myConnection.Open()
-        Else
-            MessageBox.Show("Couldn't open database.")
-        End If
-        'Select all columns from the database file to display in WPF datagrid.
-
-        Dim cmd As New SQLiteCommand With {
-            .Connection = myConnection,
-            .CommandText = "Select * from Ref_ET_Table"
-        }
-        Dim reader As SQLiteDataReader = cmd.ExecuteReader()
-        Dim total_cols As Integer = reader.FieldCount
-        'For Each field In reader
-        '    Dim field_vals As String = field()
-        'Next
-
-        Dim dt As New DataTable
-        dt.Load(reader)
-
-        'Close connection to the database.
-        reader.Close()
-        myConnection.Close()
-
-        DgvRefET.ItemsSource = dt.DefaultView
-
-    End Sub
+    ''' <summary>
+    ''' Resets the selected data table from SIDSS_Entity_database and cleanup the empty space to reduce the size of database.
+    ''' </summary>
+    ''' <param name="table_name">A text string representing table name to be emptied.</param>
     Private Function Reset_SIDSS_Table(ByVal table_name As String)
         Dim dlg_result = MessageBox.Show($"You are about to reset {table_name} table.", "Warning!!!", MessageBoxButtons.OKCancel)
         If dlg_result = MessageBoxResult.Cancel Then
@@ -122,7 +69,6 @@ Class MainWindow
 
                 '//Reset the ID number to start from 1.
                 SIDSS_context.Database.ExecuteSqlCommand($"update SQLITE_SEQUENCE set seq = 0 where name = '{table_name}';")
-
             Catch ex As Exception
 
                 MessageBox.Show(ex.Message)
@@ -136,10 +82,10 @@ Class MainWindow
         Return True
     End Function
 
-
     Private Sub Btn_tiff_Click(sender As Object, e As RoutedEventArgs) Handles btn_load_weather_data_csv.Click
         If MessageBox.Show("By loading new weather data you will be resetting current data table. Are you sure?", "Dialog", MessageBoxButtons.YesNo) = vbYes Then
             Reset_SIDSS_Table("Ref_ET_Table")
+
         Else
             Return
         End If
@@ -186,7 +132,6 @@ Class MainWindow
                     SIDSS_Database.Ref_ET_Table.Add(ref_ET_table)
                 End If
 
-
             End While
             SIDSS_Database.SaveChanges()
             Load_RefET_DagaGrid()
@@ -228,6 +173,7 @@ Class MainWindow
         ' Return
 
 #Region "Load Settings"
+
         Using SIDS_GUI_context As New SIDSS_Entities()
             Try
                 Dim parameter_row = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
@@ -283,7 +229,9 @@ Class MainWindow
             End Try
 
         End Using
+
 #End Region
+
         Load_RefET_DagaGrid()
 
         Dynamic_grid_resize()
@@ -303,13 +251,15 @@ Class MainWindow
 
             Dim rtbxHeight As Integer = main_window.ActualHeight - 360 - 15
             rtbxReflET.Height = rtbxHeight
-
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
 
     End Sub
 
+    ''' <summary>
+    ''' Creates a parameter file which is used by "ET_Calculation_Field_data_with_cpp_v3" python script as an input.
+    ''' </summary>
     Private Sub set_parameter_file()
         Dim Lat, Lm, Elev, Lz, df, const_g, const_k, const_Cpa, const_Z_u, const_Z_T, const_min_u As Decimal
         Dim tif_KC_MS_file_path, csv_file_path, tif_EB_MS_file_path, tif_EB_Thermal_file_path As String
@@ -406,7 +356,7 @@ Class MainWindow
                         Else
                             tif_path = tif_path.Replace("\", "//")
                             Daily_ETr = tiff_path_and_et_value(1)
-                            ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py ""{0}"" {1}", tif_path, Daily_ETr)
+                            ET_Kcb_Python_Script = String.Format($"python.exe Crop_Coefficient_ET.py ""{tif_path}"" {Daily_ETr}")
                             OpenCMD.run(ET_Kcb_Python_Script, 1, True)
                         End If
                     End If
@@ -415,7 +365,6 @@ Class MainWindow
                 End Try
 
             Next
-
         Else
             ET_Kcb_Python_Script = String.Format("python.exe Crop_Coefficient_ET.py {0} {1}", tif_path, Daily_ETr)
 
@@ -467,8 +416,6 @@ Class MainWindow
 
     Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnDailyWeatherData.Click
 
-
-
         'Dim dlg_result As New DialogResult
         'dlg_result = MessageBox.Show("You are about to reset and start new calculations.", "", MessageBoxButtons.OKCancel)
 
@@ -484,49 +431,6 @@ Class MainWindow
         Load_WaterBalance_DagaGrid()
         Me.Show()
         '###############################################################################################################
-
-
-    End Sub
-
-    Private Sub BtnIrrig_Click(sender As Object, e As RoutedEventArgs) Handles btnIrrig.Click
-        Dim index As Integer = 1
-        Dim Irrig_table As New DataTable
-        Dim col_name As String = "Irrig, in inches"
-        Launch_Col_Input_From(col_name)
-        Load_Datagrid("SMD_Daily")
-        Load_WaterBalance_DagaGrid()
-        'dgvWaterBalance.Items.Refresh()
-    End Sub
-
-    Private Sub BtnET_Click(sender As Object, e As RoutedEventArgs) Handles btnETr.Click
-        Dim index As Integer = 1
-        Dim ETr_table As New DataTable
-        Dim col_name As String = "ETr, in inches"
-        Launch_Col_Input_From(col_name)
-        Load_Datagrid("SMD_Daily")
-        Load_WaterBalance_DagaGrid()
-        'dgvWaterBalance.Items.Refresh()
-
-    End Sub
-
-    Private Sub BtnTmax_Click(sender As Object, e As RoutedEventArgs) Handles btnTmax.Click
-        Dim index As Integer = 1
-        Dim Tmax_table As New DataTable
-        Dim col_name As String = "Tmax, in Farenheit"
-        Launch_Col_Input_From(col_name)
-        Load_Datagrid("SMD_Daily")
-        Load_WaterBalance_DagaGrid()
-        'dgvWaterBalance.Items.Refresh()
-
-    End Sub
-
-    Private Sub BtnTmin_Click(sender As Object, e As RoutedEventArgs) Handles btnTmin.Click
-        Dim index As Integer = 1
-        Dim Tmin_table As New DataTable
-        Dim col_name As String = "Tmin, in Farenheit"
-        Launch_Col_Input_From(col_name)
-        'Load_Datagrid("WaterBalance_Table")
-        Load_WaterBalance_DagaGrid()
 
     End Sub
 
@@ -554,7 +458,6 @@ Class MainWindow
                 If Reset_SIDSS_Table("SMD_Daily") = False Then
                     Exit Sub
                 End If
-
 
             End If
 
@@ -740,8 +643,6 @@ Class MainWindow
 
     Private Function ref_ET_Single_Day_calc(ByRef daily_record As List(Of Ref_ET_Table))
 
-
-
         Dim daily_results_table As New DataTable
 
         Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET With {
@@ -833,86 +734,59 @@ Class MainWindow
         Return daily_results_table
     End Function
 
-    Private Sub Btn_Save_ETrz_Click(sender As Object, e As RoutedEventArgs) Handles btn_Save_ETrz.Click
-        Load_RefET_DagaGrid()
-        'Load_DataGrid_RefET()
-    End Sub
-
     Private Sub DgSiteInfo_Loaded_1(sender As Object, e As RoutedEventArgs) Handles dgSiteInfo.Loaded
         Load_siteinfo()
     End Sub
 
     Private Sub Load_siteinfo()
-        'Dim dgSiteInfo_table As New DataTable
-        'Dim read_database As New SQL_table_operation
-        'dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
-        'Dim row_count As Integer = dgSiteInfo_table.Rows.Count
-
-        'dgSiteInfo.ItemsSource = dgSiteInfo_table.DefaultView()
-
-        ' Encapsulating database in "using" statement to close the database immediately.
         Using entity_table As New SIDSS_Entities()
             ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
-            dgSiteInfo.ItemsSource = entity_table.Site_Info_Summary.ToList()
+            Try
+                If dgSiteInfo.Items.Count > 0 Then
+                    dgSiteInfo.ItemsSource = Nothing
+                End If
+                dgSiteInfo.ItemsSource = entity_table.Site_Info_Summary.ToList()
+            Catch ex As Exception
+                'MessageBox.Show(ex.Message)
+            End Try
         End Using
-
-
     End Sub
 
     Private Sub DgSiteInfo_SelectedCellsChanged(sender As Object, e As SelectedCellsChangedEventArgs) Handles dgSiteInfo.SelectedCellsChanged
 
         'Dim curr_row As DataRow
         Dim row_index As Integer
-        Dim lon_mid As String
+        Dim lon_mid As String = Nothing
         Try
             row_index = dgSiteInfo.SelectedIndex()
-            Dim curr_row = dgSiteInfo.SelectedItem
-            'Dim newval = curr_row(0)
-            'Dim temp_vals = curr_row.ToString().Split()
-            'curr_row = dgSiteInfo.SelectedItem
-            
-            tbx_lat.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Center_Longi
-            tbx_lon.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Longitude.ToString()
-            tbx_elev.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Elevation.ToString()
-            tbx_zt.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Z__t.ToString()
-            tbx_zu.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Z__u.ToString()
-            tbxSiteSummary.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Summary.ToString()
-            tbxSiteName.Text = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).SiteName.ToString()
-            lon_mid = DirectCast(curr_row, SIDSS_Planner_GUI.Site_Info_Summary).Center_Longi
+            If row_index <> -1 Then
+                Dim curr_row As Site_Info_Summary = dgSiteInfo.SelectedItem
+                tbx_lat.Text = curr_row.Center_Longi
+                tbx_lon.Text = curr_row.Longitude
+                tbx_elev.Text = curr_row.Elevation
+                tbx_zt.Text = curr_row.Z__t
+                tbx_zu.Text = curr_row.Z__u
+                tbxSiteSummary.Text = curr_row.Summary
+                tbxSiteName.Text = curr_row.SiteName
+                lon_mid = curr_row.Center_Longi
+            Else
+                Exit Sub
+            End If
+            Select Case lon_mid
+                Case "75"
+                    cbx_lon_center.SelectedIndex = (0)
+                Case "90"
+                    cbx_lon_center.SelectedIndex = (1)
+                Case "105"
+                    cbx_lon_center.SelectedIndex = (2)
+                Case "120"
+                    cbx_lon_center.SelectedIndex = (3)
+
+            End Select
         Catch ex As Exception
             MessageBox.Show(ex.Message.ToString())
             Exit Sub
         End Try
-
-
-        'Dim curr_row As DataRowView
-
-        Try
-            'curr_row = dgSiteInfo.SelectedItem
-            'tbx_lat.Text = curr_row("Latitude").ToString()
-            'tbx_lon.Text = curr_row("Longitude").ToString()
-            'tbx_elev.Text = curr_row("Elevation").ToString()
-            'tbx_zt.Text = curr_row("Z__t").ToString()
-            'tbx_zu.Text = curr_row("Z__u").ToString()
-            'tbxSiteSummary.Text = curr_row("Summary").ToString()
-            'tbxSiteName.Text = curr_row("SiteName").ToString()
-            'lon_mid = curr_row("Center_Longi").ToString()
-        Catch ex As Exception
-            'MessageBox.Show(ex.Message.ToString())
-            Exit Sub
-        End Try
-
-        Select Case lon_mid
-            Case "75"
-                cbx_lon_center.SelectedIndex = (0)
-            Case "90"
-                cbx_lon_center.SelectedIndex = (1)
-            Case "105"
-                cbx_lon_center.SelectedIndex = (2)
-            Case "120"
-                cbx_lon_center.SelectedIndex = (3)
-
-        End Select
 
         Dim dgSiteInfo_table As New DataTable
 
@@ -921,11 +795,26 @@ Class MainWindow
     End Sub
 
     Private Sub BtnEditSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnEditSiteInfo.Click
-        Dim curr_row As DataRowView
+
+        Dim site_index As Integer = Nothing
         Try
-            'curr_row = dgSiteInfo.SelectedItem
-            'curr_row = DirectCast(dgSiteInfo.SelectedItem, SIDSS_Planner_GUI.Site_Info_Summary)
-            If curr_row Is Nothing Then
+            If dgSiteInfo.SelectedItem IsNot Nothing Then
+                site_index = DirectCast(dgSiteInfo.SelectedItem, Site_Info_Summary).SNo
+                Using SIDSS_Database As New SIDSS_Entities
+                    Dim Site_Info = (From site_info_row In SIDSS_Database.Site_Info_Summary Where site_info_row.SNo = site_index).ToList()(0)
+
+                    Site_Info.SiteName = tbxSiteName.Text
+                    Site_Info.Latitude = tbx_lat.Text
+                    Site_Info.Longitude = tbx_lon.Text
+                    Site_Info.Center_Longi = cbx_lon_center.SelectionBoxItem.ToString
+                    Site_Info.Elevation = tbx_elev.Text
+                    Site_Info.Z__u = tbx_zu.Text
+                    Site_Info.Z__t = tbx_zt.Text
+                    Site_Info.Summary = tbxSiteSummary.Text
+                    SIDSS_Database.Site_Info_Summary.Add(Site_Info)
+                    SIDSS_Database.SaveChanges()
+                End Using
+            Else
                 MessageBox.Show("First select a row in the table below to edit it.")
                 Exit Sub
             End If
@@ -933,72 +822,33 @@ Class MainWindow
             MessageBox.Show(ex.Message.ToString())
             Exit Sub
         End Try
-        Dim site_index As String = curr_row("SNo")
 
-        Dim SiteName As String = tbxSiteName.Text
-        Dim Latitude As String = tbx_lat.Text
-        Dim Longitude As String = tbx_lon.Text
-        Dim Center_Longi As String = cbx_lon_center.SelectionBoxItem.ToString
-        Dim Elevation As String = tbx_elev.Text
-        Dim Z__u As String = tbx_zu.Text
-        Dim Z__t As String = tbx_zt.Text
-        Dim Summary As String = tbxSiteSummary.Text
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        Summary = Summary.Replace("'", "''")
-        Dim cmd_string As String =
-       String.Format("UPDATE Site_Info_Summary SET SiteName='{0}', Latitude={1}, Longitude={2}, Center_Longi={3}, Elevation={4}, Z__u={5}, Z__t={6}, Summary='{7}' WHERE SNo={8};", SiteName, Latitude, Longitude, Center_Longi, Elevation, Z__u, Z__t, Summary, site_index)
-        myConnection.Open()
-        cmd.Connection = myConnection
-        cmd.CommandText = cmd_string
-        cmd.ExecuteNonQuery()
-        myConnection.Close()
         Load_siteinfo()
     End Sub
 
     Private Sub btnSaveSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveSiteInfo.Click
 
-        Dim dgSiteInfo_table As New DataTable
-        Dim read_database As New SQL_table_operation
-        dgSiteInfo_table = read_database.Load_SQL_DataTable("Site_Info_Summary")
+        Using SIDSS_context As New SIDSS_Entities()
+            Dim site_summary_table = New Site_Info_Summary
 
-        Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
-        Dim cmd As New SQLiteCommand
-        'Open connection to the database file, within the program.
+            site_summary_table.SiteName = tbxSiteName.Text
+            site_summary_table.Latitude = tbx_lat.Text
+            site_summary_table.Longitude = tbx_lon.Text
+            site_summary_table.Center_Longi = cbx_lon_center.SelectionBoxItem.ToString
+            site_summary_table.Elevation = tbx_elev.Text
+            site_summary_table.Z__u = tbx_zu.Text
+            site_summary_table.Z__t = tbx_zt.Text
+            site_summary_table.Summary = tbxSiteSummary.Text
 
-        Dim SiteName As String = tbxSiteName.Text
-        Dim Latitude As String = tbx_lat.Text
-        Dim Longitude As String = tbx_lon.Text
-        Dim Center_Longi As String = cbx_lon_center.SelectionBoxItem.ToString
-        Dim Elevation As String = tbx_elev.Text
-        Dim Z__u As String = tbx_zu.Text
-        Dim Z__t As String = tbx_zt.Text
-        Dim Summary As String = tbxSiteSummary.Text
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        Summary = Summary.Replace("'", "''")
-        Dim cmd_string As String =
-       String.Format("INSERT INTO Site_Info_Summary (SiteName, Latitude, Longitude, Center_Longi, Elevation, Z__u, Z__t, Summary)
-       VALUES ( '{0}', {1}, {2}, {3}, {4}, {5}, {6}, '{7}');", SiteName, Latitude, Longitude, Center_Longi, Elevation, Z__u, Z__t, Summary)
-        cmd.Connection = myConnection
-        cmd.CommandText = cmd_string
-        myConnection.Open()
-        cmd.ExecuteNonQuery()
-        myConnection.Close()
+            SIDSS_context.Site_Info_Summary.Add(site_summary_table)
+            SIDSS_context.SaveChanges()
+        End Using
         Load_siteinfo()
-
-        'Using SIDSS_context As New SIDSS_Entities()
-        '    Dim site_summary_table As New Object
-        '    site_summary_table = SIDSS_context.Site_Info_Summary
-        '    site_summary_table(siten)
-        'End Using
 
     End Sub
 
     Private Sub BtnDeleteSiteInfo_Click(sender As Object, e As RoutedEventArgs) Handles btnDeleteSiteInfo.Click
-        Dim curr_row As DataRowView
+        Dim curr_row As Site_Info_Summary
 
         Try
             curr_row = dgSiteInfo.SelectedItem
@@ -1007,10 +857,9 @@ Class MainWindow
             Exit Sub
         End Try
 
-
         Using GUI_parameter As New SIDSS_Entities
             Try
-                Dim row_sn As Integer = curr_row(0)
+                Dim row_sn As Integer = curr_row.SNo
 
                 Dim parameter_row = (From row_vals In GUI_parameter.Site_Info_Summary Where row_vals.SNo = row_sn).ToList(0)
                 GUI_parameter.Site_Info_Summary.Remove(parameter_row)
@@ -1119,7 +968,6 @@ Class MainWindow
             'MessageBox.Show(ex.Message)
         End Try
 
-
     End Sub
 
     Private Sub Label_MouseEnter(sender As Object, e As Input.MouseEventArgs)
@@ -1193,4 +1041,5 @@ Class MainWindow
         Me.Show()
         Load_WaterBalance_DagaGrid()
     End Sub
+
 End Class

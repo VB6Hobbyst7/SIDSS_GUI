@@ -76,7 +76,6 @@
             </Menu>
             <Menu Grid.Column="1"  HorizontalAlignment="Right">
                 <MenuItem Background="LightSkyBlue" Header="Help for daily ET Energy balance method tab" x:Name="mnuTabInfo" FontWeight="Bold" FontSize="16" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right"/>
-
             </Menu>
         </Grid>
 
@@ -202,7 +201,10 @@
                             Additioanlly, by selecting any row from the table below, all text fields will be populated and edits can be saved back to the table.
                         </TextBlock>
                     </StackPanel>
-                    <DataGrid x:Name="dgSiteInfo" x:FieldModifier="public" CanUserSortColumns="False" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" />
+                    <DataGrid x:Name="dgSiteInfo" x:FieldModifier="public" CanUserSortColumns="False" VerticalAlignment="Stretch" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" SelectionMode="Single" MinHeight="220">
+                            <DataGrid.Columns>                             
+                            </DataGrid.Columns>
+                    </DataGrid>
 
                     </StackPanel>
                 </Grid>
@@ -235,7 +237,6 @@
                                 <ComboBoxItem Content="Grass" IsSelected="True"/>
                                 <ComboBoxItem Content="Alfalfa"/>
                             </ComboBox>
-                            <Button Grid.Column="2" x:Name="btn_Save_ETrz"  Style="{StaticResource BTNCORNER}" Content="Save Ref. ET." Padding="10,0" Margin="10,0"/>
                             <Button Grid.Column="3" x:Name="btn_Daily_ET_Sum"  Style="{StaticResource BTNCORNER}" Content="Sum daily ETr/ETo..." Padding="10,0"  Margin="10,0"/>
 
                         </Grid>
@@ -439,7 +440,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-        <TabItem x:Name="tabWaterBalance" Header="Soil Moisture Defict" Height="100" Width="200">
+        <TabItem x:Name="tabWaterBalance" Header="Soil Moisture Defict " Height="100" Width="200">
                 <Grid>
                     <StackPanel>
                     <Grid x:Name="gridWaterBalanceTop">
@@ -449,68 +450,27 @@
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
                             <StackPanel>
-                            <Grid>
+                            <Grid Background="LightGray">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0.2*"/>
+                                    <ColumnDefinition Width="0.4*"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Content="Planting Date" Grid.Column="0" HorizontalAlignment="Left"  />
-                                <Label Content="Harvest date" Grid.Column="1"  HorizontalAlignment="Left" />
+                                        <Label Content="Planting Date" Grid.Column="0" HorizontalAlignment="Left"  VerticalContentAlignment="Center"/>
+                                        <DatePicker x:Name="PlantDate" Grid.Column="1"  Height="30" IsTodayHighlighted="True" Margin="5" VerticalContentAlignment="Center"/>
+                                        <Label Content="Harvest date" Grid.Column="3"  HorizontalAlignment="Left"  VerticalContentAlignment="Center"/>
+                                        <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="4" Height="30" IsTodayHighlighted="True" Margin="5"  VerticalContentAlignment="Center"/>
                             </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <DatePicker x:Name="PlantDate" Grid.Column="0"  Height="30" IsTodayHighlighted="True" Margin="5"/>
-                                        <DatePicker x:Name="HarvestDate" HorizontalAlignment="Left" Grid.Column="1" Height="30" IsTodayHighlighted="True" Margin="5"/>
-                                    <Button x:Name="btnSetDates"  Grid.Column="2" Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Padding="5" Margin="5">
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-                                    <Button x:Name="btnCalculateWaterBalance"  Grid.Column="3"  Style="{StaticResource BTNCORNER}" Content="7. Calculate" Margin="5" >
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-                                    <Button x:Name="btnChart"  Grid.Column="4"  Style="{StaticResource BTNCORNER}" Content="Chart..." Margin="5">
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-
-
-                                    </Grid>
 
                                     <Grid>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"/>
+
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
-                                        <GroupBox Header="Crop options." Grid.Column="0" >
+                                        <GroupBox Header="Crop options." Grid.Column="0" Background="#ECF0F3" MinHeight="205">
                                             <StackPanel Margin="5,2">
                                                 <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCorn" Content="Corn (Tbase=50)"  Margin="0,3" HorizontalAlignment="Left" IsChecked="True"/>
                                                 <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCotton" Content="Cotton"  Margin="0,3" HorizontalAlignment="Left" />
@@ -518,8 +478,8 @@
                                                 <Grid Margin="0,3">
                                                     
                                                     <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="75"/>
                                                         <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="0.75*"/>
 
                                                     </Grid.ColumnDefinitions>
                                                     <Label Grid.Column="0" Content="MAD %" VerticalAlignment="Center"/>
@@ -537,7 +497,7 @@
                                             </StackPanel>
                                         </GroupBox>
 
-                                        <GroupBox Header="Soil Profile."  Grid.Column="1">
+                                        <GroupBox Header="Soil Profile."  Grid.Column="1" Background="#E3E9ED">
                                             <StackPanel >
                                                 <Grid Margin="0 5 0 5">
                                                     <Grid.ColumnDefinitions>
@@ -550,7 +510,8 @@
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="0.5*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Label Grid.Column="0" Margin="2" Padding="2"  Content="Soil depth, in.&#8594;"/>
+                                                    <Label Grid.Column="0" Margin="2" Padding="2"  Content="Soil depth, in.&#8594;">
+                                                    </Label>
                                                     <TextBox Grid.Column="1" Margin="2" x:Name="tbxSoilDepth_0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
                                                     <TextBox x:Name="tbxSoilDepth_1" Margin="2" Grid.Column="2" Text="10"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                                     <TextBox x:Name="tbxSoilDepth_2"  Margin="2"  Grid.Column="3" Text="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
@@ -608,7 +569,7 @@
                                                     </Label>
 
                                                     <TextBox x:Name="tbxMinRootDepth"  Grid.Column="1" Margin="0,3" Text="12" HorizontalContentAlignment="Center"/>
-                                                    <Label Content="Max root depth, in.&#8594;" Grid.Column="3"  />
+                                                    <Label Content="Max root depth, in.&#8594;" Grid.Column="3" HorizontalContentAlignment="Right" />
                                                     <TextBox x:Name="tbxMaxRootDepth" Grid.Column="4"  Margin="2" Text="48"  HorizontalContentAlignment="Center" />
                                                 </Grid>
                                                 <Grid>
@@ -632,9 +593,20 @@
                                     </Grid>
                                 </StackPanel>
                             </Grid>
-                            <GroupBox Header="Input weather data" Margin="5" Grid.Column="1">
+                            <GroupBox Header="Input weather data" Margin="5" Grid.Column="1" Background="#ECF0F3">
                                 <StackPanel >
-                                    <Button x:Name="btnDailyWeatherData" Margin="0,10,0,5"   Style="{StaticResource BTNCORNER}" Content="Input Weather Data" Height="30"  >
+                                    <Button x:Name="btnSetDates"  Grid.Column="2" Style="{StaticResource BTNCORNER}" Content="1. Set Dates" Margin="0,3,0,10" Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
+                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
+
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                    </Button>
+                                    <Button x:Name="btnDailyWeatherData" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="2. Input Weather Data..." Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -644,34 +616,7 @@
                                         </Button.ToolTip>
                                     </Button>
 
-                                    <Button x:Name="btnIrrig" Margin="0,3"   Style="{StaticResource BTNCORNER}" Content="3. Irrig.(in)    "  Height="30" >
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Either irrig. value in inches or 'ZERO'"/></TextBlock>
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-                                    <Button x:Name="btnTmax"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="4. Tmax.(F)   " Height="30"  >
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Max. daily temp., F"/></TextBlock>
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-                                    <Button x:Name="btnTmin"  Margin="0,3"  Style="{StaticResource BTNCORNER}" Content="5. Tmin.(F)   "  Height="30"  >
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Min. daily temp., F"/></TextBlock>
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-                                    <Button x:Name="btnETr" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="6. ETr.(in)    " Height="30"  >
+                                    <Button x:Name="btnKcr_ETa_data"  Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="3. Load Kcr, ETr data..." Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -680,11 +625,24 @@
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
-                                    <Button x:Name="btnKcr_ETa_data" HorizontalContentAlignment="Center" Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="Load Kcr, ETr data    " Height="30"  >
+                                    <Button x:Name="btnCalculateWaterBalance" Style="{StaticResource BTNCORNER}" Content="4. Calculate" Margin="0,3,0,10" Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Ref. ET alfalfa, mm"/></TextBlock>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
+                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
+
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                    </Button>
+                                    <Button x:Name="btnChart" Style="{StaticResource BTNCORNER}" Content="5. Chart..." Margin="0,3,0,10"  Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
+                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
+
                                                 </StackPanel>
                                             </ToolTip>
                                         </Button.ToolTip>
@@ -694,14 +652,9 @@
 
                         </Grid>
 
-                        <DataGrid x:Name="dgvWaterBalance" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" />
-
+                        <DataGrid x:Name="dgvWaterBalance" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="335" />
 
                     </StackPanel>
- 
- 
-
-
                 </Grid>
             </TabItem>
         <TabItem x:Name="tabImageView" Header="Review Images" Height="100" Width="200" >
