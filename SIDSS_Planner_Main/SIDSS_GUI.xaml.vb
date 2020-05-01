@@ -6,6 +6,8 @@ Imports System.Data.SQLite
 Imports System.IO
 Imports System.Windows.Forms
 Imports DotSpatial.Symbology
+Imports Hourly_Ref_ET_Calculator
+
 
 Class MainWindow
 
@@ -318,6 +320,9 @@ Class MainWindow
         file.Close()
     End Sub
 
+    ''' <summary>
+    ''' Validates textbox fields to make sure if it is a decimal number.
+    ''' </summary>
     Private Function Validate_decimal(ByVal tbx_string, ByVal type)
         Dim decimal_vlaue As Decimal
         If Decimal.TryParse(tbx_string, decimal_vlaue) Then
@@ -416,12 +421,6 @@ Class MainWindow
 
     Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnDailyWeatherData.Click
 
-        'Dim dlg_result As New DialogResult
-        'dlg_result = MessageBox.Show("You are about to reset and start new calculations.", "", MessageBoxButtons.OKCancel)
-
-        'If dlg_result = MessageBoxResult.Cancel Then
-        '    Return
-        'End If
         '###############################################################################################################
         'Reset_SIDSS_Table("SMD_Daily")
         'Load_WaterBalance_DagaGrid()
@@ -645,14 +644,15 @@ Class MainWindow
 
         Dim daily_results_table As New DataTable
 
-        Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET With {
-            ._Lm_longitude = Convert.ToDouble(tbx_lon.Text),
-            ._Lz_longitude = Convert.ToDouble(cbx_lon_center.Text),
-            ._phi_degree = Convert.ToDouble(tbx_lat.Text),
-            ._z_elevation = Convert.ToDouble(tbx_elev.Text),
-            ._ref_crop = cbxRefCrop.Text.ToLower,
-            ._Zw_agl_WindRH_measurement = Convert.ToDouble(tbx_zu.Text)
-        }
+        Dim ref_et_calc As New Hourly_Ref_ET_Calculator.HourlyRefET
+
+        ref_et_calc._Lm_longitude = Convert.ToDouble(tbx_lon.Text)
+        ref_et_calc._Lz_longitude = Convert.ToDouble(cbx_lon_center.Text)
+        ref_et_calc._phi_degree = Convert.ToDouble(tbx_lat.Text)
+        ref_et_calc._z_elevation = Convert.ToDouble(tbx_elev.Text)
+        ref_et_calc._ref_crop = cbxRefCrop.Text.ToLower
+        ref_et_calc._Zw_agl_WindRH_measurement = Convert.ToDouble(tbx_zu.Text)
+
         If message_shown = False Then
             If Convert.ToDouble(tbx_zt.Text) < 1.5 Or Convert.ToDouble(tbx_zt.Text) > 2.5 Then
                 message_shown = True
@@ -1040,6 +1040,14 @@ Class MainWindow
         End Try
         Me.Show()
         Load_WaterBalance_DagaGrid()
+    End Sub
+
+    ''' <summary>
+    ''' Opens the url in default browser.
+    ''' </summary>
+    Private Sub Hyperlink_RequestNavigate(sender As Object, e As RequestNavigateEventArgs)
+        Process.Start(New ProcessStartInfo(e.Uri.AbsoluteUri))
+        e.Handled = True
     End Sub
 
 End Class

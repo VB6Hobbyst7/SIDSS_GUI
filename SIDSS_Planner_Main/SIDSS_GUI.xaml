@@ -210,7 +210,7 @@
                 </Grid>
 
             </TabItem>
-        <TabItem x:Name="tabRefET" Header="Ref. ETo (hourly)" Margin="0,0,0,0" Height="100" Width="200">
+        <TabItem x:Name="tabRefET" Header="Calculate ETr-ETo" Margin="0,0,0,0" Height="100" Width="200">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="170" />
@@ -264,10 +264,10 @@
                                     Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0.0-1.0).
                                 </TextBlock>
                                 <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
-                                    * Current ET estimates are based on Trout's 2007 paper.
+                                    Current ET estimates are based on <Bold><Hyperlink NavigateUri="https://www.ars.usda.gov/research/publications/publication/?seqNo115=215320" RequestNavigate="Hyperlink_RequestNavigate">Trout et al., 2007</Hyperlink></Bold>
                                 </TextBlock>
                                 <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
-                                    * Please make sure, that you ran Ref. ETo (grass) calculation on 24 hour period, as it will sum ETo values from the previous tab "Ref. ETo(hourly)".
+                                    <Bold>Hint:</Bold> Use Ref. ETr/ETo tab on left to calculate grass ref. ETo, then click on "Sum daily ETr/ETo" button to calculate daily ET.
                                 </TextBlock>
                             <Grid Margin="5">
 

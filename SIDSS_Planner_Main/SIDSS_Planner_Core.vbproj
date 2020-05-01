@@ -470,15 +470,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hourly_Ref_ET_Calculator_\Hourly_Ref_ET_Calculator.csproj">
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hourly_Ref_ET_Calculator\Hourly_Ref_ET_Calculator.csproj">
       <Project>{d24815cd-16dc-4387-ab66-c6874faa73bd}</Project>
       <Name>Hourly_Ref_ET_Calculator</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent>
