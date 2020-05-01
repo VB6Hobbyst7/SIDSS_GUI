@@ -264,7 +264,7 @@
                                     Here you can provide NRG calibrated reflectance image, with pixel values ranging from (0.0-1.0).
                                 </TextBlock>
                                 <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
-                                    Current ET estimates are based on <Bold><Hyperlink NavigateUri="https://www.ars.usda.gov/research/publications/publication/?seqNo115=215320" RequestNavigate="Hyperlink_RequestNavigate">Trout et al., 2007</Hyperlink></Bold>
+                                    Current ET estimates are based on <Bold><Hyperlink NavigateUri="https://www.ars.usda.gov/research/publications/publication/?seqNo115=215320" RequestNavigate="Hyperlink_RequestNavigate">Trout et al., 2007</Hyperlink></Bold> and <Hyperlink NavigateUri="https://ascelibrary.org/doi/10.1061/%28ASCE%29IR.1943-4774.0001309" RequestNavigate="Hyperlink_RequestNavigate"> <Bold>Trout et al. 2018</Bold></Hyperlink>
                                 </TextBlock>
                                 <TextBlock TextAlignment="Center" FontSize="14" Padding="20" TextWrapping="Wrap">
                                     <Bold>Hint:</Bold> Use Ref. ETr/ETo tab on left to calculate grass ref. ETo, then click on "Sum daily ETr/ETo" button to calculate daily ET.

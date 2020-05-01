@@ -6,7 +6,7 @@ Imports System.Data.SQLite
 Imports System.IO
 Imports System.Windows.Forms
 Imports DotSpatial.Symbology
-Imports Hourly_Ref_ET_Calculator
+'Imports Hourly_Ref_ET_Calculator
 
 
 Class MainWindow
@@ -761,7 +761,7 @@ Class MainWindow
             row_index = dgSiteInfo.SelectedIndex()
             If row_index <> -1 Then
                 Dim curr_row As Site_Info_Summary = dgSiteInfo.SelectedItem
-                tbx_lat.Text = curr_row.Center_Longi
+                tbx_lat.Text = curr_row.Latitude
                 tbx_lon.Text = curr_row.Longitude
                 tbx_elev.Text = curr_row.Elevation
                 tbx_zt.Text = curr_row.Z__t
@@ -774,13 +774,13 @@ Class MainWindow
             End If
             Select Case lon_mid
                 Case "75"
-                    cbx_lon_center.SelectedIndex = (0)
+                    cbx_lon_center.SelectedIndex = 0
                 Case "90"
-                    cbx_lon_center.SelectedIndex = (1)
+                    cbx_lon_center.SelectedIndex = 1
                 Case "105"
-                    cbx_lon_center.SelectedIndex = (2)
+                    cbx_lon_center.SelectedIndex = 2
                 Case "120"
-                    cbx_lon_center.SelectedIndex = (3)
+                    cbx_lon_center.SelectedIndex = 3
 
             End Select
         Catch ex As Exception
@@ -801,7 +801,7 @@ Class MainWindow
             If dgSiteInfo.SelectedItem IsNot Nothing Then
                 site_index = DirectCast(dgSiteInfo.SelectedItem, Site_Info_Summary).SNo
                 Using SIDSS_Database As New SIDSS_Entities
-                    Dim Site_Info = (From site_info_row In SIDSS_Database.Site_Info_Summary Where site_info_row.SNo = site_index).ToList()(0)
+                    Dim Site_Info As Site_Info_Summary = SIDSS_Database.Site_Info_Summary.Where(Function(x) x.SNo = site_index).[Select](Function(x) x).FirstOrDefault()
 
                     Site_Info.SiteName = tbxSiteName.Text
                     Site_Info.Latitude = tbx_lat.Text
@@ -811,7 +811,7 @@ Class MainWindow
                     Site_Info.Z__u = tbx_zu.Text
                     Site_Info.Z__t = tbx_zt.Text
                     Site_Info.Summary = tbxSiteSummary.Text
-                    SIDSS_Database.Site_Info_Summary.Add(Site_Info)
+                    'SIDSS_Database.Site_Info_Summary.Add(Site_Info)
                     SIDSS_Database.SaveChanges()
                 End Using
             Else

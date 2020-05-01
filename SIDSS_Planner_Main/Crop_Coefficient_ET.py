@@ -80,22 +80,13 @@ SAVI_array = np.where((NIR_band_refl+Red_band_refl+L)==0,0,(NIR_band_refl-Red_ba
 SAVI_array = np.where(SAVI_array<-1,0,SAVI_array)
 SAVI_array = np.where(SAVI_array>1,0,SAVI_array)
 
-# Creating Kcr reflectance based crop coefficient (Walter Baush, 1993, page 219, eq. 8; Fort Collins, CO)
-# Soil Background Effects on Reflectance-Based Crop Coefficients for Corn
-Kcr_walter = 1.416*SAVI_array-0.017
-Kcr_walter = np.where(Kcr_walter<0,0,Kcr_walter)
-
-Daily_ET_walter = Kcr_walter*Full_Day_ET
-# Removing any -ve values from daily ET
-Daily_ET_walter = np.where(Daily_ET_walter<0, 0, Daily_ET_walter)
-
 # Johnson & Trout 2012, Satellite NDVI Assisted Monitoring of Vegetable Crop
 # Evapotranspiration in California’s San Joaquin Valley, Page 446, Equation 1.
 CC_array = 1.26*NDVI_array - 0.18
 # Removing any -ve values from crop 
 CC_array = np.where(CC_array<0.0001,0,CC_array)
 
-# Trout; J. Irrig. Drain Eng. 2018 (144(6); Page 10; Fig. 10a; entire season (corn as crop)
+# Trout; J. Irrig. Drain Eng. 2018 (144(6); Page 10; Fig. 10a; multi season (corn as crop 2008 to 2013)
 # Experiment site at LIRF, Greeley.
 Kcb_trout = 1.1 *CC_array+0.17
 # Removing -ve values from Kcb (reflectance based).
