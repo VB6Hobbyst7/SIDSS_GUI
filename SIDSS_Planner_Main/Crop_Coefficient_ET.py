@@ -1,34 +1,32 @@
-# import parameters_ref_ET
 import rasterio
 import sys,os
 import numpy as np
-# import pandas as pd
+
 import time
 temp = np.seterr(divide='ignore', invalid='ignore')
-import matplotlib.pyplot as plt
-# plt.rcParams['figure.figsize'] = [10, 10] # Command to incerase the plot size.(numbers represent inches?)
+
 arg_length = len(sys.argv)
-Full_Day_ET = 0		
+Full_Day_ET = 0
 if arg_length == 3:
         try:
                 Full_Day_ET = float(sys.argv[2])
-                Full_Day_ET = round(Full_Day_ET,3)
                 Full_Day_ET = Full_Day_ET * 25.4
+                Full_Day_ET = round(Full_Day_ET,3)
                 tif_path = sys.argv[1]
         except:
-                pass
+            pass
 else:
         try:
                 Full_Day_ET = float(sys.argv[1])
-                Full_Day_ET = round(Full_Day_ET,3)
                 # Convert ETr from inches to mm
                 Full_Day_ET = Full_Day_ET * 25.4
+                Full_Day_ET = round(Full_Day_ET,3)
         except:
-                pass
+            pass
 
 # tif_path = parameters_ref_ET.KC_MS_file_path
 tif_folder = os.path.dirname(tif_path)
-tif_file = os.path.split(tif_path)[1]		
+tif_file = os.path.split(tif_path)[1]
 
 print("24 hr ETr = {0}; tif file==> {1}".format(Full_Day_ET, tif_file))
 f = open(tif_folder+"\\Full_Day_ET.txt", "a")
@@ -49,10 +47,10 @@ with rasterio.open(tif_path) as src:
                 NIR_band_refl = src.read(1)
                 Red_band_refl = src.read(2)
                 Green_band_refl = src.read(3)
-        else:                        
+        else:
                 print("Number of bands should be 3 or 4, this script doesn't support any other combination.")
                 time.sleep(20)
-                exit()
+				exit()
 
 # Set spatial characteristics of the output object to mirror the input
 kwargs = src.meta
@@ -83,7 +81,7 @@ SAVI_array = np.where(SAVI_array>1,0,SAVI_array)
 # Johnson & Trout 2012, Satellite NDVI Assisted Monitoring of Vegetable Crop
 # Evapotranspiration in California’s San Joaquin Valley, Page 446, Equation 1.
 CC_array = 1.26*NDVI_array - 0.18
-# Removing any -ve values from crop 
+# Removing any -ve values from crop
 CC_array = np.where(CC_array<0.0001,0,CC_array)
 
 # Trout; J. Irrig. Drain Eng. 2018 (144(6); Page 10; Fig. 10a; multi season (corn as crop 2008 to 2013)
@@ -96,7 +94,7 @@ Daily_ET_Trout  = Kcb_trout*Full_Day_ET
 # Removing any -ve values from daily ET
 Daily_ET_Trout  = np.where(Daily_ET_Trout<0, 0, Daily_ET_Trout)
 
-# Removing -ve and too high values 
+# Removing -ve and too high values
 Daily_ET_Trout  = np.where(Daily_ET_Trout  > 100, 0,Daily_ET_Trout)
 Daily_ET_Trout  = np.where(Daily_ET_Trout  < 0, 0, Daily_ET_Trout)
 

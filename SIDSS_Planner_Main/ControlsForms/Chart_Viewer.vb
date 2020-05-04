@@ -7,13 +7,12 @@ Imports System.Text
 Imports System
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Linq
+Imports System.Reflection
 Imports System.Windows.Forms
 
 Public Class Graphs_Viewer
     Dim start_date As String
     Dim end_date As String
-    'Dim myConnection As New SQLiteConnection("Data Source=SIDSS_database.db; Version=3")
-    'Dim cmd As New SQLiteCommand
 
     Private Sub ChooseGraphToolStripMenuItem_Click(sender As Object, e As EventArgs)
         Load_Chart()
@@ -138,54 +137,67 @@ Public Class Graphs_Viewer
         chrtWaterBalance.Invalidate()
     End Sub
 
+    ''' <summary>
+    ''' Provides data from Selected_Daily_SMD table where the Tmax and Tmin are greater than 32F
+    ''' </summary>
+    ''' <returns></returns>
     Public Function Load_SQL_Table()
-        'Dim smd_table As Array
-        'Dim water_table As New DataTable
-        'Using database_context As New SIDSS_Entities
-
-        '    smd_table = database_context.SMD_Daily.ToArray()
-
-        'End Using
-        'Dim items = smd_table.
-
-
-        'Connect to local SQLite database file. The text part is called connectionstring.
-        Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
-        'Open connection to the database file, within the program.
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        myConnection.Open()
-
         ' Select all columns from the database file to display in WPF datagrid.
         ' Ignoring all dates where Tmax & Tmin = 32F, i.e. where GDD is Zero. 
         ' I manually set Tmax and Tmin = 32F for the dates in future where no data is available.
         ' By doing so, I can remove no-data values from the datatable and just plot graph of only available data.
-
-        Dim cmd As New SQLiteCommand
-        cmd.Connection = myConnection
-        cmd.CommandText = "Select * from SMD_Daily WHERE NOT (Tmax=32 AND Tmin=32);"
-        'cmd.CommandText = "Select * from SMD_Daily;"
-
-        Dim reader As SQLiteDataReader = cmd.ExecuteReader
         Dim dt As New DataTable
+        Dim Selected_Daily_SMD As Object
+        Dim da As IDbDataAdapter = Nothing
 
-        'Load SQL database values into the following datable.
-        dt.Load(reader)
-
-        Try
-            start_date = dt.Rows(0)("Date")
-            end_date = dt.Rows(dt.Rows.Count - 1)("Date")
-            'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
-            'Close connection to the database.
-            reader.Close()
-            myConnection.Close()
-            Return dt
-        Catch ex As Exception
-
-        End Try
-
+        Using SIDSS_Context As New SIDSS_Entities
+            Selected_Daily_SMD = (From selected_rows In SIDSS_Context.SMD_Daily Where selected_rows.Tmin > 32 And selected_rows.Tmax > 32 Select selected_rows).ToList
+            dt = LINQToDataTable(Selected_Daily_SMD)
+        End Using
+        Return dt
     End Function
+
+    ''' <summary>
+    ''' This function takes the input from LINQ to the selected table in SIDSS database.
+    ''' And returns the data as DataTable which can be used as input data for plotting graph.
+    ''' </summary>
+    ''' <typeparam name="T">SMD_Daily</typeparam>
+    ''' <param name="Selected_Daily_SMD"></param>
+    ''' <returns></returns>
+    Public Function LINQToDataTable(Of T)(ByVal Selected_Daily_SMD As IEnumerable(Of T)) As DataTable
+        Dim dtReturn As DataTable = New DataTable()
+        Dim oProps As PropertyInfo() = Nothing
+        If Selected_Daily_SMD Is Nothing Then Return dtReturn
+
+        For Each rec As T In Selected_Daily_SMD
+            'Dim follow As will
+
+            If oProps Is Nothing Then
+                oProps = (CType(rec.[GetType](), Type)).GetProperties()
+
+                For Each pi As PropertyInfo In oProps
+                    Dim colType As Type = pi.PropertyType
+
+                    If (colType.IsGenericType) AndAlso (colType.GetGenericTypeDefinition() = GetType(Nullable(Of))) Then
+                        colType = colType.GetGenericArguments()(0)
+                    End If
+
+                    dtReturn.Columns.Add(New DataColumn(pi.Name, colType))
+                Next
+            End If
+
+            Dim dr As DataRow = dtReturn.NewRow()
+
+            For Each pi As PropertyInfo In oProps
+                dr(pi.Name) = If(pi.GetValue(rec, Nothing) Is Nothing, DBNull.Value, pi.GetValue(rec, Nothing))
+            Next
+
+            dtReturn.Rows.Add(dr)
+        Next
+
+        Return dtReturn
+    End Function
+
 
     Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.TextChanged
 
