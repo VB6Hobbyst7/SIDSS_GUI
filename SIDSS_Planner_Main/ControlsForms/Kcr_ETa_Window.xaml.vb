@@ -41,42 +41,42 @@ Public Class Kcr_ETa_Window
         Using sidss_context As New SIDSS_Entities
 
             Dim smd_data = sidss_context.SMD_Daily.ToList()
-            Dim smd_rows_count As Integer = sidss_context.SMD_Daily.Count
+            Dim smd_rows_count As Integer = smd_data.Count
             ' Erase previous dataset in Kcr and ETa columns to make space for latest values.
             For r = 0 To smd_rows_count - 1
                 smd_data(r).Kcr_plot = 0
                 smd_data(r).ETa_plot = 0
             Next
             sidss_context.SaveChanges()
+            Dim current_row = input_data_lines(0).Replace(vbLf, "").Split(vbTab)
+            If current_row.Length <> 3 Then
+                MessageBox.Show("Please make shure there are 3 columns of data pasted, i.e. Date, Kc & ETa.")
+                Exit Sub
+            End If
+
             Dim input_row = 1
             For j = 0 To smd_rows_count - 1
                 For i = input_row To input_data_lines.Count - 1
-                    Dim current_row = input_data_lines(i).Replace(vbLf, "").Split(vbTab)
-                    If current_row.Length = 7 Then
-                        date_value = current_row(0)
-                        Kcr_plot = current_row(1)
-                        ETa_plot = current_row(4)
-                    ElseIf current_row.Length > 1 Then
-                        MessageBox.Show("Please make shure there are 7 columns of data pasted, i.e. Date, Kc x 3, ETa x 3.")
-                        Exit Sub
-                    End If
-                    If Convert.ToDateTime(smd_data(j).Date) = Convert.ToDateTime(date_value) Then
-                        smd_data(j).Kcr_plot = Math.Round(Convert.ToDecimal(Kcr_plot), 4)
-                        smd_data(j).ETa_plot = Math.Round(Convert.ToDecimal(ETa_plot), 4)
-                        'input_row = i + 1
-                        Exit For
+                    current_row = input_data_lines(i).Replace(vbLf, "").Split(vbTab)
+                    If current_row.Length = 3 Then
+                        Try
+                            date_value = current_row(0)
+                            Kcr_plot = current_row(1)
+                            ETa_plot = current_row(2)
+                            If Convert.ToDateTime(smd_data(j).Date) = Convert.ToDateTime(date_value) Then
+                                smd_data(j).Kcr_plot = Math.Round(Convert.ToDecimal(Kcr_plot), 4)
+                                smd_data(j).ETa_plot = Math.Round(Convert.ToDecimal(ETa_plot), 4)
+                                Exit For
+                            End If
+                        Catch ex As Exception
+                            MessageBox.Show(ex.Message)
+                        End Try
                     End If
                 Next
             Next
 
             sidss_context.SaveChanges()
             MessageBox.Show("Data added successfully.")
-
-            'main_window_shared.Load_WaterBalance_DagaGrid()
-
-
-            'ET_Calculator_streamlined_v11_GIT.MainWindow.Shared_controls.main_window_shared.dgvWaterBalance.ItemsSource = sidss_context.SMD_Daily.ToList()
-
 
         End Using
         Me.Close()

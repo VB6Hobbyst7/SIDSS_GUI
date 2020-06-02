@@ -1,14 +1,9 @@
-﻿Imports System.Data.SQLite
-Imports System.Data
-'Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
-Imports ET_Calculator_streamlined_v11_GIT
-Imports ET_Calculator_streamlined_v11_GIT.MainWindow
-Imports System.Text
-Imports System
-Imports System.Windows.Forms.DataVisualization.Charting
-Imports System.Linq
+﻿Imports System.Data
 Imports System.Reflection
-Imports System.Windows.Forms
+
+'Imports ET_Calculator_streamlined_v11_GIT.Graphs_Viewer
+Imports System.Text
+Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Graphs_Viewer
     Dim start_date As String
@@ -38,7 +33,6 @@ Public Class Graphs_Viewer
         main_table = Load_SQL_Table()
 
         'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
-
 
         Dim summary_dictionary As New Dictionary(Of String, Double)
 
@@ -129,7 +123,6 @@ Public Class Graphs_Viewer
             'that Is how I am matching the data to the correct graph.
             Try
                 chrtWaterBalance.Series(current_item).Points.DataBindXY(main_table.Rows, axis_type, main_table.Rows, current_item)
-
             Catch ex As Exception
 
             End Try
@@ -143,7 +136,7 @@ Public Class Graphs_Viewer
     ''' <returns></returns>
     Public Function Load_SQL_Table()
         ' Select all columns from the database file to display in WPF datagrid.
-        ' Ignoring all dates where Tmax & Tmin = 32F, i.e. where GDD is Zero. 
+        ' Ignoring all dates where Tmax & Tmin = 32F, i.e. where GDD is Zero.
         ' I manually set Tmax and Tmin = 32F for the dates in future where no data is available.
         ' By doing so, I can remove no-data values from the datatable and just plot graph of only available data.
         Dim dt As New DataTable
@@ -198,7 +191,6 @@ Public Class Graphs_Viewer
         Return dtReturn
     End Function
 
-
     Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.TextChanged
 
         Try
@@ -206,7 +198,6 @@ Public Class Graphs_Viewer
         Catch ex As Exception
 
         End Try
-
 
     End Sub
 
@@ -262,6 +253,5 @@ Public Class Graphs_Viewer
     Private Sub ToolStripComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBox1.SelectedIndexChanged
         Load_Chart()
     End Sub
-
 
 End Class

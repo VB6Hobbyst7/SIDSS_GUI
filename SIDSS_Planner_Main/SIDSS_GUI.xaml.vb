@@ -8,7 +8,6 @@ Imports System.Windows.Forms
 Imports DotSpatial.Symbology
 'Imports Hourly_Ref_ET_Calculator
 
-
 Class MainWindow
 
 #Region "Public Vars"
@@ -603,9 +602,9 @@ Class MainWindow
         For i = 0 To chrt_view.chkGraphOptions.Items.Count - 1
             chrt_view.chkGraphOptions.SetItemCheckState(i, CheckState.Checked)
         Next
-
+        Me.Hide()
         chrt_view.ShowDialog()
-
+        Me.Show()
     End Sub
 
     Private Function round_number(ByRef input_number As Double)

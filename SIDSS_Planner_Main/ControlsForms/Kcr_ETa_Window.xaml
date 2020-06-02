@@ -10,27 +10,16 @@
         <Button x:Name="btnAddKcrETa" Content="Input reflectance based Kcr ETa" Margin="0,30,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="29"/>
         <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,108,10,10" VerticalScrollBarVisibility="Visible" >
             <FlowDocument>
-                <Paragraph>
-                    Date	 Kcr_8214	 Kcr_9110	 Kcr_9308 	 ETa_8214	 ETa_9110	 ETa_9308
+                <Paragraph xml:space="preserve">Date                Kcr_8214            ETa_8214
+5/13/2019       0.158500776     0.020605100
+5/14/2019       0.154560745     0.044668056
+5/15/2019       0.207574248     0.066631332
+5/16/2019       0.167366400     0.046025760
+5/25/2019       0.219638795     0.041609388
                     <LineBreak/>
-                    5/13/2019	0.158500776	0.140000001	0.141084403	0.0206051	0.018199999	0.018340971
-                    <LineBreak/>
-                    5/14/2019	0.154560745	0.140000001	0.140000001	0.044668056	0.040460002	0.040460002
-                    <LineBreak/>
-                    5/15/2019	0.207574248	0.156246841	0.159808174	0.066631332	0.050155237	0.051298425
-                    <LineBreak/>
-                    5/16/2019	0.1673664	0.141771138	0.140000001	0.04602576	0.038987063	0.0385
-                    <LineBreak/>
-                    5/25/2019	0.219638795	0.166437551	0.182369053	0.054909699	0.041609388	0.045592263
-                    <LineBreak/>
-                    <LineBreak/>
-                    <Bold>Please Note:</Bold>
-                    <LineBreak/>
-                    <Italic>Delete entire text of this textbox and paste data directly from spreadsheet into this textbox. First line will be ignored, it is here just to identify the correct order of columns. For now plot names are hard-coded.
-                    </Italic>
-                    <LineBreak/>
-                </Paragraph>
-            </FlowDocument>
+<Bold>Please Note:</Bold>
+<Italic>Delete entire text of this textbox and paste data directly from spreadsheet into this textbox. First row will be ignored, it is here just to identify the correct order of columns. For now plot names are hard-coded.
+</Italic></Paragraph></FlowDocument>
         </RichTextBox>
         <TextBox x:Name="tbxFourier_a0" HorizontalAlignment="Left" Height="23" Margin="64,36,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826"/>
         <Label Content="Fourier curve fit parameters for calculating missing data." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385"/>

@@ -1,5 +1,6 @@
 ﻿Imports System.Data
 Imports System.Data.SQLite
+Imports System.Reflection
 
 Public Class WaterBalanceCalculator
 
@@ -27,14 +28,36 @@ Public Class WaterBalanceCalculator
 
 #End Region
 
+
+    Public Shared Function ToDataTable(Of T)(ByVal items As List(Of T)) As DataTable
+        Dim dataTable As DataTable = New DataTable(GetType(T).Name)
+        Dim Props As PropertyInfo() = GetType(T).GetProperties(BindingFlags.[Public] Or BindingFlags.Instance)
+
+        For Each prop As PropertyInfo In Props
+            dataTable.Columns.Add(prop.Name)
+        Next
+
+        For Each item As T In items
+            Dim values = New Object(Props.Length - 1) {}
+
+            For i As Integer = 0 To Props.Length - 1
+                values(i) = Props(i).GetValue(item, Nothing)
+            Next
+
+            dataTable.Rows.Add(values)
+        Next
+
+        Return dataTable
+    End Function
+
     Public Sub Calculate_Grid_Cols(ByVal Tbase As Integer)
 
         Dim input_data_table As DataTable
         Dim input_data_complete As New SQL_table_operation
-        input_data_table = input_data_complete.Load_SQL_DataTable("SMD_Daily")
+        'input_data_table = input_data_complete.Load_SQL_DataTable("SMD_Daily")
         Using SIDSS_Context As New SIDSS_Entities
-            Dim SMD_table = SIDSS_Context.SMD_Daily.ToArray()
-
+            Dim SMD_table = SIDSS_Context.SMD_Daily.ToList()
+            input_data_table = ToDataTable(SMD_table)
         End Using
 
         Eff_Precip_Calculate(input_data_table)

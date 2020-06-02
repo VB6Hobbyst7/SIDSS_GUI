@@ -148,6 +148,48 @@ Public Class SQL_table_operation
     End Function
 
     Public Function Load_SQL_DataTable(ByVal table_name)
+
+        Using dbContext As New SIDSS_Entities()
+            Dim query = From p In dbContext.SMD_Daily
+                        Where p.SNo > -1
+                        Select p
+            Dim products As IEnumerable(Of SMD_Daily) = query.ToList()
+            MessageBox.Show("")
+
+        End Using
+
+
+        'Using DBConnection As New SIDSS_Entities
+        '    Dim SMD_Daily = DBConnection.SMD_Daily.ToDictionary(Of String, String)
+        '    Dim col_names As String()
+        '    Dim curr_col As Dictionary(Of String, String) = SMD_Daily(0)
+        '    Dim i As Integer = 0
+        '    Do
+        '        'Dim col = curr_col(i)
+        '        i += 1
+        '    Loop
+
+
+
+        '    Dim data_table As New DataTable
+        '    Dim conn = DBConnection.Database.Connection
+        '    Dim connectionstate = conn.State
+        '    Try
+        '        If connectionstate <> ConnectionState.Open Then
+        '            Dim data_cmd = conn.CreateCommand()
+        '            data_cmd.CommandText = "GetAvailableItems"
+        '            data_cmd.CommandType = CommandType.StoredProcedure
+        '            Dim data_reader = data_cmd.ExecuteReader()
+        '            data_table.Load(data_reader)
+        '        End If
+
+        '    Catch ex As Exception
+        '        MessageBox.Show(ex.Message.ToString())
+        '    End Try
+        '    Dim temp = SMD_Daily
+
+        'End Using
+
         'Connect to local SQLite database file. The text part is called connectionstring.
         Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
         'Open connection to the database file, within the program.
@@ -185,42 +227,28 @@ Public Class SQL_table_operation
     End Function
 
     Public Sub Write_WaterBalance_Final_Table(ByRef col_data As DataTable)
-        cmd.Connection = myConnection
-        If myConnection.State = ConnectionState.Open Then
-            myConnection.Close()
-        End If
-        myConnection.Open()
-        cmd.CommandText = Nothing
-        'Dim Date_Str As String
-        'Dim DOY, Precip, Irrig, Tmax, Tmin, GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di As Double
-        Dim GDD, Kc, ETr, ETc, Drz, Dmax, DP, Di, eff_irrig, eff_precip, sro As Double
 
         Dim n_cols As Integer = col_data.Columns.Count
         Dim n_rows As Integer = col_data.Rows.Count
-        For i = 0 To n_rows - 1
-            GDD = Math.Round(Convert.ToDouble(col_data.Rows(i)("GDD")), 3).ToString
-            Kc = Math.Round(Convert.ToDouble(col_data.Rows(i)("Kc")), 3).ToString
-            ETr = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETr")), 3).ToString
-            ETc = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETc")), 3).ToString
-            Drz = Math.Round(Convert.ToDouble(col_data.Rows(i)("Drz")), 3).ToString
-            Dmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Dmax")), 3).ToString
-            Di = Math.Round(Convert.ToDouble(col_data.Rows(i)("Di")), 3).ToString
-            DP = Math.Round(Convert.ToDouble(col_data.Rows(i)("DP")), 3).ToString
-            eff_irrig = Math.Round(Convert.ToDouble(col_data.Rows(i)("Eff__Irrig")), 3).ToString
-            eff_precip = Math.Round(Convert.ToDouble(col_data.Rows(i)("Eff__Precip")), 3).ToString
-            sro = Math.Round(Convert.ToDouble(col_data.Rows(i)("Surface__Runoff")), 3).ToString
-
-
-            cmd.CommandText &=
-                String.Format("UPDATE SMD_Daily SET GDD='{0}', Kc='{1}', ETc='{2}', Drz='{3}', Dmax='{4}', Di='{5}', DP='{6}', Eff__Irrig='{7}', Eff__Precip='{8}', Surface__Runoff='{9}' WHERE SNo={10};" _
-                                        , GDD, Kc, ETc, Drz, Dmax, Di, DP, eff_irrig, eff_precip, sro, i + 1) & Environment.NewLine
-        Next
-        Dim tr As SQLiteTransaction = myConnection.BeginTransaction
-        Using tr
-            cmd.ExecuteNonQuery()
-            tr.Commit()
+        Using sidss_database As New SIDSS_Entities
+            Dim SMD_Table = sidss_database.SMD_Daily.ToList()
+            Dim i As Integer = 0
+            For Each SMD_Row In SMD_Table
+                SMD_Row.GDD = Math.Round(Convert.ToDouble(col_data.Rows(i)("GDD")), 3).ToString
+                SMD_Row.Kc = Math.Round(Convert.ToDouble(col_data.Rows(i)("Kc")), 3).ToString
+                SMD_Row.ETr = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETr")), 3).ToString
+                SMD_Row.ETc = Math.Round(Convert.ToDouble(col_data.Rows(i)("ETc")), 3).ToString
+                SMD_Row.Drz = Math.Round(Convert.ToDouble(col_data.Rows(i)("Drz")), 3).ToString
+                SMD_Row.Dmax = Math.Round(Convert.ToDouble(col_data.Rows(i)("Dmax")), 3).ToString
+                SMD_Row.Di = Math.Round(Convert.ToDouble(col_data.Rows(i)("Di")), 3).ToString
+                SMD_Row.DP = Math.Round(Convert.ToDouble(col_data.Rows(i)("DP")), 3).ToString
+                SMD_Row.Eff__Irrig = Math.Round(Convert.ToDouble(col_data.Rows(i)("Eff__Irrig")), 3).ToString
+                SMD_Row.Eff__Precip = Math.Round(Convert.ToDouble(col_data.Rows(i)("Eff__Precip")), 3).ToString
+                SMD_Row.Surface__Runoff = Math.Round(Convert.ToDouble(col_data.Rows(i)("Surface__Runoff")), 3).ToString
+                i += 1
+            Next
+            sidss_database.SaveChanges()
         End Using
-        myConnection.Close()
 
     End Sub
 

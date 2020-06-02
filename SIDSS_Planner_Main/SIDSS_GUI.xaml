@@ -22,7 +22,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="7,7,7,7" Background="LightSkyBlue"  BorderBrush="#000" BorderThickness="1,1,1,1" >
-                            <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                            <ContentPresenter x:Name="contentPresenter"   ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -616,11 +616,11 @@
                                         </Button.ToolTip>
                                     </Button>
 
-                                    <Button x:Name="btnKcr_ETa_data"  Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="3. Load Kcr, ETr data..." Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
+                                    <Button x:Name="btnKcr_ETa_data"  Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="3. Load/Calculate&#10; (Kcr, ETr data)..." Height="60" HorizontalContentAlignment="Left" Padding="10,0,0,0" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Ref. ET alfalfa, mm"/></TextBlock>
+                                                    <TextBlock FontWeight="Bold" Background="Black" Foreground="White" FontSize="14"> Enter ETr and Kcr tabular data calculated using MS imagery.</TextBlock>
                                                 </StackPanel>
                                             </ToolTip>
                                         </Button.ToolTip>
