@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Kcr_ETa_Window" Height="450" Width="800">
     <Grid>
-        <Button x:Name="btnAddKcrETa" Content="Input reflectance based Kcr ETa" Margin="0,30,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="29"/>
+        <Button x:Name="btnAddKcrETa" Content="Save Kcr ETa values" Margin="0,30,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="29"/>
         <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,108,10,10" VerticalScrollBarVisibility="Visible" >
             <FlowDocument>
                 <Paragraph xml:space="preserve">Date                Kcr_8214            ETa_8214

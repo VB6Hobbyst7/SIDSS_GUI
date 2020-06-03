@@ -426,6 +426,7 @@ Class MainWindow
         Dim daily_data_form As New DailyDataInput_Form
         Me.Hide()
         daily_data_form.ShowDialog()
+        calc_WaterBalance()
         Load_WaterBalance_DagaGrid()
         Me.Show()
         '###############################################################################################################
@@ -519,11 +520,11 @@ Class MainWindow
         Load_WaterBalance_DagaGrid()
     End Sub
 
-    Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
-
+    'Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
+    '    calc_WaterBalance()
+    'End Sub
+    Private Sub calc_WaterBalance()
         Dim SMD_Parameters As New WaterBalanceCalculator
-
-        'calc_water_balance_cols.Set_root_depth(tbxMinRootDepth.Text, tbxMaxRootDepth.Text)
 
         SMD_Parameters.Drz_1 = Convert.ToDouble(tbxSoilDepth_1.Text)
         SMD_Parameters.Drz_2 = Convert.ToDouble(tbxSoilDepth_2.Text)
@@ -545,7 +546,6 @@ Class MainWindow
         SMD_Parameters.Calculate_Grid_Cols(Tbase)
 
         Load_Datagrid("SMD_Daily")
-
     End Sub
 
     Private Sub Btn_EB_MS_Click(sender As Object, e As RoutedEventArgs) Handles btn_EB_MS.Click

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="DailyDataInput_Form" Height="450" Width="800">
     <Grid>
-        <RichTextBox x:Name="rtbxDailyData" HorizontalAlignment="Left" Height="334" Margin="10,75,0,0" VerticalAlignment="Top" Width="772">
+        <RichTextBox x:Name="rtbxDailyData" HorizontalAlignment="Left" Height="334" Margin="10,75,0,0" VerticalAlignment="Top" Width="772" VerticalScrollBarVisibility="Auto">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="Clear this text and enter daily weather data, tab-separated values copy and paste from spreadsheet to this textbx."/>

@@ -616,7 +616,7 @@
                                         </Button.ToolTip>
                                     </Button>
 
-                                    <Button x:Name="btnKcr_ETa_data"  Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="3. Load/Calculate&#10; (Kcr, ETr data)..." Height="60" HorizontalContentAlignment="Left" Padding="10,0,0,0" >
+                                    <Button x:Name="btnKcr_ETa_data"  Margin="0,3,0,10" Style="{StaticResource BTNCORNER}" Content="3. Load/Calculate&#10;    (Kcr, ETr data)..." Height="60" HorizontalContentAlignment="Left" Padding="10,0,0,0" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -625,18 +625,7 @@
                                             </ToolTip>
                                         </Button.ToolTip>
                                     </Button>
-                                    <Button x:Name="btnCalculateWaterBalance" Style="{StaticResource BTNCORNER}" Content="4. Calculate" Margin="0,3,0,10" Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0" >
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold"><Run Text="Set planting and tentative harvest dates."/></TextBlock>
-                                                    <TextBlock><Run Text="Note: Old tabular data will be deleted."/></TextBlock>
-
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                    </Button>
-                                    <Button x:Name="btnChart" Style="{StaticResource BTNCORNER}" Content="5. Chart..." Margin="0,3,0,10"  Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
+                                    <Button x:Name="btnChart" Style="{StaticResource BTNCORNER}" Content="4. Chart..." Margin="0,3,0,10"  Height="30" HorizontalContentAlignment="Left" Padding="10,0,0,0">
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
