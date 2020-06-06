@@ -1,8 +1,8 @@
 ﻿Imports System.ComponentModel
-Imports ET_Calculator_streamlined_v11_GIT.MainWindow.Shared_controls
 Imports MathNet.Numerics
 
 Public Class Kcr_ETa_Window
+
     Private Sub Kcr_ETa_Window_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         Using sidss_context As New SIDSS_Entities
             Dim gui_parameters = sidss_context.SIDS_GUI_Parameters.ToList(0)
@@ -57,7 +57,10 @@ Public Class Kcr_ETa_Window
 
             Dim input_row = 1
             For j = 0 To smd_rows_count - 1
+                smd_data(j).Kcr_calculated = 0
+                smd_data(j).Deficit_plot = 0
                 For i = input_row To input_data_lines.Count - 1
+
                     current_row = input_data_lines(i).Replace(vbLf, "").Split(vbTab)
                     If current_row.Length = 3 Then
                         Try
@@ -131,18 +134,19 @@ Public Class Kcr_ETa_Window
                 'calc_Kcr, GDD =0
                 Dim interpolated_kcr_poly6 As Double = 0
                 Dim interpolated_kcr_spline As Double = 0
+                Dim ETa_val As Double = 0
                 For i = 0 To row_count - 1
                     interpolated_kcr_poly6 = Interpolated_Kcr_vals(1)(i)
                     interpolated_kcr_spline = Interpolated_Kcr_vals(0)(i)
-                    smd_data(i).Kcr_calculated = interpolated_kcr_poly6
+                    smd_data(i).Kcr_calculated = Math.Round(interpolated_kcr_poly6, 3)
                     If smd_data(i).Kcr_plot = 0 Then
-                        smd_data(i).Kcr_plot = interpolated_kcr_spline
-                        smd_data(i).ETa_plot = smd_data(i).ETr * interpolated_kcr_spline
+                        smd_data(i).Kcr_plot = Math.Round(interpolated_kcr_spline, 3)
+                        ETa_val = smd_data(i).ETr * interpolated_kcr_spline
+                        smd_data(i).ETa_plot = Math.Round(ETa_val, 3)
                     Else
-                        smd_data(i).ETa_plot = smd_data(i).ETr * smd_data(i).Kcr_plot
+                        ETa_val = smd_data(i).ETr * smd_data(i).Kcr_plot
+                        smd_data(i).ETa_plot = Math.Round(ETa_val, 3)
                     End If
-
-
                 Next
 
                 sidss_context.SaveChanges()
@@ -201,6 +205,7 @@ Public Class Kcr_ETa_Window
         'main_window_shared.Load_WaterBalance_DagaGrid()
         Me.Close()
     End Sub
+
     Private Sub Calculate_ETa_Deficit()
 
         Using sidss_context As New SIDSS_Entities
@@ -224,6 +229,5 @@ Public Class Kcr_ETa_Window
         End Using
 
     End Sub
-
 
 End Class

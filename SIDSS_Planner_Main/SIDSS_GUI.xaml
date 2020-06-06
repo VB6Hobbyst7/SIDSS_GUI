@@ -470,7 +470,7 @@
 
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <GroupBox Header="Crop options." Grid.Column="0" Background="#ECF0F3" MinHeight="205">
+                                        <GroupBox Header="Crop options." Grid.Column="0" Background="#ECF0F3" >
                                             <StackPanel Margin="5,2">
                                                 <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCorn" Content="Corn (Tbase=50)"  Margin="0,3" HorizontalAlignment="Left" IsChecked="True"/>
                                                 <RadioButton Height="20" VerticalContentAlignment="Center"  x:Name="rbCotton" Content="Cotton"  Margin="0,3" HorizontalAlignment="Left" />
@@ -641,7 +641,7 @@
 
                         </Grid>
 
-                        <DataGrid x:Name="dgvWaterBalance" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="335" />
+                        <DataGrid x:Name="dgvWaterBalance" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ClipboardCopyMode="IncludeHeader" MinHeight="360" Height="309" />
 
                     </StackPanel>
                 </Grid>

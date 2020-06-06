@@ -28,7 +28,6 @@ Public Class WaterBalanceCalculator
 
 #End Region
 
-
     Public Shared Function ToDataTable(Of T)(ByVal items As List(Of T)) As DataTable
         Dim dataTable As DataTable = New DataTable(GetType(T).Name)
         Dim Props As PropertyInfo() = GetType(T).GetProperties(BindingFlags.[Public] Or BindingFlags.Instance)
@@ -73,28 +72,32 @@ Public Class WaterBalanceCalculator
     End Sub
 
     Private Sub Eff_Precip_Calculate(ByRef input_data_table As DataTable)
-        Dim Precip_in, Precip_mm As New Double
-        Dim eff_precip_in, eff_precip_mm As New Double
-        Dim runoff As New Double
-        Dim param_s As New Double
-        param_s = 250 * (100 / Runoff_CN - 1)
-        Dim cutoff = param_s * 0.2
-        For i = 0 To input_data_table.Rows.Count - 1
-            Precip_in = Convert.ToDouble(input_data_table.Rows(i)("Precip"))
-            Precip_mm = 25.4 * Precip_in
+        Try
+            Dim Precip_in, Precip_mm As New Double
+            Dim eff_precip_in, eff_precip_mm As New Double
+            Dim runoff As New Double
+            Dim param_s As New Double
+            param_s = 250 * (100 / Runoff_CN - 1)
+            Dim cutoff = param_s * 0.2
+            For i = 0 To input_data_table.Rows.Count - 1
+                Precip_in = Convert.ToDouble(input_data_table.Rows(i)("Precip"))
+                Precip_mm = 25.4 * Precip_in
 
-            If Precip_mm > cutoff Then
-                runoff = Math.Pow((Precip_mm - 0.2 * param_s), 2) / (Precip_mm + 0.8 * param_s)
-                eff_precip_mm = Precip_mm - runoff
-                eff_precip_in = eff_precip_mm / 25.4
-            Else
-                runoff = 0
-                eff_precip_in = 0
-            End If
-            input_data_table.Rows(i)("Eff__Precip") = eff_precip_in
-            input_data_table.Rows(i)("Surface__Runoff") = runoff / 25.4
+                If Precip_mm > cutoff Then
+                    runoff = Math.Pow((Precip_mm - 0.2 * param_s), 2) / (Precip_mm + 0.8 * param_s)
+                    eff_precip_mm = Precip_mm - runoff
+                    eff_precip_in = eff_precip_mm / 25.4
+                Else
+                    runoff = 0
+                    eff_precip_in = 0
+                End If
+                input_data_table.Rows(i)("Eff__Precip") = eff_precip_in
+                input_data_table.Rows(i)("Surface__Runoff") = runoff / 25.4
 
-        Next
+            Next
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub Eff_Irrig_Calculate(ByRef input_data_table As DataTable)
@@ -132,12 +135,28 @@ Public Class WaterBalanceCalculator
     End Sub
 
     Private Sub Kc_Calculate(ByRef input_data_table As DataTable)
-        Dim GDD_val As Double
-        Dim Kc_val As Double
+        Dim Day_0 As Integer = Convert.ToInt16(input_data_table.Rows(0)("DOY"))
+        Dim Day_from_planting As Integer = 0
+        Dim Orig_crop_duration = 140
+        'Dim Crop_duration_fraction = Orig_crop_duration / input_data_table.Rows.Count
+        'Crop_duration_fraction = 1
+        Dim GDD_val As Double = 0
+        Dim Kc_val As Double = 0
         For i = 0 To input_data_table.Rows.Count - 1
+            Day_from_planting = Convert.ToInt16(input_data_table.Rows(i)("DOY")) - Day_0
             GDD_val = Convert.ToDouble(input_data_table.Rows(i)("GDD"))
-            Kc_val = 0.29 + (-0.001 * GDD_val + 0.000003899 * GDD_val ^ 2 - 0.000000003388 * GDD_val ^ 3 + 0.00000000000119 * GDD_val ^ 4 - 0.000000000000000153 * GDD_val ^ 5)
-            input_data_table.Rows(i)("Kc") = Kc_val
+            'Kc_val = 0.29 + (-0.001 * GDD_val + 0.000003899 * GDD_val ^ 2 - 0.000000003388 * GDD_val ^ 3 + 0.00000000000119 * GDD_val ^ 4 - 0.000000000000000153 * GDD_val ^ 5)
+            ' Days from planting Vs Kc relation from https://extension.colostate.edu/docs/pubs/crops/04707.pdf
+            Kc_val = -0.000000000002217 * Day_from_planting ^ 6.0 + 0.000000001131 * Day_from_planting ^ 5.0 - 0.000000202 * Day_from_planting ^ 4.0 + 0.00001332 * Day_from_planting ^ 3.0 - 0.000125 * Day_from_planting ^ 2.0 - 0.002301 * Day_from_planting + 0.2719
+            If Kc_val < 0.25 And GDD_val < 500 Then
+                input_data_table.Rows(i)("Kc") = 0.25
+            ElseIf Kc_val > 1 Then
+                input_data_table.Rows(i)("Kc") = 1
+            ElseIf Kc_val < 0.58 And GDD_val > 1500 Then
+                input_data_table.Rows(i)("Kc") = 0.58
+            Else
+                input_data_table.Rows(i)("Kc") = Math.Round(Kc_val, 4)
+            End If
         Next
 
         'Modifying initial dip in the Kc values and keeping them constant to the value of Kc_ini on the very first day.
@@ -259,7 +278,8 @@ Public Class WaterBalanceCalculator
                 DP = (Effective_Precipitation + Eff_Irrig) - (ETc + Di_prev)
                 Di = 0
             Else
-                Di = -(Effective_Precipitation + Eff_Irrig - ETc - Di_prev)
+                'Di = -(Effective_Precipitation + Eff_Irrig - ETc - Di_prev)
+                Di = (Di_prev + ETc) - (Effective_Precipitation + Eff_Irrig)
             End If
 
             input_data_table.Rows(i)("DP") = DP

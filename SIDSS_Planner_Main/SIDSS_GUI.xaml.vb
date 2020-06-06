@@ -6,6 +6,7 @@ Imports System.Data.SQLite
 Imports System.IO
 Imports System.Windows.Forms
 Imports DotSpatial.Symbology
+
 'Imports Hourly_Ref_ET_Calculator
 
 Class MainWindow
@@ -14,6 +15,7 @@ Class MainWindow
 
     'Public app_path As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
     Public app_path As String = Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location) & "\SIDSS_Entity_database.db"
+
     Public dgv As FormDGV
     Public user_control As OutputPath
     Public Property Value As DateTime
@@ -86,7 +88,6 @@ Class MainWindow
     Private Sub Btn_tiff_Click(sender As Object, e As RoutedEventArgs) Handles btn_load_weather_data_csv.Click
         If MessageBox.Show("By loading new weather data you will be resetting current data table. Are you sure?", "Dialog", MessageBoxButtons.YesNo) = vbYes Then
             Reset_SIDSS_Table("Ref_ET_Table")
-
         Else
             Return
         End If
@@ -147,6 +148,13 @@ Class MainWindow
 
     End Sub
 
+    ''' <summary>
+    ''' Creates a file dialog with the defined properties i.e. file filter, dialog title etc.
+    ''' </summary>
+    ''' <param name="file_info"></param>
+    ''' <param name="extension"></param>
+    ''' <param name="title"></param>
+    ''' <returns></returns>
     Private Function get_file_path(ByVal file_info As String, ByVal extension As String, ByVal title As String)
         Dim open_file As New Microsoft.Win32.OpenFileDialog With {
             .Filter = String.Format("{0}|*.{1}", file_info, extension),

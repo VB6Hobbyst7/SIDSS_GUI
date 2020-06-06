@@ -3,10 +3,6 @@ Public Class DailyDataInput_Form
     Private Sub BtnSaveDailyData_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveDailyData.Click
 
         Dim range = New TextRange(rtbxDailyData.Document.ContentStart, rtbxDailyData.Document.ContentEnd)
-        'Dim dlg_result = MessageBox.Show("You are about to reset and start new calculations.", "Warning!!!", MessageBoxButton.OKCancel)
-        'If dlg_result = MessageBoxResult.Cancel Then
-        '    Return
-        'End If
 
         Dim allText = range.Text
         Dim input_data_lines = allText.Split(vbCrLf)

@@ -1,6 +1,7 @@
-﻿Imports System.Data.SQLite
-Imports System.Data
+﻿Imports System.Data
+Imports System.Data.SQLite
 Imports System.IO
+
 Public Class SQL_table_operation
     Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
     Dim cmd As New SQLiteCommand
@@ -15,7 +16,6 @@ Public Class SQL_table_operation
 
         Dim DOY As Integer = col_data.Rows(0)(4)
         cmd.CommandText = String.Format("Select {0} from {1} WHERE DOY={2};", col_name, table_name, DOY)
-
 
         Dim reader As SQLiteDataReader = cmd.ExecuteReader
         Dim dt As New DataTable
@@ -53,7 +53,6 @@ Public Class SQL_table_operation
                 Else
                     cell_value = col_data.Rows(i)(col_index)
                 End If
-
             Else
                 Try
                     cell_value = Math.Round(Convert.ToDouble(col_data.Rows(i)(col_index)), 3)
@@ -143,7 +142,6 @@ Public Class SQL_table_operation
 
         myConnection.Close()
 
-
         Return 0
     End Function
 
@@ -158,7 +156,6 @@ Public Class SQL_table_operation
 
         End Using
 
-
         'Using DBConnection As New SIDSS_Entities
         '    Dim SMD_Daily = DBConnection.SMD_Daily.ToDictionary(Of String, String)
         '    Dim col_names As String()
@@ -168,8 +165,6 @@ Public Class SQL_table_operation
         '        'Dim col = curr_col(i)
         '        i += 1
         '    Loop
-
-
 
         '    Dim data_table As New DataTable
         '    Dim conn = DBConnection.Database.Connection
@@ -197,7 +192,6 @@ Public Class SQL_table_operation
             myConnection.Open()
         End If
 
-
         'Select all columns from the database file to display in WPF datagrid.
         Dim cmd As New SQLiteCommand With {
             .Connection = myConnection,
@@ -217,12 +211,10 @@ Public Class SQL_table_operation
 
         End Try
 
-
         'Close connection to the database.
         reader.Close()
         myConnection.Close()
         Return dt
-
 
     End Function
 
@@ -251,6 +243,5 @@ Public Class SQL_table_operation
         End Using
 
     End Sub
-
 
 End Class

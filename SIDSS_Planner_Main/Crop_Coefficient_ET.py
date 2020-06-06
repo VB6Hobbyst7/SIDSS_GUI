@@ -50,7 +50,7 @@ with rasterio.open(tif_path) as src:
         else:
                 print("Number of bands should be 3 or 4, this script doesn't support any other combination.")
                 time.sleep(20)
-				exit()
+		exit()
 
 # Set spatial characteristics of the output object to mirror the input
 kwargs = src.meta
@@ -87,8 +87,9 @@ CC_array = np.where(CC_array<0.0001,0,CC_array)
 # Trout; J. Irrig. Drain Eng. 2018 (144(6); Page 10; Fig. 10a; multi season (corn as crop 2008 to 2013)
 # Experiment site at LIRF, Greeley.
 Kcb_trout = 1.1 *CC_array+0.17
-# Removing -ve values from Kcb (reflectance based).
-Kcb_trout = np.where(Kcb_trout<=0.17, 0, Kcb_trout)
+
+# Removing values lower than min Kcb values 0.15 (reflectance based).
+Kcb_trout = np.where(Kcb_trout<=0.15, 0, Kcb_trout)
 
 Daily_ET_Trout  = Kcb_trout*Full_Day_ET
 # Removing any -ve values from daily ET

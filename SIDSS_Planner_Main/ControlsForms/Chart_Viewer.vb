@@ -31,7 +31,9 @@ Public Class Graphs_Viewer
         'Get data from the SQL database using function Load_SQL_Table
         Dim main_table As DataTable
         main_table = Load_SQL_Table()
-
+        Dim row_count As Integer = main_table.Rows.Count
+        start_date = main_table.Rows(0)("Date")
+        end_date = main_table.Rows(row_count - 1)("Date")
         'chrtWaterBalance.Titles(0).Text = vbCrLf & start_date & " to " & end_date
 
         Dim summary_dictionary As New Dictionary(Of String, Double)
@@ -144,15 +146,16 @@ Public Class Graphs_Viewer
         Dim da As IDbDataAdapter = Nothing
 
         Using SIDSS_Context As New SIDSS_Entities
-            Selected_Daily_SMD = (From selected_rows In SIDSS_Context.SMD_Daily Where selected_rows.Tmin > 32 And selected_rows.Tmax > 32 Select selected_rows).ToList
+            Selected_Daily_SMD = (From selected_rows In SIDSS_Context.SMD_Daily Where selected_rows.Tmin > 0 And selected_rows.Tmax > 0 Select selected_rows).ToList
             dt = LINQToDataTable(Selected_Daily_SMD)
         End Using
+
         Return dt
     End Function
 
     ''' <summary>
     ''' This function takes the input from LINQ to the selected table in SIDSS database.
-    ''' And returns the data as DataTable which can be used as input data for plotting graph.
+    ''' And returns the data as DataTable which can be used as an input data for plotting graph.
     ''' </summary>
     ''' <typeparam name="T">SMD_Daily</typeparam>
     ''' <param name="Selected_Daily_SMD"></param>

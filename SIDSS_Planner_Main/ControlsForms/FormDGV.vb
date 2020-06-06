@@ -1,8 +1,7 @@
 ﻿Imports System.Windows.Forms
-Imports ET_Calculator_streamlined_v11_GIT.SQL_table_operation
-Imports ET_Calculator_streamlined_v11_GIT.MainWindow.Shared_controls
 
 Public Class FormDGV
+
     'Public x_y As New Data.DataTable
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.Close()
@@ -52,16 +51,13 @@ Public Class FormDGV
         'Dim save_col As New SQL_table_operation
         'save_col.Write_SQL_Col("WaterBalance_Table", col_name, 0, x_y)
 
-
-
-
         'full_table = save_col.Load_Datagrid()
         'Dim main_window As New MainWindow
         'main_window.dgvWaterBalance.ItemsSource = full_table.DefaultView
         Me.Close()
 
-
     End Sub
+
     'Private Sub Load_WaterBalance_DagaGrid()
     '    ' Encapsulating database in "using" statement to close the database immediately.
     '    Using entity_table As New SIDSS_Entities()
@@ -80,7 +76,6 @@ Public Class FormDGV
                     Me.DataGridView1.Rows(i).Cells(1).Value = line
                     i += 1
                 Next
-
             Catch ex As Exception
                 MessageBox.Show(ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
