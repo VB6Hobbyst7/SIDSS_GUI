@@ -6,28 +6,39 @@
         xmlns:local="clr-namespace:SIDSS_Planner_GUI"
         mc:Ignorable="d"
         Title="DailyDataInput_Form" Height="450" Width="800">
+
     <Grid>
-        <RichTextBox x:Name="rtbxDailyData" HorizontalAlignment="Left" Height="334" Margin="10,75,0,0" VerticalAlignment="Top" Width="772" VerticalScrollBarVisibility="Auto">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="Clear this text and enter daily weather data, tab-separated values copy and paste from spreadsheet to this textbx."/>
-                    <LineBreak/>
-                    <LineBreak/>
-                    Date	T-High F	T-Low F	Precip inches	Irrigation, inches	ETr (SIDSS) inches
-                    <LineBreak/>
-                    5/13/2019	    81.374	31.658	0	0	0.289
-                    <LineBreak/>
-                    5/14/2019	    85.406	45.788	0	0	0.300
-                    <LineBreak/>
-                    5/15/2019	    86.774	51.89	0	0	0.333
-                    <LineBreak/>
-                    5/16/2019	    86.594	49.01	0.07	0	0.286 
-                    <LineBreak/>
+        <StackPanel>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Button x:Name="btnLoadCSV" FontWeight="Bold" Content="Load CSV file..." Height="25" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Button x:Name="btnSaveDailyData" FontWeight="Bold" Content="Save Data" Width="100"  Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
+                </Grid>
+            </Grid>
+            <Grid>
+                <RichTextBox x:Name="rtbxDailyData" MinHeight="350" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+                    <FlowDocument>
+                        <Paragraph xml:space="preserve" ><Run Text="Clear entire text and copy-paste daily weather data (tab-separated values) from the opened spreadsheet to this textbox."/>
+
+Date&#009;&#009;T-High, F&#009;T-Low, F&#009;&#009;Precip, inches&#009;Irrigation, inches&#009;&#009;ETr, inches
+5/13/2019&#009;81.374&#009;&#009;31.658&#009;&#009;0&#009;&#009;0&#009;&#009;&#009;0.289
+5/14/2019&#009;85.406&#009;&#009;45.788&#009;&#009;0&#009;&#009;0&#009;&#009;&#009;0.300
+5/15/2019&#009;86.774&#009;&#009;51.89&#009;&#009;0&#009;&#009;0&#009;&#009;&#009;0.333
+5/16/2019&#009;86.594&#009;&#009;49.01&#009;&#009;0.07&#009;&#009;0&#009;&#009;&#009;0.286                  
                 </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-
-        <Button x:Name="btnSaveDailyData" Content="Save Data" Margin="0,30,32,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Width="90"/>
-
+                    </FlowDocument>
+                </RichTextBox>
+            </Grid>
+        </StackPanel>
     </Grid>
+            
+
 </Window>

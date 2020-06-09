@@ -18,7 +18,7 @@
 5/25/2019       0.219638795     0.041609388
                     <LineBreak />
 <Bold>Please Note:</Bold>
-<Italic>Delete entire text of this textbox and paste data directly from spreadsheet into this textbox. First row will be ignored, it is here just to identify the correct order of columns. For now plot names are hard-coded.
+<Italic> Delete entire text of this textbox and paste data directly from spreadsheet into this textbox. First row will be ignored, it is here just to identify the correct order of columns. For now plot names are hard-coded.
 </Italic></Paragraph></FlowDocument>
         </RichTextBox>
         <TextBox x:Name="tbxFourier_a0" HorizontalAlignment="Left" Height="23" Margin="64,36,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826" />
