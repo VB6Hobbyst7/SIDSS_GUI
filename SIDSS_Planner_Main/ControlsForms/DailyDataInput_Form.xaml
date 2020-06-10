@@ -8,37 +8,38 @@
         Title="DailyDataInput_Form" Height="450" Width="800">
 
     <Grid>
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" >
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <Button x:Name="btnLoadCSV" FontWeight="Bold" Content="Load CSV file..." Height="25" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    <Button x:Name="btnLoadCSV" FontWeight="Bold" Content="Load CSV file..." Height="30" Width="100" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
 
                 </Grid>
                 <Grid Grid.Column="2">
-                    <Button x:Name="btnSaveDailyData" FontWeight="Bold" Content="Save Data" Width="100"  Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
+                    <Button x:Name="btnSaveDailyData" FontWeight="Bold" Content="Save Data" Width="100"  Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
                 </Grid>
             </Grid>
-            <Grid>
-                <RichTextBox x:Name="rtbxDailyData" MinHeight="350" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-                    <FlowDocument>
-                        <Paragraph xml:space="preserve" ><Run Text="Clear entire text and copy-paste daily weather data (tab-separated values) from the opened spreadsheet to this textbox."/>
-
-Date&#009;&#009;T-High, F&#009;T-Low, F&#009;&#009;Precip, inches&#009;Irrigation, inches&#009;&#009;ETr, inches
-5/13/2019&#009;81.374&#009;&#009;31.658&#009;&#009;0&#009;&#009;0&#009;&#009;&#009;0.289
-5/14/2019&#009;85.406&#009;&#009;45.788&#009;&#009;0&#009;&#009;0&#009;&#009;&#009;0.300
-5/15/2019&#009;86.774&#009;&#009;51.89&#009;&#009;0&#009;&#009;0&#009;&#009;&#009;0.333
-5/16/2019&#009;86.594&#009;&#009;49.01&#009;&#009;0.07&#009;&#009;0&#009;&#009;&#009;0.286                  
-                </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
-            </Grid>
         </StackPanel>
-    </Grid>
-            
+
+        <DataGrid Grid.Row="1" Name="dgvDailWeatherData" CanUserAddRows="True" ItemsSource="{Binding TestBinding}" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" IsReadOnly="True" Binding="{Binding Path=CSV_Date}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="T High, F" IsReadOnly="True" Binding="{Binding Path=CSV_THigh}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="T Low, F" IsReadOnly="True" Binding="{Binding Path=CSV_TLow}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="Precip, in." IsReadOnly="True" Binding="{Binding Path=CSV_Precip}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="Irrig, in" IsReadOnly="True" Binding="{Binding Path=CSV_Irrig}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="ETr" IsReadOnly="True" Binding="{Binding Path=CSV_ETr}" Width="50"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>            
 
 </Window>
