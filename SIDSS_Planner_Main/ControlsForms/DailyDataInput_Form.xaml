@@ -19,10 +19,7 @@
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="1">
-                    <Button x:Name="btnLoadCSV" FontWeight="Bold" Content="Load CSV file..." Height="30" Width="100" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
-
-                </Grid>
+                    <Button Grid.Column="1" x:Name="btnLoadCSV" FontWeight="Bold" Content="Load CSV file..." Height="30" Width="100" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                 <Grid Grid.Column="2">
                     <Button x:Name="btnSaveDailyData" FontWeight="Bold" Content="Save Data" Width="100"  Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
                 </Grid>

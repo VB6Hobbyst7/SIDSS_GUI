@@ -24,7 +24,7 @@ namespace Hourly_Ref_ET_Calculator
         private double J_doy;
         private double Mjph2Wm2 = 277.7;
         private double Wm2toMjph = 1 / 277.7;
-        private double beta_old, beta_avg =0;
+        private double beta_old, beta_avg = 0;
         //private double fcd_03 = 0;
         private bool fcd_set_morning = false;
         private bool fcd_set_evening = false;
@@ -135,7 +135,7 @@ namespace Hourly_Ref_ET_Calculator
 
         public double _Rs_measured_rad
         {
-            set { Rs_measured_rad = value*Wm2toMjph; }
+            set { Rs_measured_rad = value * Wm2toMjph; }
         }
 
         public double _phi_degree
@@ -169,17 +169,17 @@ namespace Hourly_Ref_ET_Calculator
             u2 = Calc_u2(Uz_WindSpeed, Zw_agl_WindRH_measurement, ref_crop);
             Cn = Calc_Cn(ref_crop);
             Cd = Calc_Cd(beta, ref_crop);
-            sin_phi = Calc_sin_phi(phi,delta_angle,omega);
+            sin_phi = Calc_sin_phi(phi, delta_angle, omega);
             W_precip_water = Calc_W(ea, P);
             Kb = Calc_Kb(P, sin_phi, W_precip_water);
             Kd = Calc_Kd(Kb);
             Rso_adv = Calc_Rso_adv(Kb, Kd, Ra);
-            Rs_Rso_adv = Calc_Rs_Rso_adv(Rso_adv, Rs_measured_rad, beta,t_mid_time);
+            Rs_Rso_adv = Calc_Rs_Rso_adv(Rso_adv, Rs_measured_rad, beta, t_mid_time);
             fcd_adv = Calc_fcd_adv(Rs_Rso_adv, beta, t_std_time);
             Rnl = Calc_Rnl(fcd_adv, ea, TKhr);
-            Rn = Calc_Rn(Rns, Rnl);            
-            ETr= ETo = 0;
-            CropName="";
+            Rn = Calc_Rn(Rns, Rnl);
+            ETr = ETo = 0;
+            CropName = "";
             G = Calc_G(Rn, Rs_measured_rad, ref_crop);
 
             if (ref_crop == "alfalfa")
@@ -235,7 +235,7 @@ namespace Hourly_Ref_ET_Calculator
 
         }
 
-        private double Calc_sin_phi( double phi, double delta, double omega)
+        private double Calc_sin_phi(double phi, double delta, double omega)
         {
             double sin_phi = Math.Sin(phi) * Math.Sin(delta) + Math.Cos(phi) * Math.Cos(delta) * Math.Cos(omega);
             return sin_phi;
@@ -259,7 +259,7 @@ namespace Hourly_Ref_ET_Calculator
         private double Calc_Kb(double P, double sin_phi, double W_precip_water)
         {
             double Kt = 1;
-            double Kb = 0.98 * Math.Exp(-0.00146 * P / Kt/sin_phi - 0.075 * Math.Pow((W_precip_water / sin_phi), 0.4));
+            double Kb = 0.98 * Math.Exp(-0.00146 * P / Kt / sin_phi - 0.075 * Math.Pow((W_precip_water / sin_phi), 0.4));
             return Kb;
         }
 
@@ -272,7 +272,7 @@ namespace Hourly_Ref_ET_Calculator
         private double Calc_Rso_adv(double Kb, double Kd, double Ra)
         {
             double Rso_adv = (Kb + Kd) * Ra;
-            if (Rso_adv>Ra)
+            if (Rso_adv > Ra)
             {
                 Rso_adv = 0.7 * Ra;
             }
@@ -281,10 +281,10 @@ namespace Hourly_Ref_ET_Calculator
 
         private double Calc_fcd_adv(double Rs_Rso_adv, double beta, double t_std_time)
         {
-            
+
             double fcd_adv = 1.35 * Rs_Rso_adv - 0.35;
 
-            if (fcd_set_morning ==false || fcd_set_evening == false)
+            if (fcd_set_morning == false || fcd_set_evening == false)
             {
 
                 if (fcd_set_morning == false)
@@ -300,7 +300,7 @@ namespace Hourly_Ref_ET_Calculator
 
 
                 if (fcd_set_evening == false)
-                    //Set fcd beta>0.3 value equal to the last fcd value just before sunset
+                //Set fcd beta>0.3 value equal to the last fcd value just before sunset
                 {
                     if (beta >= 0.3 && t_std_time > noon_time)
                     {   // Determining fcd at the sunset time when beta is just above 0.3 radians.
@@ -308,7 +308,7 @@ namespace Hourly_Ref_ET_Calculator
                         fcd_evening_hour = t_std_time;
                     }
 
-                    else if (beta<0.3 && t_std_time>noon_time)
+                    else if (beta < 0.3 && t_std_time > noon_time)
                     {
                         fcd_set_evening = true;
                     }
@@ -318,7 +318,7 @@ namespace Hourly_Ref_ET_Calculator
 
             if (fcd_set_morning == true || fcd_set_evening == true)
             {
-                if ( t_std_time > fcd_evening_hour)
+                if (t_std_time > fcd_evening_hour)
                 { fcd_adv = fcd_evening; }
                 else if (t_std_time < fcd_morning_hour)
                 { fcd_adv = fcd_evening; }
@@ -531,15 +531,15 @@ namespace Hourly_Ref_ET_Calculator
 
         private double Calc_u2(double uz, double Zw, string ref_crop)
         {
-            double u2= 0;
+            double u2 = 0;
             double h = 0;
             double d = 0;
             double Zom = 0;
 
             if (ref_crop == "alfalfa")
-            {   h = 0.5;  }
+            { h = 0.5; }
             else if (ref_crop == "grass")
-            {   h = 0.12; }
+            { h = 0.12; }
 
             d = h * 0.67;
             Zom = 0.123 * h;
@@ -557,7 +557,7 @@ namespace Hourly_Ref_ET_Calculator
             else if (ref_crop == "grass")
             {// Cn for grass is same either it is night or day.
                 Cn = 37;
-              }
+            }
             return Cn;
         }
 
@@ -568,7 +568,7 @@ namespace Hourly_Ref_ET_Calculator
             if (ref_crop == "alfalfa")
             {
 
-                if (Rs_measured_rad >0)
+                if (Rs_measured_rad > 0)
                 {// Daytime Cd for alfalfa.
                     Cd = 0.25;
                 }

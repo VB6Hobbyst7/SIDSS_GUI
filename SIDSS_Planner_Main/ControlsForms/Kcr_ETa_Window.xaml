@@ -7,42 +7,33 @@
         mc:Ignorable="d"
         Title="Kcr_ETa_Window" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
 
-
+        </Grid.RowDefinitions>
         <StackPanel>
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" x:Name="btnSaveKcrETa" Content="Save Kcr ETa values" VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.507,2.25" Width="175" Height="29" />
-                <Button Grid.Column="2" x:Name="btnFillMissignKcrETa" Content="Calculate missing Kcr" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Center" Width="175" Height="28" />
-                <Button Grid.Column="0" Content="Load CSV file..." Width="175" x:Name="btnLoadCSV"></Button>
+                <Grid Margin="10" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="175"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="175"/>
+                    </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Content="(1) Load CSV file..." Width="175" x:Name="btnLoadCSV" Height="30" FontWeight="Bold"/>
+                <Button Grid.Column="3" x:Name="btnSaveKcrETa" Content="(2) Save Kcr ETa values" VerticalAlignment="Center" HorizontalAlignment="Center" Width="175" Height="30" FontWeight="Bold" />
             </Grid>
-            <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,10,10,10" VerticalScrollBarVisibility="Visible" Height="100" VerticalAlignment="Top" >
-                <FlowDocument>
-                    <Paragraph xml:space="preserve">Date                Kcr_8214            ETa_8214
-5/13/2019       0.158500776     0.020605100
-5/14/2019       0.154560745     0.044668056
-5/15/2019       0.207574248     0.066631332
-5/16/2019       0.167366400     0.046025760
-5/25/2019       0.219638795     0.041609388
-                    <LineBreak />
-<Bold>Please Note:</Bold>
-<Italic> Delete entire text of this textbox and paste data directly from spreadsheet into this textbox. First row will be ignored, it is here just to identify the correct order of columns. For now plot names are hard-coded.
-</Italic></Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-            <DataGrid x:Name="dgvKcrEta" Height="200">
+        </StackPanel>
+            <DataGrid Grid.Row="1" x:Name="dgvKcrEta" Margin="0 0 0 5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Path=CSV_Date}"/>
                     <DataGridTextColumn Header="Kcr" Binding="{Binding Path=CSV_Kcr}" />
-                    <DataGridTextColumn Header="ETa" Binding="{Binding Path=CSV_ETa}" />
+                    <DataGridTextColumn Header="ETa, in." Binding="{Binding Path=CSV_ETa}" />
                 </DataGrid.Columns>
-
             </DataGrid>
-        </StackPanel>
-
+        <Grid Grid.Row="2">
+            <Button x:Name="btnFillMissignKcrETa" Content="(3) Calculate missing Kcr" VerticalAlignment="Center" HorizontalAlignment="Right" Width="175" Height="30" FontWeight="Bold" Margin="0 0 10 0"/>
+        </Grid>
     </Grid>
 </Window>
