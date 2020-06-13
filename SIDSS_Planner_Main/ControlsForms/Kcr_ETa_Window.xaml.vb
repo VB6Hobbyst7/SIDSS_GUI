@@ -6,14 +6,14 @@ Public Class Kcr_ETa_Window
     Private Sub Kcr_ETa_Window_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         Using sidss_context As New SIDSS_Entities
             Dim gui_parameters = sidss_context.SIDS_GUI_Parameters.ToList(0)
-            tbxFourier_a0.Text = gui_parameters.Fourier_a0.ToString
-            tbxFourier_a1.Text = gui_parameters.Fourier_a1.ToString
-            tbxFourier_a2.Text = gui_parameters.Fourier_a2.ToString
-            'tbxFourier_a3.Text = gui_parameters.Fourier_a3.ToString
-            tbxFourier_b1.Text = gui_parameters.Fourier_b1.ToString
-            tbxFourier_b2.Text = gui_parameters.Fourier_b2.ToString
-            'tbxFourier_b3.Text = gui_parameters.Fourier_b3.ToString
-            tbxFourier_w.Text = gui_parameters.Fourier_w.ToString
+            'tbxFourier_a0.Text = gui_parameters.Fourier_a0.ToString
+            'tbxFourier_a1.Text = gui_parameters.Fourier_a1.ToString
+            'tbxFourier_a2.Text = gui_parameters.Fourier_a2.ToString
+            ''tbxFourier_a3.Text = gui_parameters.Fourier_a3.ToString
+            'tbxFourier_b1.Text = gui_parameters.Fourier_b1.ToString
+            'tbxFourier_b2.Text = gui_parameters.Fourier_b2.ToString
+            ''tbxFourier_b3.Text = gui_parameters.Fourier_b3.ToString
+            'tbxFourier_w.Text = gui_parameters.Fourier_w.ToString
 
         End Using
     End Sub
@@ -21,70 +21,70 @@ Public Class Kcr_ETa_Window
     Private Sub Kcr_ETa_Window_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Using sidss_context As New SIDSS_Entities
             Dim gui_parameters = sidss_context.SIDS_GUI_Parameters.ToList(0)
-            gui_parameters.Fourier_a0 = Convert.ToDecimal(tbxFourier_a0.Text)
-            gui_parameters.Fourier_a1 = Convert.ToDecimal(tbxFourier_a1.Text)
-            gui_parameters.Fourier_a2 = Convert.ToDecimal(tbxFourier_a2.Text)
-            'gui_parameters.Fourier_a3 = Convert.ToDecimal(tbxFourier_a3.Text)
-            gui_parameters.Fourier_b1 = Convert.ToDecimal(tbxFourier_b1.Text)
-            gui_parameters.Fourier_b2 = Convert.ToDecimal(tbxFourier_b2.Text)
-            'gui_parameters.Fourier_b3 = Convert.ToDecimal(tbxFourier_b3.Text)
-            gui_parameters.Fourier_w = Convert.ToDecimal(tbxFourier_w.Text)
+            'gui_parameters.Fourier_a0 = Convert.ToDecimal(tbxFourier_a0.Text)
+            'gui_parameters.Fourier_a1 = Convert.ToDecimal(tbxFourier_a1.Text)
+            'gui_parameters.Fourier_a2 = Convert.ToDecimal(tbxFourier_a2.Text)
+            ''gui_parameters.Fourier_a3 = Convert.ToDecimal(tbxFourier_a3.Text)
+            'gui_parameters.Fourier_b1 = Convert.ToDecimal(tbxFourier_b1.Text)
+            'gui_parameters.Fourier_b2 = Convert.ToDecimal(tbxFourier_b2.Text)
+            ''gui_parameters.Fourier_b3 = Convert.ToDecimal(tbxFourier_b3.Text)
+            'gui_parameters.Fourier_w = Convert.ToDecimal(tbxFourier_w.Text)
             sidss_context.SaveChanges()
         End Using
     End Sub
 
-    Private Sub btnAddKcrETa_Click(sender As Object, e As RoutedEventArgs) Handles btnAddKcrETa.Click
-        Dim range = New TextRange(rtbx_Kcr_ETa_input.Document.ContentStart, rtbx_Kcr_ETa_input.Document.ContentEnd)
-        Dim allText = range.Text
-        Dim input_data_lines = allText.Split(vbCrLf)
-        Dim Kcr_plot, ETa_plot As New Double
-        Dim date_value As String = ""
-        Using sidss_context As New SIDSS_Entities
+    'Private Sub btnAddKcrETa_Click(sender As Object, e As RoutedEventArgs) Handles btnAddKcrETa.Click
+    '    Dim range = New TextRange(rtbx_Kcr_ETa_input.Document.ContentStart, rtbx_Kcr_ETa_input.Document.ContentEnd)
+    '    Dim allText = range.Text
+    '    Dim input_data_lines = allText.Split(vbCrLf)
+    '    Dim Kcr_plot, ETa_plot As New Double
+    '    Dim date_value As String = ""
+    '    Using sidss_context As New SIDSS_Entities
 
-            Dim smd_data = sidss_context.SMD_Daily.ToList()
-            Dim smd_rows_count As Integer = smd_data.Count
-            ' Erase previous dataset in Kcr and ETa columns to make space for latest values.
-            For r = 0 To smd_rows_count - 1
-                smd_data(r).Kcr_plot = 0
-                smd_data(r).ETa_plot = 0
-            Next
-            sidss_context.SaveChanges()
-            Dim current_row = input_data_lines(0).Replace(vbLf, "").Split(vbTab)
-            If current_row.Length <> 3 Then
-                MessageBox.Show("Please make shure there are 3 columns of data pasted, i.e. Date, Kc & ETa.")
-                Exit Sub
-            End If
+    '        Dim smd_data = sidss_context.SMD_Daily.ToList()
+    '        Dim smd_rows_count As Integer = smd_data.Count
+    '        ' Erase previous dataset in Kcr and ETa columns to make space for latest values.
+    '        For r = 0 To smd_rows_count - 1
+    '            smd_data(r).Kcr_plot = 0
+    '            smd_data(r).ETa_plot = 0
+    '        Next
+    '        sidss_context.SaveChanges()
+    '        Dim current_row = input_data_lines(0).Replace(vbLf, "").Split(vbTab)
+    '        If current_row.Length <> 3 Then
+    '            MessageBox.Show("Please make shure there are 3 columns of data pasted, i.e. Date, Kc & ETa.")
+    '            Exit Sub
+    '        End If
 
-            Dim input_row = 1
-            For j = 0 To smd_rows_count - 1
-                smd_data(j).Kcr_calculated = 0
-                smd_data(j).Deficit_plot = 0
-                For i = input_row To input_data_lines.Count - 1
+    '        Dim input_row = 1
+    '        For j = 0 To smd_rows_count - 1
+    '            smd_data(j).Kcr_calculated = 0
+    '            smd_data(j).Deficit_plot = 0
+    '            For i = input_row To input_data_lines.Count - 1
 
-                    current_row = input_data_lines(i).Replace(vbLf, "").Split(vbTab)
-                    If current_row.Length = 3 Then
-                        Try
-                            date_value = current_row(0)
-                            Kcr_plot = current_row(1)
-                            ETa_plot = current_row(2)
-                            If Convert.ToDateTime(smd_data(j).Date) = Convert.ToDateTime(date_value) Then
-                                smd_data(j).Kcr_plot = Math.Round(Convert.ToDecimal(Kcr_plot), 4)
-                                smd_data(j).ETa_plot = Math.Round(Convert.ToDecimal(ETa_plot), 4)
-                                Exit For
-                            End If
-                        Catch ex As Exception
-                            'MessageBox.Show(ex.Message)
-                        End Try
-                    End If
-                Next
-            Next
+    '                current_row = input_data_lines(i).Replace(vbLf, "").Split(vbTab)
+    '                If current_row.Length = 3 Then
+    '                    Try
+    '                        date_value = current_row(0)
+    '                        Kcr_plot = current_row(1)
+    '                        ETa_plot = current_row(2)
+    '                        If Convert.ToDateTime(smd_data(j).Date) = Convert.ToDateTime(date_value) Then
+    '                            smd_data(j).Kcr_plot = Math.Round(Convert.ToDecimal(Kcr_plot), 4)
+    '                            smd_data(j).ETa_plot = Math.Round(Convert.ToDecimal(ETa_plot), 4)
+    '                            Exit For
+    '                        End If
+    '                    Catch ex As Exception
+    '                        'MessageBox.Show(ex.Message)
+    '                    End Try
+    '                End If
+    '            Next
+    '        Next
 
-            sidss_context.SaveChanges()
-            MessageBox.Show("Data added successfully.")
+    '        sidss_context.SaveChanges()
+    '        MessageBox.Show("Data added successfully.")
 
-        End Using
-        Me.Close()
-    End Sub
+    '    End Using
+    '    Me.Close()
+    'End Sub
 
     Private Sub Calculate_missing_Kcr_ETa_Data()
 
@@ -97,7 +97,7 @@ Public Class Kcr_ETa_Window
                 'GDD_vals.Add(New list(Double))
                 Dim smd_data = sidss_context.SMD_Daily.ToArray()
                 Dim row_count As Integer = smd_data.Count
-                Dim calc_Kcr, GDD As Double
+                Dim GDD As Double
 
                 For i = 0 To row_count - 1
                     GDD = smd_data(i).GDD
@@ -111,6 +111,7 @@ Public Class Kcr_ETa_Window
                     End If
                 Next
 
+                ' Generating GDD Vs Kcr values for linear interpolation.
                 ' clean GDD_Kcr_vals of duplicate GDD values.
                 Dim old_GDD As Double = 0
                 Dim new_GDD As Double = 0
@@ -139,12 +140,12 @@ Public Class Kcr_ETa_Window
                     interpolated_kcr_poly6 = Interpolated_Kcr_vals(1)(i)
                     interpolated_kcr_spline = Interpolated_Kcr_vals(0)(i)
                     smd_data(i).Kcr_calculated = Math.Round(interpolated_kcr_poly6, 3)
-                    If smd_data(i).Kcr_plot = 0 Then
-                        smd_data(i).Kcr_plot = Math.Round(interpolated_kcr_spline, 3)
-                        ETa_val = smd_data(i).ETr * interpolated_kcr_spline
+                    If smd_data(i).Kcr_plot > 0 Then
+                        ETa_val = smd_data(i).ETr * smd_data(i).Kcr_plot
                         smd_data(i).ETa_plot = Math.Round(ETa_val, 3)
                     Else
-                        ETa_val = smd_data(i).ETr * smd_data(i).Kcr_plot
+                        smd_data(i).Kcr_plot = Math.Round(interpolated_kcr_spline, 3)
+                        ETa_val = smd_data(i).ETr * interpolated_kcr_spline
                         smd_data(i).ETa_plot = Math.Round(ETa_val, 3)
                     End If
                 Next
@@ -184,16 +185,16 @@ Public Class Kcr_ETa_Window
     Private Function Calc_Fourier_Curve_Fit(ByVal GDD As Double)
 
         Dim Fourier_result As Double
-        Dim a0 = Convert.ToDouble(tbxFourier_a0.Text)
-        Dim w = Convert.ToDouble(tbxFourier_w.Text)
-        Dim a1 = Convert.ToDouble(tbxFourier_a1.Text)
-        Dim a2 = Convert.ToDouble(tbxFourier_a2.Text)
-        'Dim a3 = Convert.ToDouble(tbxFourier_a3.Text)
-        Dim b1 = Convert.ToDouble(tbxFourier_b1.Text)
-        Dim b2 = Convert.ToDouble(tbxFourier_b2.Text)
+        'Dim a0 = Convert.ToDouble(tbxFourier_a0.Text)
+        'Dim w = Convert.ToDouble(tbxFourier_w.Text)
+        'Dim a1 = Convert.ToDouble(tbxFourier_a1.Text)
+        'Dim a2 = Convert.ToDouble(tbxFourier_a2.Text)
+        ''Dim a3 = Convert.ToDouble(tbxFourier_a3.Text)
+        'Dim b1 = Convert.ToDouble(tbxFourier_b1.Text)
+        'Dim b2 = Convert.ToDouble(tbxFourier_b2.Text)
         'Dim b3 = Convert.ToDouble(tbxFourier_b3.Text)
 
-        Fourier_result = a0 + a1 * Math.Cos(GDD * w) + b1 * Math.Sin(GDD * w) + a2 * Math.Cos(2 * GDD * w) + b2 * Math.Sin(2 * GDD * w)
+        'Fourier_result = a0 + a1 * Math.Cos(GDD * w) + b1 * Math.Sin(GDD * w) + a2 * Math.Cos(2 * GDD * w) + b2 * Math.Sin(2 * GDD * w)
         Return Fourier_result
 
     End Function
@@ -230,79 +231,68 @@ Public Class Kcr_ETa_Window
 
     End Sub
 
-    'Private Sub BtnSaveDailyData_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveDailyData.Click
+    Private Sub BtnSaveDailyData_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveKcrETa.Click
 
-    '    Dim Tmax, Tmin, Precip, Irrig, ETr As New Double
-    '    Dim date_value As String = Nothing
-    '    Using sidss_data As New SIDSS_Entities
-    '        Dim smd_data = sidss_data.SMD_Daily.ToArray()
+        Dim Kcr, ETa As New Double
+        Dim date_value As String = Nothing
+        Using sidss_data As New SIDSS_Entities
+            Dim smd_data = sidss_data.SMD_Daily.ToArray()
 
-    '        For Each row As Weather_Row In dgvDailWeatherData.Items
-    '            Try
-    '                date_value = row.CSV_Date
-    '                Tmax = row.CSV_THigh
-    '                Tmin = row.CSV_TLow
-    '                Precip = row.CSV_Precip
-    '                Irrig = row.CSV_Irrig
-    '                ETr = row.CSV_ETr
+            For Each row As Weather_Row In dgvKcrEta.Items
+                Try
+                    date_value = row.CSV_Date
+                    Kcr = row.CSV_Kcr
+                    ETa = row.CSV_ETa
 
-    '                Dim formatted_date = Format("MM/dd/yyyy", Convert.ToDateTime(date_value))
-    '                'new_row.Date = Format("MM/dd/yyyy", Convert.ToDateTime(date_value))
-    '                Dim search_row = From smd_data_row In smd_data
-    '                                 Where CType(smd_data_row.Date, Date) = CType(formatted_date, Date)
-    '                                 Select smd_data_row
-    '                search_row.First.Tmax = Math.Round(Convert.ToDecimal(Tmax), 4)
-    '                search_row.First.Tmin = Math.Round(Convert.ToDecimal(Tmin), 4)
-    '                search_row.First.Precip = Math.Round(Convert.ToDecimal(Precip), 4)
-    '                search_row.First.Irrig = Math.Round(Convert.ToDecimal(Irrig), 4)
-    '                search_row.First.ETr = Math.Round(Convert.ToDecimal(ETr), 4)
-    '            Catch ex As Exception
-    '                MessageBox.Show("Please make sure the date range of CSV input file matches the SIDSS date range for daily weather data input table.")
-    '                Exit Sub
-    '            End Try
+                    Dim formatted_date = Format("MM/dd/yyyy", Convert.ToDateTime(date_value))
+                    'new_row.Date = Format("MM/dd/yyyy", Convert.ToDateTime(date_value))
+                    Dim search_row = From smd_data_row In smd_data
+                                     Where CType(smd_data_row.Date, Date) = CType(formatted_date, Date)
+                                     Select smd_data_row
+                    search_row.First.Kcr_plot = Math.Round(Convert.ToDecimal(Kcr), 4)
+                    search_row.First.ETa_plot = Math.Round(Convert.ToDecimal(ETa), 4)
+                Catch ex As Exception
+                    'MessageBox.Show("Please make sure the date range of CSV input file matches the SIDSS date range for daily weather data input table.")
+                    'Exit Sub
+                End Try
 
-    '        Next
-    '        sidss_data.SaveChanges()
-    '        MessageBox.Show("Saved changes to the database.")
-    '    End Using
+            Next
+            sidss_data.SaveChanges()
+            MessageBox.Show("Saved changes to the database.")
+        End Using
 
-    '    Me.Close()
-    'End Sub
+        Me.Close()
+    End Sub
 
-    'Private Sub BtnLoadCSV_Click(sender As Object, e As RoutedEventArgs) Handles btnLoadCSV.Click
-    '    Dim file_dialog As New Forms.OpenFileDialog()
-    '    file_dialog.Filter = "CSV Files|*.csv"
-    '    file_dialog.Title = "Select daily weather data csv file."
+    Private Sub BtnLoadCSV_Click(sender As Object, e As RoutedEventArgs) Handles btnLoadCSV.Click
+        Dim file_dialog As New Forms.OpenFileDialog()
+        file_dialog.Filter = "CSV Files|*.csv"
+        file_dialog.Title = "Open Kcr & ETa values calculated from imagery tabular csv file."
 
-    '    If file_dialog.ShowDialog = Forms.DialogResult.OK Then
-    '        Dim csv_data As New FileIO.TextFieldParser(file_dialog.FileName)
-    '        csv_data.SetDelimiters(",")
-    '        Dim current_row As String() = Nothing
-    '        current_row = csv_data.ReadFields()
-    '        Try
-    '            While Not csv_data.EndOfData
-    '                current_row = csv_data.ReadFields()
-    '                Dim weather_row As New Weather_Row
-    '                weather_row.CSV_Date = current_row(0)
-    '                weather_row.CSV_THigh = current_row(1)
-    '                weather_row.CSV_TLow = current_row(2)
-    '                weather_row.CSV_Precip = current_row(3)
-    '                weather_row.CSV_Irrig = current_row(4)
-    '                weather_row.CSV_ETr = current_row(5)
-    '                dgvDailWeatherData.Items.Add(weather_row)
-    '            End While
-    '        Catch ex As Exception
-    '        End Try
-    '    End If
-    'End Sub
+        If file_dialog.ShowDialog = Forms.DialogResult.OK Then
+            Dim csv_data As New FileIO.TextFieldParser(file_dialog.FileName)
+            csv_data.SetDelimiters(",")
+            Dim current_row As String() = Nothing
+            current_row = csv_data.ReadFields()
+            Try
+                While Not csv_data.EndOfData
+                    current_row = csv_data.ReadFields()
+                    Dim weather_row As New Weather_Row
+                    weather_row.CSV_Date = current_row(0)
+                    weather_row.CSV_Kcr = current_row(1)
+                    weather_row.CSV_ETa = current_row(2)
+                    dgvKcrEta.Items.Add(weather_row)
+                End While
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
 
     Public Structure Weather_Row
         Public Property CSV_Date As String
-        Public Property CSV_THigh As Double
-        Public Property CSV_TLow As Double
-        Public Property CSV_Precip As Double
-        Public Property CSV_Irrig As Double
-        Public Property CSV_ETr As Double
+        Public Property CSV_Kcr As Double
+        Public Property CSV_ETa As Double
+
     End Structure
 
 

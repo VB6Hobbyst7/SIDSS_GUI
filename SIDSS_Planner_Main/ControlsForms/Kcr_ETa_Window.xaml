@@ -7,10 +7,22 @@
         mc:Ignorable="d"
         Title="Kcr_ETa_Window" Height="450" Width="800">
     <Grid>
-        <Button x:Name="btnAddKcrETa" Content="Save Kcr ETa values" Margin="0,30,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="29" />
-        <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,108,10,10" VerticalScrollBarVisibility="Visible">
-            <FlowDocument>
-                <Paragraph xml:space="preserve">Date                Kcr_8214            ETa_8214
+
+
+        <StackPanel>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" x:Name="btnSaveKcrETa" Content="Save Kcr ETa values" VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.507,2.25" Width="175" Height="29" />
+                <Button Grid.Column="2" x:Name="btnFillMissignKcrETa" Content="Calculate missing Kcr" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Center" Width="175" Height="28" />
+                <Button Grid.Column="0" Content="Load CSV file..." Width="175" x:Name="btnLoadCSV"></Button>
+            </Grid>
+            <RichTextBox x:Name="rtbx_Kcr_ETa_input" Margin="10,10,10,10" VerticalScrollBarVisibility="Visible" Height="100" VerticalAlignment="Top" >
+                <FlowDocument>
+                    <Paragraph xml:space="preserve">Date                Kcr_8214            ETa_8214
 5/13/2019       0.158500776     0.020605100
 5/14/2019       0.154560745     0.044668056
 5/15/2019       0.207574248     0.066631332
@@ -19,21 +31,18 @@
                     <LineBreak />
 <Bold>Please Note:</Bold>
 <Italic> Delete entire text of this textbox and paste data directly from spreadsheet into this textbox. First row will be ignored, it is here just to identify the correct order of columns. For now plot names are hard-coded.
-</Italic></Paragraph></FlowDocument>
-        </RichTextBox>
-        <TextBox x:Name="tbxFourier_a0" HorizontalAlignment="Left" Height="23" Margin="64,36,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826" />
-        <Label Content="Fourier curve fit parameters for calculating missing data." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" />
-        <Label Content="a0=>" HorizontalAlignment="Left" Margin="14,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45" />
-        <TextBox  x:Name="tbxFourier_a1" HorizontalAlignment="Left" Height="23" Margin="174,36,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826" />
-        <Label Content="a1=" HorizontalAlignment="Left" Margin="140,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29" />
-        <TextBox  x:Name="tbxFourier_a2" HorizontalAlignment="Left" Height="23" Margin="344,36,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826" />
-        <Label Content="a2=" HorizontalAlignment="Left" Margin="310,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29" />
-        <TextBox x:Name="tbxFourier_w" HorizontalAlignment="Left" Height="23" Margin="64,67,0,0" TextWrapping="Wrap" Text="0.9357" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.25,2.826" />
-        <Label Content="w=>" HorizontalAlignment="Left" Margin="14,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="45" />
-        <TextBox  x:Name="tbxFourier_b1" HorizontalAlignment="Left" Height="23" Margin="174,67,0,0" TextWrapping="Wrap" Text="0.2343" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826" />
-        <Label Content="b1=" HorizontalAlignment="Left" Margin="140,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29" />
-        <TextBox  x:Name="tbxFourier_b2" HorizontalAlignment="Left" Height="23" Margin="344,67,0,0" TextWrapping="Wrap" Text="632.8396" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.25,2.826" />
-        <Label Content="b2=" HorizontalAlignment="Left" Margin="310,65,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385" Width="29" />
-        <Button x:Name="btnFillMissignKcrETa" Content="Calculate missing Kcr" Margin="0,67,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.507,2.25" HorizontalAlignment="Right" Width="192" Height="28" />
+</Italic></Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <DataGrid x:Name="dgvKcrEta" Height="200">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Path=CSV_Date}"/>
+                    <DataGridTextColumn Header="Kcr" Binding="{Binding Path=CSV_Kcr}" />
+                    <DataGridTextColumn Header="ETa" Binding="{Binding Path=CSV_ETa}" />
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </StackPanel>
+
     </Grid>
 </Window>
