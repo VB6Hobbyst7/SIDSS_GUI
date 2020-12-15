@@ -139,7 +139,9 @@ Public Class Kcr_ETa_Window
                 For i = 0 To row_count - 1
                     interpolated_kcr_poly6 = Interpolated_Kcr_vals(1)(i)
                     interpolated_kcr_spline = Interpolated_Kcr_vals(0)(i)
-                    smd_data(i).Kcr_calculated = Math.Round(interpolated_kcr_poly6, 3)
+                    'smd_data(i).Kcr_calculated = Math.Round(interpolated_kcr_poly6, 3)
+                    smd_data(i).Kcr_calculated = Math.Round(interpolated_kcr_spline, 3)
+
                     If smd_data(i).Kcr_plot > 0 Then
                         ETa_val = smd_data(i).ETr * smd_data(i).Kcr_plot
                         smd_data(i).ETa_plot = Math.Round(ETa_val, 3)
@@ -162,7 +164,7 @@ Public Class Kcr_ETa_Window
 
     Private Function Interpolate_GDD_Kcr(ByVal GDD_vals As List(Of Double), ByVal GDD_Kcr_vals As List(Of List(Of Double)))
         Dim x As Double() = GDD_Kcr_vals(0).ToArray()
-        Dim y = GDD_Kcr_vals(1).ToArray()
+        Dim y As Double() = GDD_Kcr_vals(1).ToArray()
         Dim t = GDD_vals
         Dim t_size = t.Count
         Dim y_predicted As Double()
@@ -170,7 +172,9 @@ Public Class Kcr_ETa_Window
         Dim y_predicted_pol As Double()
         ReDim Preserve y_predicted_pol(t_size - 1)
 
-        Dim spline_xy = Interpolation.LinearSpline.Interpolate(x, y)
+        'Dim spline_xy = Interpolation.LinearSpline.Interpolate(x, y)
+        Dim spline_xy = Interpolation.CubicSpline.InterpolateAkimaSorted(x, y)
+
         Dim poly_coeffs As Double() = Fit.Polynomial(x, y, 6)
         For i = 0 To t.Count - 1
             'Dim t_ As Double = 255
@@ -182,22 +186,6 @@ Public Class Kcr_ETa_Window
 
     End Function
 
-    'Private Function Calc_Fourier_Curve_Fit(ByVal GDD As Double)
-
-    '    Dim Fourier_result As Double
-    '    'Dim a0 = Convert.ToDouble(tbxFourier_a0.Text)
-    '    'Dim w = Convert.ToDouble(tbxFourier_w.Text)
-    '    'Dim a1 = Convert.ToDouble(tbxFourier_a1.Text)
-    '    'Dim a2 = Convert.ToDouble(tbxFourier_a2.Text)
-    '    ''Dim a3 = Convert.ToDouble(tbxFourier_a3.Text)
-    '    'Dim b1 = Convert.ToDouble(tbxFourier_b1.Text)
-    '    'Dim b2 = Convert.ToDouble(tbxFourier_b2.Text)
-    '    'Dim b3 = Convert.ToDouble(tbxFourier_b3.Text)
-
-    '    'Fourier_result = a0 + a1 * Math.Cos(GDD * w) + b1 * Math.Sin(GDD * w) + a2 * Math.Cos(2 * GDD * w) + b2 * Math.Sin(2 * GDD * w)
-    '    Return Fourier_result
-
-    'End Function
 
     Private Sub btnFillMissignKcrETa_Click(sender As Object, e As RoutedEventArgs) Handles btnFillMissignKcrETa.Click
         Calculate_missing_Kcr_ETa_Data()

@@ -115,7 +115,7 @@ Public Class Graphs_Viewer
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.DarkGray
 
                 Case "Kcr_plot"
-                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Point
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
                     chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Black
 

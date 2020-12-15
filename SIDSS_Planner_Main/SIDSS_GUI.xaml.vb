@@ -178,68 +178,7 @@ Class MainWindow
     End Sub
 
     Private Sub Main_window_Loaded(sender As Object, e As RoutedEventArgs) Handles main_window.Loaded
-        'Load_RefET_DagaGrid()
-        ' Return
-
-#Region "Load Settings"
-
-        Using SIDS_GUI_context As New SIDSS_Entities()
-            Try
-                Dim parameter_row = SIDS_GUI_context.SIDS_GUI_Parameters.Find(1)
-                Dim item_name As String = ""
-                KC_MS_file_path.Text = parameter_row.Kcb_MS_Tiff
-                tbx_csv_path_string.Text = parameter_row.RefET_hourly_CSV
-                tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
-                tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
-                tbxSoilDepth_1.Text = parameter_row.SoilDepth_1
-                tbxSoilDepth_2.Text = parameter_row.SoilDepth_2
-                tbxSoilDepth_3.Text = parameter_row.SoilDepth_3
-                tbxSoilDepth_4.Text = parameter_row.SoilDepth_4
-                tbxSoilDepth_5.Text = parameter_row.SoilDepth_5
-                tbxTAW_1.Text = parameter_row.TAW_1
-                tbxTAW_2.Text = parameter_row.TAW_2
-                tbxTAW_3.Text = parameter_row.TAW_3
-                tbxTAW_4.Text = parameter_row.TAW_4
-                tbxTAW_5.Text = parameter_row.TAW_5
-                tbxMinRootDepth.Text = parameter_row.Min_Root_Depth
-                tbxMaxRootDepth.Text = parameter_row.Max_Root_Depth
-                HarvestDate.SelectedDate = Convert.ToDateTime(parameter_row.Harvest_Date)
-                HarvestDate.DisplayDate = Convert.ToDateTime(parameter_row.Harvest_Date)
-                PlantDate.SelectedDate = Convert.ToDateTime(parameter_row.Plant_Date)
-                PlantDate.DisplayDate = Convert.ToDateTime(parameter_row.Plant_Date)
-                tbx_lat.Text = parameter_row.Latitude
-                tbx_lon.Text = parameter_row.Longitude
-                tbx_elev.Text = parameter_row.Elevation
-                tbx_zt.Text = parameter_row.T_Air_H
-                tbx_zu.Text = parameter_row.W_Spd_H
-                tbxSiteName.Text = parameter_row.Site_Name
-                tbxSiteSummary.Text = parameter_row.Site_Summary
-                tbxMAD_perecnt.Text = parameter_row.MAD
-                tbxRunoffCN.Text = parameter_row.CN_Number
-                tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
-                cbx_lon_center.Text = parameter_row.Longitude_Centere
-                tbxMAD_perecnt.Text = parameter_row.MAD
-                tbxRunoffCN.Text = parameter_row.CN_Number
-                tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
-                tbx_Ta.Text = parameter_row.EB_Tair
-                tbx_Rs.Text = parameter_row.EB_Ra
-                tbx_RH.Text = parameter_row.EB_RH
-                tbx_Wind_Spd.Text = parameter_row.EB_WindSpd
-                tbx_Wind_Dir.Text = parameter_row.EB_WindDir
-                tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
-                tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
-                Date_EB_Image.SelectedDate = Convert.ToDateTime(parameter_row.EB_Date)
-                StdTime_EB_Image.Text = parameter_row.EB_StdTime
-                tbx_ETr.Text = parameter_row.ETr_in
-                'tbx_EB_RH_measurement_height.Text = parameter_row.EB_RH_h
-                'tbx_EB_WindSpd_height.Text = parameter_row.EB_WindSpd_h
-            Catch ex As Exception
-
-            End Try
-
-        End Using
-
-#End Region
+        Load_Parameters()
 
         Load_RefET_DagaGrid()
 
@@ -945,6 +884,63 @@ Class MainWindow
 
         End Using
     End Sub
+    Private Sub Load_Parameters()
+        Using SIDSS_Database As New SIDSS_Entities
+            Dim parameter_row = SIDSS_Database.SIDS_GUI_Parameters.ToList(0)
+            Try
+                cbx_lon_center.Text = parameter_row.Longitude_Centere
+                Date_EB_Image.SelectedDate = Convert.ToDateTime(parameter_row.EB_Date)
+                HarvestDate.DisplayDate = Convert.ToDateTime(parameter_row.Harvest_Date)
+                HarvestDate.SelectedDate = Convert.ToDateTime(parameter_row.Harvest_Date)
+                KC_MS_file_path.Text = parameter_row.Kcb_MS_Tiff
+                PlantDate.DisplayDate = Convert.ToDateTime(parameter_row.Plant_Date)
+                PlantDate.SelectedDate = Convert.ToDateTime(parameter_row.Plant_Date)
+                StdTime_EB_Image.Text = parameter_row.EB_StdTime
+                tbx_csv_path_string.Text = parameter_row.RefET_hourly_CSV
+                tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
+                tbx_EB_MS.Text = parameter_row.EB_MS_Tiff
+                tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
+                tbx_EB_Thermal.Text = parameter_row.EB_Thermal_Tiff
+                tbx_elev.Text = parameter_row.Elevation
+                tbx_ETr.Text = parameter_row.ETr_in
+                tbx_lat.Text = parameter_row.Latitude
+                tbx_lon.Text = parameter_row.Longitude
+                tbx_RH.Text = parameter_row.EB_RH
+                tbx_Rs.Text = parameter_row.EB_Ra
+                tbx_Ta.Text = parameter_row.EB_Tair
+                tbx_Wind_Dir.Text = parameter_row.EB_WindDir
+                tbx_Wind_Spd.Text = parameter_row.EB_WindSpd
+                tbx_zt.Text = parameter_row.T_Air_H
+                tbx_zu.Text = parameter_row.W_Spd_H
+                tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
+                tbxIrrigEff.Text = parameter_row.Irrig_Efficiency
+                tbxMAD_perecnt.Text = parameter_row.MAD
+                tbxMAD_perecnt.Text = parameter_row.MAD
+                tbxMaxRootDepth.Text = parameter_row.Max_Root_Depth
+                tbxMinRootDepth.Text = parameter_row.Min_Root_Depth
+                tbxRunoffCN.Text = parameter_row.CN_Number
+                tbxRunoffCN.Text = parameter_row.CN_Number
+                tbxSiteName.Text = parameter_row.Site_Name
+                tbxSiteSummary.Text = parameter_row.Site_Summary
+                tbxSoilDepth_1.Text = parameter_row.SoilDepth_1
+                tbxSoilDepth_2.Text = parameter_row.SoilDepth_2
+                tbxSoilDepth_3.Text = parameter_row.SoilDepth_3
+                tbxSoilDepth_4.Text = parameter_row.SoilDepth_4
+                tbxSoilDepth_5.Text = parameter_row.SoilDepth_5
+                tbxTAW_1.Text = parameter_row.TAW_1
+                tbxTAW_2.Text = parameter_row.TAW_2
+                tbxTAW_3.Text = parameter_row.TAW_3
+                tbxTAW_4.Text = parameter_row.TAW_4
+                tbxTAW_5.Text = parameter_row.TAW_5
+
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+                MessageBox.Show(ex.InnerException.Message)
+            End Try
+
+        End Using
+    End Sub
+
 
     Private Sub MnuOutputPath_Click(sender As Object, e As RoutedEventArgs) Handles mnuOutputPath.Click
         Dim control_window = New OutputPath
@@ -966,6 +962,7 @@ Class MainWindow
                 textbox_text.Text = "0"
                 sender = textbox_text
             End If
+
             tbxRAW_1.Text = (CType(tbxTAW_1.Text, Double) * MAD).ToString
             tbxRAW_2.Text = (CType(tbxTAW_2.Text, Double) * MAD).ToString
             tbxRAW_3.Text = (CType(tbxTAW_3.Text, Double) * MAD).ToString
@@ -1021,10 +1018,12 @@ Class MainWindow
     End Sub
 
     Private Sub RbBatch_ReflET_OFF_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_OFF.Checked
-        Try
-            rtbxReflET.IsEnabled = False
-        Catch ex As Exception
-        End Try
+        If (tabKcbET.IsFocused) Then
+            Try
+                rtbxReflET.IsDocumentEnabled = False
+            Catch ex As Exception
+            End Try
+        End If
 
         RefET24hr.IsEnabled = True
         btn_KC_MS_tiff.IsEnabled = True
@@ -1032,12 +1031,14 @@ Class MainWindow
     End Sub
 
     Private Sub RbBatch_ReflET_ON_Checked(sender As Object, e As RoutedEventArgs) Handles rbBatch_ReflET_ON.Checked
+
         rtbxReflET.IsEnabled = True
         RefET24hr.IsEnabled = False
         btn_KC_MS_tiff.IsEnabled = False
     End Sub
 
     Private Sub BtnKcr_ETa_data_Click(sender As Object, e As RoutedEventArgs) Handles btnKcr_ETa_data.Click
+        Save_Parameters()
         Dim kcr_eta_panel = New Kcr_ETa_Window
         Me.Hide()
         Try

@@ -61,12 +61,12 @@ Public Class WaterBalanceCalculator
 
         Eff_Precip_Calculate(input_data_table)
         Eff_Irrig_Calculate(input_data_table)
-        GDD_Calculate(input_data_table, Tbase)
-        Kc_Calculate(input_data_table)
+        CalcGDD(input_data_table, Tbase)
+        CalcKc(input_data_table)
         Root_Profile(input_data_table)
-        Calc_MAD(input_data_table)
-        ETC_Calculate(input_data_table)
-        Calculate_Di(input_data_table)
+        CalcDmax(input_data_table)
+        CalcETC(input_data_table)
+        CalcDi(input_data_table)
         'Calculate_DP(input_data_table)
         input_data_complete.Write_WaterBalance_Final_Table(input_data_table)
     End Sub
@@ -104,13 +104,17 @@ Public Class WaterBalanceCalculator
         Dim irrig As New Double
         Dim eff_irrig As New Double
         For i = 0 To input_data_table.Rows.Count - 1
-            irrig = Convert.ToDouble(input_data_table.Rows(i)("Irrig"))
+            If (String.IsNullOrEmpty(input_data_table.Rows(i)("Irrig"))) Then
+                irrig = Double.NaN
+            Else
+                Double.TryParse(input_data_table.Rows(i)("Irrig"), irrig)
+            End If
             eff_irrig = irrig * Irrigation_Efficiency_Fraction
             input_data_table.Rows(i)("Eff__Irrig") = eff_irrig
         Next
     End Sub
 
-    Private Sub GDD_Calculate(ByRef input_data_table As DataTable, ByVal Tbase As Integer)
+    Private Sub CalcGDD(ByRef input_data_table As DataTable, ByVal Tbase As Integer)
 
         Dim GDD As Double = 0
         Dim gdd_temp As Double = 0
@@ -134,7 +138,7 @@ Public Class WaterBalanceCalculator
 
     End Sub
 
-    Private Sub Kc_Calculate(ByRef input_data_table As DataTable)
+    Private Sub CalcKc(ByRef input_data_table As DataTable)
         Dim Day_0 As Integer = Convert.ToInt16(input_data_table.Rows(0)("DOY"))
         Dim Day_from_planting As Integer = 0
         Dim Orig_crop_duration = 140
@@ -159,7 +163,7 @@ Public Class WaterBalanceCalculator
             End If
         Next
 
-        'Modifying initial dip in the Kc values and keeping them constant to the value of Kc_ini on the very first day.
+        ' Modifying initial dip in the Kc values and keeping them constant to the value of Kc_ini on the very first day.
         Dim Kc_ini = Convert.ToDouble(input_data_table.Rows(0)("Kc"))
 
         ' Observing few Kc graphs the initial phase where the dip occurs is less than 30 days.
@@ -170,7 +174,6 @@ Public Class WaterBalanceCalculator
                 input_data_table.Rows(i)("Kc") = Kc_ini
             End If
         Next
-
     End Sub
 
     Private Sub Root_Profile(ByRef input_data_table As DataTable)
@@ -205,8 +208,12 @@ Public Class WaterBalanceCalculator
             End If
         Next
     End Sub
-
-    Public Sub Calc_MAD(ByRef input_data_table As DataTable)
+    ''' <summary>
+    ''' Calculate maximum daily allowable deficit based on 
+    ''' root zone depth for that day.
+    ''' </summary>
+    ''' <param name="input_data_table"></param>
+    Public Sub CalcDmax(ByRef input_data_table As DataTable)
         Dim deficit_old As Double = 0
         Dim deficit As Double = 0
         Dim Drz As Double
@@ -214,30 +221,30 @@ Public Class WaterBalanceCalculator
 
         'Input current root depth as Dr
         Dim Dmax As Double = 0
-        Dim MAD_ini As Double = 0
+        Dim MAD_Yesterday As Double = 0
 
         For i = 0 To input_data_table.Rows.Count - 1
             Drz = Convert.ToDouble(input_data_table.Rows(i)("Drz"))
             If Drz > Drz_1 And i = 0 Then
                 'Management Allowed Deficit at the planting depth. in/in.
-                MAD_ini = MAD_fraction * (Drz_1 * RAW1 + (Drz - Drz_1) * RAW2)
-                Dmax = MAD_ini
+                MAD_Yesterday = MAD_fraction * (Drz_1 * RAW1 + (Drz - Drz_1) * RAW2)
+                Dmax = MAD_Yesterday
                 Drz_ini = Drz
             Else
                 Select Case Drz
                     Case 0 To Drz_1
                         Dmax = MAD_fraction * RAW1 * (Drz - Drz_ini)
-                    Case Drz_1 + 0.00001 To Drz_2
+                    Case Drz_1 To Drz_2
                         Dmax = MAD_fraction * RAW2 * (Drz - Drz_ini)
-                    Case Drz_2 + 0.00001 To Drz_3
+                    Case Drz_2 To Drz_3
                         Dmax = MAD_fraction * RAW3 * (Drz - Drz_ini)
-                    Case Drz_3 + 0.00001 To Drz_4
+                    Case Drz_3 To Drz_4
                         Dmax = MAD_fraction * RAW4 * (Drz - Drz_ini)
-                    Case Drz_4 + 0.00001 To Drz_5
+                    Case Drz_4 To Drz_5
                         Dmax = MAD_fraction * RAW5 * (Drz - Drz_ini)
                 End Select
-                Dmax += MAD_ini
-                MAD_ini = Dmax
+                Dmax += MAD_Yesterday
+                MAD_Yesterday = Dmax
             End If
             Drz_ini = Drz
             input_data_table.Rows(i)("Dmax") = Dmax
@@ -245,7 +252,7 @@ Public Class WaterBalanceCalculator
 
     End Sub
 
-    Private Sub ETC_Calculate(ByRef input_data_table As DataTable)
+    Private Sub CalcETC(ByRef input_data_table As DataTable)
         Dim ETr As Double
         Dim Kc As Double
         For i = 0 To input_data_table.Rows.Count - 1
@@ -255,7 +262,7 @@ Public Class WaterBalanceCalculator
         Next
     End Sub
 
-    Private Sub Calculate_Di(ByRef input_data_table As DataTable)
+    Private Sub CalcDi(ByRef input_data_table As DataTable)
         Dim ETc As Double
         Dim Effective_Precipitation As Double
         Dim Eff_Irrig As Double
@@ -265,7 +272,7 @@ Public Class WaterBalanceCalculator
         'Dim DP_pref As Double = 0
         Dim Dmax As Double = 0
 
-        ' Manually setting initial deficit (i.e. planting date) as zero.
+        ' Manually setting initial deficit (i.e. zero depletion on planting date).
         input_data_table.Rows(0)("Di") = 0
         input_data_table.Rows(0)("DP") = 0
 
