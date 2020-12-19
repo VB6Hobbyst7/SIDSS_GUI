@@ -24,11 +24,6 @@ Public Class Csv2dgv_converter
     End Property
 
     Public Function _Csv2dgv(ByVal csv_path As String) As DataTable
-
-
-
-
-
         Dim csv_data As StreamReader
 
         csv_data = New StreamReader(Me.csv_path)

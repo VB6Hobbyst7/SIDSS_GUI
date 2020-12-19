@@ -48,24 +48,9 @@ Public Class FormDGV
 
         End Using
 
-        'Dim save_col As New SQL_table_operation
-        'save_col.Write_SQL_Col("WaterBalance_Table", col_name, 0, x_y)
-
-        'full_table = save_col.Load_Datagrid()
-        'Dim main_window As New MainWindow
-        'main_window.dgvWaterBalance.ItemsSource = full_table.DefaultView
         Me.Close()
 
     End Sub
-
-    'Private Sub Load_WaterBalance_DagaGrid()
-    '    ' Encapsulating database in "using" statement to close the database immediately.
-    '    Using entity_table As New SIDSS_Entities()
-    '        ' Read database table from Entity Framework database and convert it to list for displaying into datagrid.
-    '        main_window_shared.dgvWaterBalance.ItemsSource = entity_table.SMD_Daily.ToList()
-    '    End Using
-
-    'End Sub
 
     Private Sub DataGridView1_KeyDown(sender As Object, e As Forms.KeyEventArgs) Handles DataGridView1.KeyDown
         If e.Control AndAlso e.KeyCode = Keys.V Then

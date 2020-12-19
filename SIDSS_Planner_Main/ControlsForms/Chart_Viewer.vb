@@ -115,7 +115,7 @@ Public Class Graphs_Viewer
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.DarkGray
 
                 Case "Kcr_plot"
-                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Line
+                    chrtWaterBalance.Series(i).ChartType = SeriesChartType.Point
                     chrtWaterBalance.Series(i).YAxisType = AxisType.Secondary
                     chrtWaterBalance.Series(i).Color = System.Drawing.Color.Black
 
@@ -231,6 +231,12 @@ Public Class Graphs_Viewer
                 chkGraphOptions.SetItemChecked(i, False)
             End If
             If chkGraphOptions.Items(i).ToString = "ETc" Then
+                chkGraphOptions.SetItemChecked(i, False)
+            End If
+            If chkGraphOptions.Items(i).ToString = "Kcr_calculated" Then
+                chkGraphOptions.SetItemChecked(i, False)
+            End If
+            If chkGraphOptions.Items(i).ToString = "Di" Then
                 chkGraphOptions.SetItemChecked(i, False)
             End If
         Next

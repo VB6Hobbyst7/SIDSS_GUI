@@ -27,11 +27,7 @@ Class MainWindow
 #End Region
 
     Public Class Shared_controls
-
-        'Public Shared dgvWaterbalance As Windows.Controls.DataGrid
-        'Public Shared DgvRefET As Windows.Controls.DataGrid
         Public Shared main_window_shared As MainWindow
-
     End Class
 
     Public Sub Load_WaterBalance_DagaGrid()
@@ -368,8 +364,6 @@ Class MainWindow
     Private Sub BtnWeatherData_Click(sender As Object, e As RoutedEventArgs) Handles btnDailyWeatherData.Click
 
         '###############################################################################################################
-        'Reset_SIDSS_Table("SMD_Daily")
-        'Load_WaterBalance_DagaGrid()
         Dim daily_data_form As New DailyDataInput_Form
         Me.Hide()
         daily_data_form.ShowDialog()
@@ -461,15 +455,9 @@ Class MainWindow
             Dim csv_save As New DataTable2CSV
             csv_save.Save2CSV(Format("{0}.csv", table_name), dt)
         End If
-
-        'dgvWaterBalance.ItemsSource = dt.DefaultView
-        'dgvWaterBalance.Items.Refresh()
         Load_WaterBalance_DagaGrid()
     End Sub
 
-    'Private Sub BtnCalculate_Click(sender As Object, e As RoutedEventArgs) Handles btnCalculateWaterBalance.Click
-    '    calc_WaterBalance()
-    'End Sub
     Private Sub calc_WaterBalance()
         Dim SMD_Parameters As New WaterBalanceCalculator
 
@@ -940,7 +928,6 @@ Class MainWindow
 
         End Using
     End Sub
-
 
     Private Sub MnuOutputPath_Click(sender As Object, e As RoutedEventArgs) Handles mnuOutputPath.Click
         Dim control_window = New OutputPath

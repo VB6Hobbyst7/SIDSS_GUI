@@ -156,35 +156,6 @@ Public Class SQL_table_operation
 
         End Using
 
-        'Using DBConnection As New SIDSS_Entities
-        '    Dim SMD_Daily = DBConnection.SMD_Daily.ToDictionary(Of String, String)
-        '    Dim col_names As String()
-        '    Dim curr_col As Dictionary(Of String, String) = SMD_Daily(0)
-        '    Dim i As Integer = 0
-        '    Do
-        '        'Dim col = curr_col(i)
-        '        i += 1
-        '    Loop
-
-        '    Dim data_table As New DataTable
-        '    Dim conn = DBConnection.Database.Connection
-        '    Dim connectionstate = conn.State
-        '    Try
-        '        If connectionstate <> ConnectionState.Open Then
-        '            Dim data_cmd = conn.CreateCommand()
-        '            data_cmd.CommandText = "GetAvailableItems"
-        '            data_cmd.CommandType = CommandType.StoredProcedure
-        '            Dim data_reader = data_cmd.ExecuteReader()
-        '            data_table.Load(data_reader)
-        '        End If
-
-        '    Catch ex As Exception
-        '        MessageBox.Show(ex.Message.ToString())
-        '    End Try
-        '    Dim temp = SMD_Daily
-
-        'End Using
-
         'Connect to local SQLite database file. The text part is called connectionstring.
         Dim myConnection As New SQLiteConnection("Data Source=C:\SIDSS_Database\SIDSS_Entity_database.db; Version=3")
         'Open connection to the database file, within the program.
